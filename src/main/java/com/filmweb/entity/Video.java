@@ -7,13 +7,13 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @NoArgsConstructor
 @AllArgsConstructor
-@Getter
-@Setter
+@Getter @Setter
 @Entity
-@Table(name = "Video")
+@Table(name = "_video")
 public class Video {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -45,6 +45,6 @@ public class Video {
 
     private LocalDateTime created_at;
 
-//    @OneToMany(mappedBy = "video")
-//    private List<Hoadon> hoadon;
+    @OneToMany(mappedBy = "video")
+    private List<Order> orders;
 }
