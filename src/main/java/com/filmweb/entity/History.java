@@ -21,9 +21,9 @@ public class History {
 
     private Boolean isLiked;
 
-    private LocalDateTime viewed_at;
+    private LocalDateTime viewedAt;
 
-    private LocalDateTime liked_at;
+    private LocalDateTime likedAt;
 
     @ManyToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "userId", referencedColumnName = "id")

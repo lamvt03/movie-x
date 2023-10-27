@@ -43,7 +43,7 @@ public class Video {
 
     private Boolean isActive;
 
-    private LocalDateTime created_at;
+    private LocalDateTime createdAt;
 
     @OneToMany(mappedBy = "video")
     private List<Order> orders;

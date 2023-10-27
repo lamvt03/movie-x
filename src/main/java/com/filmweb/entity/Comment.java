@@ -22,7 +22,7 @@ public class Comment {
 
     private String content;
 
-    private LocalDateTime create_at;
+    private LocalDateTime createAt;
 
     @ManyToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "userId", referencedColumnName = "id")

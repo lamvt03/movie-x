@@ -20,7 +20,7 @@ public class Share {
 
     private String email;
 
-    private LocalDateTime create_at;
+    private LocalDateTime createAt;
 
     @ManyToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "userId", referencedColumnName = "id")

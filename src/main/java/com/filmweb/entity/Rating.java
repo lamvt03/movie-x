@@ -21,7 +21,7 @@ public class Rating {
 
     private int star;
 
-    private LocalDateTime create_at;
+    private LocalDateTime createAt;
 
     @ManyToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "userId", referencedColumnName = "id")

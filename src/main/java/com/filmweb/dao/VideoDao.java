@@ -5,19 +5,20 @@ import com.filmweb.entity.Video;
 import java.util.List;
 
 public interface VideoDao {
-    Video findById(Integer id);
 
-    Video findByHref(String href);
+    Video findById(Long id);
 
     List<Video> findAll();
 
-    List<Video> findAllVideoDelete();
+    List<Video> findAll(int page, int limit);
+
+    List<Video> findAllDeletedVideos();
+
+    List<Video> findAllDeletedVideos(int page, int limit);
+
+    Video findByHref(String href);
 
     List<Video> findByName(String name);
-
-    List<Video> findAll(int pageNumber, int pageSize);
-
-    List<Video> findAllVideoDelete(int pageNumber, int pageSize);
 
     List<Video> findVideoTrending();
 
