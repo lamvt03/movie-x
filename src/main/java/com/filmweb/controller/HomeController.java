@@ -2,29 +2,30 @@ package com.filmweb.controller;
 
 import com.filmweb.entity.Video;
 import com.filmweb.util.JPAUtil;
+import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
+import jakarta.mvc.Controller;
 import jakarta.persistence.EntityManager;
-import jakarta.servlet.ServletException;
-import jakarta.servlet.annotation.WebServlet;
-import jakarta.servlet.http.HttpServlet;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
+import jakarta.ws.rs.GET;
+import jakarta.ws.rs.Path;
 
-import java.io.IOException;
-
-@WebServlet("/")
-public class HomeController extends HttpServlet {
+@ApplicationScoped
+@Controller
+@Path("/")
+public class HomeController {
 
     @Inject
     private JPAUtil jpaUtil;
-    @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+
+    @GET
+    @Path("home")
+    public String index(){
         EntityManager entityManager = jpaUtil.getEntityManager();
         entityManager.getTransaction().begin();
         Video video = new Video();
-        video.setHeading("context and dependency injection");
+        video.setHeading("test data");
         entityManager.persist(video);
         entityManager.getTransaction().commit();
-        req.getRequestDispatcher("views/index.jsp").forward(req,resp);
+        return "home.jsp";
     }
 }

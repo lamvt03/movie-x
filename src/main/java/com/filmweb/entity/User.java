@@ -24,6 +24,7 @@ public class User {
 
     private String phone;
 
+    @Column(columnDefinition = "nvarchar(max)")
     private String fullName;
 
     private Boolean isAdmin;

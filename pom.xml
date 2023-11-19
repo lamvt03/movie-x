@@ -21,12 +21,29 @@
     </properties>
 
     <dependencies>
+
+<!--        mvc: begin -->
+        <dependency>
+            <groupId>jakarta.platform</groupId>
+            <artifactId>jakarta.jakartaee-web-api</artifactId>
+            <version>9.1.0</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.eclipse.krazo</groupId>
+            <artifactId>krazo-jersey</artifactId>
+            <version>2.0.0</version>
+        </dependency>
+<!--        mvc: end -->
+
         <dependency>
             <groupId>jakarta.validation</groupId>
             <artifactId>jakarta.validation-api</artifactId>
             <version>3.0.0</version>
             <scope>provided</scope>
         </dependency>
+
+<!--        cdi: begin -->
         <dependency>
             <groupId>jakarta.enterprise</groupId>
             <artifactId>jakarta.enterprise.cdi-api</artifactId>
@@ -54,6 +71,7 @@
             <artifactId>weld-se-tests</artifactId>
             <version>4.0.0.Final</version>
         </dependency>
+<!--        cdi: end -->
 
         <!--        <dependency>-->
 <!--            <groupId>jakarta.security.enterprise</groupId>-->
@@ -78,6 +96,13 @@
             <artifactId>jakarta.servlet.jsp.jstl-api</artifactId>
             <version>${jstl.version}</version>
         </dependency>
+        <dependency>
+            <groupId>jakarta.servlet.jsp</groupId>
+            <artifactId>jakarta.servlet.jsp-api</artifactId>
+            <version>3.0.0</version>
+            <scope>provided</scope>
+        </dependency>
+
         <dependency>
             <groupId>com.microsoft.sqlserver</groupId>
             <artifactId>mssql-jdbc</artifactId>
@@ -111,6 +136,14 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-war-plugin</artifactId>
                 <version>3.3.2</version>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <source>16</source>
+                    <target>16</target>
+                </configuration>
             </plugin>
         </plugins>
     </build>

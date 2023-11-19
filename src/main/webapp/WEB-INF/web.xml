@@ -6,4 +6,8 @@
     <welcome-file-list>
         <welcome-file>redirect.jsp</welcome-file>
     </welcome-file-list>
+    <context-param>
+        <param-name>mvcPath</param-name>
+        <param-value>/app</param-value>
+    </context-param>
 </web-app>

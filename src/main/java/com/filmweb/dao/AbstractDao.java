@@ -184,9 +184,10 @@ public class AbstractDao<T> {
         try {
             TypedQuery<T> query = entityManager.createQuery(jpql, clazz);
             for (int i = 0; i < params.length; i++) {
-                query.setParameter(i, params[i]);
+                query.setParameter(i+1, params[i]);
             }
-            return query.getSingleResult();
+            List<T> result = query.getResultList();
+            return result.isEmpty() ? null : result.get(0);
         } finally {
             entityManager.close();
         }
@@ -198,7 +199,7 @@ public class AbstractDao<T> {
         try {
             TypedQuery<T> query = entityManager.createQuery(jpql, clazz);
             for (int i = 0; i < params.length; i++) {
-                query.setParameter(i, params[i]);
+                query.setParameter(i+1, params[i]);
             }
             return query.getResultList();
         } finally {

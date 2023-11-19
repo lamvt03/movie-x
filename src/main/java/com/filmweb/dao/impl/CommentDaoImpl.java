@@ -8,7 +8,7 @@ import jakarta.enterprise.context.ApplicationScoped;
 import java.util.List;
 
 @ApplicationScoped
-public class CommentImpl extends AbstractDao<Comment> implements CommentDao {
+public class CommentDaoImpl extends AbstractDao<Comment> implements CommentDao {
     @Override
     public List<Comment> findByUserEmail(String email) {
         String jpql = "SELECT o FROM Comment o WHERE o.user.email = ?0 AND o.video.isActive = 1 ORDER BY o.createdAt DESC";
@@ -17,7 +17,7 @@ public class CommentImpl extends AbstractDao<Comment> implements CommentDao {
 
     @Override
     public List<Comment> findByVideoId(Long videoId) {
-        String jpql = "SELECT o FROM Comment o WHERE o.video.id= ?0 AND o.video.isActive = 1 ORDER BY o.createdAt DESC";
+        String jpql = "SELECT o FROM Comment o WHERE o.video.id= ?1 AND o.video.isActive = 1 ORDER BY o.createdAt DESC";
         return super.findMany(Comment.class, jpql, videoId);
     }
 
