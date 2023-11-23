@@ -1,0 +1,25 @@
+package com.filmweb.service;
+
+import com.filmweb.dto.UserDto;
+import jakarta.mail.MessagingException;
+import jakarta.servlet.ServletContext;
+import jakarta.servlet.http.HttpSession;
+
+public interface UserService {
+
+    UserDto authenticate(String email, String password);
+    boolean existsByPhone(String phone);
+    boolean existByEmail(String email);
+    UserDto findByEmail(String email);
+    UserDto register(String email, String password, String phone, String fullName);
+
+    UserDto verifyEmail(String token);
+
+    void sendForgotPasswordMessage(ServletContext servletContext, HttpSession session, UserDto userDto) throws MessagingException;
+
+    UserDto changePassword(String email, String password);
+
+    UserDto editProfile(String email, String fullName, String phone);
+
+    boolean comparePassword(String email, String oldPassword);
+}

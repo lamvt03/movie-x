@@ -3,8 +3,6 @@ package com.filmweb.dao;
 import com.filmweb.util.JPAUtil;
 import jakarta.inject.Inject;
 import jakarta.persistence.EntityManager;
-import jakarta.persistence.Query;
-import jakarta.persistence.StoredProcedureQuery;
 import jakarta.persistence.TypedQuery;
 
 import java.util.List;
@@ -15,19 +13,20 @@ public class AbstractDao<T> {
     @Inject
     private JPAUtil jpaUtil;
 
-    protected String buildSelectAllQuery(String entityName){
+    protected String buildSelectAllQuery(String entityName) {
         StringBuilder jpqlBd = new StringBuilder();
         jpqlBd
-            .append("SELECT o FROM ")
-            .append(entityName)
-            .append(" o");
+                .append("SELECT o FROM ")
+                .append(entityName)
+                .append(" o");
         return jpqlBd.toString();
     }
-    protected String buildSelectAllAndIsActiveQuery(String entityName, boolean isActive){
+
+    protected String buildSelectAllAndIsActiveQuery(String entityName, boolean isActive) {
         StringBuilder jpqlBd = new StringBuilder(buildSelectAllQuery(entityName));
         if (isActive) {
             jpqlBd.append(" WHERE isActive = 1");
-        }else{
+        } else {
             jpqlBd.append(" WHERE isActive = 0");
         }
         return jpqlBd.toString();
@@ -184,7 +183,7 @@ public class AbstractDao<T> {
         try {
             TypedQuery<T> query = entityManager.createQuery(jpql, clazz);
             for (int i = 0; i < params.length; i++) {
-                query.setParameter(i+1, params[i]);
+                query.setParameter(i + 1, params[i]);
             }
             List<T> result = query.getResultList();
             return result.isEmpty() ? null : result.get(0);
@@ -199,7 +198,7 @@ public class AbstractDao<T> {
         try {
             TypedQuery<T> query = entityManager.createQuery(jpql, clazz);
             for (int i = 0; i < params.length; i++) {
-                query.setParameter(i+1, params[i]);
+                query.setParameter(i + 1, params[i]);
             }
             return query.getResultList();
         } finally {
@@ -231,8 +230,6 @@ public class AbstractDao<T> {
 //            entityManager.close();
 //        }
 //    }
-
-
 
 
 //    public List<T> callStored(String namedStored, Map<String, Object> params) {
