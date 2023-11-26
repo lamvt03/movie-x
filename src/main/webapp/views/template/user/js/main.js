@@ -102,19 +102,18 @@
 
 // ajax video 
 $('#likeOrUnlikeButton').click(function() {
-	var videoId = $('#videoIdHidden').val();
+	const videoHref = $('#videoIdHidden').val();
 	$.ajax({
-		url: 'video?action=like&id=' + videoId
+		url: 'like?v=' + videoHref,
+		type: 'PUT'
 	}).then(function(data) {
-		var text = $('#likeOrUnlikeButton').text();
-		if (text.indexOf('Thích') != -1) {
-			$('#likeOrUnlikeButton').text('Bỏ Thích');
-		}
-		if (text.indexOf('Bỏ Thích') != -1) {
+		if (data.isLiked){
+			$('#likeOrUnlikeButton').text('Bỏ thích');
+		}else{
 			$('#likeOrUnlikeButton').text('Thích');
 		}
 	}).fail(function(error) {
-		alert('Opp!!, Lỗi rồi ' + error);
+		alert('Opp!!, Lỗi rồi ');
 	});
 });
 

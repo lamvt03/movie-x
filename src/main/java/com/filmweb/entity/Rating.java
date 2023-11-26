@@ -6,7 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.time.LocalDateTime;
+import java.sql.Timestamp;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -21,7 +21,8 @@ public class Rating {
 
     private int star;
 
-    private LocalDateTime createAt;
+    @Column(columnDefinition = "datetime")
+    private Timestamp createdAt;
 
     @ManyToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "userId", referencedColumnName = "id")

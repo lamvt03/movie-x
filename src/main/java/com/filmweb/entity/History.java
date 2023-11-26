@@ -6,7 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.time.LocalDateTime;
+import java.sql.Timestamp;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -21,9 +21,11 @@ public class History {
 
     private Boolean isLiked;
 
-    private LocalDateTime viewedAt;
+    @Column(columnDefinition = "datetime")
+    private Timestamp viewedAt;
 
-    private LocalDateTime likedAt;
+    @Column(columnDefinition = "datetime")
+    private Timestamp likedAt;
 
     @ManyToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "userId", referencedColumnName = "id")

@@ -24,13 +24,13 @@ public class OrderDaoImpl extends AbstractDao<Order> implements OrderDao {
 
     @Override
     public List<Order> findByUserEmail(String email) {
-        String jpql = "SELECT o FROM Order o WHERE o.user.email = ?0";
+        String jpql = "SELECT o FROM Order o WHERE o.user.email = ?1";
         return super.findMany(Order.class, jpql, email);
     }
 
     @Override
     public Order findByUserIdAndVideoId(long userId, long videoId) {
-        String jpql = "SELECT o FROM Order o WHERE o.user.id = ?0 AND o.video.id = ?1";
+        String jpql = "SELECT o FROM Order o WHERE o.user.id = ?1 AND o.video.id = ?2";
         return super.findOne(Order.class, jpql, userId, videoId);
     }
 }

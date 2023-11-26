@@ -2,9 +2,9 @@
          pageEncoding="UTF-8" %>
 
 <!-- Page Preloader -->
-<%--<div id="preloader">--%>
-<%--    <div class="loader"></div>--%>
-<%--</div>--%>
+<div id="preloader">
+    <div class="loader"></div>
+</div>
 
 <!-- Header Section Begin -->
 <header class="header">

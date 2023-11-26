@@ -1,17 +1,15 @@
 package com.filmweb.entity;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
-import java.time.LocalDateTime;
+import java.sql.Timestamp;
 
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
 @Setter
+@Builder
 @Entity
 @Table(name = "_order")
 public class Order {
@@ -19,19 +17,25 @@ public class Order {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(columnDefinition = "nchar(8)")
     private String vnp_TxnRef;
 
+    @Column(columnDefinition = "nchar(30)")
     private String vnp_OrderInfo;
 
+    @Column(columnDefinition = "nchar(2)")
     private String vnp_ResponseCode;
 
+    @Column(columnDefinition = "nchar(8)")
     private String vnp_TransactionNo;
 
+    @Column(columnDefinition = "nchar(20)")
     private String vnp_BankCode;
 
-    private String vnp_Amount;
+    private Long vnp_Amount;
 
-    private LocalDateTime vnp_PayDate;
+    @Column(columnDefinition = "datetime")
+    private Timestamp vnp_PayDate;
 
     @ManyToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "videoId", referencedColumnName = "id")

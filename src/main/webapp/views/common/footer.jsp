@@ -17,7 +17,7 @@
         <div class="row">
             <div class="col-lg-3">
                 <div class="footer__logo">
-                    <a href="index.jsp"><img src="views/template/user/img/logo.png"
+                    <a href="${initParam['mvcPath']}/home"><img src="${pageContext.request.contextPath}/views/template/user/img/logo.png"
                                              alt=""></a>
                 </div>
             </div>
@@ -63,21 +63,20 @@
 <!-- Search model end -->
 
 <!-- Js Plugins -->
-<script src="sweetalert2.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"/>
+<%--<script src="sweetalert2.min.js"></script>--%>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script src="${pageContext.request.contextPath}/views/template/user/js/jquery-3.3.1.min.js"></script>
-<script src="${pageContext.request.contextPath}/views/template/user/js/bootstrap.min.js"></script>
 <script src="${pageContext.request.contextPath}/views/template/user/js/player.js"></script>
 <script src="${pageContext.request.contextPath}/views/template/user/js/jquery.nice-select.min.js"></script>
 <script src="${pageContext.request.contextPath}/views/template/user/js/mixitup.min.js"></script>
 <script src="${pageContext.request.contextPath}/views/template/user/js/jquery.slicknav.js"></script>
+<script src="${pageContext.request.contextPath}/views/template/user/js/bootstrap.min.js"></script>
 <script src="${pageContext.request.contextPath}/views/template/user/js/owl.carousel.min.js"></script>
 <script src="${pageContext.request.contextPath}/views/template/user/js/main.js"></script>
 <script src="${pageContext.request.contextPath}/views/template/user/js/validateUser.js"></script>
 
 <!-- đăng nhập thành công -->
 <%  Boolean loginSuccess = (Boolean) session.getAttribute("loginSuccess");
-    Boolean loginFail = (Boolean) session.getAttribute("loginFail");
     if (loginSuccess != null) {
         if (loginSuccess) {
 %>
@@ -85,39 +84,30 @@
     showSwalAlert('success', 'Đăng nhập thành công!');
 </script>
 
-<%} else {
+<%
+        } else {
 %>
 <script>
-    showSwalAlert('error', 'Sai thông tin người dùng !');
+    showSwalAlert('error', 'Tên tài khoản hoặc mật khẩu không chính xác');
 </script>
 
 <%       }
         session.removeAttribute("loginSuccess");
     }
+%>
 
+<%
+    Boolean loginFail = (Boolean) session.getAttribute("loginFail");
     if (loginFail != null) {
         if (loginFail) {
 %>
 <script>
     showSwalAlert('warning', 'Tài khoản không hoạt động !');
 </script>
-
 <%      }
         session.removeAttribute("loginFail");
     }
 %>
 
 
-<%    Boolean registerSuccess = (Boolean) session.getAttribute("registerSuccess");
-    if (registerSuccess != null) {
-        if (registerSuccess) {
-%>
-<script>
-    showCenterAlert('success', 'Thành công !',
-        'Một email xác minh đã gửi đến địa chỉ email của bạn !');
-</script>
 
-<%       }
-        session.removeAttribute("registerSuccess");
-    }
-%>

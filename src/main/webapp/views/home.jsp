@@ -14,7 +14,24 @@
 </head>
 <body>
 <%@ include file="/views/common/header.jsp" %>
+
 <h1>jakarata mvc home</h1>
+
 <%@ include file="/views/common/footer.jsp" %>
+
+<%    Boolean registerSuccess = (Boolean) session.getAttribute("registerSuccess");
+    if (registerSuccess != null) {
+        if (registerSuccess) {
+%>
+<script>
+    showCenterAlert('success', 'Thành công !',
+        'Một email xác minh đã gửi đến địa chỉ email của bạn !');
+</script>
+
+<%       }
+    session.removeAttribute("registerSuccess");
+}
+%>
+
 </body>
 </html>

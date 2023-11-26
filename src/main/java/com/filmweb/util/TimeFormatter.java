@@ -26,8 +26,11 @@ public class TimeFormatter {
             return days + " ngày trước";
         } else if (hours > 0) {
             return hours + " giờ trước";
-        } else {
+        } else if(minutes > 0){
             return minutes + " phút trước";
+        } else {
+            return "Vừa xong";
         }
+
     }
 }

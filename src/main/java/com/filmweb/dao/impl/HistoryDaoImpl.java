@@ -11,7 +11,7 @@ import java.util.List;
 public class HistoryDaoImpl extends AbstractDao<History> implements HistoryDao{
     @Override
     public List<History> findByUserEmail(String email) {
-        String jpql = "SELECT o FROM History o WHERE o.user.email = ?0 AND o.video.isActive = 1"
+        String jpql = "SELECT o FROM History o WHERE o.user.email = ?1 AND o.video.isActive = 1"
                 + " ORDER BY o.viewedAt DESC";
         return super.findMany(History.class, jpql, email);
     }
@@ -25,7 +25,7 @@ public class HistoryDaoImpl extends AbstractDao<History> implements HistoryDao{
 
     @Override
     public History findByUserIdAndVideoId(Long userId, Long videoId) {
-        String jpql = "SELECT o FROM History o WHERE o.user.id = ?0 AND o.video.id = ?1 AND o.video.isActive = 1";
+        String jpql = "SELECT o FROM History o WHERE o.user.id = ?1 AND o.video.id = ?2 AND o.video.isActive = 1";
         return super.findOne(History.class, jpql, userId, videoId);
     }
 }

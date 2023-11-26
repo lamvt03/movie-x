@@ -1,6 +1,7 @@
 package com.filmweb.service.impl;
 
 import com.filmweb.dao.CommentDao;
+import com.filmweb.dao.UserDao;
 import com.filmweb.dto.CommentDto;
 import com.filmweb.entity.Comment;
 import com.filmweb.entity.User;
@@ -10,6 +11,7 @@ import com.filmweb.util.TimeFormatter;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 
+import java.sql.Timestamp;
 import java.util.List;
 
 @ApplicationScoped
@@ -17,6 +19,9 @@ public class CommentServiceImpl implements CommentService {
 
     @Inject
     private CommentDao commentDao;
+
+    @Inject
+    private UserDao userDao;
 
     @Inject
     private TimeFormatter timeFormatter;
@@ -51,7 +56,13 @@ public class CommentServiceImpl implements CommentService {
     }
 
     @Override
-    public Comment create(User user, Video video, String content) {
-        return null;
+    public Comment create(Long userId, Video video, String content) {
+        User user = userDao.findById(userId);
+        Comment comment = new Comment();
+        comment.setUser(user);
+        comment.setVideo(video);
+        comment.setContent(content);
+        comment.setCreatedAt(new Timestamp(System.currentTimeMillis()));
+        return commentDao.create(comment);
     }
 }
