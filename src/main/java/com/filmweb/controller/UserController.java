@@ -53,7 +53,10 @@ public class UserController {
             if (!isAdmin && isActive) {
                 session.setAttribute("loginSuccess", true);
                 session.setAttribute(SessionConstant.CURRENT_USER, userDto);
-                return "redirect:home";
+
+                String prevUrl = getPrevPageUrl();
+
+                return "redirect:" + prevUrl;
             } else {
                 session.setAttribute("loginFail", true);
                 return "login.jsp";
@@ -67,7 +70,8 @@ public class UserController {
     @Path("logout")
     public String getLogout(){
         session.removeAttribute(SessionConstant.CURRENT_USER);
-        return "redirect:home";
+        String prevUrl = getPrevPageUrl();
+        return "redirect:" + prevUrl;
     }
 
     @GET
@@ -260,6 +264,17 @@ public class UserController {
         return "redirect:home";
     }
 
+    private String getPrevPageUrl(){
+        String prevUri = (String) session.getAttribute(SessionConstant.PREV_PAGE_URI);
+        String prevQueryString = (String) session.getAttribute(SessionConstant.PREV_PAGE_QUERY_STRING);
+        StringBuilder urlBd = new StringBuilder(prevUri);
+        if(prevQueryString != null){
+            urlBd
+                    .append("?")
+                    .append(prevQueryString);
+        }
+        return urlBd.toString();
+    }
 
 }
 

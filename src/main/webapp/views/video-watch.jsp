@@ -26,7 +26,7 @@
             <div class="col-lg-12">
                 <div class="breadcrumb__links">
                     <a href="${initParam['mvcPath']}/home"><i class="fa fa-home"></i> Trang chủ</a> <a
-                        href="categories">Thể loại</a> <a
+                        href="categories">Thể loại</a> <a id="detail-btn"
                         href="${initParam['mvcPath']}/video/detail?v=${video.href}">Thông
                     Tin Phim</a> <span>${video.title}</span>
                 </div>
@@ -78,5 +78,29 @@
 <!-- Anime Section End -->
 
 <%@ include file="/views/common/footer.jsp" %>
+<%
+    Boolean buyBeforeWatch = (Boolean) session.getAttribute("buyBeforeWatch");
+    if(buyBeforeWatch != null){
+%>
+<script type="text/javascript">
+    Swal.fire({
+        title: 'Thông báo',
+        text: "Bạn phải mua phim trước khi xem",
+        icon: 'warning',
+        confirmButtonColor: '#3085d6',
+        confirmButtonText: 'Đồng ý'
+    }).then((result) => {
+        if(result.isConfirmed){
+            document.getElementById("detail-btn").click();
+            <%--console.log("http://localhost:8080/app/video/detail?v=" + ${video.href})--%>
+            <%--window.location.href = "http://localhost:8080/app/video/detail?v=" + ${video.href};--%>
+        }
+    })
+</script>
+<%
+        session.removeAttribute("buyBeforeWatch");
+    }
+%>
+
 </body>
 </html>
