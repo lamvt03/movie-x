@@ -19,7 +19,7 @@ public class Video {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(columnDefinition = "ntext")
+    @Column(columnDefinition = "nvarchar(max)")
     private String title;
 
     @Column(columnDefinition = "varchar(50)")
@@ -60,6 +60,6 @@ public class Video {
     @OneToMany(mappedBy = "video")
     private List<Comment> comments;
 
-    @OneToMany(mappedBy = "video")
+    @OneToMany(mappedBy = "video", fetch = FetchType.LAZY)
     private List<History> histories;
 }

@@ -214,7 +214,18 @@ public class AbstractDao<T> {
             entityManager.close();
         }
     }
-
+    // find many by custom query with page and limit
+    public List<T> findMany(Class<T> clazz, int page, int limit, String jpql, Object... params) {
+        EntityManager entityManager = jpaUtil.getEntityManager();
+        try {
+            TypedQuery<T> query = entityManager.createQuery(jpql, clazz);
+            query.setFirstResult((page - 1) * limit);
+            query.setMaxResults(limit);
+            return query.getResultList();
+        } finally {
+            entityManager.close();
+        }
+    }
     // find many by custom query with limit
     public List<T> findMany(Class<T> clazz, int limit, String jpql, Object... params) {
         EntityManager entityManager = jpaUtil.getEntityManager();

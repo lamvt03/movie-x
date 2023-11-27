@@ -10,4 +10,6 @@ public interface VideoService {
     List<Video> findTrending(int limit);
     List<VideoDto> findAll(int page, int limit);
     long count();
+
+    List<VideoDto> findByKeyword(String keyword);
 }

@@ -26,8 +26,8 @@
                     <ul>
                         <li class="active"><a href="${initParam['mvcPath']}/home">Trang Chủ</a></li>
                         <li><a href="categories">Danh Sách Phim</a></li>
-                        <li><a href="introduce">Liên Hệ Với Tôi</a></li>
-                        <li><a href="profile">Trang Cá Nhân</a></li>
+                        <li><a href="${initParam['mvcPath']}/about">Liên Hệ Với Tôi</a></li>
+                        <li><a href="${initParam['mvcPath']}/profile">Trang Cá Nhân</a></li>
                     </ul>
                 </div>
             </div>
@@ -53,9 +53,9 @@
         <div class="search-close-switch">
             <i class="icon_close"></i>
         </div>
-        <form action="search" method="get" class="search-model-form"
+        <form action="${initParam['mvcPath']}/search" method="get" class="search-model-form"
               autocomplete="off">
-            <input type="text" name="search" id="search-input"
+            <input type="text" name="keyword" id="search-input"
                    placeholder="Tìm kiếm.....">
         </form>
     </div>

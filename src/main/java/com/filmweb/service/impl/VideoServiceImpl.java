@@ -43,4 +43,12 @@ public class VideoServiceImpl implements VideoService {
     public long count() {
         return videoDao.count();
     }
+
+    @Override
+    public List<VideoDto> findByKeyword(String keyword) {
+        List<Video> videos = videoDao.findByKeyword(keyword);
+        return videos.stream()
+                .map(videoMapper::toDto)
+                .toList();
+    }
 }

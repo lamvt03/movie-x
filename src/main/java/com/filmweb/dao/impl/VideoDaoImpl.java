@@ -57,4 +57,12 @@ public class VideoDaoImpl extends AbstractDao<Video> implements VideoDao {
     public long count() {
         return super.count(Video.class);
     }
+
+    @Override
+    public List<Video> findByKeyword(String keyword) {
+        String jpql = "SELECT v FROM Video v WHERE v.isActive = 1 AND"
+                + " (LOWER(v.title) LIKE LOWER(?1) OR LOWER(v.category) LIKE LOWER(?1) OR LOWER(v.actor) LIKE LOWER(?1))"
+                + " ORDER BY v.createdAt DESC";
+        return super.findMany(Video.class, jpql, "%" + keyword + "%");
+    }
 }

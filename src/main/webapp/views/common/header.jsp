@@ -46,7 +46,7 @@
                                     <li><a href="#">Phim thần thoại</a></li>
                                 </ul>
                             </li>
-                            <li><a href="introduce"><span class="icon_info"></span>
+                            <li><a href="${initParam['mvcPath']}/about"><span class="icon_info"></span>
                                 Giới Thiệu</a></li>
                             <li><a style="cursor: pointer;" class="search-switch"><span
                                     class="icon_search"></span> Tìm Kiếm</a></li>

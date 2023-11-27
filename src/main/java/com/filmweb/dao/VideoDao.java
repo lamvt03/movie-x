@@ -29,4 +29,6 @@ public interface VideoDao {
     Video update(Video entity);
 
     Video delete(Video entity);
+
+    List<Video> findByKeyword(String keyword);
 }

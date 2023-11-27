@@ -29,7 +29,7 @@
                         <div class="col-lg-6">
                             <div class="hero__text">
                                 <div class="label">Tình Cảm Gia Đình</div>
-                                <h2>${trendingVideo.heading}</h2>
+                                <h2>${trendingVideo.title}</h2>
                                 <p>Thể loại: ${trendingVideo.category}</p>
                                 <c:choose>
                                     <c:when test="${trendingVideo.price == 0}">

@@ -28,7 +28,7 @@ public class HomeController {
 
     @GET
     @Path("home")
-    public String index(
+    public String getHome(
             @QueryParam("page") Integer page
 //            @QueryParam("limit") Integer limit
     ){
@@ -49,5 +49,14 @@ public class HomeController {
         }
         models.put("videos", videos);
         return "home.jsp";
+    }
+    @GET
+    @Path("search")
+    public String getSearch(
+            @QueryParam("keyword") String keyword
+    ){
+        List<VideoDto> videos = videoService.findByKeyword(keyword);
+        models.put("videos", videos);
+        return "search.jsp";
     }
 }
