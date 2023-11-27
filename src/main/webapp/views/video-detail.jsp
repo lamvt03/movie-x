@@ -5,7 +5,7 @@
   Time: 5:19 PM
   To change this template use File | Settings | File Templates.
 --%>
-<jsp:useBean id="video" scope="request" type="com.filmweb.entity.Video"/>
+<jsp:useBean id="video" scope="request" type="com.filmweb.dto.VideoDto"/>
 <jsp:useBean id="comments" scope="request" type="java.util.List"/>
 <%--<jsp:useBean id="order" scope="request" type="com.filmweb.entity.Order"/>--%>
 <%--<jsp:useBean id="checkedAttribute5" scope="request" type="java.lang.String"/>--%>
@@ -53,7 +53,7 @@
                             data-setbg="${video.poster}">
                         <img class="img-fluid" src="${video.poster}" alt="">
                         <div class="comment">
-                            <i class="fa fa-comments"></i> ${video.share}
+                            <i class="fa fa-comments"></i> ${video.commentQuantity}
                         </div>
                         <div class="view">
                             <i class="fa fa-eye"></i> ${video.views}
@@ -200,23 +200,6 @@
                         </div>
                     </c:forEach>
 
-                </div>
-                <div class="anime__details__form">
-                    <c:if test="${not empty sessionScope.currentUser}">
-                        <div class="section-title">
-                            <h5>Để lại đánh giá</h5>
-                        </div>
-
-                        <form action="${initParam['mvcPath']}/video/comment" method="post">
-                            <textarea placeholder="Nội dung..." name="content" required></textarea>
-                            <input name="href" type="hidden" value="${video.href}">
-
-                            <button type="submit">
-                                <i class="fa fa-location-arrow"></i> Gửi Nội Dung
-                            </button>
-
-                        </form>
-                    </c:if>
                 </div>
 
             </div>

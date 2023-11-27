@@ -3,6 +3,7 @@ package com.filmweb.dao;
 import com.filmweb.util.JPAUtil;
 import jakarta.inject.Inject;
 import jakarta.persistence.EntityManager;
+import jakarta.persistence.Query;
 import jakarta.persistence.TypedQuery;
 
 import java.util.List;
@@ -25,9 +26,9 @@ public class AbstractDao<T> {
     protected String buildSelectAllAndIsActiveQuery(String entityName, boolean isActive) {
         StringBuilder jpqlBd = new StringBuilder(buildSelectAllQuery(entityName));
         if (isActive) {
-            jpqlBd.append(" WHERE isActive = 1");
+            jpqlBd.append(" WHERE o.isActive = 1");
         } else {
-            jpqlBd.append(" WHERE isActive = 0");
+            jpqlBd.append(" WHERE o.isActive = 0");
         }
         return jpqlBd.toString();
     }
@@ -92,6 +93,14 @@ public class AbstractDao<T> {
         } finally {
             entityManager.close();
         }
+    }
+
+    protected long count(Class<T> clazz){
+        EntityManager entityManager = jpaUtil.getEntityManager();
+        String jpql = "SELECT COUNT(o) FROM " + clazz.getSimpleName() + " o"
+                + " WHERE o.isActive = 1";
+        Query query = entityManager.createQuery(jpql, clazz);
+        return (long)query.getSingleResult();
     }
 
     public T create(T entity) {

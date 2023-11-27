@@ -6,7 +6,7 @@ import com.filmweb.entity.Video;
 
 public interface HistoryService {
 
-    History create (UserDto userDto, Video video);
+    History create (Long userId, Long videoId);
 
     boolean updateLike(Long userId, String href);
 }

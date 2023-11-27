@@ -20,7 +20,9 @@ public interface VideoDao {
 
     List<Video> findByName(String name);
 
-    List<Video> findVideoTrending();
+    List<Video> findTrending(int limit);
+
+    long count();
 
     Video create(Video entity);
 

@@ -56,4 +56,10 @@ public class Video {
 
     @OneToMany(mappedBy = "video")
     private List<Order> orders;
+
+    @OneToMany(mappedBy = "video")
+    private List<Comment> comments;
+
+    @OneToMany(mappedBy = "video")
+    private List<History> histories;
 }

@@ -3,6 +3,7 @@ package com.filmweb.controller;
 import com.filmweb.constant.SessionConstant;
 import com.filmweb.dto.CommentDto;
 import com.filmweb.dto.UserDto;
+import com.filmweb.dto.VideoDto;
 import com.filmweb.entity.*;
 import com.filmweb.service.*;
 import jakarta.enterprise.context.ApplicationScoped;
@@ -44,12 +45,12 @@ public class VideoController {
     public String watch(
             @QueryParam("v") String href
     ){
-        Video video = videoService.findByHref(href);
+        UserDto userDto = (UserDto) session.getAttribute(SessionConstant.CURRENT_USER);
+        VideoDto video = videoService.findByHref(href);
         models.put("video", video);
         List<CommentDto> comments = commentService.findByVideoId(video.getId());
         models.put("comments", comments);
         if(video.getPrice() > 0){
-            UserDto userDto = (UserDto) session.getAttribute(SessionConstant.CURRENT_USER);
             if(userDto == null){
                session.setAttribute("buyBeforeWatch", true);
             }else {
@@ -68,7 +69,7 @@ public class VideoController {
     public String getDetail(
             @QueryParam("v") String href
     ){
-        Video video = videoService.findByHref(href);
+        VideoDto video = videoService.findByHref(href);
         models.put("video", video);
 
         List<CommentDto> comments = commentService.findByVideoId(video.getId());
@@ -102,7 +103,7 @@ public class VideoController {
                 models.put("checkedAttribute2", "");
                 models.put("checkedAttribute1", "");
             }
-            History history = historyService.create(userDto, video);
+            History history = historyService.create(userDto.getId(), video.getId());
             models.put("flagLikeButton", history.getIsLiked());
         }
         return "video-detail.jsp";
@@ -117,8 +118,8 @@ public class VideoController {
     ){
         UserDto userDto = (UserDto) session.getAttribute(SessionConstant.CURRENT_USER);
         if(userDto != null) {
-            Video video = videoService.findByHref(videoHref);
-            commentService.create(userDto.getId(), video, content);
+            VideoDto video = videoService.findByHref(videoHref);
+            commentService.create(userDto.getId(), video.getId(), content);
         }
         return "redirect:video/detail?v="+videoHref;
     }

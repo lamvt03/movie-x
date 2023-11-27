@@ -22,7 +22,7 @@ public class VideoDaoImpl extends AbstractDao<Video> implements VideoDao {
 
     @Override
     public List<Video> findAll(int page, int limit) {
-        return super.findAll(Video.class, page, limit);
+        return super.findAll(Video.class, true, page, limit);
     }
 
     @Override
@@ -48,7 +48,13 @@ public class VideoDaoImpl extends AbstractDao<Video> implements VideoDao {
     }
 
     @Override
-    public List<Video> findVideoTrending() {
-        return null;
+    public List<Video> findTrending(int limit) {
+        String jpql = "SELECT o FROM Video o WHERE o.isActive = 1 ORDER BY o.views DESC";
+        return super.findMany(Video.class, limit, jpql);
+    }
+
+    @Override
+    public long count() {
+        return super.count(Video.class);
     }
 }

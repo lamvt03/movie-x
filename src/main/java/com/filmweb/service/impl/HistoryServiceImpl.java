@@ -26,16 +26,19 @@ public class HistoryServiceImpl implements HistoryService {
     private VideoDao videoDao;
 
     @Override
-    public History create(UserDto userDto, Video video) {
-        History history = historyDao.findByUserIdAndVideoId(userDto.getId(), video.getId());
+    public History create(Long userId, Long videoId) {
+        History history = historyDao.findByUserIdAndVideoId(userId, videoId);
         if(history == null){
-            User user = userDao.findById(userDto.getId());
-            history = new History();
-            history.setUser(user);
-            history.setVideo(video);
-            history.setViewedAt(new Timestamp(System.currentTimeMillis()));
-            history.setIsLiked(Boolean.FALSE);
-             return historyDao.create(history);
+            User user = userDao.findById(userId);
+            Video video = videoDao.findById(videoId);
+            return historyDao.create(
+                    History.builder()
+                            .user(user)
+                            .video(video)
+                            .viewedAt(new Timestamp(System.currentTimeMillis()))
+                            .isLiked(Boolean.FALSE)
+                            .build()
+            );
         }
         return history;
     }

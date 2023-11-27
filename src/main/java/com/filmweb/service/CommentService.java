@@ -15,5 +15,5 @@ public interface CommentService {
 
     Comment findByVideoIdGetUser(Long videoId);
 
-    Comment create(Long userId, Video video, String content);
+    Comment create(Long userId, Long videoId, String content);
 }

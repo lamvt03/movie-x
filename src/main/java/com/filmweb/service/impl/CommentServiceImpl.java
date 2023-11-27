@@ -2,10 +2,13 @@ package com.filmweb.service.impl;
 
 import com.filmweb.dao.CommentDao;
 import com.filmweb.dao.UserDao;
+import com.filmweb.dao.VideoDao;
 import com.filmweb.dto.CommentDto;
+import com.filmweb.dto.VideoDto;
 import com.filmweb.entity.Comment;
 import com.filmweb.entity.User;
 import com.filmweb.entity.Video;
+import com.filmweb.mapper.CommentMapper;
 import com.filmweb.service.CommentService;
 import com.filmweb.util.TimeFormatter;
 import jakarta.enterprise.context.ApplicationScoped;
@@ -21,10 +24,14 @@ public class CommentServiceImpl implements CommentService {
     private CommentDao commentDao;
 
     @Inject
+    private CommentMapper commentMapper;
+
+    @Inject
     private UserDao userDao;
 
     @Inject
-    private TimeFormatter timeFormatter;
+    private VideoDao videoDao;
+
 
     @Override
     public List<Comment> findByUser(String username) {
@@ -34,15 +41,8 @@ public class CommentServiceImpl implements CommentService {
     @Override
     public List<CommentDto> findByVideoId(Long videoId) {
         List<Comment> comments = commentDao.findByVideoId(videoId);
-        return comments.stream().map(comment -> {
-            String timeAgo = timeFormatter.getTimeAgoString(comment.getCreatedAt());
-            String createdBy = comment.getUser().getFullName();
-            return new CommentDto(
-                    comment.getContent(),
-                    timeAgo,
-                    createdBy
-            );
-        }).toList();
+        return comments.stream().map(commentMapper::toDto)
+                .toList();
     }
 
     @Override
@@ -56,8 +56,9 @@ public class CommentServiceImpl implements CommentService {
     }
 
     @Override
-    public Comment create(Long userId, Video video, String content) {
+    public Comment create(Long userId, Long videoId, String content) {
         User user = userDao.findById(userId);
+        Video video = videoDao.findById(videoId);
         Comment comment = new Comment();
         comment.setUser(user);
         comment.setVideo(video);
