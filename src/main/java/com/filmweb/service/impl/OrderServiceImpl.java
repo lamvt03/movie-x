@@ -14,6 +14,7 @@ import java.sql.Timestamp;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 
 @ApplicationScoped
 public class OrderServiceImpl implements OrderService {
@@ -29,6 +30,11 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public Order findByUserIdAndVideoId(Long userId, Long videoId) {
         return orderDao.findByUserIdAndVideoId(userId, videoId);
+    }
+
+    @Override
+    public List<Order> findByEmail(String email) {
+        return orderDao.findByUserEmail(email);
     }
 
     @Override

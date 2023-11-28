@@ -74,16 +74,16 @@
 
                 <div class="anime__details__form">
                     <c:if test="${not empty sessionScope.currentUser}">
-                        <div class="section-title">
-                            <h5>Để lại đánh giá</h5>
-                        </div>
+<%--                        <div class="section-title">--%>
+<%--                            <h5>Để lại đánh giá</h5>--%>
+<%--                        </div>--%>
 
                         <form action="${initParam['mvcPath']}/video/comment" method="post">
                             <textarea placeholder="Nội dung..." name="content" required></textarea>
                             <input name="href" type="hidden" value="${video.href}">
 
                             <button type="submit">
-                                <i class="fa fa-location-arrow"></i> Gửi Nội Dung
+                                <i class="fa fa-location-arrow"></i> Gửi Bình Luận
                             </button>
 
                         </form>

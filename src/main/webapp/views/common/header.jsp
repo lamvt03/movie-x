@@ -57,8 +57,8 @@
                                                 class="arrow_carrot-down"></span>
                                     </a>
                                         <ul class="dropdown">
-                                            <li><a href="profile">Trang cá nhân</a></li>
-                                            <li><a href="transaction">Lịch sử giao dịch</a></li>
+                                            <li><a href="${initParam['mvcPath']}/profile">Trang cá nhân</a></li>
+                                            <li><a href="${initParam['mvcPath']}/transaction">Lịch sử giao dịch</a></li>
                                             <li><a href="${initParam['mvcPath']}/logout">Đăng xuất</a></li>
                                         </ul>
                                     </li>

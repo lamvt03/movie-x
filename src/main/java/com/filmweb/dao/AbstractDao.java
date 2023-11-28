@@ -219,6 +219,9 @@ public class AbstractDao<T> {
         EntityManager entityManager = jpaUtil.getEntityManager();
         try {
             TypedQuery<T> query = entityManager.createQuery(jpql, clazz);
+            for (int i = 0; i < params.length; i++) {
+                query.setParameter(i + 1, params[i]);
+            }
             query.setFirstResult((page - 1) * limit);
             query.setMaxResults(limit);
             return query.getResultList();

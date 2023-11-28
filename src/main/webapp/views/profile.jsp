@@ -57,23 +57,23 @@
 
                 <div class="link-profile">
 
-                    <h6 class="text-secondary font-weight-bold">WORD LINK</h6>
-                    <h6 class="text-dark mt-4 font-weight-bold mb-2">Website Link</h6>
-                    <h6 class="text-dark font-weight-bold mb-2">Bootsnipp Profile</h6>
-                    <h6 class="text-dark font-weight-bold mb-2">Bootply Profile</h6>
+<%--                    <h6 class="text-secondary font-weight-bold">WORD LINK</h6>--%>
+<%--                    <h6 class="text-dark mt-4 font-weight-bold mb-2">Website Link</h6>--%>
+<%--                    <h6 class="text-dark font-weight-bold mb-2">Bootsnipp Profile</h6>--%>
+<%--                    <h6 class="text-dark font-weight-bold mb-2">Bootply Profile</h6>--%>
 
-                    <h6 class="text-secondary mt-4 font-weight-bold">SKILLS</h6>
-                    <h6 class="text-dark mt-4 font-weight-bold mb-2">Web Designer</h6>
-                    <h6 class="text-dark font-weight-bold mb-2">Web Developer</h6>
-                    <h6 class="text-dark font-weight-bold mb-2">WordPress</h6>
-                    <h6 class="text-dark font-weight-bold mb-2">WooCommere</h6>
-                    <h6 class="text-dark font-weight-bold mb-2">PHP.Net</h6>
-                    <h6 class="text-dark font-weight-bold mb-2">
-                        <a href="history" class="text-info font-weight-bold">Lịch sử
+<%--                    <h6 class="text-secondary mt-4 font-weight-bold">SKILLS</h6>--%>
+<%--                    <h6 class="text-dark mt-4 font-weight-bold mb-2">Web Designer</h6>--%>
+<%--                    <h6 class="text-dark font-weight-bold mb-2">Web Developer</h6>--%>
+<%--                    <h6 class="text-dark font-weight-bold mb-2">WordPress</h6>--%>
+<%--                    <h6 class="text-dark font-weight-bold mb-2">WooCommere</h6>--%>
+<%--                    <h6 class="text-dark font-weight-bold mb-2">PHP.Net</h6>--%>
+<%--                    <h6 class="text-dark font-weight-bold mb-2">--%>
+                        <a href="${initParam['mvcPath']}/history" class="text-info font-weight-bold">Lịch sử
                             truy cập</a>
                     </h6>
                     <h6 class="text-dark font-weight-bold mb-2">
-                        <a href="favorites" class="text-info font-weight-bold">Phim
+                        <a href="${initParam['mvcPath']}/favorite" class="text-info font-weight-bold">Phim
                             yêu thích</a>
                     </h6>
 

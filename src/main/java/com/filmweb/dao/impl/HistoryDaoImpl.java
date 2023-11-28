@@ -15,10 +15,16 @@ public class HistoryDaoImpl extends AbstractDao<History> implements HistoryDao{
                 + " ORDER BY o.viewedAt DESC";
         return super.findMany(History.class, jpql, email);
     }
+    @Override
+    public List<History> findByUserEmail(String email, int page, int limit) {
+        String jpql = "SELECT o FROM History o WHERE o.user.email = ?1 AND o.video.isActive = 1"
+                + " ORDER BY o.viewedAt DESC";
+        return super.findMany(History.class, page, limit, jpql, email);
+    }
 
     @Override
     public List<History> findByUserEmailAndIsLiked(String email) {
-        String jpql = "SELECT o FROM History o WHERE o.user.email = ?0 AND o.isLiked = 1" + " AND o.video.isActive = 1"
+        String jpql = "SELECT o FROM History o WHERE o.user.email = ?1 AND o.isLiked = 1" + " AND o.video.isActive = 1"
                 + " ORDER BY o.viewedAt DESC";
         return super.findMany(History.class, jpql, email);
     }

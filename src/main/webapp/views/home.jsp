@@ -37,10 +37,10 @@
 													Ngay</span> <i class="fa fa-angle-right"></i></a>
                                     </c:when>
                                     <c:otherwise>
-                                        <fmt:setLocale value="vi_VN" />
-                                        <c:set var="formattedPrice" value="${trendingVideo.price}" />
+                                        <fmt:setLocale value="vi_VN"/>
+                                        <c:set var="formattedPrice" value="${trendingVideo.price}"/>
                                         <fmt:formatNumber var="formattedPrice"
-                                                          value="${formattedPrice}" type="currency" currencyCode="VND" />
+                                                          value="${formattedPrice}" type="currency" currencyCode="VND"/>
                                         <a href="${initParam['mvcPath']}/video/watch?v=${trendingVideo.href}"
                                            class="watch-btn"><span>${formattedPrice}</span> <i
                                                 class="fa fa-angle-right"></i></a>
@@ -115,9 +115,11 @@
 
                 <div class="product__pagination d-flex justify-content-center">
 
+
                     <c:if test="${currentPage == 1}">
-                        <a href="#"><i class="fa fa-angle-double-left disabled"></i></a>
+                        <a href="#"><i class="fa fa-angle-double-left"></i></a>
                     </c:if>
+
                     <c:if test="${currentPage > 1}">
                         <a href="${initParam['mvcPath']}/home?page=${currentPage - 1}"><i
                                 class="fa fa-angle-double-left"></i></a>
@@ -126,13 +128,15 @@
                         <a href="${initParam['mvcPath']}/home?page=${i.index}" style="margin-left: 10px"
                            class="current-page ${currentPage == i.index ? 'active' : ''}">${i.index}</a>
                     </c:forEach>
+
                     <c:if test="${currentPage == maxPage}">
-                        <a href="#"><i class="fa fa-angle-double-right disabled"></i></a>
+                        <a href="#"><i class="fa fa-angle-double-right"></i></a>
                     </c:if>
                     <c:if test="${currentPage < maxPage}">
-                        <a href="index?page=${currenPage + 1}"><i
+                        <a href="${initParam['mvcPath']}/home?page=${currentPage + 1}"><i
                                 class="fa fa-angle-double-right"></i></a>
                     </c:if>
+
                 </div>
             </div>
 
@@ -209,7 +213,8 @@
                         </div>
                         <div class="product__sidebar__comment__item">
                             <div class="product__sidebar__comment__item__pic">
-                                <img src="${pageContext.request.contextPath}/views/template/user/img/sidebar/comment-1.jpg" alt="">
+                                <img src="${pageContext.request.contextPath}/views/template/user/img/sidebar/comment-1.jpg"
+                                     alt="">
                             </div>
                             <div class="product__sidebar__comment__item__text">
                                 <ul>
@@ -224,7 +229,8 @@
                         </div>
                         <div class="product__sidebar__comment__item">
                             <div class="product__sidebar__comment__item__pic">
-                                <img src="${pageContext.request.contextPath}/views/template/user/img/sidebar/comment-1.jpg" alt="">
+                                <img src="${pageContext.request.contextPath}/views/template/user/img/sidebar/comment-1.jpg"
+                                     alt="">
                             </div>
                             <div class="product__sidebar__comment__item__text">
                                 <ul>
@@ -239,7 +245,8 @@
                         </div>
                         <div class="product__sidebar__comment__item">
                             <div class="product__sidebar__comment__item__pic">
-                                <img src="${pageContext.request.contextPath}/views/template/user/img/sidebar/comment-1.jpg" alt="">
+                                <img src="${pageContext.request.contextPath}/views/template/user/img/sidebar/comment-1.jpg"
+                                     alt="">
                             </div>
                             <div class="product__sidebar__comment__item__text">
                                 <ul>
@@ -262,7 +269,7 @@
 
 <%@ include file="/views/common/footer.jsp" %>
 
-<%    Boolean registerSuccess = (Boolean) session.getAttribute("registerSuccess");
+<% Boolean registerSuccess = (Boolean) session.getAttribute("registerSuccess");
     if (registerSuccess != null) {
         if (registerSuccess) {
 %>
@@ -271,7 +278,7 @@
         'Một email xác minh đã gửi đến địa chỉ email của bạn !');
 </script>
 
-<%       }
+<% }
     session.removeAttribute("registerSuccess");
 }
 %>
