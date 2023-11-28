@@ -62,4 +62,14 @@ public class OrderServiceImpl implements OrderService {
 
         return orderDao.create(order);
     }
+
+    @Override
+    public List<Order> findAll() {
+        return orderDao.findAll();
+    }
+
+    @Override
+    public List<Order> findSuccessfulOrders() {
+        return orderDao.findSuccessfulOrders();
+    }
 }
