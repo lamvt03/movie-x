@@ -60,7 +60,7 @@ public class HomeController {
         models.put("maxPage", maxPage);
 
         int currentPage = 1;
-        if (page != null && page < maxPage) {
+        if (page != null && page <= maxPage) {
             currentPage = page;
         }
         models.put("currentPage", currentPage);

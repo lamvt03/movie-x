@@ -35,7 +35,7 @@
 					class="hide-menu">QUẢN LÝ VIDEO</span></li>
 
 				<li class="sidebar-item"><a class="sidebar-link"
-					href="videoviews" aria-expanded="false"> <span> <i
+					href="${initParam['mvcPath']}/admin/videos" aria-expanded="false"> <span> <i
 							class="ti ti-cards"></i>
 					</span> <span class="hide-menu">Tạo Phim</span>
 				</a></li>
