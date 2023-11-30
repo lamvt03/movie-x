@@ -52,33 +52,33 @@ function validateLogin() {
 function validateNewFilm() {
 	let title = document.getElementsByName("title")[0].value;
 	let href = document.getElementsByName("href")[0].value;
-	let daodien = document.getElementsByName("daodien")[0].value;
-	let dienvien = document.getElementsByName("dienvien")[0].value;
+	let director = document.getElementsByName("director")[0].value;
+	let actor = document.getElementsByName("actor")[0].value;
 	let category = document.getElementsByName("category")[0].value;
-	let mota = document.getElementsByName("mota")[0].value;
-	let noted = document.getElementsByName("noted")[0].value;
-	let isActive = document.getElementsByName("isActive")[0];
+	let heading = document.getElementsByName("heading")[0].value;
+	let content = document.getElementsByName("content")[0].value;
+	// let isActive = document.getElementsByName("isActive")[0];
 
-	if (title == "" && href == "" && daodien == "" && dienvien == "" && category == "" && mota == "" && noted == "") {
-		showSwalAlert('error', 'Thông tin phim không thể để trống!');
-		return false;
-	}
-	if (href.length > 50) {
-		showSwalAlert('error', 'Href không được lớn hơn 50 kí tự !');
-		return false;
-	}
-	if (title.length < 10) {
-		showSwalAlert('error', 'Tên phim không hợp lệ !');
-		return false;
-	}
-	if (dienvien.length < 10) {
-		showSwalAlert('error', 'Diễn viên không hợp lệ !');
-		return false;
-	}
-	if (isActive.value === "--Chọn--") {
-		showSwalAlert('error', 'Vui lòng chọn hiệu lực phim !');
-		return false;
-	}
+	// if (!title || !href || !director || !actor || !category || !heading || !content) {
+	// 	showSwalAlert('error', 'Thông tin phim không thể để trống!');
+	// 	return false;
+	// }
+	// if (href.length > 50) {
+	// 	showSwalAlert('error', 'Href không được lớn hơn 50 kí tự !');
+	// 	return false;
+	// }
+	// if (title.length < 10) {
+	// 	showSwalAlert('error', 'Tên phim không hợp lệ !');
+	// 	return false;
+	// }
+	// if (actor.length < 10) {
+	// 	showSwalAlert('error', 'Diễn viên không hợp lệ !');
+	// 	return false;
+	// }
+	// if (isActive.value === "--Chọn--") {
+	// 	showSwalAlert('error', 'Vui lòng chọn hiệu lực phim !');
+	// 	return false;
+	// }
 
 	return true;
 
@@ -97,13 +97,14 @@ function editVideo() {
 	}).then((result) => {
 		if (result.isConfirmed) {
 			document.getElementById("confirmEdit").value = "true";
-			Swal.fire(
-				'Thành công !',
-				'Chỉnh sửa video thành công !',
-				'success'
-			).then(() => {
-				document.getElementById("ConfirmEditForm").submit();
-			});
+			document.getElementById("ConfirmEditForm").submit();
+			// Swal.fire(
+			// 	'Thành công !',
+			// 	'Chỉnh sửa video thành công !',
+			// 	'success'
+			// ).then(() => {
+			// 	document.getElementById("ConfirmEditForm").submit();
+			// });
 		}
 	});
 

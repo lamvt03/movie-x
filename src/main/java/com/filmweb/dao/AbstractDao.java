@@ -30,6 +30,7 @@ public class AbstractDao<T> {
         } else {
             jpqlBd.append(" WHERE o.isActive = 0");
         }
+        jpqlBd.append(" ORDER BY o.createdAt DESC ");
         return jpqlBd.toString();
     }
 

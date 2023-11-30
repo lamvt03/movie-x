@@ -8,6 +8,7 @@ import com.filmweb.service.VideoService;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 
+import java.sql.Timestamp;
 import java.util.List;
 
 @ApplicationScoped
@@ -50,5 +51,42 @@ public class VideoServiceImpl implements VideoService {
         return videos.stream()
                 .map(videoMapper::toDto)
                 .toList();
+    }
+
+    @Override
+    public VideoDto create(String title, String href, String poster, String director, String actor, String category, String description, String formattedPrice, String content) {
+        Long price = Long.parseLong(formattedPrice.replace(".", ""));
+        Video video = videoDao.create(
+                Video.builder()
+                        .title(title)
+                        .href(href)
+                        .poster(poster)
+                        .director(director)
+                        .actor(actor)
+                        .category(category)
+                        .heading(description)
+                        .price(price)
+                        .description(content)
+                        .createdAt(new Timestamp(System.currentTimeMillis()))
+                        .isActive(Boolean.TRUE)
+                        .views(0)
+                        .share(0)
+                        .build()
+        );
+        return videoMapper.toDto(video);
+    }
+
+    @Override
+    public VideoDto update(String title, String href, String director, String actor, String category, String heading, String formattedPrice, String description) {
+        Video video = videoDao.findByHref(href);
+        video.setTitle(title);
+        video.setDirector(director);
+        video.setActor(actor);
+        video.setCategory(category);
+        video.setHeading(heading);
+        Long price = Long.parseLong(formattedPrice.replace(".", ""));
+        video.setPrice(price);
+        video.setDescription(description);
+        return videoMapper.toDto(videoDao.update(video));
     }
 }

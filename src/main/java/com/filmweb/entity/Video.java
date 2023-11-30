@@ -1,10 +1,7 @@
 package com.filmweb.entity;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.sql.Timestamp;
 import java.util.List;
@@ -12,6 +9,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter @Setter
+@Builder
 @Entity
 @Table(name = "_video")
 public class Video {
@@ -47,7 +45,7 @@ public class Video {
     @Column(columnDefinition = "ntext")
     private String description;
 
-    private int price;
+    private Long price;
 
     private boolean isActive;
 

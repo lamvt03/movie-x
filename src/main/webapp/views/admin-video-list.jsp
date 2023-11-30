@@ -37,7 +37,7 @@
         <div class="container-fluid">
             <div class="card">
                 <div class="card-body">
-                    <a class="btn btn-primary float-end" href="videoadd" role="button">
+                    <a class="btn btn-primary float-end" href="${initParam['mvcPath']}/admin/video/add" role="button">
                         <i class="ti ti-file-plus"></i> Phim mới
                     </a>
                     <h5 class="card-title fw-semibold mb-4 mt-2">Danh Sách Video
@@ -72,13 +72,16 @@
                                                 <c:set var="locale" value="vi_VN"/>
                                                 <fmt:setLocale value="${locale}"/>
                                                 <fmt:formatNumber value="${amount}" type="currency"
-                                                    currencyCode="VND"/>
+                                                                  currencyCode="VND"/>
                                             </td>
                                             <td>
                                                 <div class="btn-group" role="group">
-                                                    <button class="btn btn-primary ms-2 rounded-2"
-                                                            onclick="editVideoGetHref('${video.href}')">Sửa
-                                                    </button>
+                                                    <a
+                                                            href="${initParam['mvcPath']}/admin/video/edit?v=${video.href}"
+                                                            class="btn btn-primary ms-2 rounded-2"
+                                                    >
+                                                        Sửa
+                                                    </a>
                                                     <button class="btn btn-danger ms-2 rounded-2"
                                                             onclick="deleteVideo('${video.href}')">Xoá
                                                     </button>
@@ -189,6 +192,22 @@
 <%
         }
         session.removeAttribute("addVideoSuccess");
+    }
+%>
+
+<%
+    Boolean updateVideoSuccess = (Boolean) session.getAttribute("updateVideoSuccess");
+
+    if (updateVideoSuccess != null) {
+        if (updateVideoSuccess) {
+%>
+<script>
+    showCenterAlert('success', 'Thông báo',
+        'Chỉnh sửa phim thành công');
+</script>
+<%
+        }
+        session.removeAttribute("updateVideoSuccess");
     }
 %>
 

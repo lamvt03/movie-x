@@ -12,4 +12,8 @@ public interface VideoService {
     long count();
 
     List<VideoDto> findByKeyword(String keyword);
+
+    VideoDto create(String title, String href, String poster, String director, String actor, String category, String description, String formattedPrice, String content);
+
+    VideoDto update(String title, String href, String director, String actor, String category, String heading, String formattedPrice, String description);
 }
