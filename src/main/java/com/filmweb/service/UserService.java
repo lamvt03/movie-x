@@ -5,6 +5,8 @@ import jakarta.mail.MessagingException;
 import jakarta.servlet.ServletContext;
 import jakarta.servlet.http.HttpSession;
 
+import java.util.List;
+
 public interface UserService {
 
     UserDto authenticate(String email, String password);
@@ -22,4 +24,7 @@ public interface UserService {
     UserDto editProfile(String email, String fullName, String phone);
 
     boolean comparePassword(String email, String oldPassword);
+
+    List<UserDto> findAll();
+    List<UserDto> findAll(int page, int limit);
 }

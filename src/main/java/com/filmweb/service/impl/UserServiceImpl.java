@@ -14,6 +14,7 @@ import jakarta.mail.MessagingException;
 import jakarta.servlet.ServletContext;
 import jakarta.servlet.http.HttpSession;
 
+import java.util.List;
 import java.util.Optional;
 
 @ApplicationScoped
@@ -112,5 +113,21 @@ public class UserServiceImpl implements UserService {
     public boolean comparePassword(String email, String oldPassword) {
         User user = userDao.findByEmail(email);
         return user.getPassword().equals(oldPassword);
+    }
+
+    @Override
+    public List<UserDto> findAll() {
+        List<User> users = userDao.findAll();
+        return users.stream()
+                .map(userMapper::toDto)
+                .toList();
+    }
+
+    @Override
+    public List<UserDto> findAll(int page, int limit) {
+        List<User> users = userDao.findAll(page, limit);
+        return users.stream()
+                .map(userMapper::toDto)
+                .toList();
     }
 }

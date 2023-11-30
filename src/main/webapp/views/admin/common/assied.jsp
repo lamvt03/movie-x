@@ -51,7 +51,7 @@
 					class="hide-menu">QUẢN LÝ NGƯỜI DÙNG</span></li>
 
 				<li class="sidebar-item"><a class="sidebar-link"
-					href="datauser" aria-expanded="false"> <span> <i
+					href="${initParam['mvcPath']}/admin/users" aria-expanded="false"> <span> <i
 							class="ti ti-apps"></i>
 					</span> <span class="hide-menu">Danh sách người dùng</span>
 				</a></li>

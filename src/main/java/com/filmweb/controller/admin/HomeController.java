@@ -1,13 +1,17 @@
 package com.filmweb.controller.admin;
 
+import com.filmweb.constant.AppConstant;
+import com.filmweb.dto.UserDto;
 import com.filmweb.entity.Order;
 import com.filmweb.service.OrderService;
+import com.filmweb.service.UserService;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.mvc.Controller;
 import jakarta.mvc.Models;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.Path;
+import jakarta.ws.rs.QueryParam;
 
 import java.util.List;
 
@@ -22,6 +26,9 @@ public class HomeController {
     @Inject
     private OrderService orderService;
 
+    @Inject
+    private UserService userService;
+
     @GET
     @Path("dashboard")
     public String getDashboard(){
@@ -35,5 +42,24 @@ public class HomeController {
         models.put("totalPrice", totalPrice);
         models.put("orders", orders);
         return "admin-dashboard.jsp";
+    }
+
+    @GET
+    @Path("users")
+    public String getUsers(
+            @QueryParam("page") Integer page
+    ){
+        int totalUser = userService.findAll().size();
+        long maxPage = (long) Math.ceil(1.0 * totalUser / AppConstant.SEARCH_PAGE_LIMIT);
+        models.put("maxPage", maxPage);
+
+        int currentPage = 1;
+        if (page != null && page <= maxPage) {
+            currentPage = page;
+        }
+        List<UserDto> users = userService.findAll(currentPage, AppConstant.SEARCH_PAGE_LIMIT);
+        models.put("currentPage", currentPage);
+        models.put("users", users);
+        return "admin-user-list.jsp";
     }
 }
