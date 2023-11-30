@@ -109,5 +109,19 @@
     }
 %>
 
+<% Boolean registerSuccess = (Boolean) session.getAttribute("registerSuccess");
+    if (registerSuccess != null) {
+        if (registerSuccess) {
+%>
+<script>
+    showCenterAlert('success', 'Thành công !',
+        'Một email xác minh đã gửi đến địa chỉ email của bạn !');
+</script>
+
+<% }
+    session.removeAttribute("registerSuccess");
+}
+%>
+
 
 

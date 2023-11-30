@@ -7,6 +7,7 @@ import com.filmweb.entity.User;
 import com.filmweb.mapper.UserMapper;
 import com.filmweb.service.EmailService;
 import com.filmweb.service.UserService;
+import com.filmweb.util.PasswordEncoder;
 import com.filmweb.util.RandomUtil;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
@@ -21,6 +22,10 @@ import java.util.Optional;
 public class UserServiceImpl implements UserService {
     @Inject
     private RandomUtil randomUtil;
+
+    @Inject
+    private PasswordEncoder passwordEncoder;
+
     @Inject
     private UserDao userDao;
 
@@ -32,8 +37,10 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserDto authenticate(String email, String password) {
-        User user = userDao.findByEmailAndPassword(email, password);
-        return Optional.ofNullable(user).map(userMapper::toDto)
+        User user = userDao.findByEmail(email);
+        return Optional.ofNullable(user)
+                .filter(u -> passwordEncoder.verify(password, u.getPassword()))
+                .map(userMapper::toDto)
                 .orElse(null);
     }
 
@@ -59,7 +66,7 @@ public class UserServiceImpl implements UserService {
         String token = randomUtil.randomToken(AppConstant.REGISTER_TOKEN_LENGTH);
         User userEntity = User.builder()
                 .email(email)
-                .password(password)
+                .password(passwordEncoder.encode(password))
                 .phone(phone)
                 .fullName(fullName)
                 .token(token)

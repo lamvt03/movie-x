@@ -120,6 +120,13 @@
             <type>pom</type>
         </dependency>
 
+        <dependency>
+            <groupId>at.favre.lib</groupId>
+            <artifactId>bcrypt</artifactId>
+            <version>0.10.2</version>
+        </dependency>
+
+
         <!--        testing -->
         <dependency>
             <groupId>org.junit.jupiter</groupId>
