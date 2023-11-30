@@ -124,17 +124,9 @@ function deleteVideo(href) {
 	}).then((result) => {
 		if (result.isConfirmed) {
 			document.getElementById("confirmDelete").value = "true";
-			Swal.fire(
-				'Thành công !',
-				'Đổi trạng thái phim thành công !',
-				'success'
-			).then(() => {
-				document.getElementById("videoHref").value = href;
-				document.getElementById("videoForm").submit();
-			});
+			document.getElementById("videoForm").submit();
 		}
 	});
-
 	return false;
 }
 
@@ -177,14 +169,15 @@ function CofirmVideoToViews(href) {
 	}).then((result) => {
 		if (result.isConfirmed) {
 			document.getElementById("confirmDelete").value = "true";
-			Swal.fire(
-				'Thành công !',
-				'Đổi trạng thái phim thành công !',
-				'success'
-			).then(() => {
-				document.getElementById("RestoreVideo").value = href;
-				document.getElementById("RestoreFormDisabled").submit();
-			});
+			document.getElementById("RestoreFormDisabled").submit();
+			// Swal.fire(
+			// 	'Thành công !',
+			// 	'Đổi trạng thái phim thành công !',
+			// 	'success'
+			// ).then(() => {
+			// 	document.getElementById("RestoreVideo").value = href;
+			// 	document.getElementById("RestoreFormDisabled").submit();
+			// });
 		}
 	});
 

@@ -101,7 +101,7 @@
                                     </a>
                                     <div class="product__item__text">
                                         <ul>
-                                            <li>${video.category}</li>
+                                            <li>${video.category} - ${video.timeAgo}</li>
                                         </ul>
                                         <h5>
                                             <a href="#">${video.title }</a>

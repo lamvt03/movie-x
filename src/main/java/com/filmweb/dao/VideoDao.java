@@ -12,8 +12,6 @@ public interface VideoDao {
 
     List<Video> findAll(int page, int limit);
 
-    List<Video> findAllDeletedVideos();
-
     List<Video> findAllDeletedVideos(int page, int limit);
 
     Video findByHref(String href);
@@ -22,7 +20,7 @@ public interface VideoDao {
 
     List<Video> findTrending(int limit);
 
-    long count();
+    long count(boolean isActive);
 
     Video create(Video entity);
 

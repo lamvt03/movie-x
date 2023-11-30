@@ -47,6 +47,25 @@ public class VideoController {
         return "admin-video-list.jsp";
     }
 
+    @GET
+    @Path("videos/disabled")
+    public String getDisabledVideos(
+            @QueryParam("page") Integer page
+    ) {
+        long totalVideo = videoService.countDisabled();
+        long maxPage = (long) Math.ceil(1.0 * totalVideo / AppConstant.SEARCH_PAGE_LIMIT);
+        models.put("maxPage", maxPage);
+
+        int currentPage = 1;
+        if (page != null && page <= maxPage) {
+            currentPage = page;
+        }
+        models.put("currentPage", currentPage);
+
+        List<VideoDto> videos = videoService.findAllDisabled(currentPage, AppConstant.SEARCH_PAGE_LIMIT);
+        models.put("videos", videos);
+        return "admin-disabled-video-list.jsp";
+    }
 
     @GET
     @Path("video/add")
@@ -116,5 +135,28 @@ public class VideoController {
         }
         session.setAttribute("updateVideoSuccess", false);
         return "redirect:admin/video/edit";
+    }
+    @POST
+    @Path("video/delete")
+    public String postVideoDelete(
+            @FormParam("href") String href
+    ) {
+        VideoDto videoDto = videoService.delete(href);
+        if(videoDto != null){
+            session.setAttribute("deleteVideoSuccess", true);
+        }
+        return "redirect:admin/videos";
+    }
+    @POST
+    @Path("video/restore")
+    public String postVideoRestore(
+            @FormParam("href") String href
+    ) {
+
+        VideoDto videoDto = videoService.restore(href);
+        if(videoDto != null){
+            session.setAttribute("restoreVideoSuccess", true);
+        }
+        return "redirect:admin/videos/disabled";
     }
 }

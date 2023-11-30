@@ -26,11 +26,6 @@ public class VideoDaoImpl extends AbstractDao<Video> implements VideoDao {
     }
 
     @Override
-    public List<Video> findAllDeletedVideos() {
-        return super.findAll(Video.class, false);
-    }
-
-    @Override
     public List<Video> findAllDeletedVideos(int page, int limit) {
         return super.findAll(Video.class, false, page, limit);
     }
@@ -54,8 +49,8 @@ public class VideoDaoImpl extends AbstractDao<Video> implements VideoDao {
     }
 
     @Override
-    public long count() {
-        return super.count(Video.class);
+    public long count(boolean isActive) {
+        return super.count(Video.class, isActive);
     }
 
     @Override

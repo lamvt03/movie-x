@@ -96,10 +96,15 @@ public class AbstractDao<T> {
         }
     }
 
-    protected long count(Class<T> clazz){
+    protected long count(Class<T> clazz, boolean isActive){
         EntityManager entityManager = jpaUtil.getEntityManager();
-        String jpql = "SELECT COUNT(o) FROM " + clazz.getSimpleName() + " o"
-                + " WHERE o.isActive = 1";
+        String jpql = "SELECT COUNT(o) FROM " + clazz.getSimpleName() + " o";
+        if (isActive){
+            jpql += " WHERE o.isActive = 1";
+        }else{
+            jpql += " WHERE o.isActive = 0";
+        }
+
         Query query = entityManager.createQuery(jpql, clazz);
         return (long)query.getSingleResult();
     }

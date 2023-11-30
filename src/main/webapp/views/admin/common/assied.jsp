@@ -41,7 +41,7 @@
 				</a></li>
 
 				<li class="sidebar-item"><a class="sidebar-link"
-					href="videodisabled" aria-expanded="false"> <span> <i
+					href="${initParam['mvcPath']}/admin/videos/disabled" aria-expanded="false"> <span> <i
 							class="ti ti-list-details"></i>
 					</span> <span class="hide-menu">Phim ngừng công chiếu</span>
 				</a></li>

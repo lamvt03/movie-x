@@ -42,7 +42,19 @@ public class VideoServiceImpl implements VideoService {
 
     @Override
     public long count() {
-        return videoDao.count();
+        return videoDao.count(true);
+    }
+
+    @Override
+    public List<VideoDto> findAllDisabled(int page, int limit) {
+        return videoDao.findAllDeletedVideos(page, limit).stream()
+                .map(videoMapper::toDto)
+                .toList();
+    }
+
+    @Override
+    public long countDisabled() {
+        return videoDao.count(false);
     }
 
     @Override
@@ -87,6 +99,20 @@ public class VideoServiceImpl implements VideoService {
         Long price = Long.parseLong(formattedPrice.replace(".", ""));
         video.setPrice(price);
         video.setDescription(description);
+        return videoMapper.toDto(videoDao.update(video));
+    }
+
+    @Override
+    public VideoDto restore(String href) {
+        Video video = videoDao.findByHref(href);
+        video.setActive(Boolean.TRUE);
+        return videoMapper.toDto(videoDao.update(video));
+    }
+
+    @Override
+    public VideoDto delete(String href) {
+        Video video = videoDao.findByHref(href);
+        video.setActive(Boolean.FALSE);
         return videoMapper.toDto(videoDao.update(video));
     }
 }

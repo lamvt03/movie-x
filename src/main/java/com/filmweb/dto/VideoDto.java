@@ -47,4 +47,5 @@ public class VideoDto {
 
     private int commentQuantity;
 
+    private String timeAgo;
 }
