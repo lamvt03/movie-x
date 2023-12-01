@@ -19,4 +19,9 @@ public class PasswordEncoder {
     public boolean verify(String password, String hashPassword){
         return BCrypt.verifyer().verify(password.getBytes(), hashPassword.getBytes()).verified;
     }
+
+    public static void main(String[] args) {
+//        System.out.println(new PasswordEncoder().encode("admin123"));
+        System.out.println(new PasswordEncoder().encode("123123"));
+    }
 }

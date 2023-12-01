@@ -61,7 +61,7 @@
 					class="hide-menu">BÁO CÁO - THỐNG KÊ</span></li>
 
 				<li class="sidebar-item"><a class="sidebar-link"
-					href="likeonevideo" aria-expanded="false"> <span> <i
+					href="${initParam['mvcPath']}/admin/videos/liked" aria-expanded="false"> <span> <i
 							class="ti ti-mood-happy"></i>
 					</span> <span class="hide-menu">Lượt thích từng video</span>
 				</a></li>

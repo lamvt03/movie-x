@@ -9,6 +9,8 @@ import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 
 import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 @ApplicationScoped
@@ -34,10 +36,10 @@ public class VideoServiceImpl implements VideoService {
 
     @Override
     public List<VideoDto> findAll(int page, int limit) {
-        List<Video> videos = videoDao.findAll(page, limit);
-        return videos.stream()
+        List<VideoDto> videos = videoDao.findAll().stream()
                 .map(videoMapper::toDto)
                 .toList();
+        return videos;
     }
 
     @Override
@@ -114,5 +116,20 @@ public class VideoServiceImpl implements VideoService {
         Video video = videoDao.findByHref(href);
         video.setActive(Boolean.FALSE);
         return videoMapper.toDto(videoDao.update(video));
+    }
+
+    @Override
+    public List<VideoDto> findAllLiked(int page, int limit) {
+        List<VideoDto> videos = videoDao.findAll().stream()
+                .map(videoMapper::toDto)
+                .sorted(Comparator.comparingInt(VideoDto::getLikeQuantity).reversed())
+                .toList();
+        List<VideoDto> result = new ArrayList<>();
+        int start = (page-1)*limit;
+        int end = start + limit;
+        for(int i = start; i <= end && i < videos.size(); i++ ){
+            result.add(videos.get(i));
+        }
+        return result;
     }
 }

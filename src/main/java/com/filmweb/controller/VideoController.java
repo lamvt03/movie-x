@@ -121,7 +121,7 @@ public class VideoController {
             VideoDto video = videoService.findByHref(videoHref);
             commentService.create(userDto.getId(), video.getId(), content);
         }
-        return "redirect:video/detail?v="+videoHref;
+        return "redirect:video/watch?v="+videoHref;
     }
     @PUT
     @Path("like")

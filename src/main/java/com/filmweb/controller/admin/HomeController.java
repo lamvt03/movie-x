@@ -2,9 +2,11 @@ package com.filmweb.controller.admin;
 
 import com.filmweb.constant.AppConstant;
 import com.filmweb.dto.UserDto;
+import com.filmweb.dto.VideoDto;
 import com.filmweb.entity.Order;
 import com.filmweb.service.OrderService;
 import com.filmweb.service.UserService;
+import com.filmweb.service.VideoService;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.mvc.Controller;
@@ -13,6 +15,8 @@ import jakarta.ws.rs.GET;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.QueryParam;
 
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 @ApplicationScoped
@@ -28,6 +32,9 @@ public class HomeController {
 
     @Inject
     private UserService userService;
+
+    @Inject
+    private VideoService videoService;
 
     @GET
     @Path("dashboard")
@@ -61,5 +68,25 @@ public class HomeController {
         models.put("currentPage", currentPage);
         models.put("users", users);
         return "admin-user-list.jsp";
+    }
+
+    @GET
+    @Path("videos/liked")
+    public String getLikedVideos(
+            @QueryParam("page") Integer page
+    ){
+        long totalVideo = videoService.count();
+        long maxPage = (long) Math.ceil(1.0 * totalVideo / AppConstant.SEARCH_PAGE_LIMIT);
+        models.put("maxPage", maxPage);
+
+        int currentPage = 1;
+        if (page != null && page <= maxPage) {
+            currentPage = page;
+        }
+        models.put("currentPage", currentPage);
+
+        List<VideoDto> videos = videoService.findAllLiked(currentPage, AppConstant.SEARCH_PAGE_LIMIT);
+        models.put("videos", videos);
+        return "admin-liked-video-list.jsp";
     }
 }

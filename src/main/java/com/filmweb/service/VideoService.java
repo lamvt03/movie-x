@@ -21,4 +21,6 @@ public interface VideoService {
     VideoDto restore(String href);
 
     VideoDto delete(String href);
+
+    List<VideoDto> findAllLiked(int page, int limit);
 }

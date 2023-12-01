@@ -39,13 +39,13 @@ public class VideoDto {
 
     private Long price;
 
-    private boolean isActive;
+    private Boolean isActive;
 
     private LocalDateTime createdAt;
 
-    private int likeQuantity;
+    private Integer likeQuantity;
 
-    private int commentQuantity;
+    private Integer commentQuantity;
 
     private String timeAgo;
 }
