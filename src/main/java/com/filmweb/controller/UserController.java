@@ -207,7 +207,7 @@ public class UserController {
         UserDto userDto = (UserDto) session.getAttribute(SessionConstant.CURRENT_USER);
         if(userService.comparePassword(userDto.getEmail(), oldPassword)){
             if (confirm != null && confirm) {
-                UserDto user = userService.changePassword(userDto.getEmail(), newPassword);
+                UserDto user = userService.changePassword(userDto.getEmail(), newPassword.trim());
 
                 if (user != null) {
                     session.removeAttribute(SessionConstant.CURRENT_USER);

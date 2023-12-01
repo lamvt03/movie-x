@@ -27,7 +27,7 @@
 
 <!-- Normal Breadcrumb Begin -->
 <section class="normal-breadcrumb set-bg"
-         data-setbg="views/template/user/img/normal-breadcrumb.jpg">
+         data-setbg="${pageContext.request.contextPath}/views/template/user/img/normal-breadcrumb.jpg">
     <div class="container">
         <div class="row">
             <div class="col-lg-12 text-center">
@@ -55,23 +55,23 @@
 
             </div>
 
-            <div class="link-profile">
+<%--            <div class="link-profile">--%>
 
-                <h6 class="text-secondary font-weight-bold">WORD LINK</h6>
-                <h6 class="text-dark mt-4 font-weight-bold mb-2">Website Link</h6>
-                <h6 class="text-dark font-weight-bold mb-2">Bootsnipp Profile</h6>
-                <h6 class="text-dark font-weight-bold mb-2">Bootply Profile</h6>
+<%--                <h6 class="text-secondary font-weight-bold">WORD LINK</h6>--%>
+<%--                <h6 class="text-dark mt-4 font-weight-bold mb-2">Website Link</h6>--%>
+<%--                <h6 class="text-dark font-weight-bold mb-2">Bootsnipp Profile</h6>--%>
+<%--                <h6 class="text-dark font-weight-bold mb-2">Bootply Profile</h6>--%>
 
-                <h6 class="text-secondary mt-4 font-weight-bold">SKILLS</h6>
-                <h6 class="text-dark mt-4 font-weight-bold mb-2">Web Designer</h6>
-                <h6 class="text-dark font-weight-bold mb-2">Web Developer</h6>
-                <h6 class="text-dark font-weight-bold mb-2">WordPress</h6>
-                <h6 class="text-dark font-weight-bold mb-2">WooCommere</h6>
-                <h6 class="text-dark font-weight-bold mb-2">PHP.Net</h6>
-                <h6 class="text-dark font-weight-bold mb-2">XARM</h6>
-                <h6 class="text-dark font-weight-bold mb-2">SQL Server</h6>
+<%--                <h6 class="text-secondary mt-4 font-weight-bold">SKILLS</h6>--%>
+<%--                <h6 class="text-dark mt-4 font-weight-bold mb-2">Web Designer</h6>--%>
+<%--                <h6 class="text-dark font-weight-bold mb-2">Web Developer</h6>--%>
+<%--                <h6 class="text-dark font-weight-bold mb-2">WordPress</h6>--%>
+<%--                <h6 class="text-dark font-weight-bold mb-2">WooCommere</h6>--%>
+<%--                <h6 class="text-dark font-weight-bold mb-2">PHP.Net</h6>--%>
+<%--                <h6 class="text-dark font-weight-bold mb-2">XARM</h6>--%>
+<%--                <h6 class="text-dark font-weight-bold mb-2">SQL Server</h6>--%>
 
-            </div>
+<%--            </div>--%>
 
         </div>
 

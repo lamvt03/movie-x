@@ -17,7 +17,10 @@ public class PageRedirectFilter implements Filter {
         HttpSession session = httpRequest.getSession(true);
 
         String requestURI = httpRequest.getRequestURI();
-        if(!requestURI.contains("/login") && !requestURI.contains("/logout") && !isResourceRequest(requestURI)){
+        if(!requestURI.contains("/login") && !requestURI.contains("/logout")
+            && !requestURI.contains("/password") && !requestURI.contains("/otp")
+            && !requestURI.contains("/register")  && !requestURI.contains("/verify")
+            && !requestURI.contains("/profile") && !isResourceRequest(requestURI)){
             String queryString = httpRequest.getQueryString();
 
             // Store the current URL in the session

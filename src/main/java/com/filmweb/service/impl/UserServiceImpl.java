@@ -99,7 +99,7 @@ public class UserServiceImpl implements UserService {
     public UserDto changePassword(String email, String password) {
         User user = userDao.findByEmail(email);
         if(user != null){
-            user.setPassword(password);
+            user.setPassword(passwordEncoder.encode(password));
             return userMapper.toDto(userDao.update(user));
         }
         return null;
@@ -119,7 +119,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public boolean comparePassword(String email, String oldPassword) {
         User user = userDao.findByEmail(email);
-        return user.getPassword().equals(oldPassword);
+        return passwordEncoder.verify(oldPassword, user.getPassword());
     }
 
     @Override
