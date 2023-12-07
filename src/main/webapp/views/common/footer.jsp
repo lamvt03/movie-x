@@ -6,28 +6,32 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-         pageEncoding="UTF-8"%>
+         pageEncoding="UTF-8" %>
 
 <!-- Footer Section Begin -->
 <footer class="footer">
     <div class="page-up">
-        <a href="#" id="scrollToTopButton"><span class="arrow_carrot-up"></span></a>
+        <a href="#" id="scrollToTopButton"><i class="fa-solid fa-angle-up"></i></a>
     </div>
     <div class="container">
         <div class="row">
             <div class="col-lg-3">
                 <div class="footer__logo">
-                    <a href="${initParam['mvcPath']}/home"><img src="${pageContext.request.contextPath}/views/template/user/img/logo.png"
-                                             alt=""></a>
+                    <a href="${initParam['mvcPath']}/home"><img
+                            src="${pageContext.request.contextPath}/views/template/user/img/logo.png"
+                            alt=""></a>
                 </div>
             </div>
             <div class="col-lg-12">
                 <div class="footer__nav">
                     <ul>
                         <li class="active"><a href="${initParam['mvcPath']}/home">Trang Chủ</a></li>
-                        <li><a href="categories">Danh Sách Phim</a></li>
-                        <li><a href="${initParam['mvcPath']}/about">Liên Hệ Với Tôi</a></li>
-                        <li><a href="${initParam['mvcPath']}/profile">Trang Cá Nhân</a></li>
+                        <li><a href="${initParam['mvcPath']}/category">Danh Sách Phim</a></li>
+                        <li><a href="${initParam['mvcPath']}/about">Liên Hệ Với Chúng Tôi</a></li>
+                        <c:if test="${not empty sessionScope.currentUser}">
+                            <li><a href="${initParam['mvcPath']}/profile">Trang Cá Nhân</a></li>
+                        </c:if>
+
                     </ul>
                 </div>
             </div>
@@ -38,7 +42,7 @@
                     <script>
                         document.write(new Date().getFullYear());
                     </script>
-                    All rights reserved
+                    All rights reserved | Design and Developed by Vo Truong Lam
                 </p>
 
             </div>
@@ -51,12 +55,12 @@
 <div class="search-model">
     <div class="h-100 d-flex align-items-center justify-content-center">
         <div class="search-close-switch">
-            <i class="icon_close"></i>
+            <i class="fa-solid fa-xmark"></i>
         </div>
         <form action="${initParam['mvcPath']}/search" method="get" class="search-model-form"
               autocomplete="off">
             <input type="text" name="keyword" id="search-input"
-                   placeholder="Tìm kiếm.....">
+                   placeholder="Tìm kiếm...">
         </form>
     </div>
 </div>
@@ -66,7 +70,7 @@
 <%--<script src="sweetalert2.min.js"></script>--%>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script src="${pageContext.request.contextPath}/views/template/user/js/jquery-3.3.1.min.js"></script>
-<script src="${pageContext.request.contextPath}/views/template/user/js/player.js"></script>
+<script src="${pageContext.request.contextPath}/views/template/user/js/plyr.js"></script>
 <script src="${pageContext.request.contextPath}/views/template/user/js/jquery.nice-select.min.js"></script>
 <script src="${pageContext.request.contextPath}/views/template/user/js/mixitup.min.js"></script>
 <script src="${pageContext.request.contextPath}/views/template/user/js/jquery.slicknav.js"></script>
@@ -76,52 +80,46 @@
 <script src="${pageContext.request.contextPath}/views/template/user/js/validateUser.js"></script>
 
 <!-- đăng nhập thành công -->
-<%  Boolean loginSuccess = (Boolean) session.getAttribute("loginSuccess");
-    if (loginSuccess != null) {
-        if (loginSuccess) {
-%>
-<script>
-    showSwalAlert('success', 'Đăng nhập thành công!');
-</script>
+<c:if test="${not empty sessionScope.loginSuccess}">
+    <c:choose>
+        <c:when test="${sessionScope.loginSuccess}">
+            <script>
+                showSwalAlert('success', 'Đăng nhập thành công');
+            </script>
+        </c:when>
+        <c:otherwise>
+            <script>
+                showSwalAlert('error', 'Tên tài khoản hoặc mật khẩu không chính xác');
+            </script>
+        </c:otherwise>
+    </c:choose>
 
-<%
-        } else {
-%>
-<script>
-    showSwalAlert('error', 'Tên tài khoản hoặc mật khẩu không chính xác');
-</script>
+    <c:remove var="loginSuccess" scope="session" />
+</c:if>
 
-<%       }
-        session.removeAttribute("loginSuccess");
-    }
-%>
 
-<%
-    Boolean loginFail = (Boolean) session.getAttribute("loginFail");
-    if (loginFail != null) {
-        if (loginFail) {
-%>
-<script>
-    showSwalAlert('warning', 'Tài khoản không hoạt động !');
-</script>
-<%      }
-        session.removeAttribute("loginFail");
-    }
-%>
+<c:if test="${not empty sessionScope.loginFail}">
+    <c:if test="${sessionScope.loginFail}">
+        <script>
+            showSwalAlert('warning', 'Tài khoản không hoạt động');
+        </script>
+    </c:if>
 
-<% Boolean registerSuccess = (Boolean) session.getAttribute("registerSuccess");
-    if (registerSuccess != null) {
-        if (registerSuccess) {
-%>
-<script>
-    showCenterAlert('success', 'Thành công !',
-        'Một email xác minh đã gửi đến địa chỉ email của bạn !');
-</script>
+    <c:remove var="loginFail" scope="session"/>
+</c:if>
 
-<% }
-    session.removeAttribute("registerSuccess");
-}
-%>
+
+<c:if test="${not empty sessionScope.registerSuccess}">
+    <c:if test="${sessionScope.registerSuccess}">
+        <script>
+            showCenterAlert('success', 'Thành công', 'Một email xác minh đã gửi đến địa chỉ email của bạn');
+        </script>
+    </c:if>
+
+    <%-- Remove the attribute after displaying the message --%>
+    <c:remove var="registerSuccess" scope="session" />
+</c:if>
+
 
 
 

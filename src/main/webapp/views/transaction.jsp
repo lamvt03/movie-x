@@ -15,7 +15,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Lịch Sử Giao Dịch</title>
+    <title>${initParam['website-name']} - Lịch Sử Giao Dịch</title>
     <%@ include file="/views/common/head.jsp" %>
 </head>
 <body>

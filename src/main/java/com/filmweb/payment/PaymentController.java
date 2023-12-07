@@ -22,7 +22,7 @@ import java.util.*;
 
 @ApplicationScoped
 @Controller
-@Path("/payment")
+@Path("/")
 public class PaymentController {
 
     @Inject
@@ -31,11 +31,11 @@ public class PaymentController {
     @Inject
     private HttpSession session;
     @GET
-    @Path("")
+    @Path("payment")
     public Response getPayment(
             @QueryParam("price") Integer price,
             @QueryParam("href") String href
-    ) throws UnsupportedEncodingException {
+    ) {
         long amount = price * 100;
         String vnp_TxnRef = PaymentConfig.getRandomNumber(8);
 
@@ -95,7 +95,7 @@ public class PaymentController {
     }
 
     @GET
-    @Path("/success")
+    @Path("payment/success")
     public String getSuccessPayment(
             @QueryParam("href") String href,
             @QueryParam("vnp_TxnRef") String vnp_TxnRef,

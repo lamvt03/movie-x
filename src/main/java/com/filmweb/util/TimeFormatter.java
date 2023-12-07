@@ -1,6 +1,5 @@
 package com.filmweb.util;
 
-import jakarta.ejb.Local;
 import jakarta.enterprise.context.ApplicationScoped;
 
 import java.sql.Timestamp;

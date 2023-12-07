@@ -22,7 +22,7 @@
 
 <html>
 <head>
-    <title>${video.title}</title>
+    <title>${initParam['website-name']} - ${video.title}</title>
     <%@ include file="/views/common/head.jsp" %>
 </head>
 <body>
@@ -95,7 +95,6 @@
                             </c:if>
                         </div>
 
-                        <p>${video.heading}</p>
                         <div class="anime__details__widget">
                             <div class="row">
                                 <div class="col-12 col-lg-12 col-md-12">
@@ -182,8 +181,10 @@
             <div class="col-lg-8 col-md-8">
                 <div class="anime__details__review">
                     <div class="section-title">
-                        <h5>Bình luận</h5>
-                    </div>
+                        <c:if test="${comments.size() > 0}">
+                            <h5 class="mb-6">Bình luận</h5>
+                        </c:if>
+
 
                     <c:forEach items="${comments}" var="comment">
                         <div class="anime__review__item">
@@ -204,54 +205,6 @@
 
             </div>
 
-            <%--            sidebar --%>
-            <div class="col-lg-4 col-md-4">
-                <div class="anime__details__sidebar">
-                    <div class="section-title">
-                        <h5>bạn có thể thích...</h5>
-                    </div>
-                    <div class="product__sidebar__view__item set-bg"
-                         data-setbg="${pageContext.request.contextPath}/views/template/user/img/sidebar/tv-1.jpg">
-                        <div class="ep">1 Tập</div>
-                        <div class="view">
-                            <i class="fa fa-eye"></i> 81
-                        </div>
-                        <h5>
-                            <a href="#">Mắt biếc</a>
-                        </h5>
-                    </div>
-                    <div class="product__sidebar__view__item set-bg"
-                         data-setbg="${pageContext.request.contextPath}/views/template/user/img/sidebar/tv-2.jpg">
-                        <div class="ep">1 Tập</div>
-                        <div class="view">
-                            <i class="fa fa-eye"></i> 11
-                        </div>
-                        <h5>
-                            <a href="#">Lật mặt 48h</a>
-                        </h5>
-                    </div>
-                    <div class="product__sidebar__view__item set-bg"
-                         data-setbg="${pageContext.request.contextPath}/views/template/user/img/sidebar/tv-3.jpg">
-                        <div class="ep">1 Tập</div>
-                        <div class="view">
-                            <i class="fa fa-eye"></i> 31
-                        </div>
-                        <h5>
-                            <a href="#">Con nhót mót chồng</a>
-                        </h5>
-                    </div>
-                    <div class="product__sidebar__view__item set-bg"
-                         data-setbg="${pageContext.request.contextPath}/views/template/user/img/sidebar/tv-4.jpg">
-                        <div class="ep">1 Tập</div>
-                        <div class="view">
-                            <i class="fa fa-eye"></i> 61
-                        </div>
-                        <h5>
-                            <a href="#">Siêu lừa gặp siêu lầy</a>
-                        </h5>
-                    </div>
-                </div>
-            </div>
         </div>
     </div>
 </section>

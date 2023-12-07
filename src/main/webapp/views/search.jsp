@@ -15,7 +15,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Tìm kiếm phim</title>
+    <title>${initParam['website-name']} - Tìm kiếm phim</title>
     <%@ include file="/views/common/head.jsp"%>
 </head>
 <body>

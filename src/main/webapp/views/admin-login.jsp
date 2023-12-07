@@ -12,7 +12,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Đăng Nhập</title>
+    <title>Administrator - Đăng Nhập</title>
     <%@ include file="/views/admin/common/head.jsp"%>
 </head>
 <body>
@@ -37,11 +37,11 @@
                             <a href="admin"
                                class="text-nowrap logo-img text-center d-block py-3 w-100">
                                 <img
-                                        src="${pageContext.request.contextPath}/views/admin/assets/images/favicon.png"
+                                        src="${pageContext.request.contextPath}/views/admin/assets/images/logo.png"
                                         width="100" alt=""/>
                             </a>
 
-                            <p class="text-center">Quản Lý Kho Phim Việt</p>
+                            <p class="text-center">Quản trị Movie W3b</p>
 
                             <form onsubmit="return validateLogin()" action="${initParam['mvcPath']}/admin"
                                   method="post">
@@ -63,11 +63,11 @@
                                         <input class="form-check-input primary" type="checkbox"
                                                value="" id="flexCheckChecked"> <label
                                             class="form-check-label text-dark" for="flexCheckChecked">
-                                        Ghi nhớ đăng nhập ? </label>
+                                        Ghi nhớ đăng nhập</label>
                                     </div>
                                     <a class="text-primary fw-bold text-decoration-none"
                                        href="${initParam['mvcPath']}/home"> <i class="fa-solid fa-arrow-left"></i> Quay
-                                        về FilmViet
+                                        về Movie W3b
                                     </a>
                                 </div>
 

@@ -13,7 +13,7 @@
 
 <html>
 <head>
-    <title>${video.title}</title>
+    <title>${initParam['website-name']} - ${video.title}</title>
     <%@ include file="/views/common/head.jsp" %>
 </head>
 <body>
@@ -26,8 +26,8 @@
             <div class="col-lg-12">
                 <div class="breadcrumb__links">
                     <a href="${initParam['mvcPath']}/home"><i class="fa fa-home"></i> Trang chủ</a> <a
-                        href="categories">Thể loại</a> <a id="detail-btn"
-                        href="${initParam['mvcPath']}/video/detail?v=${video.href}">Thông
+                        href="${initParam['mvcPath']}/category">Thể loại</a> <a id="detail-btn"
+                                                                                href="${initParam['mvcPath']}/video/detail?v=${video.href}">Thông
                     Tin Phim</a> <span>${video.title}</span>
                 </div>
             </div>
@@ -41,10 +41,8 @@
     <div class="container">
         <div class="row">
             <div class="col-lg-12">
-                <div class="anime__video__player">
-                    <iframe id="player" width="100%" height="600"
-                            src="https://www.youtube.com/embed/${video.href}" frameborder="0"
-                            allowfullscreen></iframe>
+                <div id="player" data-plyr-provider="youtube" data-plyr-embed-id="${video.href}">
+
                 </div>
             </div>
         </div>
@@ -52,20 +50,21 @@
             <div class="col-lg-8">
                 <div class="anime__details__review">
                     <div class="section-title">
-                        <h5>Bình Luận</h5>
+                        <c:if test="${comments.size() > 0}">
+                            <h5>Bình luận</h5>
+                        </c:if>
                     </div>
 
                     <c:forEach items="${comments}" var="comment">
                         <div class="anime__review__item">
                             <div class="anime__review__item__pic">
-                                <img src="${pageContext.request.contextPath}/views/template/user/img/default-avt.jpg" alt="avt"/>
+                                <img src="${pageContext.request.contextPath}/views/template/user/img/default-avt.jpg"
+                                     alt="avt"/>
                             </div>
                             <div class="anime__review__item__text">
-<%--                                <c:forEach items="${user}" var="users">--%>
-                                    <h6>
-                                            ${comment.createdBy} - <span>${comment.timeAgo}</span>
-                                    </h6>
-<%--                                </c:forEach>--%>
+                                <h6>
+                                        ${comment.createdBy} - <span>${comment.timeAgo}</span>
+                                </h6>
                                 <p>${comment.content}</p>
                             </div>
                         </div>
@@ -74,9 +73,9 @@
 
                 <div class="anime__details__form">
                     <c:if test="${not empty sessionScope.currentUser}">
-<%--                        <div class="section-title">--%>
-<%--                            <h5>Để lại đánh giá</h5>--%>
-<%--                        </div>--%>
+                        <div class="section-title">
+                            <h5>Để lại đánh giá</h5>
+                        </div>
 
                         <form action="${initParam['mvcPath']}/video/comment" method="post">
                             <textarea placeholder="Nội dung..." name="content" required></textarea>
@@ -96,29 +95,35 @@
 <!-- Anime Section End -->
 
 <%@ include file="/views/common/footer.jsp" %>
-<%
-    Boolean buyBeforeWatch = (Boolean) session.getAttribute("buyBeforeWatch");
-    if(buyBeforeWatch != null){
-%>
-<script type="text/javascript">
-    Swal.fire({
-        title: 'Thông báo',
-        text: "Bạn phải mua phim trước khi xem",
-        icon: 'warning',
-        confirmButtonColor: '#3085d6',
-        confirmButtonText: 'Đồng ý'
-    }).then((result) => {
-        if(result.isConfirmed){
-            document.getElementById("detail-btn").click();
-            <%--console.log("http://localhost:8080/app/video/detail?v=" + ${video.href})--%>
-            <%--window.location.href = "http://localhost:8080/app/video/detail?v=" + ${video.href};--%>
-        }
-    })
-</script>
-<%
-        session.removeAttribute("buyBeforeWatch");
-    }
-%>
 
+<c:if test="${not empty sessionScope.buyBeforeWatch}">
+    <script type="text/javascript">
+        Swal.fire({
+            title: 'Thông báo',
+            text: "Bạn phải mua phim trước khi xem",
+            icon: 'warning',
+            confirmButtonColor: '#3085d6',
+            confirmButtonText: 'Đồng ý'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                redirectToDetail();
+            }
+        });
+
+        const redirectToDetail = () => {
+            const detailBtn = document.getElementById("detail-btn");
+            if (detailBtn) {
+                detailBtn.click();
+            }
+        }
+    </script>
+    <c:remove var="buyBeforeWatch" scope="session"/>
+</c:if>
+
+<script type="text/javascript">
+    const player = new Plyr('#player', {});
+    console.log(player);
+    window.player = player;
+</script>
 </body>
 </html>

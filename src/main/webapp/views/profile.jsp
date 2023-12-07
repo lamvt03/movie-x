@@ -17,7 +17,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Trang Cá Nhân</title>
+    <title>${initParam['website-name']} - Trang Cá Nhân</title>
     <%@ include file="/views/common/head.jsp" %>
 </head>
 
@@ -27,13 +27,13 @@
 
 <!-- Normal Breadcrumb Begin -->
 <section class="normal-breadcrumb set-bg"
-         data-setbg="views/template/user/img/normal-breadcrumb.jpg">
+         data-setbg="${pageContext.request.contextPath}/views/template/user/img/login-banner.png">
     <div class="container">
         <div class="row">
             <div class="col-lg-12 text-center">
                 <div class="normal__breadcrumb__text">
-                    <h2>Trang Cá Nhân</h2>
-                    <p>Chào Mừng Bạn Đến Blog Chính Thức Của FilmViet.</p>
+                    <h2>Trang cá nhân</h2>
+                    <p>Chào mừng bạn đến với website chính thức của MOVIE W3B</p>
                 </div>
             </div>
         </div>
@@ -50,17 +50,18 @@
 
                 <div class="img-profile">
 
-                    <img src="${pageContext.request.contextPath}/views/template/user/img/profile-logo.png"
+                    <img src="${pageContext.request.contextPath}/views/template/user/img/default-avt.jpg"
                          class="img-fluid rounded-top" width="60%" alt="avatar"/>
 
                 </div>
 
-                <div class="link-profile">
-                        <a href="${initParam['mvcPath']}/history" class="text-info font-weight-bold">Lịch sử
+                <div class="link-profile mt-4">
+                    <h6>
+                        <a style="color: #D14A2D;" href="${initParam['mvcPath']}/history" class="font-weight-bold">Lịch sử
                             truy cập</a>
                     </h6>
                     <h6 class="text-dark font-weight-bold mb-2">
-                        <a href="${initParam['mvcPath']}/favorite" class="text-info font-weight-bold">Phim
+                        <a style="color: #D14A2D;" href="${initParam['mvcPath']}/favorite" class="font-weight-bold">Phim
                             yêu thích</a>
                     </h6>
 
@@ -76,8 +77,8 @@
 
                         <div class="col-12 col-md-12 col-lg-9">
 
-                            <h4 class="text-dark font-weight-bold">FilmViet</h4>
-                            <span class="text-info font-weight-bold">BLOG Xem Phim
+                            <h4 class="text-dark font-weight-bold">Movie W3b</h4>
+                            <span style="color: #D14A2D;" class="font-weight-bold">BLOG Xem Phim
 									Việt</span>
 
                         </div>
@@ -85,8 +86,8 @@
                         <div class="col-lg-3">
 
                             <h4>
-                                <a href="${initParam['mvcPath']}/profile/edit"
-                                   class="text-info font-weight-bold text-decoration-none h6">
+                                <a style="color: #D14A2D;" href="${initParam['mvcPath']}/profile/edit"
+                                   class="font-weight-bold text-decoration-none h6">
                                     Chỉnh sửa thông tin </a>
                             </h4>
 

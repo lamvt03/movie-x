@@ -12,7 +12,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DashBoard</title>
+    <title>Administrator - Dashboard</title>
     <%@ include file="/views/admin/common/head.jsp" %>
 </head>
 <body>
@@ -64,7 +64,7 @@
                             <!-- Yearly Breakup -->
                             <div class="card overflow-hidden">
                                 <div class="card-body p-4">
-                                    <h5 class="card-title mb-9 fw-semibold">Tổng Doanh Thu</h5>
+                                    <h5 class="card-title mb-9 fw-semibold">Doanh Thu Hàng Năm</h5>
                                     <div class="row align-items-center">
                                         <div class="col-8">
                                             <h4 class="fw-semibold mb-3">
@@ -147,7 +147,7 @@
             <div class="row">
                 <div class="col-lg-4 d-flex align-items-stretch">
                     <div class="card w-100">
-                        <div class="card-body p-4">
+                        <div class="card-body p-2">
                             <div class="mb-4">
                                 <h5 class="card-title fw-semibold">Giao dịch gần đây</h5>
                             </div>
@@ -171,7 +171,7 @@
                 </div>
                 <div class="col-lg-8 d-flex align-items-stretch">
                     <div class="card w-100">
-                        <div class="card-body p-4">
+                        <div class="card-body p-2">
                             <h5 class="card-title fw-semibold mb-4">Chi tiết giao dịch</h5>
                             <div class="table-responsive">
                                 <table class="table text-nowrap mb-0 align-middle">

@@ -20,7 +20,8 @@ public class PageRedirectFilter implements Filter {
         if(!requestURI.contains("/login") && !requestURI.contains("/logout")
             && !requestURI.contains("/password") && !requestURI.contains("/otp")
             && !requestURI.contains("/register")  && !requestURI.contains("/verify")
-            && !requestURI.contains("/profile") && !isResourceRequest(requestURI)){
+            && !requestURI.contains("/profile") && !requestURI.contains("/payment")
+            && !isResourceRequest(requestURI)){
             String queryString = httpRequest.getQueryString();
 
             // Store the current URL in the session
@@ -31,6 +32,6 @@ public class PageRedirectFilter implements Filter {
 
     }
     private boolean isResourceRequest(String requestURI) {
-        return requestURI.endsWith(".css") || requestURI.endsWith(".js") || requestURI.endsWith(".png");
+        return requestURI.endsWith(".css") || requestURI.endsWith(".js") || requestURI.endsWith(".png") || requestURI.endsWith(".jpg");
     }
 }

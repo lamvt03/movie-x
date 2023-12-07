@@ -55,7 +55,7 @@ public class Video {
     @OneToMany(mappedBy = "video")
     private List<Order> orders;
 
-    @OneToMany(mappedBy = "video")
+    @OneToMany(mappedBy = "video" , fetch = FetchType.LAZY)
     private List<Comment> comments;
 
     @OneToMany(mappedBy = "video", fetch = FetchType.LAZY)

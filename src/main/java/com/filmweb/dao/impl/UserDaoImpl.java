@@ -33,11 +33,6 @@ public class UserDaoImpl extends AbstractDao<User> implements UserDao {
         return super.findOne(User.class, jpql, token);
     }
 
-    @Override
-    public User findByEmailAndPassword(String email, String password) {
-        String jpql = "SELECT o FROM User o WHERE o.email = ?1 AND o.password = ?2";
-        return super.findOne(User.class, jpql, email, password);
-    }
 
     @Override
     public List<User> findAll() {
@@ -49,18 +44,4 @@ public class UserDaoImpl extends AbstractDao<User> implements UserDao {
         return super.findAll(User.class, page, limit);
     }
 
-    @Override
-    public List<User> findUserLikeByVideoHref(Map<String, Object> params) {
-        return null;
-    }
-
-    @Override
-    public List<User> UserShareVideoByHref(Map<String, Object> params) {
-        return null;
-    }
-
-    @Override
-    public List<User> UserPaymentVNpayByHref(Map<String, Object> params) {
-        return null;
-    }
 }

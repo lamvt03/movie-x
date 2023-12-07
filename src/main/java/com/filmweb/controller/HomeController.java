@@ -71,6 +71,27 @@ public class HomeController {
     }
 
     @GET
+    @Path("category")
+    public String getCategory(
+            @QueryParam("page") Integer page
+    ){
+
+        long totalVideo = videoService.count();
+        int maxPage = (int) Math.ceil(1.0 * totalVideo / AppConstant.CATERGORY_PAGE_LIMIT);
+        models.put("maxPage", maxPage);
+
+        int currentPage = 1;
+        if (page != null && page <= maxPage) {
+            currentPage = page;
+        }
+        models.put("currentPage", currentPage);
+
+        List<VideoDto> videos = videoService.findAll(currentPage, AppConstant.CATERGORY_PAGE_LIMIT);
+        models.put("videos", videos);
+        return "category.jsp";
+    }
+
+    @GET
     @Path("search")
     public String getSearch(
             @QueryParam("keyword") String keyword

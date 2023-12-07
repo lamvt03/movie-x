@@ -9,7 +9,7 @@
 <%@ include file="/views/common/taglib.jsp" %>
 <html lang="en">
 <head>
-    <title>Đăng nhập</title>
+    <title>${initParam['website-name']} - Đăng nhập</title>
     <%@ include file="/views/common/head.jsp" %>
 </head>
 <body>
@@ -17,13 +17,13 @@
 
 <!-- Normal Breadcrumb Begin -->
 <section class="normal-breadcrumb set-bg"
-         data-setbg="${pageContext.request.contextPath}/views/template/user/img/normal-breadcrumb.jpg">
+         data-setbg="${pageContext.request.contextPath}/views/template/user/img/login-banner.jpg">
     <div class="container">
         <div class="row">
             <div class="col-lg-12 text-center">
                 <div class="normal__breadcrumb__text">
                     <h2>Đăng Nhập</h2>
-                    <p>Chào mừng bạn đến với website chính thức của XXX</p>
+                    <p>Chào mừng bạn đến với website chính thức của MOVIE X</p>
                 </div>
             </div>
         </div>
@@ -37,25 +37,23 @@
         <div class="row">
             <div class="col-lg-6">
                 <div class="login__form">
-                    <h3>Đăng Nhập</h3>
+                    <h3>Đăng nhập</h3>
                     <form onsubmit="return validateLoginForm()" action="${initParam['mvcPath']}/login"
                           method="POST">
                         <div class="input__item">
-                            <input type="text" name="email" placeholder="Email" /> <span
-                                class="icon_mail"></span>
+                            <input type="text" name="email" placeholder="Tên đăng nhập"/>
                         </div>
                         <div class="input__item">
                             <input type="password" name="password" placeholder="Mật khẩu">
-                            <span class="icon_lock"></span>
                         </div>
-                        <button type="submit" class="site-btn">Đăng Nhập Ngay</button>
+                        <button type="submit" class="site-btn">Đăng nhập ngay</button>
                     </form>
                     <a href="${initParam['mvcPath']}/password/forgot" class="forget_pass">Quên mật khẩu ?</a>
                 </div>
             </div>
             <div class="col-lg-6">
                 <div class="login__register">
-                    <h3>Bạn chưa có tài khoản ?</h3>
+                    <h3>Chưa có tài khoản ?</h3>
                     <a href="${initParam['mvcPath']}/register" class="primary-btn">Đăng ký ngay</a>
                 </div>
             </div>
@@ -66,15 +64,14 @@
                     <div class="login__social__links">
                         <span>Hoặc</span>
                         <ul>
-                            <li><a href="#" class="facebook"><i
-                                    class="fa fa-facebook"></i> Đăng nhập với Facebook</a></li>
+                            <li><a href="#" class="facebook"><i class="fa-brands fa-facebook-f"></i> Đăng nhập với
+                                Facebook</a></li>
                             <li><a
-                                    href="https://accounts.google.com/o/oauth2/auth?scope=email&redirect_uri=http://localhost:8080/BackEnd/login&response_type=code
-    &client_id=794386492125-ihgk5oo0mg850vefp61rctp97m3pede9.apps.googleusercontent.com&approval_prompt=force"
-                                    class="google"><i class="fa fa-google"></i> Đăng nhập với
+                                    href="#"
+                                    class="google"><i class="fa-brands fa-google"></i> Đăng nhập với
                                 Google</a></li>
-                            <li><a href="#" class="twitter"><i
-                                    class="fa fa-twitter"></i> Đăng nhập với Twitter</a></li>
+                            <li><a href="#" class="twitter"><i class="fa-brands fa-twitter"></i> Đăng nhập với
+                                Twitter</a></li>
                         </ul>
                     </div>
                 </div>
@@ -86,38 +83,58 @@
 
 <%@ include file="/views/common/footer.jsp" %>
 
-<%
-    Boolean changePassSuccess = (Boolean) session.getAttribute("changePassSuccess");
+<c:if test="${not empty sessionScope.changePassSuccess}">
+    <c:if test="${sessionScope.changePassSuccess}">
+        <script>
+            showCenterAlert('success', 'Thành Công !', 'Lấy lại mật khẩu thành công !');
+        </script>
+    </c:if>
 
-    if (changePassSuccess != null) {
-        if (changePassSuccess) {
-%>
-<script>
-    showCenterAlert('success', 'Thành Công !',
-        'Lấy lại mật khẩu thành công !');
-</script>
-<%
+    <%-- Remove the attribute after displaying the message --%>
+    <c:remove var="changePassSuccess" scope="session"/>
+</c:if>
+
+<%-- Remove the "otp" attribute --%>
+<c:remove var="otp" scope="session"/>
+
+
+<c:if test="${not empty sessionScope.newPassSuccess}">
+    <c:if test="${sessionScope.newPassSuccess}">
+        <script>
+            showCenterAlert('success', 'Thành Công', 'Thay đổi mật khẩu thành công');
+        </script>
+    </c:if>
+
+    <%-- Remove the attribute after displaying the message --%>
+    <c:remove var="newPassSuccess" scope="session"/>
+</c:if>
+
+<script type="text/javascript">
+    function validateLoginForm() {
+        const emailRegex = /\b[\w.%-]+@[-.\w]+\.[A-Za-z]{2,4}\b/;
+        const PASSWORD_LENGTH = 6;
+
+        const email = document.getElementsByName("email")[0].value;
+        const password = document.getElementsByName("password")[0].value;
+
+        if (!email) {
+            showSwalAlert('error', 'Vui lòng nhập địa chỉ Email !');
+            return false;
         }
-        session.removeAttribute("changePassSuccess");
-    }
-
-    session.removeAttribute("otp");
-%>
-
-<%
-    Boolean newPassSuccess = (Boolean) session.getAttribute("newPassSuccess");
-
-    if (newPassSuccess != null) {
-        if (newPassSuccess) {
-%>
-<script>
-    showCenterAlert('success', 'Thành Công !',
-        'Thay đổi mật khẩu thành công !');
-</script>
-<%
+        if (!emailRegex.test(email)) {
+            showSwalAlert('error', 'Địa chỉ Email không đúng định dạng !');
+            return false;
         }
-        session.removeAttribute("newPassSuccess");
+        if (!password) {
+            showSwalAlert('error', 'Vui lòng nhập mật khẩu !');
+            return false;
+        }
+        if (password.length < PASSWORD_LENGTH) {
+            showSwalAlert('error', 'Mật khẩu phải có ít nhất 6 ký tự !');
+            return false;
+        }
+        return true;
     }
-%>
+</script>
 </body>
 </html>

@@ -11,7 +11,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>FilmViet | 505</title>
+    <title>${initParam['website-name']} | 505</title>
     <link rel="icon" href="${pageContext.request.contextPath}/views/error-pages/error.png" type="image/x-icon">
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"

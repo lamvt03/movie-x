@@ -5,9 +5,9 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.filmweb</groupId>
-    <artifactId>FilmWeb</artifactId>
+    <artifactId>movie-x</artifactId>
     <version>1.0</version>
-    <name>FilmWeb</name>
+    <name>MovieX</name>
     <packaging>war</packaging>
 
     <properties>
@@ -73,24 +73,15 @@
         </dependency>
 <!--        cdi: end -->
 
-        <!--        <dependency>-->
-<!--            <groupId>jakarta.security.enterprise</groupId>-->
-<!--            <artifactId>jakarta.security.enterprise-api</artifactId>-->
-<!--            <version>2.0.0</version>-->
-<!--            <scope>provided</scope>-->
-<!--        </dependency>-->
+<!--        lombok -->
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
             <version>${lombok.version}</version>
             <scope>provided</scope>
         </dependency>
-<!--        <dependency>-->
-<!--            <groupId>jakarta.servlet</groupId>-->
-<!--            <artifactId>jakarta.servlet-api</artifactId>-->
-<!--            <version>${servlet.api.version}</version>-->
-<!--            <scope>provided</scope>-->
-<!--        </dependency>-->
+
+<!--        servlet, jsp, jstl -->
         <dependency>
             <groupId>jakarta.servlet.jsp.jstl</groupId>
             <artifactId>jakarta.servlet.jsp.jstl-api</artifactId>
@@ -102,12 +93,15 @@
             <version>3.0.0</version>
             <scope>provided</scope>
         </dependency>
+
+<!--        send mail -->
         <dependency>
             <groupId>com.sun.mail</groupId>
             <artifactId>jakarta.mail</artifactId>
             <version>2.0.0</version>
         </dependency>
 
+<!--        orm -->
         <dependency>
             <groupId>com.microsoft.sqlserver</groupId>
             <artifactId>mssql-jdbc</artifactId>
@@ -120,6 +114,7 @@
             <type>pom</type>
         </dependency>
 
+<!--        hash password -->
         <dependency>
             <groupId>at.favre.lib</groupId>
             <artifactId>bcrypt</artifactId>

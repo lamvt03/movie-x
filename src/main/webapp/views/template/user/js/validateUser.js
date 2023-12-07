@@ -28,31 +28,7 @@ function showCenterAlert(icon, title, message) {
 }
 
 // validate form login
-function validateLoginForm() {
-    const emailRegex = /\b[\w.%-]+@[-.\w]+\.[A-Za-z]{2,4}\b/;
-    const PASSWORD_LENGTH = 6;
 
-    const email = document.getElementsByName("email")[0].value;
-    const password = document.getElementsByName("pass")[0].value;
-
-    if (!email) {
-        showSwalAlert('error', 'Vui lòng nhập địa chỉ Email !');
-        return false;
-    }
-    if (!emailRegex.test(email)) {
-        showSwalAlert('error', 'Địa chỉ Email không đúng định dạng !');
-        return false;
-    }
-    if (!password) {
-        showSwalAlert('error', 'Vui lòng nhập mật khẩu !');
-        return false;
-    }
-    if (password.length < PASSWORD_LENGTH) {
-        showSwalAlert('error', 'Mật khẩu phải có ít nhất 6 ký tự !');
-        return false;
-    }
-    return true;
-}
 
 
 // validate register form
@@ -68,55 +44,55 @@ function validateRegisterForm() {
     const passConfirm = document.getElementsByName("passwordConfirm")[0].value;
 
     if (!email) {
-        showSwalAlert('error', 'Vui lòng nhập địa chỉ Email !');
+        showSwalAlert('error', 'Vui lòng nhập địa chỉ Email');
         return false;
     }
     if (!emailRegex.test(email)) {
-        showSwalAlert('error', 'Địa chỉ Email không đúng định dạng !');
+        showSwalAlert('error', 'Địa chỉ Email không đúng định dạng');
         return false;
     }
     if (!fullname) {
-        showSwalAlert('error', 'Vui lòng nhập họ và tên !');
+        showSwalAlert('error', 'Vui lòng nhập họ và tên');
         return false;
     }
     if (fullname.length < 12) {
-        showSwalAlert('error', 'Họ tên không hợp lệ !');
+        showSwalAlert('error', 'Họ tên không hợp lệ');
         return false;
     }
     if (!nameRegex.test(fullname)) {
-        showSwalAlert('error', 'Họ và tên không đúng định dạng Việt Nam !');
+        showSwalAlert('error', 'Họ và tên không đúng định dạng Việt Nam');
         return false;
     }
     if (!phone) {
-        showSwalAlert('error', 'Vui lòng nhập số điện thoại !');
+        showSwalAlert('error', 'Vui lòng nhập số điện thoại');
         return false;
     }
     if (!phoneRegex.test(phone)) {
-        showSwalAlert('error', 'Số điện thoại không đúng định dạng Việt Nam !');
+        showSwalAlert('error', 'Số điện thoại không đúng định dạng Việt Nam');
         return false;
     }
     if (!password) {
-        showSwalAlert('error', 'Vui lòng nhập mật khẩu !');
+        showSwalAlert('error', 'Vui lòng nhập mật khẩu');
         return false;
     }
     if (password.length < 6) {
-        showSwalAlert('error', 'Mật khẩu phải có ít nhất 6 ký tự !');
+        showSwalAlert('error', 'Mật khẩu phải có ít nhất 6 ký tự');
         return false;
     }
     if (!passConfirm) {
-        showSwalAlert('error', 'Vui lòng nhập lại mật khẩu !');
+        showSwalAlert('error', 'Vui lòng nhập lại mật khẩu');
         return false;
     }
     if (password !== passConfirm) {
-        showSwalAlert('error', 'Nhập lại mật khẩu không khớp !');
+        showSwalAlert('error', 'Nhập lại mật khẩu không khớp');
         return false;
     }
 
     document.getElementById("submitRegister").disabled = true;
 
     Swal.fire({
-        title: 'Cảnh Báo !',
-        text: "Bạn có chắc chắn đăng kí tài khoản không ?",
+        title: 'Xác nhận',
+        text: "Bạn có chắc chắn đăng ký tài khoản hay không ?",
         icon: 'warning',
         showCancelButton: true,
         confirmButtonColor: '#3085d6',

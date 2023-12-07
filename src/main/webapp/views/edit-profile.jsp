@@ -17,7 +17,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Chỉnh Sửa Trang Cá Nhân</title>
+    <title>${initParam['website-name']} - Chỉnh Sửa Trang Cá Nhân</title>
     <%@ include file="/views/common/head.jsp" %>
     <link rel="stylesheet"
           href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
@@ -27,13 +27,13 @@
 
 <!-- Normal Breadcrumb Begin -->
 <section class="normal-breadcrumb set-bg"
-         data-setbg="${pageContext.request.contextPath}/views/template/user/img/normal-breadcrumb.jpg">
+         data-setbg="${pageContext.request.contextPath}/views/template/user/img/login-banner.png">
     <div class="container">
         <div class="row">
             <div class="col-lg-12 text-center">
                 <div class="normal__breadcrumb__text">
-                    <h2>Trang Cá Nhân</h2>
-                    <p>Chào Mừng Bạn Đến Blog Chính Thức Của FilmViet.</p>
+                    <h2>Trang cá nhân</h2>
+                    <p>Chào mừng bạn đến với website chính thức của MOVIE W3B</p>
                 </div>
             </div>
         </div>
@@ -50,28 +50,11 @@
 
             <div class="img-profile">
 
-                <img src="${pageContext.request.contextPath}/views/template/user/img/profile-logo.png"
+                <img src="${pageContext.request.contextPath}/views/template/user/img/default-avt.jpg"
                      class="img-fluid rounded-top" width="60%">
 
             </div>
 
-<%--            <div class="link-profile">--%>
-
-<%--                <h6 class="text-secondary font-weight-bold">WORD LINK</h6>--%>
-<%--                <h6 class="text-dark mt-4 font-weight-bold mb-2">Website Link</h6>--%>
-<%--                <h6 class="text-dark font-weight-bold mb-2">Bootsnipp Profile</h6>--%>
-<%--                <h6 class="text-dark font-weight-bold mb-2">Bootply Profile</h6>--%>
-
-<%--                <h6 class="text-secondary mt-4 font-weight-bold">SKILLS</h6>--%>
-<%--                <h6 class="text-dark mt-4 font-weight-bold mb-2">Web Designer</h6>--%>
-<%--                <h6 class="text-dark font-weight-bold mb-2">Web Developer</h6>--%>
-<%--                <h6 class="text-dark font-weight-bold mb-2">WordPress</h6>--%>
-<%--                <h6 class="text-dark font-weight-bold mb-2">WooCommere</h6>--%>
-<%--                <h6 class="text-dark font-weight-bold mb-2">PHP.Net</h6>--%>
-<%--                <h6 class="text-dark font-weight-bold mb-2">XARM</h6>--%>
-<%--                <h6 class="text-dark font-weight-bold mb-2">SQL Server</h6>--%>
-
-<%--            </div>--%>
 
         </div>
 
@@ -84,8 +67,9 @@
                     <div class="col-6 col-md-8 col-lg-9">
 
 							<span> <a href="${initParam['mvcPath']}/profile"
-                                      class="text-info fs-6 text-decoration-none font-weight-bold ">
-									<i class="bi bi-chevron-left text-dard"></i> Quay về
+                                      style="color: #D14A2D;"
+                                      class="fs-6 text-decoration-none font-weight-bold ">
+									<i class="bi bi-chevron-left"></i> Quay về
 							</a>
 							</span>
 
@@ -93,8 +77,8 @@
 
                     <div class="col-6 col-md-4 col-lg-3">
 
-							<span> <a href="${initParam['mvcPath']}/password/change"
-                                      class="text-info fs-6 text-decoration-none font-weight-bold">
+							<span> <a style="color: #D14A2D;" href="${initParam['mvcPath']}/password/change"
+                                      class="fs-6 text-decoration-none font-weight-bold">
 									Đổi mật khẩu </a>
 							</span>
 

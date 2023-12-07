@@ -15,13 +15,11 @@
       rel="stylesheet">
 
 <!-- Css Styles -->
-<%--<link rel="stylesheet" href="sweetalert2.min.css">--%>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" type="text/css">
-<%--<link rel="stylesheet" href="${pageContext.request.contextPath}/views/template/user/css/fontawesome.min.css" type="text/css">--%>
+<link rel="stylesheet" href="${pageContext.request.contextPath}/views/template/user/css/fontawesome.all.min.css" type="text/css">
 <link rel="stylesheet" href="${pageContext.request.contextPath}/views/template/user/css/bootstrap.min.css" type="text/css">
-<link rel="stylesheet" href="${pageContext.request.contextPath}/views/template/user/css/elegant-icons.css" type="text/css">
 <link rel="stylesheet" href="${pageContext.request.contextPath}/views/template/user/css/plyr.css" type="text/css">
 <link rel="stylesheet" href="${pageContext.request.contextPath}/views/template/user/css/nice-select.css" type="text/css">
 <link rel="stylesheet" href="${pageContext.request.contextPath}/views/template/user/css/owl.carousel.min.css" type="text/css">
 <link rel="stylesheet" href="${pageContext.request.contextPath}/views/template/user/css/slicknav.min.css" type="text/css">
 <link rel="stylesheet" href="${pageContext.request.contextPath}/views/template/user/css/style.css" type="text/css">
+

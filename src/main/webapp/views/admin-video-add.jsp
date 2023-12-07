@@ -12,7 +12,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Thêm phim mới</title>
+    <title>Administrator - Thêm phim mới</title>
 
     <%@ include file="/views/admin/common/head.jsp"%>
 </head>

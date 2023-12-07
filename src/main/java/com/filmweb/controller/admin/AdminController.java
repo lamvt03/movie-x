@@ -21,13 +21,13 @@ public class AdminController {
     private HttpSession session;
 
     @GET
-    @Path("")
+    @Path("/")
     public String getLogin(){
         return "admin-login.jsp";
     }
 
     @POST
-    @Path("")
+    @Path("/")
     public String postLogin(
             @FormParam("username") String username,
             @FormParam("password") String password

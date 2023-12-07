@@ -11,7 +11,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Đăng Ký</title>
+    <title>${initParam['website-name']} - Đăng Ký</title>
     <%@ include file="/views/common/head.jsp" %>
 </head>
 <body>
@@ -19,12 +19,13 @@
 
 <!-- Normal Breadcrumb Begin -->
 <section class="normal-breadcrumb set-bg"
-         data-setbg="views/template/user/img/normal-breadcrumb.jpg">
+         data-setbg="${pageContext.request.contextPath}/views/template/user/img/login-banner.png">
     <div class="container">
         <div class="row">
             <div class="col-lg-12 text-center">
                 <div class="normal__breadcrumb__text">
-                    <h2>Đăng kí</h2>
+                    <h2>Đăng Ký</h2>
+                    <p>Chào mừng bạn đến với website chính thức của MOVIE W3B</p>
                 </div>
             </div>
         </div>
@@ -67,7 +68,7 @@
                         </button>
                     </form>
                     <h5>
-                        Bạn có chắn chắc tạo tài khoản ? <a href="${initParam['mvcPath']}/login">Đăng nhập !</a>
+                        Bạn đã có tài khoản ? <a href="${initParam['mvcPath']}/login">Đăng nhập ngay</a>
                     </h5>
                 </div>
             </div>
@@ -75,14 +76,12 @@
                 <div class="login__social__links">
                     <h3>Đăng nhập với:</h3>
                     <ul>
-                        <li><a href="#" class="facebook"><i
-                                class="fa fa-facebook"></i> Đăng nhập với Facebook</a></li>
+                        <li><a href="#" class="facebook"><i class="fa-brands fa-facebook-f"></i> Đăng nhập với Facebook</a></li>
                         <li><a
-                                href="https://accounts.google.com/o/oauth2/auth?scope=email&redirect_uri=http://localhost:8080/BackEnd/login&response_type=code
-    &client_id=794386492125-ihgk5oo0mg850vefp61rctp97m3pede9.apps.googleusercontent.com&approval_prompt=force"
-                                class="google"><i class="fa fa-google"></i> Đăng nhập với
+                                href="#"
+                                class="google"><i class="fa-brands fa-google"></i> Đăng nhập với
                             Google</a></li>
-                        <li><a href="#" class="twitter"><i class="fa fa-twitter"></i>
+                        <li><a href="#" class="twitter"><i class="fa-brands fa-twitter"></i>
                             Đăng nhập với Twitter</a></li>
                     </ul>
                 </div>

@@ -36,10 +36,10 @@ public class VideoServiceImpl implements VideoService {
 
     @Override
     public List<VideoDto> findAll(int page, int limit) {
-        List<VideoDto> videos = videoDao.findAll().stream()
+        List<Video> videos = videoDao.findAll(page, limit);
+        return videos.stream()
                 .map(videoMapper::toDto)
                 .toList();
-        return videos;
     }
 
     @Override

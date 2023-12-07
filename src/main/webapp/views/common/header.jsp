@@ -28,33 +28,27 @@
                                     Trang Chủ
                                 </a>
                             </li>
-                            <li><a href="categories"><i
-                                    class="fa-sharp fa-solid fa-bars"></i> Thể Loại <span
-                                    class="arrow_carrot-down"></span></a>
+                            <li><a href="${initParam['mvcPath']}/category"><i
+                                    class="fa-sharp fa-solid fa-bars"></i> Thể Loại <i class="fa-solid fa-angle-down"></i></a>
                                 <ul class="dropdown">
-                                    <li><a href="#">Phim Chiếu Rạp</a></li>
-                                    <li><a href="#">Phim Việt Nam</a></li>
                                     <li><a href="#">Phim hành động</a></li>
-                                    <li><a href="#">Phim gia đình</a></li>
-                                    <li><a href="#">Phim hài hước</a></li>
-                                    <li><a href="#">Phim kinh dị</a></li>
-                                    <li><a href="#">Phim chiến tranh</a></li>
-                                    <li><a href="#">Phim phiêu lưu</a></li>
-                                    <li><a href="#">Phim tình cảm</a></li>
+                                    <li><a href="#">Phim viễn tưởng</a></li>
                                     <li><a href="#">Phim tâm lý</a></li>
-                                    <li><a href="#">Phim tài liệu</a></li>
-                                    <li><a href="#">Phim thần thoại</a></li>
+                                    <li><a href="#">Phim kinh dị</a></li>
+                                    <li><a href="#">Phim cổ trang</a></li>
+                                    <li><a href="#">Phim tâm lý</a></li>
                                 </ul>
                             </li>
-                            <li><a href="${initParam['mvcPath']}/about"><span class="icon_info"></span>
-                                Giới Thiệu</a></li>
-                            <li><a style="cursor: pointer;" class="search-switch"><span
-                                    class="icon_search"></span> Tìm Kiếm</a></li>
+                            <li><a href="${initParam['mvcPath']}/about">
+                                <i class="fa-solid fa-circle-info"></i>
+                                Giới Thiệu</a>
+                            </li>
+                            <li><a style="cursor: pointer;" class="search-switch"><i
+                                    class="fa-solid fa-magnifying-glass"></i> Tìm Kiếm</a></li>
                             <c:choose>
                                 <c:when test="${not empty sessionScope.currentUser}">
                                     <li><a href="#"> <span class="wave">👋</span> Xin chào
-                                        ! ${sessionScope.currentUser.fullName} <span
-                                                class="arrow_carrot-down"></span>
+                                        ! ${sessionScope.currentUser.fullName} <i class="fa-solid fa-angle-down"></i>
                                     </a>
                                         <ul class="dropdown">
                                             <li><a href="${initParam['mvcPath']}/profile">Trang cá nhân</a></li>

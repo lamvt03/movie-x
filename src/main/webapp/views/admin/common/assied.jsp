@@ -72,11 +72,6 @@
 					</span> <span class="hide-menu">Người dùng yêu thích</span>
 				</a></li>
 
-				<li class="sidebar-item"><a class="sidebar-link"
-					href="usershare" aria-expanded="false"> <span> <i
-							class="ti ti-share"></i>
-					</span> <span class="hide-menu">Lọc người dùng gửi & nhận</span>
-				</a></li>
 
 				<li class="sidebar-item"><a class="sidebar-link"
 					href="doanhthu" aria-expanded="false"> <span> <i

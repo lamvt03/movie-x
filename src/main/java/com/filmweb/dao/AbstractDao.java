@@ -4,6 +4,7 @@ import com.filmweb.util.JPAUtil;
 import jakarta.inject.Inject;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.Query;
+import jakarta.persistence.StoredProcedureQuery;
 import jakarta.persistence.TypedQuery;
 
 import java.util.List;
@@ -246,26 +247,5 @@ public class AbstractDao<T> {
             entityManager.close();
         }
     }
-
-//    public List<Object[]> findManyByNativeQuery(String jpql, Object... params) {
-//        EntityManager entityManager = JPAUtil.getEntityManager();
-//        try {
-//            Query query = entityManager.createNativeQuery(jpql);
-//            for (int i = 0; i < params.length; i++) {
-//                query.setParameter(i, params[i]);
-//            }
-//            return query.getResultList();
-//        } finally {
-//            entityManager.close();
-//        }
-//    }
-
-
-//    public List<T> callStored(String namedStored, Map<String, Object> params) {
-//        EntityManager entityManager = jpaUtil.getEntityManager();
-//        StoredProcedureQuery query = entityManager.createNamedStoredProcedureQuery(namedStored);
-//        params.forEach((key, value) -> query.setParameter(key, value));
-//        return (List<T>) query.getResultList();
-//    }
 
 }

@@ -12,7 +12,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Danh Sách Video ngưng công chiếu</title>
+    <title>Administrator - Danh Sách Video ngưng công chiếu</title>
 
     <%@ include file="/views/admin/common/head.jsp"%>
 </head>
