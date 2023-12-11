@@ -1,7 +1,9 @@
 package com.filmweb.service.impl;
 
+import com.filmweb.dao.CategoryDao;
 import com.filmweb.dao.VideoDao;
 import com.filmweb.dto.VideoDto;
+import com.filmweb.entity.Category;
 import com.filmweb.entity.Video;
 import com.filmweb.mapper.VideoMapper;
 import com.filmweb.service.VideoService;
@@ -17,11 +19,13 @@ import java.util.List;
 public class VideoServiceImpl implements VideoService {
 
     @Inject
-    VideoDao videoDao;
-
+    private VideoDao videoDao;
 
     @Inject
-    VideoMapper videoMapper;
+    private CategoryDao categoryDao;
+
+    @Inject
+    private VideoMapper videoMapper;
 
     @Override
     public VideoDto findByHref(String href) {
@@ -30,8 +34,11 @@ public class VideoServiceImpl implements VideoService {
     }
 
     @Override
-    public List<Video> findTrending(int limit) {
-        return videoDao.findTrending(limit);
+    public List<VideoDto> findTrending(int limit) {
+        List<Video> trendingVideos = videoDao.findTrending(limit);
+        return trendingVideos.stream()
+                .map(videoMapper::toDto)
+                .toList();
     }
 
     @Override
@@ -68,8 +75,9 @@ public class VideoServiceImpl implements VideoService {
     }
 
     @Override
-    public VideoDto create(String title, String href, String poster, String director, String actor, String category, String description, String formattedPrice, String content) {
+    public VideoDto create(String title, String href, String poster, String director, String actor, String categoryCode, String description, String formattedPrice, String content) {
         Long price = Long.parseLong(formattedPrice.replace(".", ""));
+        Category category = categoryDao.findByCode(categoryCode);
         Video video = videoDao.create(
                 Video.builder()
                         .title(title)
@@ -91,8 +99,9 @@ public class VideoServiceImpl implements VideoService {
     }
 
     @Override
-    public VideoDto update(String title, String href, String director, String actor, String category, String heading, String formattedPrice, String description) {
+    public VideoDto update(String title, String href, String director, String actor, String categoryCode, String heading, String formattedPrice, String description) {
         Video video = videoDao.findByHref(href);
+        Category category = categoryDao.findByCode(categoryCode);
         video.setTitle(title);
         video.setDirector(director);
         video.setActor(actor);
@@ -131,5 +140,13 @@ public class VideoServiceImpl implements VideoService {
             result.add(videos.get(i));
         }
         return result;
+    }
+
+    @Override
+    public List<VideoDto> findByCategoryCode(String code) {
+        List<Video> videos = videoDao.findByCategoryCode(code);
+        return videos.stream()
+                .map(videoMapper::toDto)
+                .toList();
     }
 }

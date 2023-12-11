@@ -21,6 +21,7 @@ import jakarta.persistence.EntityManager;
 import jakarta.servlet.http.HttpSession;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.Path;
+import jakarta.ws.rs.PathParam;
 import jakarta.ws.rs.QueryParam;
 
 import java.util.List;
@@ -50,9 +51,8 @@ public class HomeController {
     @Path("home")
     public String getHome(
             @QueryParam("page") Integer page
-//            @QueryParam("limit") Integer limit
     ) {
-        List<Video> trendingVideos = videoService.findTrending(4);
+        List<VideoDto> trendingVideos = videoService.findTrending(4);
         models.put("trendingVideos", trendingVideos);
 
         long totalVideo = videoService.count();
@@ -68,6 +68,18 @@ public class HomeController {
         List<VideoDto> videos = videoService.findAll(currentPage, AppConstant.PAGE_LIMIT);
         models.put("videos", videos);
         return "home.jsp";
+    }
+
+    @GET
+    @Path("{category}")
+    public String getVideosByCategory(
+            @PathParam("category") String categoryCode
+    ){
+        List<VideoDto> videos = videoService.findByCategoryCode(categoryCode);
+        String category = videos.get(0).getCategory();
+        models.put("videos",videos);
+        models.put("category", category);
+        return "video-category.jsp";
     }
 
     @GET

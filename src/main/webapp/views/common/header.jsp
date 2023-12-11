@@ -28,15 +28,16 @@
                                     Trang Chủ
                                 </a>
                             </li>
-                            <li><a href="${initParam['mvcPath']}/category"><i
-                                    class="fa-sharp fa-solid fa-bars"></i> Thể Loại <i class="fa-solid fa-angle-down"></i></a>
+                            <li>
+                                <a href="#">
+                                    <i class="fa-sharp fa-solid fa-bars"></i> Thể Loại <i class="fa-solid fa-angle-down"></i>
+                                </a>
                                 <ul class="dropdown">
-                                    <li><a href="#">Phim hành động</a></li>
-                                    <li><a href="#">Phim viễn tưởng</a></li>
-                                    <li><a href="#">Phim tâm lý</a></li>
-                                    <li><a href="#">Phim kinh dị</a></li>
-                                    <li><a href="#">Phim cổ trang</a></li>
-                                    <li><a href="#">Phim tâm lý</a></li>
+                                    <li><a href="${initParam['mvcPath']}/phim-hanh-dong">Phim hành động</a></li>
+                                    <li><a href="${initParam['mvcPath']}/phim-vien-tuong">Phim viễn tưởng</a></li>
+                                    <li><a href="${initParam['mvcPath']}/phim-co-trang">Phim cổ trang</a></li>
+                                    <li><a href="${initParam['mvcPath']}/phim-kinh-di">Phim kinh dị</a></li>
+                                    <li><a href="${initParam['mvcPath']}/phim-tam-ly">Phim tâm lý</a></li>
                                 </ul>
                             </li>
                             <li><a href="${initParam['mvcPath']}/about">

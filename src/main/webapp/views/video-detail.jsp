@@ -7,13 +7,6 @@
 --%>
 <jsp:useBean id="video" scope="request" type="com.filmweb.dto.VideoDto"/>
 <jsp:useBean id="comments" scope="request" type="java.util.List"/>
-<%--<jsp:useBean id="order" scope="request" type="com.filmweb.entity.Order"/>--%>
-<%--<jsp:useBean id="checkedAttribute5" scope="request" type="java.lang.String"/>--%>
-<%--<jsp:useBean id="checkedAttribute4" scope="request" type="java.lang.String"/>--%>
-<%--<jsp:useBean id="checkedAttribute3" scope="request" type="java.lang.String"/>--%>
-<%--<jsp:useBean id="checkedAttribute2" scope="request" type="java.lang.String"/>--%>
-<%--<jsp:useBean id="checkedAttribute1" scope="request" type="java.lang.String"/>--%>
-<%--<jsp:useBean id="flagLikeButton" scope="request" type="java.lang.Boolean"/>--%>
 
 
 <%@ page contentType="text/html; charset=UTF-8" language="java" %>

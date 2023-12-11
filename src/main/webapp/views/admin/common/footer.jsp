@@ -2,7 +2,6 @@
          pageEncoding="UTF-8" %>
 <%@ include file="/views/common/taglib.jsp"%>
 
-<%--<script src="sweetalert2.min.js"></script>--%>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script src="${pageContext.request.contextPath}/views/template/user/js/jquery-3.3.1.min.js"></script>
 <script src="${pageContext.request.contextPath}/views/admin/assets/libs/bootstrap/dist/js/bootstrap.bundle.min.js"></script>

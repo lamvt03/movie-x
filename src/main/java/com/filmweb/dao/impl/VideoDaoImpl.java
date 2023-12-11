@@ -60,4 +60,10 @@ public class VideoDaoImpl extends AbstractDao<Video> implements VideoDao {
                 + " ORDER BY v.createdAt DESC";
         return super.findMany(Video.class, jpql, "%" + keyword + "%");
     }
+
+    @Override
+    public List<Video> findByCategoryCode(String categoryCode) {
+        String jpql = "SELECT v FROM Video v JOIN v.category c WHERE v.isActive  = 1 AND c.code = ?1";
+        return super.findMany(Video.class, jpql, categoryCode);
+    }
 }

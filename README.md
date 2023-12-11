@@ -1,1 +1,1 @@
-Jakarte EE 9, Hibernate 6, SQL Server 2016
+Used Technologies: Jakarta EE 9.1, Hibernate 6, SQL Server 2016

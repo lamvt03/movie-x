@@ -34,6 +34,7 @@ public class VideoDto {
     private String actor;
 
     private String category;
+    private String categoryCode;
 
     private String description;
 

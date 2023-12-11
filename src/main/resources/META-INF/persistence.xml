@@ -11,6 +11,7 @@
         <class>com.filmweb.entity.Share</class>
         <class>com.filmweb.entity.User</class>
         <class>com.filmweb.entity.Video</class>
+        <class>com.filmweb.entity.Category</class>
         <exclude-unlisted-classes>true</exclude-unlisted-classes>
         <properties>
             <property name="jakarta.persistence.jdbc.driver" value="com.microsoft.sqlserver.jdbc.SQLServerDriver" />

@@ -114,7 +114,7 @@ function editVideo() {
 // cofirm xoá video
 function deleteVideo(href) {
 	Swal.fire({
-		title: 'Cảnh Báo !',
+		title: 'Cảnh Báo',
 		text: "Bạn có chắc chắn ngưng công chiếu phim không ?",
 		icon: 'warning',
 		showCancelButton: true,

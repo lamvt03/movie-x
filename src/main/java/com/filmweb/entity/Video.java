@@ -39,8 +39,9 @@ public class Video {
     @Column(columnDefinition = "nvarchar(max)")
     private String actor;
 
-    @Column(columnDefinition = "nvarchar(max)")
-    private String category;
+    @ManyToOne
+    @JoinColumn(name = "categoryId", referencedColumnName = "id")
+    private Category category;
 
     @Column(columnDefinition = "ntext")
     private String description;
@@ -60,4 +61,6 @@ public class Video {
 
     @OneToMany(mappedBy = "video", fetch = FetchType.LAZY)
     private List<History> histories;
+
+
 }

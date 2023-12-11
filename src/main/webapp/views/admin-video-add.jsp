@@ -6,7 +6,7 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html; charset=UTF-8" language="java" %>
-<%@ include file="/views/common/taglib.jsp"%>
+<%@ include file="/views/common/taglib.jsp" %>
 
 <html>
 <head>
@@ -14,7 +14,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Administrator - Thêm phim mới</title>
 
-    <%@ include file="/views/admin/common/head.jsp"%>
+    <%@ include file="/views/admin/common/head.jsp" %>
 </head>
 <body>
 <!--  Body Wrapper -->
@@ -23,14 +23,14 @@
      data-sidebar-position="fixed" data-header-position="fixed">
 
     <!-- Sidebar Start -->
-    <%@ include file="/views/admin/common/assied.jsp"%>
+    <%@ include file="/views/admin/common/assied.jsp" %>
     <!--  Sidebar End -->
 
     <!--  Main wrapper -->
     <div class="body-wrapper">
 
         <!--  Header Start -->
-        <%@ include file="/views/admin/common/header.jsp"%>
+        <%@ include file="/views/admin/common/header.jsp" %>
         <!--  Header End -->
 
         <div class="container-fluid">
@@ -63,9 +63,18 @@
                                         id="dien-vien" placeholder="Nhập tên diễn viên">
                                 </div>
                                 <div class="mb-3">
-                                    <label for="the-loai" class="form-label">Thể loại</label> <input
-                                        type="text" class="form-control" name="category"
-                                        id="the-loai" placeholder="Nhập thể loại phim">
+                                    <label for="category" class="form-label">Thể loại</label>
+                                    <select id="category" class="form-select" name="category">
+                                        <option value="none" selected disabled hidden>
+                                            --Chọn thể loại--
+                                        </option>
+
+                                        <jsp:useBean id="categories" scope="request" type="java.util.List"/>
+                                        <c:forEach items="${categories}" var="category">
+                                            <option value="${category.code}">${category.name}</option>
+                                        </c:forEach>
+                                    </select>
+
                                 </div>
                                 <div class="mb-3">
                                     <label for="mo-ta" class="form-label">Mô tả</label> <input
@@ -74,7 +83,9 @@
                                 </div>
                                 <div class="mb-3">
                                     <label class="form-label">Giá</label> <input type="text"
-                                                                                 class="form-control" oninput="formatPrice(this)" name="price"
+                                                                                 class="form-control"
+                                                                                 oninput="formatPrice(this)"
+                                                                                 name="price"
                                                                                  placeholder="Nhập giá phim">
                                 </div>
                                 <div class="mb-3">
@@ -100,7 +111,7 @@
     </div>
 </div>
 
-<%@ include file="/views/admin/common/footer.jsp"%>
+<%@ include file="/views/admin/common/footer.jsp" %>
 
 <script type="text/javascript">
     function fillHrefOnPoster() {

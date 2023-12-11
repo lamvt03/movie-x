@@ -49,7 +49,6 @@
                                         <th scope="col">Họ và tên</th>
                                         <th scope="col">Số điện thoại</th>
                                         <th scope="col">Vai trò</th>
-                                        <th scope="col">Hành động</th>
                                     </tr>
                                     </thead>
                                     <tbody>
@@ -66,24 +65,7 @@
                                                 <c:when test="${user.isAdmin}">Quản trị</c:when>
                                                 <c:otherwise>Người dùng</c:otherwise>
                                             </c:choose></td>
-                                            <td>
-                                                <c:choose>
-                                                    <c:when test="${user.isAdmin}"></c:when>
-                                                    <c:otherwise>
-                                                        <div class="btn-group" role="group">
-                                                            <button class="btn btn-primary ms-2 rounded-2"
-                                                                    onclick="GetUserId('${user.id}')">Sửa
-                                                            </button>
-                                                        </div>
-                                                    </c:otherwise>
-                                                </c:choose>
-                                            </td>
                                         </tr>
-
-
-                                        <form id="EditUserForm" action="edituser" method="get">
-                                            <input type="hidden" id="UserId" name="id">
-                                        </form>
 
                                     </c:forEach>
 
@@ -146,27 +128,5 @@
 
 <%@ include file="/views/admin/common/footer.jsp" %>
 
-<script type="text/javascript">
-    // lấy href	sử dụng cho edit user
-    function GetUserId(UserId) {
-        document.getElementById("UserId").value = UserId;
-        document.getElementById("EditUserForm").submit();
-    }
-</script>
-
-<%
-    Boolean EditMessage = (Boolean) session.getAttribute("EditMessage");
-    if (EditMessage != null) {
-        if (EditMessage) {
-%>
-<script>
-    showCenterAlert('error', 'Thất bại !',
-        'Không thể chỉnh sửa nhân viên quản trị !');
-</script>
-<%
-        }
-        session.removeAttribute("EditMessage");
-    }
-%>
 </body>
 </html>

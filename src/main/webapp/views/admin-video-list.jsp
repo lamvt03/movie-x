@@ -112,10 +112,6 @@
                                                                           name="href" value="${video.href}">
                                         </form>
 
-<%--                                        <form id="editForm" action="videoedit" method="get">--%>
-<%--                                            <input type="hidden" id="videoEditHref" name="href">--%>
-<%--                                        </form>--%>
-
                                     </c:forEach>
 
                                     </tbody>
@@ -174,64 +170,43 @@
 
 <%@ include file="/views/admin/common/footer.jsp" %>
 
-<%
-    Boolean addVideoSuccess = (Boolean) session.getAttribute("addVideoSuccess");
+<c:if test="${not empty sessionScope.addVideoSuccess}">
+    <c:choose>
+        <c:when test="${sessionScope.addVideoSuccess}">
+            <script>
+                showSwalAlert('success', 'Thêm video thành công');
+            </script>
+        </c:when>
+        <c:otherwise>
+            <script>
+                showCenterAlert('error', 'Thất Bại', 'Video đã tồn tại trong cơ sở dữ liệu');
+            </script>
+        </c:otherwise>
+    </c:choose>
+    <c:remove var="addVideoSuccess" scope="session"/>
+</c:if>
 
-    if (addVideoSuccess != null) {
-        if (addVideoSuccess) {
-%>
-<script>
-    showSwalAlert('success', 'Thêm video thành công !');
-</script>
-<%
-} else {
-%>
-<script>
-    showCenterAlert('error', 'Thất Bại !', 'Video đã tồn tại trong cơ sở dữ liệu !');
-</script>
-<%
-        }
-        session.removeAttribute("addVideoSuccess");
-    }
-%>
+<c:if test="${not empty sessionScope.updateVideoSuccess}">
+    <c:choose>
+        <c:when test="${sessionScope.updateVideoSuccess}">
+            <script>
+                showCenterAlert('success', 'Thông báo', 'Chỉnh sửa phim thành công');
+            </script>
+        </c:when>
+    </c:choose>
+    <c:remove var="updateVideoSuccess" scope="session"/>
+</c:if>
 
-<%
-    Boolean updateVideoSuccess = (Boolean) session.getAttribute("updateVideoSuccess");
+<c:if test="${not empty sessionScope.deleteVideoSuccess}">
+    <c:choose>
+        <c:when test="${sessionScope.deleteVideoSuccess}">
+            <script>
+                showSwalAlert('success', 'Xoá video thành công');
+            </script>
+        </c:when>
+    </c:choose>
+    <c:remove var="deleteVideoSuccess" scope="session"/>
+</c:if>
 
-    if (updateVideoSuccess != null) {
-        if (updateVideoSuccess) {
-%>
-<script>
-    showCenterAlert('success', 'Thông báo',
-        'Chỉnh sửa phim thành công');
-</script>
-<%
-        }
-        session.removeAttribute("updateVideoSuccess");
-    }
-%>
-
-<%
-    Boolean deleteVideoSuccess = (Boolean) session.getAttribute("deleteVideoSuccess");
-
-    if (deleteVideoSuccess != null) {
-        if (deleteVideoSuccess) {
-%>
-<script>
-    showSwalAlert('success', 'Xoá video thành công');
-</script>
-<%
-        }
-        session.removeAttribute("deleteVideoSuccess");
-    }
-%>
-
-<script type="text/javascript">
-    // lấy href	sử dụng cho edit video
-    function editVideoGetHref(href) {
-        document.getElementById("videoEditHref").value = href;
-        document.getElementById("editForm").submit();
-    }
-</script>
 </body>
 </html>

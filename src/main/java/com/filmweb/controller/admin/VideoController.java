@@ -2,6 +2,8 @@ package com.filmweb.controller.admin;
 
 import com.filmweb.constant.AppConstant;
 import com.filmweb.dto.VideoDto;
+import com.filmweb.entity.Category;
+import com.filmweb.service.CategoryService;
 import com.filmweb.service.VideoService;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
@@ -23,6 +25,9 @@ public class VideoController {
 
     @Inject
     private VideoService videoService;
+
+    @Inject
+    private CategoryService categoryService;
 
     @Inject
     private HttpSession session;
@@ -70,6 +75,8 @@ public class VideoController {
     @GET
     @Path("video/add")
     public String getVideoAdd() {
+        List<Category> categories = categoryService.findAll();
+        models.put("categories", categories);
         return "admin-video-add.jsp";
     }
 
@@ -81,7 +88,7 @@ public class VideoController {
             @FormParam("poster") String poster,
             @FormParam("director") String director,
             @FormParam("actor") String actor,
-            @FormParam("category") String category,
+            @FormParam("category") String categoryCode,
             @FormParam("description") String description,
             @FormParam("price") String formattedPrice,
             @FormParam("content") String content
@@ -89,16 +96,12 @@ public class VideoController {
         VideoDto video = videoService.findByHref(href);
 
         if (video == null) {
-            VideoDto videosCreate = videoService.create(title, href, poster, director, actor, category, description, formattedPrice, content);
-            if (videosCreate != null) {
-                session.setAttribute("addVideoSuccess", true);
-                return "redirect:admin/videos";
-            }
+            VideoDto videosCreate = videoService.create(title, href, poster, director, actor, categoryCode, description, formattedPrice, content);
+            session.setAttribute("addVideoSuccess", true);
         } else {
             session.setAttribute("addVideoSuccess", false);
-            return "redirect:admin/videos";
         }
-        return "admin-video-add.jsp";
+        return "redirect:admin/videos";
     }
 
     @GET
@@ -106,6 +109,9 @@ public class VideoController {
     public String getVideoEdit(
             @QueryParam("v") String href
     ) {
+        List<Category> categories = categoryService.findAll();
+        models.put("categories", categories);
+
         VideoDto videoDto = videoService.findByHref(href);
         long price = videoDto.getPrice();
         DecimalFormat decimalFormat = new DecimalFormat("#.###");

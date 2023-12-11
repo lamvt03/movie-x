@@ -374,8 +374,7 @@ ol {
 .header__menu ul li .dropdown {
     position: absolute;
     left: 0;
-    top: 82px;
-    width: 100%;
+    width: calc(100% + 40px);
     background: #ffffff;
     text-align: left;
     padding: 5px 0;
@@ -909,7 +908,9 @@ ol {
     margin-top: 0;
     border-radius: 0;
 }
-
+.product__page__content{
+    width: 100%;
+}
 .product__pagination .active {
     color: darkblue;
     background-color: white;

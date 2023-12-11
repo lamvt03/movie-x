@@ -66,9 +66,17 @@
                                         name="actor" id="dien-vien">
                                 </div>
                                 <div class="mb-3">
-                                    <label for="the-loai" class="form-label">Thể loại</label> <input
-                                        type="text" class="form-control" value="${video.category}"
-                                        name="category" id="the-loai">
+                                    <label for="category" class="form-label">Thể loại</label>
+                                    <select id="category" class="form-select" name="category">
+                                    <option value="${video.categoryCode}" selected hidden>
+                                        ${video.category}
+                                    </option>
+
+                                    <jsp:useBean id="categories" scope="request" type="java.util.List"/>
+                                    <c:forEach items="${categories}" var="category">
+                                        <option value="${category.code}">${category.name}</option>
+                                    </c:forEach>
+                                </select>
                                 </div>
                                 <div class="mb-3">
                                     <label for="mo-ta" class="form-label">Mô tả</label> <input

@@ -38,10 +38,10 @@
                                class="text-nowrap logo-img text-center d-block py-3 w-100">
                                 <img
                                         src="${pageContext.request.contextPath}/views/admin/assets/images/logo.png"
-                                        width="100" alt=""/>
+                                        alt=""/>
                             </a>
 
-                            <p class="text-center">Quản trị Movie W3b</p>
+                            <p class="text-center">Trang quản trị Movie X</p>
 
                             <form onsubmit="return validateLogin()" action="${initParam['mvcPath']}/admin"
                                   method="post">
@@ -65,14 +65,14 @@
                                             class="form-check-label text-dark" for="flexCheckChecked">
                                         Ghi nhớ đăng nhập</label>
                                     </div>
-                                    <a class="text-primary fw-bold text-decoration-none"
+                                    <a class="text-dark fw-bold text-decoration-none"
                                        href="${initParam['mvcPath']}/home"> <i class="fa-solid fa-arrow-left"></i> Quay
-                                        về Movie W3b
+                                        về Trang chủ Movie X
                                     </a>
                                 </div>
 
                                 <button type="submit"
-                                        class="btn btn-primary w-100 fs-5 mb-4 rounded-4">Đăng
+                                        class="btn btn-dark w-100 fs-5 mb-4 rounded-4">Đăng
                                     nhập</button>
                             </form>
 
