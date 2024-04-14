@@ -6,6 +6,10 @@
     <div class="loader"></div>
 </div>
 
+<div class="loading-container invisible">
+    <div class="loading-spinner"></div>
+</div>
+
 <!-- Header Section Begin -->
 <header class="header">
     <div class="container">

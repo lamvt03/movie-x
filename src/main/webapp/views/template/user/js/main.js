@@ -68,7 +68,7 @@
 		items: 1,
 		dots: true,
 		nav: true,
-		navText: ["<span class='arrow_carrot-left'></span>", "<span class='arrow_carrot-right'></span>"],
+		navText: ["<i class='fa-solid fa-angle-left' style='transform: rotate(-45deg)'></i>", "<i class='fa-solid fa-angle-right' style='transform: rotate(-45deg)'></i>"],
 		animateOut: 'fadeOut',
 		animateIn: 'fadeIn',
 		smartSpeed: 1200,
@@ -81,8 +81,7 @@
 		Video Player
 	--------------------*/
 	const player = new Plyr('#player', {
-		controls: ['play-large', 'play', 'progress', 'current-time', 'mute', 'captions', 'settings', 'fullscreen'],
-		seekTime: 25
+		seekTime: 15
 	});
 
 	/*------------------
@@ -100,22 +99,7 @@
 
 })(jQuery);
 
-// ajax video 
-$('#likeOrUnlikeButton').click(function() {
-	const videoHref = $('#videoIdHidden').val();
-	$.ajax({
-		url: 'like?v=' + videoHref,
-		type: 'PUT'
-	}).then(function(data) {
-		if (data.isLiked){
-			$('#likeOrUnlikeButton').text('Bỏ thích');
-		}else{
-			$('#likeOrUnlikeButton').text('Thích');
-		}
-	}).fail(function(error) {
-		alert('Opp!!, Lỗi rồi ');
-	});
-});
+// ajax video
 
 //Ajax để gửi dữ liệu đánh giá lên servlet
 function sendRatingToServlet(ratingValue) {

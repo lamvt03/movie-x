@@ -41,9 +41,11 @@
                     <form onsubmit="return validateLoginForm()" action="${initParam['mvcPath']}/login"
                           method="POST">
                         <div class="input__item">
+                            <i class="fa-solid fa-envelope"></i>
                             <input type="text" name="email" placeholder="Tên đăng nhập"/>
                         </div>
                         <div class="input__item">
+                            <i class="fa-solid fa-lock"></i>
                             <input type="password" name="password" placeholder="Mật khẩu">
                         </div>
                         <button type="submit" class="site-btn">Đăng nhập ngay</button>

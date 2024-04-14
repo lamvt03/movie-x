@@ -1,5 +1,6 @@
 package com.filmweb.service.impl;
 
+import com.filmweb.api.CommentListResp;
 import com.filmweb.dao.CommentDao;
 import com.filmweb.dao.UserDao;
 import com.filmweb.dao.VideoDao;
@@ -39,8 +40,8 @@ public class CommentServiceImpl implements CommentService {
     }
 
     @Override
-    public List<CommentDto> findByVideoId(Long videoId) {
-        List<Comment> comments = commentDao.findByVideoId(videoId);
+    public List<CommentDto> findByVideoId(Long videoId, int page, int limit) {
+        List<Comment> comments = commentDao.findByVideoId(videoId, page, limit);
         return comments.stream().map(commentMapper::toDto)
                 .toList();
     }
@@ -65,5 +66,26 @@ public class CommentServiceImpl implements CommentService {
         comment.setContent(content);
         comment.setCreatedAt(new Timestamp(System.currentTimeMillis()));
         return commentDao.create(comment);
+    }
+
+    @Override
+    public long count() {
+        return commentDao.count();
+    }
+
+    @Override
+    public CommentListResp loadMoreComments(String href, int page, int limit) {
+        List<CommentDto> comments = commentDao.findManyByVideoHref(href, page, limit)
+                .stream()
+                .map(commentMapper::toDto)
+                .toList();
+        int lastPage = this.getLastPageByVideoHref(href, limit);
+        return new CommentListResp(comments, lastPage);
+    }
+
+    @Override
+    public int getLastPageByVideoHref(String href, int limit) {
+        long totalComments = commentDao.countByVideoHref(href);
+        return (int)Math.ceil(1.0 * totalComments / limit);
     }
 }

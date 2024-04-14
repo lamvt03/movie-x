@@ -12,11 +12,8 @@ import jakarta.mvc.Controller;
 import jakarta.mvc.Models;
 import jakarta.servlet.http.HttpSession;
 import jakarta.ws.rs.*;
-import jakarta.ws.rs.core.MediaType;
-import jakarta.ws.rs.core.Response;
 
 import java.util.List;
-import java.util.Map;
 
 @ApplicationScoped
 @Path("/video")
@@ -48,8 +45,10 @@ public class VideoController {
         UserDto userDto = (UserDto) session.getAttribute(SessionConstant.CURRENT_USER);
         VideoDto video = videoService.findByHref(href);
         models.put("video", video);
-        List<CommentDto> comments = commentService.findByVideoId(video.getId());
+        List<CommentDto> comments = commentService.findByVideoId(video.getId(), 1, 3);
         models.put("comments", comments);
+        int lastPage = commentService.getLastPageByVideoHref(href, 3);
+        models.put("lastPage", lastPage);
         if(video.getPrice() > 0){
             if(userDto == null){
                session.setAttribute("buyBeforeWatch", true);
@@ -72,8 +71,11 @@ public class VideoController {
         VideoDto video = videoService.findByHref(href);
         models.put("video", video);
 
-        List<CommentDto> comments = commentService.findByVideoId(video.getId());
+        List<CommentDto> comments = commentService.findByVideoId(video.getId(), 1, 3);
         models.put("comments", comments);
+
+        int lastPage = commentService.getLastPageByVideoHref(href, 3);
+        models.put("lastPage", lastPage);
 
         UserDto  userDto = (UserDto) session.getAttribute(SessionConstant.CURRENT_USER);
         if(userDto != null){
@@ -123,15 +125,5 @@ public class VideoController {
         }
         return "redirect:video/watch?v="+videoHref;
     }
-    @PUT
-    @Path("like")
-    @Produces(MediaType.APPLICATION_JSON)
-    public Response putLike(
-            @QueryParam("v") String href
-    ){
-        UserDto userDto = (UserDto) session.getAttribute(SessionConstant.CURRENT_USER);
-        boolean isLiked = historyService.updateLike(userDto.getId(), href);
-        Map<String, Boolean> map = Map.of("isLiked", isLiked);
-        return Response.status(200).entity(map).build();
-    }
+
 }

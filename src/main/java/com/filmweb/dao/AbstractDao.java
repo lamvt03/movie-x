@@ -97,6 +97,12 @@ public class AbstractDao<T> {
         }
     }
 
+    protected long count(Class<T> clazz){
+        EntityManager entityManager = jpaUtil.getEntityManager();
+        String jpql = "SELECT COUNT(o) FROM " + clazz.getSimpleName() + " o";
+        Query query = entityManager.createQuery(jpql, clazz);
+        return (long)query.getSingleResult();
+    }
     protected long count(Class<T> clazz, boolean isActive){
         EntityManager entityManager = jpaUtil.getEntityManager();
         String jpql = "SELECT COUNT(o) FROM " + clazz.getSimpleName() + " o";
@@ -108,6 +114,18 @@ public class AbstractDao<T> {
 
         Query query = entityManager.createQuery(jpql, clazz);
         return (long)query.getSingleResult();
+    }
+    protected long count(Class<T> clazz, String jpql, Object... params){
+        EntityManager entityManager = jpaUtil.getEntityManager();
+        try{
+            Query query = entityManager.createQuery(jpql, clazz);
+            for (int i = 0; i < params.length; i++) {
+                query.setParameter(i + 1, params[i]);
+            }
+            return (long)query.getSingleResult();
+        }finally {
+            entityManager.close();
+        }
     }
 
     public T create(T entity) {
@@ -156,42 +174,6 @@ public class AbstractDao<T> {
         }
     }
 
-
-    //	tìm tất cả cho user và loại bỏ admin
-//    public List<T> findAllForUser(Class<T> clazz, boolean existIsActive) {
-//        EntityManager entityManager = JPAUtil.getEntityManager();
-//        try {
-//            String entityName = clazz.getSimpleName();
-//            StringBuilder jpql = new StringBuilder();
-//            jpql.append("SELECT o FROM ").append(entityName).append(" o");
-//            if (existIsActive) {
-//                jpql.append(" WHERE isActive = 1 AND isAdmin = 0");
-//            }
-//            TypedQuery<T> query = entityManager.createQuery(jpql.toString(), clazz);
-//            return query.getResultList();
-//        } finally {
-//            entityManager.close();
-//        }
-//    }
-
-//    //	tìm tất cả cho user và loại bỏ admin và phân trang
-//    public List<T> findAllForUser(Class<T> clazz, boolean existIsActive, int pageNumber, int pageSize) {
-//        EntityManager entityManager = JPAUtil.getEntityManager();
-//        try {
-//            String entityName = clazz.getSimpleName();
-//            StringBuilder jpql = new StringBuilder();
-//            jpql.append("SELECT o FROM ").append(entityName).append(" o");
-//            if (existIsActive) {
-//                jpql.append(" WHERE isActive = 1 AND isAdmin = 0");
-//            }
-//            TypedQuery<T> query = entityManager.createQuery(jpql.toString(), clazz);
-//            query.setFirstResult((pageNumber - 1) * pageSize);
-//            query.setMaxResults(pageSize);
-//            return query.getResultList();
-//        } finally {
-//            entityManager.close();
-//        }
-//    }
 
     // find one by custom query
     public T findOne(Class<T> clazz, String jpql, Object... params) {

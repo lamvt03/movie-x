@@ -27,7 +27,7 @@
                     <ul>
                         <li class="active"><a href="${initParam['mvcPath']}/home">Trang Chủ</a></li>
                         <li><a href="${initParam['mvcPath']}/category">Danh Sách Phim</a></li>
-                        <li><a href="${initParam['mvcPath']}/about">Liên Hệ Với Chúng Tôi</a></li>
+                        <li><a href="${initParam['mvcPath']}/about">Liên Hệ Với Tôi</a></li>
                         <c:if test="${not empty sessionScope.currentUser}">
                             <li><a href="${initParam['mvcPath']}/profile">Trang Cá Nhân</a></li>
                         </c:if>

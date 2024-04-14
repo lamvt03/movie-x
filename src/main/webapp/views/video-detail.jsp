@@ -28,7 +28,7 @@
             <div class="col-lg-12">
                 <div class="breadcrumb__links">
                     <a href="${initParam['mvcPath']}/home"><i class="fa fa-home"></i> Trang chủ</a> <a
-                        href="${initParam['mvcPath']}/categories">Thể Loại</a> <span>Thông Tin Phim</span>
+                        href="${initParam['mvcPath']}/${video.categoryCode}">${video.category}</a> <span>${video.title}</span>
                 </div>
             </div>
         </div>
@@ -79,7 +79,7 @@
                                                     ${checkedAttribute2}> <label for="rating-2"></label>
                                                 <input type="radio" name="rating" id="rating-1" value="1"
                                                     ${checkedAttribute1}> <label for="rating-1"></label>
-                                                <input id="videoIdHidden" name="href" type="hidden"
+                                                <input class="href" name="href" type="hidden"
                                                        value="${video.href}">
                                             </div>
                                         </div>
@@ -103,8 +103,9 @@
                         <div class="anime__details__btn">
 
                             <c:if test="${not empty sessionScope.currentUser}">
-                                <button id="likeOrUnlikeButton" class="follow-btn"
-                                        style="border: none;">
+                                <button id="likeButton" class="follow-btn"
+                                        style="border: none; white-space: nowrap; width: 120px;
+                            box-sizing: border-box;">
                                     <c:choose>
 
                                         <c:when test="${flagLikeButton == true}">
@@ -177,22 +178,31 @@
                         <c:if test="${comments.size() > 0}">
                             <h5 class="mb-6">Bình luận</h5>
                         </c:if>
+                    </div>
 
+                    <div class="review-container">
+                        <c:forEach items="${comments}" var="comment">
+                            <div class="anime__review__item">
+                                <div class="anime__review__item__pic">
+                                    <img src="${pageContext.request.contextPath}/views/template/user/img/default-avt.jpg"
+                                         alt="avt"/>
+                                </div>
+                                <div class="anime__review__item__text">
+                                    <h6>
+                                            ${comment.createdBy} - <span>${comment.timeAgo}</span>
+                                    </h6>
+                                    <p>${comment.content}</p>
+                                </div>
+                            </div>
+                        </c:forEach>
 
-                    <c:forEach items="${comments}" var="comment">
-                        <div class="anime__review__item">
-                            <div class="anime__review__item__pic">
-                                <img src="${pageContext.request.contextPath}/views/template/user/img/default-avt.jpg"
-                                     alt=""/>
+                        <c:if test="${lastPage > 1}">
+                            <div class="float-right">
+                                <span class="showMoreBtn">Hiển thị thêm bình luận <i class="fa-solid fa-angle-down"></i></span>
                             </div>
-                            <div class="anime__review__item__text">
-                                <h6>
-                                        ${comment.createdBy} - <span>${comment.timeAgo}</span>
-                                </h6>
-                                <p>${comment.content}</p>
-                            </div>
-                        </div>
-                    </c:forEach>
+                        </c:if>
+
+                    </div>
 
                 </div>
 
@@ -238,8 +248,9 @@
                             class="btn btn-success rounded-0 ps-3 px-3">Gửi
                     </button>
                 </div>
-                <input name="href" type="hidden"
-                       value="${video.href}"> <input name="title" type="hidden"
+                <input class="href" name="href" type="hidden"
+                       value="${video.href}">
+                <input name="title" type="hidden"
                                                      value="${video.title}">
             </form>
         </div>
@@ -247,6 +258,30 @@
 </div>
 
 <%@ include file="/views/common/footer.jsp" %>
+
+<script type="text/javascript" src="${pageContext.request.contextPath}/views/template/user/js/showMoreComment.js"></script>
+<script type="text/javascript">
+    const likeButton = document.querySelector('#likeButton');
+    likeButton.onclick = () => {
+        loadingContainer.classList.remove("invisible");
+        const href = document.querySelector('.href').value;
+        fetch('/movie-x/api/video/like?v=' + href, {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+            },
+        })
+            .then((response) => response.json())
+            .then((data) => {
+                loadingContainer.classList.add("invisible");
+                if (data.isLiked) {
+                    likeButton.innerText = 'Bỏ thích';
+                } else {
+                    likeButton.innerText = 'Thích';
+                }
+            })
+    }
+</script>
 
 <%
     Boolean sendMailSuccess = (Boolean) session.getAttribute("sendMailSuccess");
