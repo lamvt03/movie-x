@@ -53,13 +53,13 @@ public class Video {
     @Column(columnDefinition = "datetime")
     private Timestamp createdAt;
 
-    @OneToMany(mappedBy = "video")
+    @OneToMany(mappedBy = "video", fetch = FetchType.EAGER)
     private List<Order> orders;
 
-    @OneToMany(mappedBy = "video" , fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "video", fetch = FetchType.EAGER)
     private List<Comment> comments;
 
-    @OneToMany(mappedBy = "video", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "video", fetch = FetchType.EAGER)
     private List<History> histories;
 
 

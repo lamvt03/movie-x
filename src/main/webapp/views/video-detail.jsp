@@ -249,9 +249,7 @@
                     </button>
                 </div>
                 <input class="href" name="href" type="hidden"
-                       value="${video.href}">
-                <input name="title" type="hidden"
-                                                     value="${video.title}">
+                       value="${video.href}"/>
             </form>
         </div>
     </div>

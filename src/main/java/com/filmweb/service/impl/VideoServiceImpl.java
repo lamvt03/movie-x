@@ -9,6 +9,7 @@ import com.filmweb.mapper.VideoMapper;
 import com.filmweb.service.VideoService;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
+import jakarta.transaction.Transactional;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
