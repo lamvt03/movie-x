@@ -1,9 +1,9 @@
 package com.filmweb.api;
 
+import com.filmweb.api.req.PostCommentReq;
+import com.filmweb.api.resp.CommentListResp;
 import com.filmweb.constant.SessionConstant;
-import com.filmweb.dto.CommentDto;
 import com.filmweb.dto.UserDto;
-import com.filmweb.dto.VideoDto;
 import com.filmweb.service.CommentService;
 import com.filmweb.service.HistoryService;
 import com.filmweb.service.VideoService;
@@ -14,7 +14,6 @@ import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 
-import java.util.List;
 import java.util.Map;
 
 @ApplicationScoped
@@ -56,6 +55,28 @@ public class VideoAPI {
         return Response
                 .status(200)
                 .entity(resp)
+                .build();
+    }
+
+    @POST
+    @Path("{videoHref}/comment")
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response postComment(
+            @PathParam("videoHref") String href,
+            PostCommentReq req
+    ){
+        UserDto userDto = (UserDto) session.getAttribute(SessionConstant.CURRENT_USER);
+        if(userDto != null){
+            CommentListResp resp = commentService.postComment(userDto.getId(), href, req);
+            return Response.status(200).entity(resp).build();
+        }
+
+        return Response
+                .status(400)
+                .entity(Map.of(
+                        "error", 400,
+                        "msg", "You must login before post comment"))
                 .build();
     }
 }

@@ -1,4 +1,4 @@
-package com.filmweb.api;
+package com.filmweb.api.resp;
 
 import com.filmweb.dto.CommentDto;
 

@@ -62,5 +62,4 @@ public class Video {
     @OneToMany(mappedBy = "video", fetch = FetchType.EAGER)
     private List<History> histories;
 
-
 }

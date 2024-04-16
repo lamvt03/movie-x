@@ -53,28 +53,28 @@
                         </c:if>
                     </div>
 
-                    <div class="review-container">
-                        <c:forEach items="${comments}" var="comment">
-                            <div class="anime__review__item">
-                                <div class="anime__review__item__pic">
-                                    <img src="${pageContext.request.contextPath}/views/template/user/img/default-avt.jpg"
-                                         alt="avt"/>
+                    <div>
+                        <div class="review-container">
+                            <c:forEach items="${comments}" var="comment">
+                                <div class="anime__review__item">
+                                    <div class="anime__review__item__pic">
+                                        <img src="${pageContext.request.contextPath}/views/template/user/img/default-avt.jpg"
+                                             alt="avt"/>
+                                    </div>
+                                    <div class="anime__review__item__text">
+                                        <h6>
+                                                ${comment.createdBy} - <span>${comment.timeAgo}</span>
+                                        </h6>
+                                        <p>${comment.content}</p>
+                                    </div>
                                 </div>
-                                <div class="anime__review__item__text">
-                                    <h6>
-                                            ${comment.createdBy} - <span>${comment.timeAgo}</span>
-                                    </h6>
-                                    <p>${comment.content}</p>
-                                </div>
-                            </div>
-                        </c:forEach>
-
+                            </c:forEach>
+                        </div>
                         <c:if test="${lastPage > 1}">
                             <div class="float-right">
                                 <span class="showMoreBtn">Hiển thị thêm bình luận <i class="fa-solid fa-angle-down"></i></span>
                             </div>
                         </c:if>
-
                     </div>
                 </div>
 
@@ -82,12 +82,12 @@
                     <div class="section-title">
                         <h5>Để lại đánh giá</h5>
                     </div>
-                    <form action="${initParam['mvcPath']}/video/comment" method="post">
+                    <div>
                         <textarea class="cmtInp" placeholder="Nội dung..." name="content" required></textarea>
                         <input class="href" name="href" type="hidden" value="${video.href}">
                         <c:choose>
                             <c:when test="${not empty sessionScope.currentUser}">
-                                <button id="voteFrmBtn" type="submit">
+                                <button id="sendCmtBtn" type="button">
                                     <i class="fa fa-location-arrow"></i> Gửi Bình Luận
                                 </button>
                             </c:when>
@@ -97,7 +97,7 @@
                                 </button>
                             </c:otherwise>
                         </c:choose>
-                    </form>
+                    </div>
                 </div>
             </div>
         </div>
@@ -131,22 +131,22 @@
     <c:remove var="buyBeforeWatch" scope="session"/>
 </c:if>
 
-<script type="text/javascript">
-    const cmtInp = document.querySelector('.cmtInp');
-    cmtInp.onfocus = () => {
-        const headerHeight = document.querySelector('.header').clientHeight;
-        const breadcrumbHeight = document.querySelector('#breadcrumb').clientHeight;
-        const playerHeight = document.querySelector('#video').clientHeight;
-        const totalHeight = headerHeight + breadcrumbHeight + playerHeight;
-        console.log(totalHeight);
-        localStorage.setItem('scrollTop', totalHeight);
-    };
-    window.addEventListener('load', function() {
-        const scrollTop = localStorage.getItem('scrollTop') || 0;
-        window.scrollTo(0, parseInt(scrollTop));
-        localStorage.removeItem('scrollTop');
-    });
-</script>
+<%--<script type="text/javascript">--%>
+<%--    const cmtInp = document.querySelector('.cmtInp');--%>
+<%--    cmtInp.onfocus = () => {--%>
+<%--        const headerHeight = document.querySelector('.header').clientHeight;--%>
+<%--        const breadcrumbHeight = document.querySelector('#breadcrumb').clientHeight;--%>
+<%--        const playerHeight = document.querySelector('#video').clientHeight;--%>
+<%--        const totalHeight = headerHeight + breadcrumbHeight + playerHeight;--%>
+<%--        console.log(totalHeight);--%>
+<%--        localStorage.setItem('scrollTop', totalHeight);--%>
+<%--    };--%>
+<%--    window.addEventListener('load', function() {--%>
+<%--        const scrollTop = localStorage.getItem('scrollTop') || 0;--%>
+<%--        window.scrollTo(0, parseInt(scrollTop));--%>
+<%--        localStorage.removeItem('scrollTop');--%>
+<%--    });--%>
+<%--</script>--%>
 <script type="text/javascript">
     const guestBtn = document.querySelector('#guestBtn');
     guestBtn.onclick = () => {
@@ -164,6 +164,7 @@
         })
     }
 </script>
+<script type="text/javascript" src="${pageContext.request.contextPath}/views/template/user/js/postComment.js"> </script>
 <script type="text/javascript" src="${pageContext.request.contextPath}/views/template/user/js/showMoreComment.js"></script>
 </body>
 </html>

@@ -180,28 +180,28 @@
                         </c:if>
                     </div>
 
-                    <div class="review-container">
-                        <c:forEach items="${comments}" var="comment">
-                            <div class="anime__review__item">
-                                <div class="anime__review__item__pic">
-                                    <img src="${pageContext.request.contextPath}/views/template/user/img/default-avt.jpg"
-                                         alt="avt"/>
+                    <div>
+                        <div class="review-container">
+                            <c:forEach items="${comments}" var="comment">
+                                <div class="anime__review__item">
+                                    <div class="anime__review__item__pic">
+                                        <img src="${pageContext.request.contextPath}/views/template/user/img/default-avt.jpg"
+                                             alt="avt"/>
+                                    </div>
+                                    <div class="anime__review__item__text">
+                                        <h6>
+                                                ${comment.createdBy} - <span>${comment.timeAgo}</span>
+                                        </h6>
+                                        <p>${comment.content}</p>
+                                    </div>
                                 </div>
-                                <div class="anime__review__item__text">
-                                    <h6>
-                                            ${comment.createdBy} - <span>${comment.timeAgo}</span>
-                                    </h6>
-                                    <p>${comment.content}</p>
-                                </div>
-                            </div>
-                        </c:forEach>
-
+                            </c:forEach>
+                        </div>
                         <c:if test="${lastPage > 1}">
                             <div class="float-right">
                                 <span class="showMoreBtn">Hiển thị thêm bình luận <i class="fa-solid fa-angle-down"></i></span>
                             </div>
                         </c:if>
-
                     </div>
 
                 </div>

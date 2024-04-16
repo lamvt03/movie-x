@@ -13,7 +13,6 @@ showMoreBtn.onclick = () => {
     })
         .then((response) => response.json())
         .then((data) => {
-            loadingContainer.classList.add("invisible");
             if (page >= data.lastPage) {
                 showMoreBtn.classList.add("d-none");
             }
@@ -38,6 +37,7 @@ showMoreBtn.onclick = () => {
                 .join("\n");
             const container = document.querySelector(".review-container");
             container.innerHTML += html;
+            loadingContainer.classList.add("invisible");
         })
         .catch((error) => {
             console.error("Error:", error);

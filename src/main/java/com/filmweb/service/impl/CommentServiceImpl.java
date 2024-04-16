@@ -1,17 +1,16 @@
 package com.filmweb.service.impl;
 
-import com.filmweb.api.CommentListResp;
+import com.filmweb.api.req.PostCommentReq;
+import com.filmweb.api.resp.CommentListResp;
 import com.filmweb.dao.CommentDao;
 import com.filmweb.dao.UserDao;
 import com.filmweb.dao.VideoDao;
 import com.filmweb.dto.CommentDto;
-import com.filmweb.dto.VideoDto;
 import com.filmweb.entity.Comment;
 import com.filmweb.entity.User;
 import com.filmweb.entity.Video;
 import com.filmweb.mapper.CommentMapper;
 import com.filmweb.service.CommentService;
-import com.filmweb.util.TimeFormatter;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 
@@ -35,11 +34,6 @@ public class CommentServiceImpl implements CommentService {
 
 
     @Override
-    public List<Comment> findByUser(String username) {
-        return null;
-    }
-
-    @Override
     public List<CommentDto> findByVideoId(Long videoId, int page, int limit) {
         List<Comment> comments = commentDao.findByVideoId(videoId, page, limit);
         return comments.stream().map(commentMapper::toDto)
@@ -48,11 +42,6 @@ public class CommentServiceImpl implements CommentService {
 
     @Override
     public Comment findByUserIdAndVideoId(Long userId, Long videoId) {
-        return null;
-    }
-
-    @Override
-    public Comment findByVideoIdGetUser(Long videoId) {
         return null;
     }
 
@@ -87,5 +76,19 @@ public class CommentServiceImpl implements CommentService {
     public int getLastPageByVideoHref(String href, int limit) {
         long totalComments = commentDao.countByVideoHref(href);
         return (int)Math.ceil(1.0 * totalComments / limit);
+    }
+
+    @Override
+    public CommentListResp postComment(Long userId, String href, PostCommentReq req) {
+        User user = userDao.findById(userId);
+        Video video = videoDao.findByHref(href);
+        Comment comment = new Comment();
+        comment.setUser(user);
+        comment.setVideo(video);
+        comment.setContent(req.content());
+        comment.setCreatedAt(new Timestamp(System.currentTimeMillis()));
+        commentDao.create(comment);
+
+        return this.loadMoreComments(href,1, 3);
     }
 }
