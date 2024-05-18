@@ -11,6 +11,18 @@ import java.util.Map;
 @ApplicationScoped
 public class TimeFormatter {
 
+    private final Map<String, Long> intervals = new LinkedHashMap<>();
+
+    public TimeFormatter(){
+        intervals.put("năm", 31536000L);
+        intervals.put("tháng", 2592000L);
+        intervals.put("tuần", 604800L);
+        intervals.put("ngày", 86400L);
+        intervals.put("giờ", 3600L);
+        intervals.put("phút", 60L);
+        intervals.put("giây", 1L);
+    }
+
     private Duration getDuration(Timestamp timestamp) {
         LocalDateTime createdTime = timestamp.toLocalDateTime();
         LocalDateTime now = LocalDateTime.now();
@@ -19,14 +31,6 @@ public class TimeFormatter {
 
     public String getTimeAgoString(Timestamp timestamp){
         long seconds = this.getDuration(timestamp).toSeconds();
-        Map<String, Long> intervals = new LinkedHashMap<>();
-        intervals.put("năm", 31536000L);
-        intervals.put("tháng", 2592000L);
-        intervals.put("tuần", 604800L);
-        intervals.put("ngày", 86400L);
-        intervals.put("giờ", 3600L);
-        intervals.put("phút", 60L);
-        intervals.put("giây", 1L);
 
         for(Map.Entry<String, Long> entry : intervals.entrySet()){
             String key = entry.getKey();
@@ -35,6 +39,7 @@ public class TimeFormatter {
                 return interval + " " + key + " trước";
             }
         }
+
         return "Vừa xong";
     }
 }
