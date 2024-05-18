@@ -15,4 +15,5 @@ public class UserDto {
     private String token;
     private Boolean isActive;
     private Boolean isAdmin;
+    private Integer avtId;
 }

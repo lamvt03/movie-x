@@ -22,4 +22,6 @@ public interface CommentService {
     int getLastPageByVideoHref(String href, int limit);
 
     CommentListResp postComment(Long userId, String href, PostCommentReq req);
+
+    List<CommentDto> findNewestComments(int limit);
 }

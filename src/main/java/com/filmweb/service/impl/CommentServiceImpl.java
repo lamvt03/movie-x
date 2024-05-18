@@ -85,10 +85,18 @@ public class CommentServiceImpl implements CommentService {
         Comment comment = new Comment();
         comment.setUser(user);
         comment.setVideo(video);
-        comment.setContent(req.getContent());
+        comment.setContent(req.content());
         comment.setCreatedAt(new Timestamp(System.currentTimeMillis()));
         commentDao.create(comment);
 
         return this.loadMoreComments(href,1, 3);
+    }
+
+    @Override
+    public List<CommentDto> findNewestComments(int limit) {
+        return commentDao.findAllOrderByDesc(1, limit)
+                .stream()
+                .map(commentMapper::toDto)
+                .toList();
     }
 }

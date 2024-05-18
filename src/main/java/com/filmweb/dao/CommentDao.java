@@ -11,7 +11,6 @@ public interface CommentDao {
 
     Comment findByUserIdAndVideoId(Long userId, Long videoId);
 
-    Comment findByVideoIdGetUser(Long videoId);
 
     Comment create(Comment entity);
 
@@ -19,4 +18,6 @@ public interface CommentDao {
     List<Comment> findManyByVideoHref(String href, int page, int limit);
 
     long countByVideoHref(String href);
+
+    List<Comment> findAllOrderByDesc(int page, int limit);
 }

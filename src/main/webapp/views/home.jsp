@@ -114,8 +114,6 @@
                 </div>
 
                 <div class="product__pagination d-flex justify-content-center">
-
-
                     <c:if test="${currentPage == 1}">
                         <a href="#"><i class="fa fa-angle-double-left"></i></a>
                     </c:if>
@@ -140,124 +138,9 @@
                 </div>
             </div>
 
-            <div class="col-lg-4 col-md-6 col-sm-8">
-                <div class="product__sidebar">
-                    <div class="product__sidebar__view">
-                        <div class="section-title">
-                            <h5>TOP XEM HÀNG ĐẦU</h5>
-                        </div>
-                        <ul class="filter__controls">
-                            <li class="active" data-filter="*">Ngày</li>
-                            <li data-filter=".week">Tuần</li>
-                            <li data-filter=".month">Tháng</li>
-                            <li data-filter=".years">Năm</li>
-                        </ul>
-                        <div class="filter__gallery">
-                            <div class="product__sidebar__view__item set-bg mix day years"
-                                 data-setbg="${pageContext.request.contextPath}/views/template/user/img/sidebar/tv-1.jpg">
-                                <div class="ep">41 Tập</div>
-                                <div class="view">
-                                    <i class="fa fa-eye"></i> 20
-                                </div>
-                                <h5>
-                                    <a href="#">Tân Ỷ Thiên Đồ Long Ký </a>
-                                </h5>
-                            </div>
-                            <div class="product__sidebar__view__item set-bg mix month week"
-                                 data-setbg="${pageContext.request.contextPath}/views/template/user/img/sidebar/tv-2.jpg">
-                                <div class="ep">42 Tập</div>
-                                <div class="view">
-                                    <i class="fa fa-eye"></i> 15
-                                </div>
-                                <h5>
-                                    <a href="#">Điệp Viên Huyền Thoại</a>
-                                </h5>
-                            </div>
-                            <div class="product__sidebar__view__item set-bg mix week years"
-                                 data-setbg="${pageContext.request.contextPath}/views/template/user/img/sidebar/tv-3.jpg">
-                                <div class="ep">57 Tập</div>
-                                <div class="view">
-                                    <i class="fa fa-eye"></i> 100
-                                </div>
-                                <h5>
-                                    <a href="#">Tây Du Ký</a>
-                                </h5>
-                            </div>
-                            <div class="product__sidebar__view__item set-bg mix years month"
-                                 data-setbg="${pageContext.request.contextPath}/views/template/user/img/sidebar/tv-4.jpg">
-                                <div class="ep">44 Tập</div>
-                                <div class="view">
-                                    <i class="fa fa-eye"></i> 20
-                                </div>
-                                <h5>
-                                    <a href="#">Sự Thật Phanh Phui</a>
-                                </h5>
-                            </div>
-                            <div class="product__sidebar__view__item set-bg mix day"
-                                 data-setbg="${pageContext.request.contextPath}/views/template/user/img/sidebar/tv-5.jpg">
-                                <div class="ep">3 Tập</div>
-                                <div class="view">
-                                    <i class="fa fa-eye"></i> 56
-                                </div>
-                                <h5>
-                                    <a href="#">Diệp Vấn</a>
-                                </h5>
-                            </div>
-                        </div>
-                    </div>
+<%--            sidebar --%>
+            <%@ include file="/views/common/sidebar.jsp" %>
 
-                    <div class="product__sidebar__comment">
-                        <div class="section-title">
-                            <h5>BÌNH LUẬN MỚI</h5>
-                        </div>
-                        <div class="product__sidebar__comment__item">
-                            <div class="product__sidebar__comment__item__pic">
-                                <img src="${pageContext.request.contextPath}/views/template/user/img/sidebar/comment-1.jpg"
-                                     alt="">
-                            </div>
-                            <div class="product__sidebar__comment__item__text">
-                                <ul>
-                                    <li>Phim khoa học viễn tưởng</li>
-                                </ul>
-                                <h5>
-                                    <a href="#">very good</a>
-                                </h5>
-                                <span><i class="fa fa-eye"></i> 300 Lượt xem</span>
-                            </div>
-                        </div>
-                        <div class="product__sidebar__comment__item">
-                            <div class="product__sidebar__comment__item__pic">
-                                <img src="${pageContext.request.contextPath}/views/template/user/img/sidebar/comment-2.jpg"
-                                     alt="">
-                            </div>
-                            <div class="product__sidebar__comment__item__text">
-                                <ul>
-                                    <li>Phim hành động Mỹ</li>
-                                </ul>
-                                <h5>
-                                    <a href="#">Phim hay quá mọi người ơi</a>
-                                </h5>
-                                <span><i class="fa fa-eye"></i> 100 Lượt xem</span>
-                            </div>
-                        </div>
-                        <div class="product__sidebar__comment__item">
-                            <div class="product__sidebar__comment__item__pic">
-                                <img src="${pageContext.request.contextPath}/views/template/user/img/sidebar/comment-3.jpg"
-                                     alt="">
-                            </div>
-                            <div class="product__sidebar__comment__item__text">
-                                <ul>
-                                    <li>Phim hiếm hiệp Trung Quốc</li>
-                                </ul>
-                                <h5>
-                                    <a href="#">Phim đỉnh quá</a>
-                                </h5>
-                                <span><i class="fa fa-eye"></i> 130 Lượt xem</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
         </div>
     </div>
 </section>

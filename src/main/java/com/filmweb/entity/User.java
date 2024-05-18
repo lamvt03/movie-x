@@ -32,6 +32,8 @@ public class User {
 
     private String token;
 
+    private Integer avtId;
+
     @OneToMany(mappedBy = "user")
     private List<Share> shares;
 

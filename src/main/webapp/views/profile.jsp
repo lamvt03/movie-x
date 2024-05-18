@@ -8,9 +8,7 @@
 <%@ page contentType="text/html; charset=UTF-8" language="java" %>
 <%@ include file="/views/common/taglib.jsp"%>
 
-<jsp:useBean id="email" scope="request" type="java.lang.String"/>
-<jsp:useBean id="fullName" scope="request" type="java.lang.String"/>
-<jsp:useBean id="phone" scope="request" type="java.lang.String"/>
+<jsp:useBean id="user" scope="request" type="com.filmweb.dto.UserDto"/>
 
 <html lang="en">
 <head>
@@ -33,7 +31,7 @@
             <div class="col-lg-12 text-center">
                 <div class="normal__breadcrumb__text">
                     <h2>Trang cá nhân</h2>
-                    <p>Chào mừng bạn đến với website chính thức của MOVIE W3B</p>
+                    <p>Chào mừng bạn đến với website chính thức của MOVIE X</p>
                 </div>
             </div>
         </div>
@@ -50,8 +48,8 @@
 
                 <div class="img-profile">
 
-                    <img src="${pageContext.request.contextPath}/views/template/user/img/default-avt.jpg"
-                         class="img-fluid rounded-top" width="60%" alt="avatar"/>
+                    <img src="${pageContext.request.contextPath}/views/template/user/img/avt/avt-${user.avtId}.jpg"
+                         class="img-fluid rounded" width="60%" alt="avatar"/>
 
                 </div>
 
@@ -77,9 +75,9 @@
 
                         <div class="col-12 col-md-12 col-lg-9">
 
-                            <h4 class="text-dark font-weight-bold">Movie W3b</h4>
+                            <h4 class="text-dark font-weight-bold">Movie X</h4>
                             <span style="color: #D14A2D;" class="font-weight-bold">BLOG Xem Phim
-									Việt</span>
+									</span>
 
                         </div>
 
@@ -114,9 +112,9 @@
 
                         <div class="col-lg-6">
 
-                            <h6 class="text-dark mt-4">${fullName}</h6>
-                            <h6 class="text-dark mt-4">${email}</h6>
-                            <h6 class="text-dark mt-4">${phone}</h6>
+                            <h6 class="text-dark mt-4">${user.fullName}</h6>
+                            <h6 class="text-dark mt-4">${user.email}</h6>
+                            <h6 class="text-dark mt-4">${user.phone}</h6>
 
                         </div>
 

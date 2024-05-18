@@ -58,7 +58,7 @@
                             <c:forEach items="${comments}" var="comment">
                                 <div class="anime__review__item">
                                     <div class="anime__review__item__pic">
-                                        <img src="${pageContext.request.contextPath}/views/template/user/img/default-avt.jpg"
+                                        <img src="${pageContext.request.contextPath}/views/template/user/img/avt/avt-${comment.avtId}.jpg"
                                              alt="avt"/>
                                     </div>
                                     <div class="anime__review__item__text">
@@ -131,22 +131,6 @@
     <c:remove var="buyBeforeWatch" scope="session"/>
 </c:if>
 
-<%--<script type="text/javascript">--%>
-<%--    const cmtInp = document.querySelector('.cmtInp');--%>
-<%--    cmtInp.onfocus = () => {--%>
-<%--        const headerHeight = document.querySelector('.header').clientHeight;--%>
-<%--        const breadcrumbHeight = document.querySelector('#breadcrumb').clientHeight;--%>
-<%--        const playerHeight = document.querySelector('#video').clientHeight;--%>
-<%--        const totalHeight = headerHeight + breadcrumbHeight + playerHeight;--%>
-<%--        console.log(totalHeight);--%>
-<%--        localStorage.setItem('scrollTop', totalHeight);--%>
-<%--    };--%>
-<%--    window.addEventListener('load', function() {--%>
-<%--        const scrollTop = localStorage.getItem('scrollTop') || 0;--%>
-<%--        window.scrollTo(0, parseInt(scrollTop));--%>
-<%--        localStorage.removeItem('scrollTop');--%>
-<%--    });--%>
-<%--</script>--%>
 <script type="text/javascript">
     const guestBtn = document.querySelector('#guestBtn');
     guestBtn.onclick = () => {

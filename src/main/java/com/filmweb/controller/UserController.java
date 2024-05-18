@@ -228,18 +228,14 @@ public class UserController {
     @Path("profile")
     public String getProfile(){
         UserDto userDto = (UserDto) session.getAttribute(SessionConstant.CURRENT_USER);
-        models.put("email", userDto.getEmail());
-        models.put("phone", userDto.getPhone());
-        models.put("fullName", userDto.getFullName());
+        models.put("user", userDto);
         return "profile.jsp";
     }
     @GET
     @Path("profile/edit")
     public String getEditProfile(){
         UserDto userDto = (UserDto) session.getAttribute(SessionConstant.CURRENT_USER);
-        models.put("email", userDto.getEmail());
-        models.put("phone", userDto.getPhone());
-        models.put("fullName", userDto.getFullName());
+        models.put("user", userDto);
         return "edit-profile.jsp";
     }
 

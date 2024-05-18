@@ -8,9 +8,7 @@
 <%@ page contentType="text/html; charset=UTF-8" language="java" %>
 <%@ include file="/views/common/taglib.jsp" %>
 
-<jsp:useBean id="email" scope="request" type="java.lang.String"/>
-<jsp:useBean id="fullName" scope="request" type="java.lang.String"/>
-<jsp:useBean id="phone" scope="request" type="java.lang.String"/>
+<jsp:useBean id="user" scope="request" type="com.filmweb.dto.UserDto"/>
 
 <html>
 <head>
@@ -19,8 +17,6 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>${initParam['website-name']} - Chỉnh Sửa Trang Cá Nhân</title>
     <%@ include file="/views/common/head.jsp" %>
-    <link rel="stylesheet"
-          href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
 </head>
 <body>
 <%@ include file="/views/common/header.jsp"%>
@@ -50,8 +46,8 @@
 
             <div class="img-profile">
 
-                <img src="${pageContext.request.contextPath}/views/template/user/img/default-avt.jpg"
-                     class="img-fluid rounded-top" width="60%">
+                <img src="${pageContext.request.contextPath}/views/template/user/img/avt/avt-${user.avtId}.jpg"
+                     class="img-fluid rounded" width="60%" />
 
             </div>
 
@@ -105,17 +101,17 @@
                             <fieldset disabled>
                                 <div class="mb-4">
                                     <input type="text" class="form-control disable"
-                                           value="${email}" name="email" placeholder="email">
+                                           value="${user.email}" name="email" placeholder="email" />
                                 </div>
                             </fieldset>
 
                             <div class="mb-4">
-                                <input type="text" class="form-control" value="${fullName}"
+                                <input type="text" class="form-control" value="${user.fullName}"
                                        name="fullname" placeholder="Họ và tên" />
                             </div>
 
                             <div class="mb-4">
-                                <input type="text" class="form-control" value="${phone}"
+                                <input type="text" class="form-control" value="${user.phone}"
                                        name="phone" placeholder="Số điện thoại">
                             </div>
 

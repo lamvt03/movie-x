@@ -20,7 +20,7 @@ const postComment = () => {
                 .map(item => `
                 <div class="anime__review__item">
                     <div class="anime__review__item__pic">
-                        <img src="/views/template/user/img/default-avt.jpg" alt="avt" />
+                        <img src="/views/template/user/img/avt/avt-${item.avtId}.jpg" alt="avt" />
                     </div>
                     <div class="anime__review__item__text">
                         <h6>
@@ -33,8 +33,15 @@ const postComment = () => {
                 </div>
             `
                 ).join("\n");
+
+            //append comments;
             document.querySelector('.review-container').innerHTML = html;
+
+            //hidden loading
             document.querySelector('.loading-container').classList.add('invisible');
+
+            //reset input
+            document.querySelector('.cmtInp').value = '';
         });
 }
 
@@ -43,7 +50,6 @@ sendCmtBtn.onclick = postComment;
 const cmtInp = document.querySelector('.cmtInp');
 cmtInp.onkeydown = (e) => {
     if (event.key === "Enter") {
-        console.log('pressed');
         postComment();
     }
 }

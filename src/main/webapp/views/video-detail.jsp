@@ -185,7 +185,7 @@
                             <c:forEach items="${comments}" var="comment">
                                 <div class="anime__review__item">
                                     <div class="anime__review__item__pic">
-                                        <img src="${pageContext.request.contextPath}/views/template/user/img/default-avt.jpg"
+                                        <img src="${pageContext.request.contextPath}/views/template/user/img/avt/avt-${comment.avtId}.jpg"
                                              alt="avt"/>
                                     </div>
                                     <div class="anime__review__item__text">
@@ -325,7 +325,7 @@
             confirmButtonText: 'Đồng ý'
         }).then((result) => {
             if (result.isConfirmed) {
-                window.location.href = "http://localhost:8080/app/payment?price=${video.price}&href=${video.href}";
+                window.location.href = "/movie-x/payment/vnpay?href=${video.href}";
             }
         })
     }
@@ -345,10 +345,35 @@
             confirmButtonText: 'Đồng ý'
         }).then((result) => {
             if (result.isConfirmed) {
-                window.location.href = "http://localhost:8080/app/login";
+                window.location.href = "/movie-x/login";
             }
         })
     }
+    </c:if>
+
+    <c:if test="${not empty sessionScope.paySuccess}">
+        <c:choose>
+            <c:when test="${sessionScope.paySuccess}">
+                Swal.fire({
+                    title: 'Chúc mừng',
+                    text: "Bạn đã mua phim thành công!",
+                    icon: 'success',
+                    confirmButtonColor: '#3085d6',
+                    confirmButtonText: 'OK'
+                });
+            </c:when>
+            <c:otherwise>
+                Swal.fire({
+                    title: 'Thông báo',
+                    text: "Đã có lỗi xảy ra!",
+                    icon: 'error',
+                    confirmButtonColor: '#3085d6',
+                    confirmButtonText: 'OK'
+                });
+            </c:otherwise>
+        </c:choose>
+
+        <c:remove var="paySuccess" scope="session" />
     </c:if>
 </script>
 </body>

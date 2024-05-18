@@ -66,4 +66,10 @@ public class VideoDaoImpl extends AbstractDao<Video> implements VideoDao {
         String jpql = "SELECT v FROM Video v JOIN v.category c WHERE v.isActive  = 1 AND c.code = ?1";
         return super.findMany(Video.class, jpql, categoryCode);
     }
+
+    @Override
+    public List<Video> findTopYear(int year, int page, int limit) {
+        String jpql = "SELECT v FROM Video v WHERE v.isActive = 1 AND v.price = 0 AND YEAR(v.createdAt) = ?1 ORDER BY v.views DESC";
+        return super.findMany(Video.class, page, limit, jpql, year);
+    }
 }

@@ -154,4 +154,12 @@ public class VideoServiceImpl implements VideoService {
                 .map(videoMapper::toDto)
                 .toList();
     }
+
+    @Override
+    public List<VideoDto> findTopYear(int year, int page, int limit) {
+        List<Video> videos = videoDao.findTopYear(year, page, limit);
+        return videos.stream()
+                .map(videoMapper::toDto)
+                .toList();
+    }
 }

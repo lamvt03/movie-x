@@ -13,4 +13,5 @@ public class CommentDto{
     private String content;
     private String timeAgo;
     private String createdBy;
+    private Integer avtId;
 }

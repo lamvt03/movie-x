@@ -28,11 +28,6 @@ public class CommentDaoImpl extends AbstractDao<Comment> implements CommentDao {
     }
 
     @Override
-    public Comment findByVideoIdGetUser(Long videoId) {
-        return null;
-    }
-
-    @Override
     public long count() {
         return super.count(Comment.class);
     }
@@ -47,5 +42,11 @@ public class CommentDaoImpl extends AbstractDao<Comment> implements CommentDao {
     public long countByVideoHref(String href) {
         String jpql = "SELECT COUNT(o) FROM Comment o WHERE o.video.isActive = 1 AND o.video.href = ?1";
         return super.count(Comment.class, jpql, href);
+    }
+
+    @Override
+    public List<Comment> findAllOrderByDesc(int page, int limit) {
+        String jpql = "SELECT c FROM Comment c WHERE c.video.isActive = 1 ORDER BY c.createdAt DESC";
+        return super.findMany(Comment.class, page, limit, jpql);
     }
 }

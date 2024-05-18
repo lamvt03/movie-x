@@ -74,6 +74,7 @@ public class UserServiceImpl implements UserService {
                 .token(token)
                 .isActive(false)
                 .isAdmin(false)
+                .avtId(randomUtil.randomAvtId(AppConstant.AVATAR_TOTAL))
                 .build();
         return userMapper.toDto(userDao.create(userEntity));
     }

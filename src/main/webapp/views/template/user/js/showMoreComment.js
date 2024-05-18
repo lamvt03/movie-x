@@ -21,7 +21,7 @@ showMoreBtn.onclick = () => {
                     (item) => `
                 <div class="anime__review__item">
                     <div class="anime__review__item__pic">
-                        <img src="/views/template/user/img/default-avt.jpg" alt="avt" />
+                        <img src="/views/template/user/img/avt/avt-${item.avtId}.jpg" alt="avt" />
                     </div>
                     <div class="anime__review__item__text">
                         <h6>

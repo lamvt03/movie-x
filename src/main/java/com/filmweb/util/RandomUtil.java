@@ -36,4 +36,8 @@ public class RandomUtil {
         }
         return sb.toString();
     }
+
+    public Integer randomAvtId(int avtTotal){
+        return 1 + random.nextInt(avtTotal);
+    }
 }

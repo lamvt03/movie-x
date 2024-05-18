@@ -2,6 +2,7 @@ package com.filmweb.controller;
 
 import com.filmweb.constant.AppConstant;
 import com.filmweb.constant.SessionConstant;
+import com.filmweb.dto.CommentDto;
 import com.filmweb.dto.UserDto;
 import com.filmweb.dto.VideoDto;
 import com.filmweb.entity.History;
@@ -9,6 +10,7 @@ import com.filmweb.entity.Order;
 import com.filmweb.entity.User;
 import com.filmweb.entity.Video;
 import com.filmweb.mapper.VideoMapper;
+import com.filmweb.service.CommentService;
 import com.filmweb.service.HistoryService;
 import com.filmweb.service.OrderService;
 import com.filmweb.service.VideoService;
@@ -46,6 +48,9 @@ public class HomeController {
     @Inject
     private HistoryService historyService;
 
+    @Inject
+    private CommentService commentService;
+
 
     @GET
     @Path("home")
@@ -67,6 +72,12 @@ public class HomeController {
 
         List<VideoDto> videos = videoService.findAll(currentPage, AppConstant.PAGE_LIMIT);
         models.put("videos", videos);
+
+        List<VideoDto> topVideos = videoService.findTopYear(2024, 1, 4);
+        models.put("topVideos", topVideos);
+
+        List<CommentDto> newestComments = commentService.findNewestComments(3);
+        models.put("newestComments", newestComments);
         return "home.jsp";
     }
 
@@ -89,7 +100,7 @@ public class HomeController {
     ){
 
         long totalVideo = videoService.count();
-        int maxPage = (int) Math.ceil(1.0 * totalVideo / AppConstant.CATERGORY_PAGE_LIMIT);
+        int maxPage = (int) Math.ceil(1.0 * totalVideo / AppConstant.CATEGORY_PAGE_LIMIT);
         models.put("maxPage", maxPage);
 
         int currentPage = 1;
@@ -98,7 +109,7 @@ public class HomeController {
         }
         models.put("currentPage", currentPage);
 
-        List<VideoDto> videos = videoService.findAll(currentPage, AppConstant.CATERGORY_PAGE_LIMIT);
+        List<VideoDto> videos = videoService.findAll(currentPage, AppConstant.CATEGORY_PAGE_LIMIT);
         models.put("videos", videos);
         return "category.jsp";
     }

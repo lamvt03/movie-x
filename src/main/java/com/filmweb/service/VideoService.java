@@ -24,4 +24,6 @@ public interface VideoService {
 
     List<VideoDto> findAllLiked(int page, int limit);
     List<VideoDto> findByCategoryCode(String code);
+
+    List<VideoDto> findTopYear(int year, int page, int limit);
 }

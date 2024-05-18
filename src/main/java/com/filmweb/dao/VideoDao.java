@@ -30,4 +30,6 @@ public interface VideoDao {
 
     List<Video> findByKeyword(String keyword);
     List<Video> findByCategoryCode(String categoryCode);
+
+    List<Video> findTopYear(int year, int page, int limit);
 }
