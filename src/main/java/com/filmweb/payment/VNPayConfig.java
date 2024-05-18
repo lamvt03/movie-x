@@ -9,10 +9,11 @@ import java.util.*;
  *
  * @author CTT VNPAY
  */
-public class PaymentConfig {
+public class VNPayConfig {
 
     public static String vnp_PayUrl = "https://sandbox.vnpayment.vn/paymentv2/vpcpay.html";
-    public static String vnp_ReturnUrl = "http://localhost:8080/app/payment/success";
+//    public static String vnp_ReturnUrl = "http://40.81.24.114/movie-x/payment/vnpay/handle";
+    public static String vnp_ReturnUrl = "http://localhost:8080/movie-x/payment/vnpay/handle";
     public static String vnp_TmnCode = "RKVS4CUH";
     public static String secretKey = "IVZKDIKHSKIVLGBNPYGXDIHNBASDAUMA";
 

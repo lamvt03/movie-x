@@ -21,6 +21,7 @@ public class PageRedirectFilter implements Filter {
             || requestURI.contains("/password") || requestURI.contains("/otp")
             || requestURI.contains("/register")  || requestURI.contains("/verify")
             || requestURI.contains("/profile") || requestURI.contains("/payment")
+            || requestURI.contains("/api")
             || isResourceRequest(requestURI))){
             String queryString = httpRequest.getQueryString();
 

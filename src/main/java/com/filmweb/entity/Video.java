@@ -20,7 +20,7 @@ public class Video {
     @Column(columnDefinition = "nvarchar(max)")
     private String title;
 
-    @Column(columnDefinition = "varchar(50)")
+    @Column(columnDefinition = "varchar(50)", unique = true)
     private String href;
 
     @Column(columnDefinition = "varchar(max)")
@@ -52,6 +52,9 @@ public class Video {
 
     @Column(columnDefinition = "datetime")
     private Timestamp createdAt;
+
+    @Column(columnDefinition = "datetime")
+    private Timestamp updatedAt;
 
     @OneToMany(mappedBy = "video", fetch = FetchType.EAGER)
     private List<Order> orders;

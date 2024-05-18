@@ -650,12 +650,18 @@ ol {
 
 .product__item {
     margin-bottom: 30px;
+    transition: .3s all;
+}
+.product__item:hover{
+    cursor: pointer;
+    scale: 1.02;
 }
 
 .product__item__pic {
     height: 325px;
     position: relative;
     border-radius: 5px;
+    transition: all .25s;
 }
 
 .product__item__pic .ep {

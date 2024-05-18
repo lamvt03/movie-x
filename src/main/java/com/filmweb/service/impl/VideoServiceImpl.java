@@ -91,6 +91,7 @@ public class VideoServiceImpl implements VideoService {
                         .price(price)
                         .description(content)
                         .createdAt(new Timestamp(System.currentTimeMillis()))
+                        .updatedAt(new Timestamp(System.currentTimeMillis()))
                         .isActive(Boolean.TRUE)
                         .views(0)
                         .share(0)
@@ -108,6 +109,7 @@ public class VideoServiceImpl implements VideoService {
         video.setActor(actor);
         video.setCategory(category);
         video.setHeading(heading);
+        video.setUpdatedAt(new Timestamp(System.currentTimeMillis()));
         Long price = Long.parseLong(formattedPrice.replace(".", ""));
         video.setPrice(price);
         video.setDescription(description);
@@ -125,7 +127,9 @@ public class VideoServiceImpl implements VideoService {
     public VideoDto delete(String href) {
         Video video = videoDao.findByHref(href);
         video.setActive(Boolean.FALSE);
-        return videoMapper.toDto(videoDao.update(video));
+        return videoMapper.toDto(
+                videoDao.update(video)
+        );
     }
 
     @Override

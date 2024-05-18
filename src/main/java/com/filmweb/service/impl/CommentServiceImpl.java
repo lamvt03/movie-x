@@ -85,7 +85,7 @@ public class CommentServiceImpl implements CommentService {
         Comment comment = new Comment();
         comment.setUser(user);
         comment.setVideo(video);
-        comment.setContent(req.content());
+        comment.setContent(req.getContent());
         comment.setCreatedAt(new Timestamp(System.currentTimeMillis()));
         commentDao.create(comment);
 
