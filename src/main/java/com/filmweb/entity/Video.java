@@ -3,7 +3,6 @@ package com.filmweb.entity;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.sql.Timestamp;
 import java.util.List;
 
 @NoArgsConstructor
@@ -12,7 +11,7 @@ import java.util.List;
 @Builder
 @Entity
 @Table(name = "_video")
-public class Video {
+public class Video extends AbstractEntity{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -47,14 +46,9 @@ public class Video {
 
     private boolean isActive;
 
-    @Column(columnDefinition = "datetime")
-    private Timestamp createdAt;
 
-    @Column(columnDefinition = "datetime")
-    private Timestamp updatedAt;
-
-    @OneToMany(mappedBy = "video", fetch = FetchType.EAGER)
-    private List<Order> orders;
+//    @OneToMany(mappedBy = "video", fetch = FetchType.EAGER)
+//    private List<Order> orders;
 
     @OneToMany(mappedBy = "video", fetch = FetchType.EAGER)
     private List<Comment> comments;

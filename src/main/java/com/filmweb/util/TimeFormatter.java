@@ -23,13 +23,11 @@ public class TimeFormatter {
         intervals.put("giây", 1L);
     }
 
-    private Duration getDuration(Timestamp timestamp) {
-        LocalDateTime createdTime = timestamp.toLocalDateTime();
-        LocalDateTime now = LocalDateTime.now();
-        return Duration.between(createdTime, now);
+    private Duration getDuration(LocalDateTime timestamp) {
+        return Duration.between(timestamp, LocalDateTime.now());
     }
 
-    public String getTimeAgoString(Timestamp timestamp){
+    public String getTimeAgoString(LocalDateTime timestamp){
         long seconds = this.getDuration(timestamp).toSeconds();
 
         for(Map.Entry<String, Long> entry : intervals.entrySet()){

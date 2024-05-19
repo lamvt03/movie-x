@@ -31,7 +31,7 @@ public class VideoMapper {
                     entity.getDescription(),
                     entity.getPrice(),
                     entity.isActive(),
-                    entity.getCreatedAt().toLocalDateTime(),
+                    entity.getCreatedAt(),
                     entity.getHistories().stream()
                             .filter(History::getIsLiked)
                             .toList().size(),

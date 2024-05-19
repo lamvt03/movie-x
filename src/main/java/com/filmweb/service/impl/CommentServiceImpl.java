@@ -53,7 +53,6 @@ public class CommentServiceImpl implements CommentService {
         comment.setUser(user);
         comment.setVideo(video);
         comment.setContent(content);
-        comment.setCreatedAt(new Timestamp(System.currentTimeMillis()));
         return commentDao.create(comment);
     }
 
@@ -86,7 +85,6 @@ public class CommentServiceImpl implements CommentService {
         comment.setUser(user);
         comment.setVideo(video);
         comment.setContent(req.content());
-        comment.setCreatedAt(new Timestamp(System.currentTimeMillis()));
         commentDao.create(comment);
 
         return this.loadMoreComments(href,1, 3);

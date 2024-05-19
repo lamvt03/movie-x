@@ -6,7 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.sql.Timestamp;
+import java.time.LocalDateTime;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -23,8 +23,8 @@ public class Comment {
     @Column(columnDefinition = "nvarchar(255)")
     private String content;
 
-    @Column(columnDefinition = "datetime")
-    private Timestamp createdAt;
+//    @Column(columnDefinition = "datetime")
+    private LocalDateTime createdAt;
 
     @ManyToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "userId", referencedColumnName = "id")
@@ -33,4 +33,9 @@ public class Comment {
     @ManyToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "videoId", referencedColumnName = "id")
     private Video video;
+
+    @PrePersist
+    public void onPrePersist(){
+        this.createdAt = LocalDateTime.now();
+    }
 }
