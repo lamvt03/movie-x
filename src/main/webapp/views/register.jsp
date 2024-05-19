@@ -7,6 +7,7 @@
 --%>
 <%@ page contentType="text/html; charset=UTF-8" language="java" %>
 <%@ include file="/views/common/taglib.jsp" %>
+
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -25,7 +26,7 @@
             <div class="col-lg-12 text-center">
                 <div class="normal__breadcrumb__text">
                     <h2>Đăng Ký</h2>
-                    <p>Chào mừng bạn đến với website chính thức của MOVIE W3B</p>
+                    <p>Chào mừng bạn đến với website chính thức của MOVIE X</p>
                 </div>
             </div>
         </div>
@@ -43,25 +44,30 @@
                     <form id="register-form-submit" onsubmit="return validateRegisterForm()" action="${initParam['mvcPath']}/register"
                           method="POST">
                         <div class="input__item">
-                            <input type="text" name="email" placeholder="Địa chỉ Email">
-                            <span class="icon_mail"></span>
+                            <i class="fa-solid fa-envelope"></i>
+                            <input type="text" name="email" placeholder="Địa chỉ Email"/>
+
                         </div>
                         <div class="input__item">
-                            <input type="text" name="fullName" placeholder="Họ và tên">
-                            <span class="icon_profile"></span>
+                            <i class="fa-solid fa-user"></i>
+                            <input type="text" name="fullName" placeholder="Họ và tên"/>
+
                         </div>
                         <div class="input__item">
-                            <input type="text" name="phone" placeholder="Số điện thoại">
-                            <span class="icon_phone"></span>
+                            <i class="fa-solid fa-phone"></i>
+                            <input type="text" name="phone" placeholder="Số điện thoại"/>
+
                         </div>
                         <div class="input__item">
-                            <input type="password" name="password" placeholder="Mật khẩu">
-                            <span class="icon_lock"></span>
+                            <i class="fa-solid fa-lock"></i>
+                            <input type="password" name="password" placeholder="Mật khẩu"/>
+
                         </div>
                         <div class="input__item">
+                            <i class="fa-solid fa-lock"></i>
                             <input type="password" name="passwordConfirm"
-                                   placeholder="Nhập lại mật khẩu"> <span
-                                class="icon_lock"></span>
+                                   placeholder="Nhập lại mật khẩu">
+
                         </div>
                         <button type="submit" id="submitRegister" class="site-btn">Xác
                             nhận

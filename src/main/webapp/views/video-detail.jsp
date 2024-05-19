@@ -198,7 +198,7 @@
                             </c:forEach>
                         </div>
                         <c:if test="${lastPage > 1}">
-                            <div class="float-right">
+                            <div class="float-end">
                                 <span class="showMoreBtn">Hiển thị thêm bình luận <i class="fa-solid fa-angle-down"></i></span>
                             </div>
                         </c:if>

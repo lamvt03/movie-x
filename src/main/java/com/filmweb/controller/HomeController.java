@@ -111,6 +111,13 @@ public class HomeController {
 
         List<VideoDto> videos = videoService.findAll(currentPage, AppConstant.CATEGORY_PAGE_LIMIT);
         models.put("videos", videos);
+
+        List<VideoDto> topVideos = videoService.findTopYear(2024, 1, 4);
+        models.put("topVideos", topVideos);
+
+        List<CommentDto> newestComments = commentService.findNewestComments(3);
+        models.put("newestComments", newestComments);
+
         return "category.jsp";
     }
 

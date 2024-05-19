@@ -87,7 +87,6 @@ public class VideoServiceImpl implements VideoService {
                         .director(director)
                         .actor(actor)
                         .category(category)
-                        .heading(description)
                         .price(price)
                         .description(content)
                         .createdAt(new Timestamp(System.currentTimeMillis()))
@@ -108,7 +107,6 @@ public class VideoServiceImpl implements VideoService {
         video.setDirector(director);
         video.setActor(actor);
         video.setCategory(category);
-        video.setHeading(heading);
         video.setUpdatedAt(new Timestamp(System.currentTimeMillis()));
         Long price = Long.parseLong(formattedPrice.replace(".", ""));
         video.setPrice(price);

@@ -24,7 +24,6 @@ public class VideoMapper {
                     entity.getPoster(),
                     entity.getViews(),
                     entity.getShare(),
-                    entity.getHeading(),
                     entity.getDirector(),
                     entity.getActor(),
                     entity.getCategory().getName(),

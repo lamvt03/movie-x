@@ -30,9 +30,6 @@ public class Video {
 
     private Integer share;
 
-    @Column(columnDefinition = "ntext")
-    private String heading;
-
     @Column(columnDefinition = "nvarchar(max)")
     private String director;
 

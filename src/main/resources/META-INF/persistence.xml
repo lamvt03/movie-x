@@ -15,17 +15,26 @@
         <class>com.filmweb.entity.Category</class>
         <exclude-unlisted-classes>true</exclude-unlisted-classes>
         <properties>
-            <property name="jakarta.persistence.jdbc.driver" value="com.microsoft.sqlserver.jdbc.SQLServerDriver" />
-            <property name="jakarta.persistence.jdbc.url" value="jdbc:sqlserver://localhost:1433;databaseName=MovieX;encrypt=true;trustServerCertificate=true"/>
-            <property name="jakarta.persistence.jdbc.user" value="sa" />
-            <property name="jakarta.persistence.jdbc.password" value="123" />
-<!--            <property name="hibernate.enable_lazy_load_no_trans" value="true"/>-->
-<!--            <property name="jakarta.persistence.schema-generation.database.action" value="drop-and-create"/>-->
-<!--            <property name="jakarta.persistence.schema-generation.create-source" value="metadata"/>-->
-<!--            <property name="jakarta.persistence.schema-generation.drop-source" value="metadata" />-->
-<!--            <property name="jakarta.persistence.sql-load-script-source" value="META-INF/sql/data.sql" />-->
+<!--            <property name="jakarta.persistence.jdbc.url" value="jdbc:sqlserver://lamvt03server.database.windows.net:1433;databaseName=MovieX;useSSL=true;encrypt=true;trustServerCertificate=true;hostNameInCertificate=*.database.windows.net"/>-->
+<!--            <property name="jakarta.persistence.jdbc.user" value="lamvt03" />-->
+<!--            <property name="jakarta.persistence.jdbc.password" value="21092003aA@" />-->
+
+<!--            hibernate connection -->
+            <property name="hibernate.connection..driver_class" value="com.microsoft.sqlserver.jdbc.SQLServerDriver" />
+            <property name="hibernate.connection.url" value="jdbc:sqlserver://localhost:1433;databaseName=MovieX;encrypt=true;trustServerCertificate=true"/>
+            <property name="hibernate.connection.username" value="sa" />
+            <property name="hibernate.connection.password" value="123" />
+
+<!--            Hikari connection pool-->
+            <property name="hibernate.hikari.minimumIdle" value="5" />
+            <property name="hibernate.hikari.maximumPoolSize" value="10" />
+            <property name="hibernate.hikari.idleTimeout" value="30000" />
+            <property name="hibernate.connection.provider_class" value="com.zaxxer.hikari.hibernate.HikariConnectionProvider"/>
+
+            <property name="hibernate.dialect" value="org.hibernate.dialect.SQLServerDialect"/>
             <property name="hibernate.show_sql" value="true" />
             <property name="hibernate.format_sql" value="true" />
+            <property name="hibernate.hbm2ddl.auto" value="update"/>
         </properties>
     </persistence-unit>
 </persistence>

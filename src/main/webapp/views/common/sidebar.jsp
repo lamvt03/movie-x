@@ -53,7 +53,7 @@
                         <p class="text-light-indigo">
                             ${newestComment.content}
                         </p>
-                        <span class="rounded bg-light-gray text-dark-light p-1 mt-2">${newestComment.timeAgo}</span>
+                        <span class="rounded bg-light-gray text-dark-light p-1 mt-3">${newestComment.timeAgo}</span>
                     </div>
                 </div>
             </c:forEach>

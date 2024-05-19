@@ -27,8 +27,6 @@ public class VideoDto {
 
     private Integer share;
 
-    private String heading;
-
     private String director;
 
     private String actor;

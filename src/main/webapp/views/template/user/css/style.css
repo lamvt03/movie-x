@@ -795,7 +795,7 @@ ol {
 }
 .product__sidebar__view__item:hover .overlay{
     cursor: pointer;
-    animation: slide-top 0.1s linear both;
+    animation: slide-top 0.2s linear both;
 }
 @keyframes slide-top {
     0% {
