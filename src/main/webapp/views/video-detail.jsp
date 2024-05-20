@@ -197,11 +197,18 @@
                                 </div>
                             </c:forEach>
                         </div>
-                        <c:if test="${lastPage > 1}">
-                            <div class="float-end">
-                                <span class="showMoreBtn">Hiển thị thêm bình luận <i class="fa-solid fa-angle-down"></i></span>
-                            </div>
-                        </c:if>
+                        <c:choose>
+                            <c:when test="${lastPage > 1}">
+                                <div class="float-end">
+                                    <span class="showMoreBtn">Hiển thị thêm bình luận <i class="fa-solid fa-angle-down"></i></span>
+                                </div>
+                            </c:when>
+                            <c:otherwise>
+                                <div class="d-none float-end">
+                                    <span class="showMoreBtn">Hiển thị thêm bình luận <i class="fa-solid fa-angle-down"></i></span>
+                                </div>
+                            </c:otherwise>
+                        </c:choose>
                     </div>
 
                 </div>

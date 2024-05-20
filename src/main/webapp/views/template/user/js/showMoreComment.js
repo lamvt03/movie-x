@@ -5,7 +5,7 @@ showMoreBtn.onclick = () => {
     page++;
     loadingContainer.classList.remove("invisible");
     const href = document.querySelector(".href").value;
-    fetch('/movie-x/api/video/commentList?v=' + href + '&page=' + page, {
+    fetch(`/movie-x/api/video/commentList?v=${href}&page=${page}`, {
         method: "GET",
         headers: {
             "Content-Type": "application/json",

@@ -10,6 +10,20 @@ import java.io.IOException;
 
 @WebFilter("/movie-x/*")
 public class PageRedirectFilter implements Filter {
+
+    private final String[] BLACK_LIST = {
+            "/login",
+            "/logout",
+            "/register",
+            "/password",
+            "/otp",
+            "/verify",
+            "/profile",
+            "/payment",
+            "/api",
+            "/admin/video/delete"
+    };
+
     @Override
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
         HttpServletRequest httpRequest = (HttpServletRequest) servletRequest;
@@ -17,12 +31,7 @@ public class PageRedirectFilter implements Filter {
         HttpSession session = httpRequest.getSession(true);
 
         String requestURI = httpRequest.getRequestURI();
-        if(!(requestURI.contains("/login") || requestURI.contains("/logout")
-            || requestURI.contains("/password") || requestURI.contains("/otp")
-            || requestURI.contains("/register")  || requestURI.contains("/verify")
-            || requestURI.contains("/profile") || requestURI.contains("/payment")
-            || requestURI.contains("/api")
-            || isResourceRequest(requestURI))){
+        if(isValidRequestURI(requestURI)){
             String queryString = httpRequest.getQueryString();
 
             // Store the current URL in the session
@@ -34,5 +43,14 @@ public class PageRedirectFilter implements Filter {
     }
     private boolean isResourceRequest(String requestURI) {
         return requestURI.endsWith(".css") || requestURI.endsWith(".js") || requestURI.endsWith(".png") || requestURI.endsWith(".jpg");
+    }
+
+    private boolean isValidRequestURI(String requestURI){
+        for(String pattern: BLACK_LIST){
+            if(requestURI.contains(pattern)){
+                return false;
+            }
+        }
+        return !isResourceRequest(requestURI);
     }
 }

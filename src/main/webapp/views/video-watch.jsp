@@ -70,11 +70,18 @@
                                 </div>
                             </c:forEach>
                         </div>
-                        <c:if test="${lastPage > 1}">
-                            <div class="float-end">
-                                <span class="showMoreBtn">Hiển thị thêm bình luận <i class="fa-solid fa-angle-down"></i></span>
-                            </div>
-                        </c:if>
+                        <c:choose>
+                            <c:when test="${lastPage > 1}">
+                                <div class="float-end">
+                                    <span class="showMoreBtn">Hiển thị thêm bình luận <i class="fa-solid fa-angle-down"></i></span>
+                                </div>
+                            </c:when>
+                            <c:otherwise>
+                                <div class="float-end">
+                                    <span class="d-none showMoreBtn">Hiển thị thêm bình luận <i class="fa-solid fa-angle-down"></i></span>
+                                </div>
+                            </c:otherwise>
+                        </c:choose>
                     </div>
                 </div>
 
@@ -131,24 +138,28 @@
     <c:remove var="buyBeforeWatch" scope="session"/>
 </c:if>
 
-<script type="text/javascript">
-    const guestBtn = document.querySelector('#guestBtn');
-    guestBtn.onclick = () => {
-        Swal.fire({
-            title: 'Thông báo',
-            text: "Vui lòng đăng nhập trước khi bình luận",
-            icon: 'info',
-            showCloseButton: true,
-            showCancelButton: true,
-            focusCancel: false,
-            cancelButtonColor: '#e74c3c',
-            cancelButtonText: 'Huỷ',
-            confirmButtonColor: '#27ae60',
-            confirmButtonText: '<a style="color: white;" href="${initParam['mvcPath']}/login">Đăng Nhập</a>'
-        })
-    }
-</script>
-<script type="text/javascript" src="${pageContext.request.contextPath}/views/template/user/js/postComment.js"> </script>
+<c:if test="${empty sessionScope.currentUser}">
+    <script type="text/javascript">
+        const guestBtn = document.querySelector('#guestBtn');
+        guestBtn.onclick = () => {
+            Swal.fire({
+                title: 'Thông báo',
+                text: "Vui lòng đăng nhập trước khi bình luận",
+                icon: 'info',
+                showCloseButton: true,
+                showCancelButton: true,
+                focusCancel: false,
+                cancelButtonColor: '#e74c3c',
+                cancelButtonText: 'Huỷ',
+                confirmButtonColor: '#27ae60',
+                confirmButtonText: '<a style="color: white;" href="${initParam['mvcPath']}/login">Đăng Nhập</a>'
+            })
+        }
+    </script>
+</c:if>
+
 <script type="text/javascript" src="${pageContext.request.contextPath}/views/template/user/js/showMoreComment.js"></script>
+<script type="text/javascript" src="${pageContext.request.contextPath}/views/template/user/js/postComment.js"> </script>
+
 </body>
 </html>
