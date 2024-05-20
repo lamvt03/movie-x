@@ -26,8 +26,9 @@ public class VideoDaoImpl extends AbstractDao<Video> implements VideoDao {
     }
 
     @Override
-    public List<Video> findAllDeletedVideos(int page, int limit) {
-        return super.findAll(Video.class, false, page, limit);
+    public List<Video> findByIsActiveFalseOrderByUpdatedAtDesc(int page, int limit) {
+        String jpql = "SELECT v FROM Video v WHERE v.isActive = 0 ORDER BY v.updatedAt DESC";
+        return super.findMany(Video.class, page, limit, jpql);
     }
 
     @Override

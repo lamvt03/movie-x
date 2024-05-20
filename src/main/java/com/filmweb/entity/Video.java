@@ -10,7 +10,7 @@ import java.util.List;
 @Getter @Setter
 @Builder
 @Entity
-@Table(name = "_video")
+@Table(name = "videos")
 public class Video extends AbstractEntity{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -36,7 +36,7 @@ public class Video extends AbstractEntity{
     private String actor;
 
     @ManyToOne
-    @JoinColumn(name = "categoryId", referencedColumnName = "id")
+    @JoinColumn(name = "category_Id", referencedColumnName = "id")
     private Category category;
 
     @Column(columnDefinition = "ntext")
@@ -44,6 +44,7 @@ public class Video extends AbstractEntity{
 
     private Long price;
 
+    @Column(name = "is_active")
     private boolean isActive;
 
 

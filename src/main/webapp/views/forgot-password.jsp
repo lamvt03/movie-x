@@ -94,12 +94,12 @@
         const email = document.getElementsByName("email")[0].value;
 
         if (!email) {
-            showSwalAlert('error', 'Vui lòng nhập địa chỉ Email !');
+            showTopEndAlert('error', 'Vui lòng nhập địa chỉ Email !');
             return false;
         }
 
         if (!emailRegex.test(email)) {
-            showSwalAlert('error', 'Địa chỉ Email không đúng định dạng !');
+            showTopEndAlert('error', 'Địa chỉ Email không đúng định dạng !');
             return false;
         }
 

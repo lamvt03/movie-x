@@ -10,7 +10,7 @@ public interface VideoService {
     List<VideoDto> findTrending(int limit);
     List<VideoDto> findAll(int page, int limit);
     long count();
-    List<VideoDto> findAllDisabled(int page, int limit);
+    List<VideoDto> findDeletedVideos(int page, int limit);
     long countDisabled();
     List<VideoDto> findByKeyword(String keyword);
 

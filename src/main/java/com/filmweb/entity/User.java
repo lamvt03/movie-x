@@ -11,27 +11,32 @@ import java.util.List;
 @Getter @Setter
 @Builder
 @Entity
-@Table(name = "_user")
-public class User {
+@Table(name = "users")
+public class User extends AbstractEntity{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private String password;
 
+    @Column(unique = true)
     private String email;
 
+    @Column(unique = true)
     private String phone;
 
-    @Column(columnDefinition = "nvarchar(max)")
+    @Column(name = "full_name",columnDefinition = "nvarchar(max)")
     private String fullName;
 
+    @Column(name = "is_admin")
     private Boolean isAdmin;
 
+    @Column(name = "is_active")
     private Boolean isActive;
 
     private String token;
 
+    @Column(name = "avt_id")
     private Integer avtId;
 
     @OneToMany(mappedBy = "user")

@@ -3,7 +3,7 @@ package com.filmweb.entity;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.sql.Timestamp;
+import java.time.LocalDateTime;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -11,7 +11,7 @@ import java.sql.Timestamp;
 @Setter
 @Builder
 @Entity
-@Table(name = "_category")
+@Table(name = "categories")
 public class Category {
 
     @Id
@@ -24,11 +24,11 @@ public class Category {
     @Column(columnDefinition = "nvarchar(50)", unique = true)
     private String code;
 
-    @Column(columnDefinition = "datetime")
-    private Timestamp createdAt;
+    @Column(name = "created_at")
+    private LocalDateTime createdAt;
 
     @PrePersist
     private void prePersist(){
-        this.createdAt = (this.createdAt == null) ? new Timestamp(System.currentTimeMillis()) : this.createdAt;
+        this.createdAt = LocalDateTime.now();
     }
 }

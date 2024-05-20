@@ -60,15 +60,14 @@
         <form action="${initParam['mvcPath']}/search" method="get" class="search-model-form"
               autocomplete="off">
             <input type="text" name="keyword" id="search-input"
-                   placeholder="Tìm kiếm...">
+                   placeholder="Tìm kiếm..."/>
         </form>
     </div>
 </div>
 <!-- Search model end -->
 
 <!-- Js Plugins -->
-<%--<script src="sweetalert2.min.js"></script>--%>
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="${pageContext.request.contextPath}/views/template/user/js/sweetalert2.js"></script>
 <script src="${pageContext.request.contextPath}/views/template/user/js/jquery-3.3.1.min.js"></script>
 <script src="${pageContext.request.contextPath}/views/template/user/js/plyr.js"></script>
 <script src="${pageContext.request.contextPath}/views/template/user/js/jquery.nice-select.min.js"></script>
@@ -77,6 +76,7 @@
 <script src="${pageContext.request.contextPath}/views/template/user/js/bootstrap.min.js"></script>
 <script src="${pageContext.request.contextPath}/views/template/user/js/owl.carousel.min.js"></script>
 <script src="${pageContext.request.contextPath}/views/template/user/js/main.js"></script>
+<script src="${pageContext.request.contextPath}/views/template/user/js/custom.js"></script>
 <script src="${pageContext.request.contextPath}/views/template/user/js/validateUser.js"></script>
 
 <!-- đăng nhập thành công -->
@@ -84,12 +84,12 @@
     <c:choose>
         <c:when test="${sessionScope.loginSuccess}">
             <script>
-                showSwalAlert('success', 'Đăng nhập thành công');
+                showTopEndAlert('success', 'Đăng nhập thành công');
             </script>
         </c:when>
         <c:otherwise>
             <script>
-                showSwalAlert('error', 'Tên tài khoản hoặc mật khẩu không chính xác');
+                showTopEndAlert('error', 'Tên tài khoản hoặc mật khẩu không chính xác');
             </script>
         </c:otherwise>
     </c:choose>
@@ -98,27 +98,16 @@
 </c:if>
 
 
-<c:if test="${not empty sessionScope.loginFail}">
-    <c:if test="${sessionScope.loginFail}">
+<c:if test="${not empty sessionScope.emailNotVerified}">
+    <c:if test="${sessionScope.emailNotVerified}">
         <script>
-            showSwalAlert('warning', 'Tài khoản không hoạt động');
+            showTopEndAlert('warning', 'Tài khoản chưa được xác minh email');
         </script>
     </c:if>
 
-    <c:remove var="loginFail" scope="session"/>
+    <c:remove var="emailNotVerified" scope="session"/>
 </c:if>
 
-
-<c:if test="${not empty sessionScope.registerSuccess}">
-    <c:if test="${sessionScope.registerSuccess}">
-        <script>
-            showCenterAlert('success', 'Thành công', 'Một email xác minh đã gửi đến địa chỉ email của bạn');
-        </script>
-    </c:if>
-
-    <%-- Remove the attribute after displaying the message --%>
-    <c:remove var="registerSuccess" scope="session" />
-</c:if>
 
 
 

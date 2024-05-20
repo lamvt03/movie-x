@@ -56,8 +56,8 @@ public class VideoServiceImpl implements VideoService {
     }
 
     @Override
-    public List<VideoDto> findAllDisabled(int page, int limit) {
-        return videoDao.findAllDeletedVideos(page, limit).stream()
+    public List<VideoDto> findDeletedVideos(int page, int limit) {
+        return videoDao.findByIsActiveFalseOrderByUpdatedAtDesc(page, limit).stream()
                 .map(videoMapper::toDto)
                 .toList();
     }

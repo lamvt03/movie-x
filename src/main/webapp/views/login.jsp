@@ -111,6 +111,16 @@
     <c:remove var="newPassSuccess" scope="session"/>
 </c:if>
 
+<c:if test="${not empty sessionScope.registerSuccess}">
+    <c:if test="${sessionScope.registerSuccess}">
+        <script>
+            showCenterAlert('success', 'Thành công', 'Email xác minh đang được gửi đến địa chỉ email của bạn. Quá trình này có thể mất từ 3 - 5 phút');
+        </script>
+    </c:if>
+
+    <c:remove var="registerSuccess" scope="session" />
+</c:if>
+
 <script type="text/javascript">
     function validateLoginForm() {
         const emailRegex = /\b[\w.%-]+@[-.\w]+\.[A-Za-z]{2,4}\b/;
@@ -120,19 +130,19 @@
         const password = document.getElementsByName("password")[0].value;
 
         if (!email) {
-            showSwalAlert('error', 'Vui lòng nhập địa chỉ Email !');
+            showTopEndAlert('error', 'Vui lòng nhập địa chỉ Email !');
             return false;
         }
         if (!emailRegex.test(email)) {
-            showSwalAlert('error', 'Địa chỉ Email không đúng định dạng !');
+            showTopEndAlert('error', 'Địa chỉ Email không đúng định dạng !');
             return false;
         }
         if (!password) {
-            showSwalAlert('error', 'Vui lòng nhập mật khẩu !');
+            showTopEndAlert('error', 'Vui lòng nhập mật khẩu !');
             return false;
         }
         if (password.length < PASSWORD_LENGTH) {
-            showSwalAlert('error', 'Mật khẩu phải có ít nhất 6 ký tự !');
+            showTopEndAlert('error', 'Mật khẩu phải có ít nhất 6 ký tự !');
             return false;
         }
         return true;

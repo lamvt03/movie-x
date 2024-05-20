@@ -11,7 +11,7 @@ import java.sql.Timestamp;
 @Setter
 @Builder
 @Entity
-@Table(name = "_order")
+@Table(name = "orders")
 public class Order {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -38,10 +38,10 @@ public class Order {
     private Timestamp vnp_PayDate;
 
     @ManyToOne(cascade = CascadeType.MERGE)
-    @JoinColumn(name = "videoId", referencedColumnName = "id")
+    @JoinColumn(name = "video_id", referencedColumnName = "id")
     private Video video;
 
     @ManyToOne(cascade = CascadeType.MERGE)
-    @JoinColumn(name = "userId", referencedColumnName = "id")
+    @JoinColumn(name = "user_id", referencedColumnName = "id")
     private User user;
 }

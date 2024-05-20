@@ -95,17 +95,17 @@
         const otp = document.querySelector("#otp").value;
 
         if (!otp) {
-            showSwalAlert('error', 'Vui lòng nhập mã OTP');
+            showTopEndAlert('error', 'Vui lòng nhập mã OTP');
             return false;
         }
 
         if (!regexOTP.test(otp)) {
-            showSwalAlert('error', 'Mã OTP không đúng định dạng');
+            showTopEndAlert('error', 'Mã OTP không đúng định dạng');
             return false;
         }
 
         if (otp.length !== OTP_LENGTH) {
-            showSwalAlert('error', 'Mã OTP phải có 6 kí tự');
+            showTopEndAlert('error', 'Mã OTP phải có 6 kí tự');
             return false;
         }
         return true;
@@ -118,7 +118,7 @@
         if (errorOTP) {
 %>
 <script>
-    showSwalAlert('error', 'Mã OTP không chính xác !');
+    showTopEndAlert('error', 'Mã OTP không chính xác !');
 </script>
 <%
         }

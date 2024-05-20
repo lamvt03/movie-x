@@ -14,6 +14,7 @@ import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 
 import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @ApplicationScoped
@@ -41,7 +42,7 @@ public class HistoryServiceImpl implements HistoryService {
                     History.builder()
                             .user(user)
                             .video(video)
-                            .viewedAt(new Timestamp(System.currentTimeMillis()))
+                            .viewedAt(LocalDateTime.now())
                             .isLiked(Boolean.FALSE)
                             .build()
             );
@@ -55,7 +56,7 @@ public class HistoryServiceImpl implements HistoryService {
         History history = historyDao.findByUserIdAndVideoId(userId, video.getId());
         if (history.getIsLiked() == Boolean.FALSE){
             history.setIsLiked(Boolean.TRUE);
-            history.setLikedAt(new Timestamp(System.currentTimeMillis()));
+            history.setLikedAt(LocalDateTime.now());
         }else{
             history.setIsLiked(Boolean.FALSE);
             history.setLikedAt(null);

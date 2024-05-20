@@ -63,7 +63,7 @@
                                     </li>
                                 </c:when>
                                 <c:otherwise>
-                                    <li><a href="${initParam['mvcPath']}/login"><span class="icon_profile"></span>
+                                    <li><a href="${initParam['mvcPath']}/login"><i class="fa-solid fa-user"></i>
                                         Đăng Nhập</a></li>
                                 </c:otherwise>
                             </c:choose>

@@ -13,7 +13,7 @@ import java.time.LocalDateTime;
 @Getter
 @Setter
 @Entity
-@Table(name = "_comment")
+@Table(name = "comments")
 public class Comment {
 
     @Id
@@ -23,15 +23,15 @@ public class Comment {
     @Column(columnDefinition = "nvarchar(255)")
     private String content;
 
-//    @Column(columnDefinition = "datetime")
+    @Column(name = "created_at")
     private LocalDateTime createdAt;
 
     @ManyToOne(cascade = CascadeType.MERGE)
-    @JoinColumn(name = "userId", referencedColumnName = "id")
+    @JoinColumn(name = "user_id", referencedColumnName = "id")
     private User user;
 
     @ManyToOne(cascade = CascadeType.MERGE)
-    @JoinColumn(name = "videoId", referencedColumnName = "id")
+    @JoinColumn(name = "video_id", referencedColumnName = "id")
     private Video video;
 
     @PrePersist

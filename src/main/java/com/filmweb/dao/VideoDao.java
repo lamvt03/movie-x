@@ -12,7 +12,7 @@ public interface VideoDao {
 
     List<Video> findAll(int page, int limit);
 
-    List<Video> findAllDeletedVideos(int page, int limit);
+    List<Video> findByIsActiveFalseOrderByUpdatedAtDesc(int page, int limit);
 
     Video findByHref(String href);
 

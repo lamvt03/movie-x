@@ -13,7 +13,7 @@ import java.sql.Timestamp;
 @Getter
 @Setter
 @Entity
-@Table(name = "_rating")
+@Table(name = "ratings")
 public class Rating {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -21,14 +21,14 @@ public class Rating {
 
     private int star;
 
-    @Column(columnDefinition = "datetime")
+    @Column(name = "created_at")
     private Timestamp createdAt;
 
     @ManyToOne(cascade = CascadeType.MERGE)
-    @JoinColumn(name = "userId", referencedColumnName = "id")
+    @JoinColumn(name = "user_id", referencedColumnName = "id")
     private User user;
 
     @ManyToOne(cascade = CascadeType.MERGE)
-    @JoinColumn(name = "videoId", referencedColumnName = "id")
+    @JoinColumn(name = "video_id", referencedColumnName = "id")
     private Video video;
 }

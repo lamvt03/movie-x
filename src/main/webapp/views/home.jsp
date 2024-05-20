@@ -10,6 +10,7 @@
 
 <jsp:useBean id="trendingVideos" scope="request" type="java.util.List"/>
 <jsp:useBean id="videos" scope="request" type="java.util.List"/>
+
 <html>
 <head>
     <title>${initParam['website-name']} - Trang chủ</title>
@@ -30,20 +31,8 @@
                                 <div class="label">${trendingVideo.category}</div>
                                 <h2>${trendingVideo.title}</h2>
                                 <p>Thể loại: ${trendingVideo.category}</p>
-                                <c:choose>
-                                    <c:when test="${trendingVideo.price == 0}">
-                                        <a href="${initParam['mvcPath']}/video/watch?v=${trendingVideo.href}"><span>Xem
+                                <a href="${initParam['mvcPath']}/video/detail?v=${trendingVideo.href}"><span>Xem
 													Ngay</span> <i class="fa-solid fa-angle-right"></i></a>
-                                    </c:when>
-                                    <c:otherwise>
-                                        <fmt:setLocale value="vi_VN"/>
-                                        <c:set var="formattedPrice" value="${trendingVideo.price}"/>
-                                        <fmt:formatNumber var="formattedPrice"
-                                                          value="${formattedPrice}" type="currency" currencyCode="VND"/>
-                                        <a href="${initParam['mvcPath']}/video/detail?v=${trendingVideo.href}"
-                                           class="watch-btn"><span>${formattedPrice}</span> <i class="fa-solid fa-angle-right"></i></a>
-                                    </c:otherwise>
-                                </c:choose>
                             </div>
                         </div>
                     </div>
@@ -69,10 +58,9 @@
                                 <h4>PHIM MỚI RA MẮT</h4>
                             </div>
                         </div>
-                        <div class="col-lg-4 col-md-4 col-sm-4">
+                        <div class="col-lg-4 col-md-4 col-sm-4 d-flex align-items-end justify-content-end">
                             <div class="btn__all">
-                                <a href="${initParam['mvcPath']}/category" class="primary-btn">Xem Tất Cả<span
-                                        class="arrow_right"></span></a>
+                                <a href="${initParam['mvcPath']}/category" class="primary-btn">Xem Tất Cả <i class="fa-solid fa-arrow-right"></i></a>
                             </div>
                         </div>
                     </div>

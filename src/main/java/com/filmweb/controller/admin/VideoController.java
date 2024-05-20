@@ -5,6 +5,7 @@ import com.filmweb.dto.VideoDto;
 import com.filmweb.entity.Category;
 import com.filmweb.service.CategoryService;
 import com.filmweb.service.VideoService;
+import com.filmweb.util.AppUtils;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.mvc.Controller;
@@ -31,6 +32,9 @@ public class VideoController {
 
     @Inject
     private HttpSession session;
+
+    @Inject
+    private AppUtils appUtils;
 
     @GET
     @Path("videos")
@@ -67,7 +71,7 @@ public class VideoController {
         }
         models.put("currentPage", currentPage);
 
-        List<VideoDto> videos = videoService.findAllDisabled(currentPage, AppConstant.SEARCH_PAGE_LIMIT);
+        List<VideoDto> videos = videoService.findDeletedVideos(currentPage, AppConstant.SEARCH_PAGE_LIMIT);
         models.put("videos", videos);
         return "admin-disabled-video-list.jsp";
     }
@@ -151,8 +155,10 @@ public class VideoController {
         if(videoDto != null){
             session.setAttribute("deleteVideoSuccess", true);
         }
-        return "redirect:admin/videos";
+        String prevUrl = appUtils.getPrevPageUrl(session);
+        return "redirect:" + prevUrl;
     }
+
     @POST
     @Path("video/restore")
     public String postVideoRestore(

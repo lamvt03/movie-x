@@ -153,7 +153,7 @@
     if(oldPasswordWrong != null && oldPasswordWrong){
 %>
 <script>
-    showSwalAlert('error', 'Mật khẩu cũ không chính xác');
+    showTopEndAlert('error', 'Mật khẩu cũ không chính xác');
 </script>
 <%
     }

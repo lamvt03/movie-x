@@ -1,31 +1,4 @@
-// toast alert
-function showSwalAlert(icon, title) {
-    const Toast = Swal.mixin({
-        toast: true,
-        position: 'top-end',
-        showConfirmButton: false,
-        timer: 3000,
-        timerProgressBar: true,
-        didOpen: (toast) => {
-            toast.addEventListener('mouseenter', Swal.stopTimer)
-            toast.addEventListener('mouseleave', Swal.resumeTimer)
-        }
-    });
 
-    Toast.fire({
-        icon: icon,
-        title: title
-    });
-}
-
-// center alert
-function showCenterAlert(icon, title, message) {
-    Swal.fire(
-        title,
-        message,
-        icon
-    )
-}
 
 // validate form login
 
@@ -44,47 +17,47 @@ function validateRegisterForm() {
     const passConfirm = document.getElementsByName("passwordConfirm")[0].value;
 
     if (!email) {
-        showSwalAlert('error', 'Vui lòng nhập địa chỉ Email');
+        showTopEndAlert('error', 'Vui lòng nhập địa chỉ Email');
         return false;
     }
     if (!emailRegex.test(email)) {
-        showSwalAlert('error', 'Địa chỉ Email không đúng định dạng');
+        showTopEndAlert('error', 'Địa chỉ Email không đúng định dạng');
         return false;
     }
     if (!fullname) {
-        showSwalAlert('error', 'Vui lòng nhập họ và tên');
+        showTopEndAlert('error', 'Vui lòng nhập họ và tên');
         return false;
     }
     if (fullname.length < 12) {
-        showSwalAlert('error', 'Họ tên không hợp lệ');
+        showTopEndAlert('error', 'Họ tên không hợp lệ');
         return false;
     }
     if (!nameRegex.test(fullname)) {
-        showSwalAlert('error', 'Họ và tên không đúng định dạng Việt Nam');
+        showTopEndAlert('error', 'Họ và tên không đúng định dạng Việt Nam');
         return false;
     }
     if (!phone) {
-        showSwalAlert('error', 'Vui lòng nhập số điện thoại');
+        showTopEndAlert('error', 'Vui lòng nhập số điện thoại');
         return false;
     }
     if (!phoneRegex.test(phone)) {
-        showSwalAlert('error', 'Số điện thoại không đúng định dạng Việt Nam');
+        showTopEndAlert('error', 'Số điện thoại không đúng định dạng Việt Nam');
         return false;
     }
     if (!password) {
-        showSwalAlert('error', 'Vui lòng nhập mật khẩu');
+        showTopEndAlert('error', 'Vui lòng nhập mật khẩu');
         return false;
     }
     if (password.length < 6) {
-        showSwalAlert('error', 'Mật khẩu phải có ít nhất 6 ký tự');
+        showTopEndAlert('error', 'Mật khẩu phải có ít nhất 6 ký tự');
         return false;
     }
     if (!passConfirm) {
-        showSwalAlert('error', 'Vui lòng nhập lại mật khẩu');
+        showTopEndAlert('error', 'Vui lòng nhập lại mật khẩu');
         return false;
     }
     if (password !== passConfirm) {
-        showSwalAlert('error', 'Nhập lại mật khẩu không khớp');
+        showTopEndAlert('error', 'Nhập lại mật khẩu không khớp');
         return false;
     }
 
@@ -115,19 +88,19 @@ function validateNewPassword() {
     var passConfirm = document.getElementsByName("confirm-password")[0].value;
 
     if (password == "") {
-        showSwalAlert('error', 'Vui lòng nhập mật khẩu !');
+        showTopEndAlert('error', 'Vui lòng nhập mật khẩu !');
         return false;
     }
     if (password.length < 6) {
-        showSwalAlert('error', 'Mật khẩu phải có ít nhất 6 ký tự !');
+        showTopEndAlert('error', 'Mật khẩu phải có ít nhất 6 ký tự !');
         return false;
     }
     if (passConfirm == "") {
-        showSwalAlert('error', 'Vui lòng nhập lại mật khẩu !');
+        showTopEndAlert('error', 'Vui lòng nhập lại mật khẩu !');
         return false;
     }
     if (password != passConfirm) {
-        showSwalAlert('error', 'Nhập lại mật khẩu không khớp !');
+        showTopEndAlert('error', 'Nhập lại mật khẩu không khớp !');
         return false;
     }
 
@@ -141,23 +114,23 @@ function validateChangePass() {
     const confirmPass = document.getElementsByName("cofirmPass")[0].value;
 
     if (!oldPass) {
-        showSwalAlert('error', 'Vui lòng nhập mật khẩu cũ !');
+        showTopEndAlert('error', 'Vui lòng nhập mật khẩu cũ !');
         return false;
     }
     if (!newPass) {
-        showSwalAlert('error', 'Vui lòng nhập mật khẩu mới !');
+        showTopEndAlert('error', 'Vui lòng nhập mật khẩu mới !');
         return false;
     }
     if (newPass.length < 6) {
-        showSwalAlert('error', 'Mật khẩu mới phải có ít nhất 6 ký tự !');
+        showTopEndAlert('error', 'Mật khẩu mới phải có ít nhất 6 ký tự !');
         return false;
     }
     if (!confirmPass) {
-        showSwalAlert('error', 'Vui lòng nhập lại mật khẩu !');
+        showTopEndAlert('error', 'Vui lòng nhập lại mật khẩu !');
         return false;
     }
     if (confirmPass !== newPass) {
-        showSwalAlert('error', 'Mật khẩu không đồng nhất !');
+        showTopEndAlert('error', 'Mật khẩu không đồng nhất !');
         return false;
     }
 
@@ -184,11 +157,11 @@ function checkEditProfile() {
     const phone = document.getElementsByName("phone")[0].value;
 
     if (!fullName) {
-        showSwalAlert('error', 'Vui lòng nhập họ và tên !');
+        showTopEndAlert('error', 'Vui lòng nhập họ và tên !');
         return false;
     }
     if (!phone) {
-        showSwalAlert('error', 'Vui lòng nhập số điện thoại !');
+        showTopEndAlert('error', 'Vui lòng nhập số điện thoại !');
         return false;
     }
 

@@ -12,7 +12,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @Getter @Setter
 @Entity
-@Table(name = "_share")
+@Table(name = "shares")
 public class Share {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -20,14 +20,14 @@ public class Share {
 
     private String email;
 
-    @Column(columnDefinition = "datetime")
+    @Column(name = "created_at")
     private LocalDateTime createAt;
 
     @ManyToOne(cascade = CascadeType.MERGE)
-    @JoinColumn(name = "userId", referencedColumnName = "id")
+    @JoinColumn(name = "user_id", referencedColumnName = "id")
     private User user;
 
     @ManyToOne(cascade = CascadeType.MERGE)
-    @JoinColumn(name = "videoId", referencedColumnName = "id")
+    @JoinColumn(name = "video_id", referencedColumnName = "id")
     private Video video;
 }
