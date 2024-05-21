@@ -111,24 +111,6 @@ function editVideo() {
 	return false;
 }
 
-// cofirm xoá video
-function deleteVideo(href) {
-	Swal.fire({
-		title: 'Cảnh Báo',
-		text: "Bạn có chắc chắn ngưng công chiếu phim không ?",
-		icon: 'warning',
-		showCancelButton: true,
-		confirmButtonColor: '#3085d6',
-		cancelButtonColor: '#d33',
-		confirmButtonText: 'Đồng ý !'
-	}).then((result) => {
-		if (result.isConfirmed) {
-			document.getElementById("confirmDelete").value = "true";
-			document.getElementById("videoForm").submit();
-		}
-	});
-	return false;
-}
 
 // cofirm edit user
 function ConfirmEditUser() {
@@ -157,32 +139,7 @@ function ConfirmEditUser() {
 }
 
 // cofirm retore video công chiếu
-function CofirmVideoToViews(href) {
-	Swal.fire({
-		title: 'Cảnh Báo !',
-		text: "Bạn có chắc chắn muốn công chiếu phim trở lại không ?",
-		icon: 'warning',
-		showCancelButton: true,
-		confirmButtonColor: '#3085d6',
-		cancelButtonColor: '#d33',
-		confirmButtonText: 'Đồng ý !'
-	}).then((result) => {
-		if (result.isConfirmed) {
-			document.getElementById("confirmDelete").value = "true";
-			document.getElementById("RestoreFormDisabled").submit();
-			// Swal.fire(
-			// 	'Thành công !',
-			// 	'Đổi trạng thái phim thành công !',
-			// 	'success'
-			// ).then(() => {
-			// 	document.getElementById("RestoreVideo").value = href;
-			// 	document.getElementById("RestoreFormDisabled").submit();
-			// });
-		}
-	});
 
-	return false;
-}
 
 //format giá tiền khi nhập vào
 function formatPrice(input) {

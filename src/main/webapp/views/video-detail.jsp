@@ -101,28 +101,36 @@
                             </div>
                         </div>
                         <div class="anime__details__btn">
-
-                            <c:if test="${not empty sessionScope.currentUser}">
-                                <button id="likeButton" class="follow-btn"
-                                        style="border: none; white-space: nowrap; width: 120px;
+                            <c:choose>
+                                <c:when test="${not empty sessionScope.currentUser}">
+                                    <button id="likeButton" class="follow-btn"
+                                            style="border: none; white-space: nowrap; width: 120px;
                             box-sizing: border-box;">
-                                    <c:choose>
+                                        <c:choose>
+                                            <c:when test="${flagLikeButton == true}">
+                                                Bỏ Thích
+                                            </c:when>
+                                            <c:otherwise>
+                                                Thích
+                                            </c:otherwise>
+                                        </c:choose>
+                                    </button>
 
-                                        <c:when test="${flagLikeButton == true}">
-                                            Bỏ Thích
-                                        </c:when>
-                                        <c:otherwise>
-                                            Thích
-                                        </c:otherwise>
-                                    </c:choose>
-                                </button>
+                                    <button type="button" class="follow-btn border-0"
+                                            data-toggle="modal" data-target="#exampleModal">
+                                        <i class="fa-regular fa-share-from-square"></i> Chia sẻ
+                                    </button>
 
-                                <button type="button" class="follow-btn border-0"
-                                        data-toggle="modal" data-target="#exampleModal">
-                                    <i class="fa-regular fa-share-from-square"></i> Chia sẻ
-                                </button>
+                                </c:when>
+                                <c:otherwise>
+                                    <button id="likeButton" class="follow-btn"
+                                            style="border: none; white-space: nowrap; width: 120px;
+                                box-sizing: border-box;">
+                                        Thích
+                                    </button>
+                                </c:otherwise>
+                            </c:choose>
 
-                            </c:if>
 
                             <c:choose>
                                 <c:when test="${video.price == 0}">
@@ -265,28 +273,70 @@
 <%@ include file="/views/common/footer.jsp" %>
 
 <script type="text/javascript" src="${pageContext.request.contextPath}/views/template/user/js/showMoreComment.js"></script>
-<script type="text/javascript">
-    const likeButton = document.querySelector('#likeButton');
-    likeButton.onclick = () => {
-        loadingContainer.classList.remove("invisible");
-        const href = document.querySelector('.href').value;
-        fetch('/movie-x/api/video/like?v=' + href, {
-            method: "GET",
-            headers: {
-                "Content-Type": "application/json",
-            },
-        })
-            .then((response) => response.json())
-            .then((data) => {
-                loadingContainer.classList.add("invisible");
-                if (data.isLiked) {
-                    likeButton.innerText = 'Bỏ thích';
-                } else {
-                    likeButton.innerText = 'Thích';
-                }
-            })
-    }
-</script>
+
+<c:choose>
+    <c:when test="${empty sessionScope.currentUser}">
+        <script type="text/javascript">
+            const clickPayment = document.getElementById('clickBeforeLogin');
+            clickPayment.onclick = () => {
+                Swal.fire({
+                    title: 'Thanh toán',
+                    text: "Bạn phải đăng nhập trước khi thanh toán",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Đồng ý'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        window.location.href = "/movie-x/login";
+                    }
+                })
+            }
+        </script>
+        <script type="text/javascript">
+            const likeButton = document.querySelector('#likeButton');
+            likeButton.onclick = () => {
+                Swal.fire({
+                    title: 'Thông báo',
+                    text: "Vui lòng đăng nhập trước khi thực hiện thao tác này",
+                    icon: 'warning',
+                    showCloseButton: true,
+                    showCancelButton: true,
+                    focusCancel: false,
+                    cancelButtonColor: '#e74c3c',
+                    cancelButtonText: 'Huỷ',
+                    confirmButtonColor: '#27ae60',
+                    confirmButtonText: '<a style="color: white;" href="${initParam['mvcPath']}/login">Đăng Nhập</a>'
+                })
+            }
+        </script>
+    </c:when>
+    <c:otherwise>
+        <script type="text/javascript">
+            const likeButton = document.querySelector('#likeButton');
+            likeButton.onclick = () => {
+                loadingContainer.classList.remove("invisible");
+                const href = document.querySelector('.href').value;
+                fetch('/movie-x/api/video/like?v=' + href, {
+                    method: "GET",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                })
+                    .then((response) => response.json())
+                    .then((data) => {
+                        loadingContainer.classList.add("invisible");
+                        if (data.isLiked) {
+                            likeButton.innerText = 'Bỏ thích';
+                        } else {
+                            likeButton.innerText = 'Thích';
+                        }
+                    })
+            }
+        </script>
+    </c:otherwise>
+</c:choose>
 
 <%
     Boolean sendMailSuccess = (Boolean) session.getAttribute("sendMailSuccess");
@@ -337,26 +387,6 @@
         })
     }
 
-    <c:if test="${empty sessionScope.currentUser}">
-    /* thông báo đăng nhập khi thanh toán */
-    const clickPayment = document.getElementById('clickBeforeLogin');
-
-    clickPayment.onclick = () => {
-        Swal.fire({
-            title: 'Thanh toán',
-            text: "Bạn phải đăng nhập trước khi thanh toán",
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonColor: '#3085d6',
-            cancelButtonColor: '#d33',
-            confirmButtonText: 'Đồng ý'
-        }).then((result) => {
-            if (result.isConfirmed) {
-                window.location.href = "/movie-x/login";
-            }
-        })
-    }
-    </c:if>
 
     <c:if test="${not empty sessionScope.paySuccess}">
         <c:choose>
@@ -379,7 +409,6 @@
                 });
             </c:otherwise>
         </c:choose>
-
         <c:remove var="paySuccess" scope="session" />
     </c:if>
 </script>

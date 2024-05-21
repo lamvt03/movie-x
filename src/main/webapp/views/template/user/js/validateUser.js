@@ -1,9 +1,3 @@
-
-
-// validate form login
-
-
-
 // validate register form
 function validateRegisterForm() {
     const emailRegex = /\b[\w.%-]+@[-.\w]+\.[A-Za-z]{2,4}\b/;

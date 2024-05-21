@@ -623,12 +623,11 @@ ol {
 -----------------------*/
 
 .product {
-    padding-bottom: 60px;
-    padding-top: 80px;
+    padding: 60px 0;
 }
 
 .product-page {
-    padding-top: 60px;
+    padding-top: 20px;
 }
 
 .btn__all {
@@ -946,15 +945,18 @@ ol {
     width: 100%;
 }
 .product__pagination .active {
-    color: darkblue;
+    color: #000000;
     background-color: white;
+}
+.product__pagination .active:hover{
+    color: rgba(0,0,0,0.8);
 }
 
 .product__pagination {
     padding-top: 15px;
 }
 
-.product__pagination a {
+.product__pagination a{
     display: inline-block;
     font-size: 15px;
     color: #b7b7b7;

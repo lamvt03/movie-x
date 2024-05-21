@@ -7,19 +7,14 @@ import com.filmweb.dto.UserDto;
 import com.filmweb.dto.VideoDto;
 import com.filmweb.entity.History;
 import com.filmweb.entity.Order;
-import com.filmweb.entity.User;
-import com.filmweb.entity.Video;
-import com.filmweb.mapper.VideoMapper;
 import com.filmweb.service.CommentService;
 import com.filmweb.service.HistoryService;
 import com.filmweb.service.OrderService;
 import com.filmweb.service.VideoService;
-import com.filmweb.util.JPAUtil;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.mvc.Controller;
 import jakarta.mvc.Models;
-import jakarta.persistence.EntityManager;
 import jakarta.servlet.http.HttpSession;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.Path;
@@ -27,7 +22,6 @@ import jakarta.ws.rs.PathParam;
 import jakarta.ws.rs.QueryParam;
 
 import java.util.List;
-import java.util.Objects;
 
 @ApplicationScoped
 @Controller
@@ -50,7 +44,6 @@ public class HomeController {
 
     @Inject
     private CommentService commentService;
-
 
     @GET
     @Path("home")
@@ -183,7 +176,6 @@ public class HomeController {
     @Path("/about")
     public String getAbout(
     ){
-
         return "about.jsp";
     }
 }

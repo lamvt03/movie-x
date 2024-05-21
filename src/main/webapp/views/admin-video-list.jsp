@@ -38,7 +38,7 @@
             <div class="card">
                 <div class="card-body">
                     <a class="btn btn-primary float-end" href="${initParam['mvcPath']}/admin/video/add" role="button">
-                        <i class="ti ti-file-plus"></i> Phim mới
+                        Thêm phim mới <i class="fa-solid fa-plus"></i>
                     </a>
                     <h5 class="card-title fw-semibold mb-4 mt-2">Danh Sách Video
                         Đang Công Chiếu</h5>
@@ -85,31 +85,14 @@
                                                     <button class="btn btn-danger ms-2 rounded-2"
                                                             onclick="deleteVideo('${video.href}')">Xoá
                                                     </button>
-                                                    <button type="button" data-bs-toggle="modal"
-                                                            data-bs-target="#modalLiveDemo${loop.index}"
-                                                            class="btn btn-success ms-2 rounded-2">Xem
-                                                    </button>
                                                 </div>
                                             </td>
                                         </tr>
 
-                                        <!-- Modal -->
-                                        <div class="modal fade" id="modalLiveDemo${loop.index}"
-                                             tabindex="-1" aria-labelledby="exampleModalLabel"
-                                             aria-hidden="true">
-                                            <div class="modal-dialog modal-xl modal-dialog-centered">
-                                                <div class="modal-content">
-                                                    <iframe id="player" width="100%" height="600"
-                                                            src="https://www.youtube.com/embed/${video.href}"
-                                                            frameborder="0" allowfullscreen></iframe>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <form id="videoForm" action="${initParam['mvcPath']}/admin/video/delete" method="post">
-                                            <input type="hidden" name="confirmation" id="confirmDelete"
-                                                   value="false"/> <input type="hidden" id="videoHref"
-                                                                          name="href" value="${video.href}">
+                                        <form id="videoForm-${video.href}" action="${initParam['mvcPath']}/admin/video/delete" method="post">
+                                            <input type="hidden" name="confirmation" id="confirmDelete-${video.href}"
+                                                   value="false"/>
+                                            <input type="hidden" name="href" value="${video.href}">
                                         </form>
 
                                     </c:forEach>
@@ -124,8 +107,8 @@
                         <ul class="pagination justify-content-center">
                             <c:if test="${currentPage == 1}">
                                 <li class="page-item text-secondary disabled"><a
-                                        class="page-link" href="#" aria-disabled="true"> <i
-                                        class="ti ti-chevron-left"></i>
+                                        class="page-link" href="#" aria-disabled="true">
+                                    <i class="fa-solid fa-caret-left"></i>
                                 </a></li>
                             </c:if>
 
@@ -133,7 +116,7 @@
                                 <li class="page-item text-secondary"><a class="page-link"
                                                                         href="${initParam['mvcPath']}/admin/videos?page=${currentPage - 1}"
                                                                         aria-disabled="true">
-                                    <i class="ti ti-chevron-left"></i>
+                                    <i class="fa-solid fa-caret-left"></i>
                                 </a></li>
                             </c:if>
 
@@ -147,8 +130,8 @@
 
                             <c:if test="${currentPage == maxPage}">
                                 <li class="page-item text-secondary disabled"><a
-                                        class="page-link" href="#" aria-disabled="true"> <i
-                                        class="ti ti-chevron-right"></i>
+                                        class="page-link" href="#" aria-disabled="true">
+                                    <i class="fa-solid fa-caret-right"></i>
                                 </a></li>
                             </c:if>
 
@@ -156,8 +139,9 @@
                                 <li class="page-item text-secondary"><a class="page-link"
                                                                         href="${initParam['mvcPath']}/admin/videos?page=${currentPage + 1}"
                                                                         aria-disabled="true">
-                                    <i class="ti ti-chevron-right"></i>
-                                </a></li>
+                                    <i class="fa-solid fa-caret-right"></i>
+                                </a>
+                                </li>
                             </c:if>
                         </ul>
                     </nav>
@@ -183,30 +167,48 @@
             </script>
         </c:otherwise>
     </c:choose>
+
     <c:remove var="addVideoSuccess" scope="session"/>
 </c:if>
 
 <c:if test="${not empty sessionScope.updateVideoSuccess}">
-    <c:choose>
-        <c:when test="${sessionScope.updateVideoSuccess}">
-            <script>
-                showCenterAlert('success', 'Thông báo', 'Chỉnh sửa phim thành công');
-            </script>
-        </c:when>
-    </c:choose>
+    <c:if test="${sessionScope.updateVideoSuccess}">
+        <script type="text/javascript">
+            showCenterAlert('success', 'Thông báo', 'Chỉnh sửa phim thành công');
+        </script>
+    </c:if>
+
     <c:remove var="updateVideoSuccess" scope="session"/>
 </c:if>
 
 <c:if test="${not empty sessionScope.deleteVideoSuccess}">
-    <c:choose>
-        <c:when test="${sessionScope.deleteVideoSuccess}">
-            <script>
-                showSwalAlert('success', 'Xoá video thành công');
-            </script>
-        </c:when>
-    </c:choose>
+    <c:if test="${sessionScope.deleteVideoSuccess}">
+        <script type="text/javascript">
+            showSwalAlert('success', 'Xoá video thành công');
+        </script>
+    </c:if>
+
     <c:remove var="deleteVideoSuccess" scope="session"/>
 </c:if>
 
+<script type="text/javascript">
+    const deleteVideo = (href) => {
+        Swal.fire({
+            title: 'Cảnh Báo',
+            text: "Bạn có chắc chắn ngưng công chiếu phim không ?",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Đồng ý !'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                document.querySelector("#confirmDelete-"+href).value = "true";
+                document.querySelector("#videoForm-"+href).submit();
+            }
+        });
+        return false;
+    }
+</script>
 </body>
 </html>

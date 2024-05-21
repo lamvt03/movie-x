@@ -169,6 +169,7 @@ public class VideoController {
         if(videoDto != null){
             session.setAttribute("restoreVideoSuccess", true);
         }
-        return "redirect:admin/videos/disabled";
+        String prevUrl = appUtils.getPrevPageUrl(session);
+        return "redirect:" + prevUrl;
     }
 }

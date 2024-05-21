@@ -1,5 +1,7 @@
 package com.filmweb.payment;
 
+import com.filmweb.constant.AppConstant;
+
 import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
 import java.nio.charset.StandardCharsets;
@@ -12,8 +14,7 @@ import java.util.*;
 public class VNPayConfig {
 
     public static String vnp_PayUrl = "https://sandbox.vnpayment.vn/paymentv2/vpcpay.html";
-    public static String vnp_ReturnUrl = "http://40.81.24.114/movie-x/payment/vnpay/handle";
-//   public static String vnp_ReturnUrl = "http://localhost:8080/movie-x/payment/vnpay/handle";
+    public static String vnp_ReturnUrl = AppConstant.HOST_URL + "/movie-x/payment/vnpay/handle";
     public static String vnp_TmnCode = "RKVS4CUH";
     public static String secretKey = "IVZKDIKHSKIVLGBNPYGXDIHNBASDAUMA";
 

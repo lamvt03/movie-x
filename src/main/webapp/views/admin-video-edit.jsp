@@ -78,18 +78,18 @@
                                     </c:forEach>
                                 </select>
                                 </div>
-                                <div class="mb-3">
-                                    <label for="mo-ta" class="form-label">Mô tả</label> <input
-                                        type="text" class="form-control" value="${video.heading}"
-                                        name="heading" id="mo-ta">
-                                </div>
+<%--                                <div class="mb-3">--%>
+<%--                                    <label for="mo-ta" class="form-label">Mô tả</label> <input--%>
+<%--                                        type="text" class="form-control" value="${video.heading}"--%>
+<%--                                        name="heading" id="mo-ta">--%>
+<%--                                </div>--%>
                                 <div class="mb-3">
                                     <label class="form-label">Giá</label> <input type="text"
                                                                                  class="form-control" value="${formattedPrice}"
                                                                                  oninput="formatPrice(this)" name="price" placeholder="Giá...">
                                 </div>
                                 <div class="mb-3">
-                                    <label for="noted" class="form-label">Nội dung</label>
+                                    <label for="noted" class="form-label">Mô tả</label>
                                     <textarea class="form-control" id="noted" name="description"
                                               rows="5">${video.description}</textarea>
                                 </div>

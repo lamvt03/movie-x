@@ -1,5 +1,6 @@
 package com.filmweb.util;
 
+import com.filmweb.constant.AppConstant;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.mail.*;
 import jakarta.mail.internet.AddressException;
@@ -75,11 +76,11 @@ public class SendEmailUtil {
                 + fullName + " ,<br><br>\r\n" + "\r\n"
                 + "                        Cảm ơn bạn đã luôn tin tưởng và sử dụng ứng dụng của chúng tôi.<br><br>\r\n"
                 + "\r\n" + "\r\n"
-                + "                        Bạn có thể chỉnh sửa thông tin cá nhân của mình <a href=\"http://localhost:8080/app/profile\">tại đây</a> sau khi tài khoản được kích hoạt.\r\n"
+                + "                        Bạn có thể chỉnh sửa thông tin cá nhân của mình <a href=" + AppConstant.HOST_URL + "/movie-x/profile\">tại đây</a> sau khi tài khoản được kích hoạt.\r\n"
                 + "                       <br>\r\n" + "\r\n" + "<br>Trân trọng<br>\r\n" + "\r\n"
                 + "                        Chi tiết xin liên hệ hotline để được tư vấn thêm.<br><br>\r\n"
                 + "                        HotLine: 0886338217\r\n" + "                    </p>\r\n"
-                + "                    <a href=\"http://localhost:8080/app/verify?token=" + token
+                + "                    <a href=" + AppConstant.HOST_URL +"/movie-x/verify?token=" + token
                 + "\" class=\"btn\" style=\"float: right;\r\n" + "                    margin: 0 2% 4% 0;\r\n"
                 + "                    background-color: #303840;\r\n" + "                    color: #f6faff;\r\n"
                 + "                    text-decoration: none;\r\n" + "                    font-weight: 800;\r\n"

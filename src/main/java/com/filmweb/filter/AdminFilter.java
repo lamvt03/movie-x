@@ -10,7 +10,7 @@ import jakarta.servlet.http.HttpSession;
 
 import java.io.IOException;
 
-@WebFilter("/app/admin/*")
+@WebFilter("/movie-x/admin/*")
 public class AdminFilter implements Filter {
     @Override
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
@@ -23,7 +23,7 @@ public class AdminFilter implements Filter {
         if (path.equals("/admin") || admin != null) {
             filterChain.doFilter(servletRequest, servletResponse);
         } else {
-            resp.sendRedirect("/app/admin");
+            resp.sendRedirect("/movie-x/admin");
         }
 
     }

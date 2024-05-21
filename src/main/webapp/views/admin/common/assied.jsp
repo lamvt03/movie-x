@@ -35,9 +35,8 @@
                         class="hide-menu">QUẢN LÝ PHIM</span></li>
 
                 <li class="sidebar-item"><a class="sidebar-link"
-                                            href="${initParam['mvcPath']}/admin/videos" aria-expanded="false"> <span> <i
-                        class="fa-solid fa-plus"></i>
-					</span> <span class="hide-menu">Tạo Phim</span>
+                                            href="${initParam['mvcPath']}/admin/videos" aria-expanded="false"> <span> <i class="fa-solid fa-video"></i>
+					</span> <span class="hide-menu">Phim đang công chiếu</span>
                 </a></li>
 
                 <li class="sidebar-item"><a class="sidebar-link"

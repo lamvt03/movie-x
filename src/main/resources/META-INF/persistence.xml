@@ -20,7 +20,7 @@
 <!--            <property name="jakarta.persistence.jdbc.password" value="21092003aA@" />-->
 
 <!--            hibernate connection -->
-            <property name="hibernate.connection..driver_class" value="com.microsoft.sqlserver.jdbc.SQLServerDriver" />
+            <property name="hibernate.connection.driver_class" value="com.microsoft.sqlserver.jdbc.SQLServerDriver" />
             <property name="hibernate.connection.url" value="jdbc:sqlserver://localhost:1433;databaseName=MovieX;encrypt=true;trustServerCertificate=true"/>
             <property name="hibernate.connection.username" value="sa" />
             <property name="hibernate.connection.password" value="123" />

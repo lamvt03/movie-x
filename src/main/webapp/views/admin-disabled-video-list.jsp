@@ -71,40 +71,24 @@
                                                 <fmt:formatNumber value="${amount}" type="currency" currencyCode="VND" /></td>
                                             <td>
                                                 <div class="btn-group" role="group">
-                                                    <button class="btn btn-primary ms-2 rounded-2"
-                                                            onclick="CofirmVideoToViews('${video.href}')"
+                                                    <a
+                                                            href="${initParam['mvcPath']}/admin/video/edit?v=${video.href}"
+                                                            class="btn btn-primary ms-2 rounded-2"
+                                                    >
+                                                        Sửa
+                                                    </a>
+                                                    <button class="btn btn-success ms-2 rounded-2"
+                                                            onclick="confirmVideoToViews('${video.href}')"
                                                             style="width: 110px;">Khôi phục</button>
-                                                    <button class="btn btn-danger ms-2 rounded-2"
-                                                            onclick="EditVideoGetHrefFormDisabled('${video.href}')">Sửa</button>
-                                                    <button type="button" data-bs-toggle="modal"
-                                                            data-bs-target="#modalLiveDemo${loop.index}"
-                                                            class="btn btn-success ms-2 rounded-2">Xem</button>
                                                 </div>
                                             </td>
                                         </tr>
 
-                                        <!-- Modal -->
-                                        <div class="modal fade" id="modalLiveDemo${loop.index}"
-                                             tabindex="-1" aria-labelledby="exampleModalLabel"
-                                             aria-hidden="true">
-                                            <div class="modal-dialog modal-xl modal-dialog-centered">
-                                                <div class="modal-content">
-                                                    <iframe id="player" width="100%" height="600"
-                                                            src="https://www.youtube.com/embed/${video.href}"
-                                                            frameborder="0" allowfullscreen></iframe>
-                                                </div>
-                                            </div>
-                                        </div>
-
-<%--                                        <form id="editForm" action="editvideodisabled" method="get">--%>
-<%--                                            <input type="hidden" id="videoEditHref" name="href">--%>
-<%--                                        </form>--%>
-
-                                        <form id="RestoreFormDisabled" action="${initParam['mvcPath']}/admin/video/restore"
+                                        <form id="restoreForm-${video.href}" action="${initParam['mvcPath']}/admin/video/restore"
                                               method="post">
-                                            <input type="hidden" name="confirmation" id="confirmDelete"
+                                            <input type="hidden" name="confirmation" id="confirmDelete-${video.href}"
                                                    value="false" />
-                                            <input type="hidden" id="RestoreVideo"
+                                            <input type="hidden" id="restoreBtn-${video.href}"
                                                                            name="href" value="${video.href}">
                                         </form>
 
@@ -120,15 +104,14 @@
                         <ul class="pagination justify-content-center">
                             <c:if test="${currentPage == 1}">
                                 <li class="page-item text-secondary disabled"><a
-                                        class="page-link" href="#" aria-disabled="true"> <i
-                                        class="ti ti-chevron-left"></i>
+                                        class="page-link" href="#" aria-disabled="true"> <i class="fa-solid fa-caret-left"></i>
                                 </a></li>
                             </c:if>
 
                             <c:if test="${currentPage > 1}">
                                 <li class="page-item text-secondary"><a class="page-link"
                                                                         href="${initParam}/videos/disabled?page=${currentPage - 1}"
-                                                                        aria-disabled="true"> <i class="ti ti-chevron-left"></i>
+                                                                        aria-disabled="true"> <i class="fa-solid fa-caret-left"></i>
                                 </a></li>
                             </c:if>
 
@@ -142,15 +125,14 @@
 
                             <c:if test="${currentPage == maxPage}">
                                 <li class="page-item text-secondary disabled"><a
-                                        class="page-link" href="#" aria-disabled="true"> <i
-                                        class="ti ti-chevron-right"></i>
+                                        class="page-link" href="#" aria-disabled="true"> <i class="fa-solid fa-caret-right"></i>
                                 </a></li>
                             </c:if>
 
                             <c:if test="${currentPage < maxPage}">
                                 <li class="page-item text-secondary"><a class="page-link"
                                                                         href="videodisabled?page=${currenPage + 1}"
-                                                                        aria-disabled="true"> <i class="ti ti-chevron-right"></i>
+                                                                        aria-disabled="true"> <i class="fa-solid fa-caret-right"></i>
                                 </a></li>
                             </c:if>
                         </ul>
@@ -164,19 +146,37 @@
 
 <%@ include file="/views/admin/common/footer.jsp"%>
 
-<%
-    Boolean restoreVideoSuccess = (Boolean) session.getAttribute("restoreVideoSuccess");
+<c:if test="${not empty sessionScope.restoreVideoSuccess}">
+    <c:if test="${sessionScope.restoreVideoSuccess}">
+        <script type="text/javascript">
+            showSwalAlert('success', 'Khôi phục video thành công');
+        </script>
+    </c:if>
 
-    if (restoreVideoSuccess != null) {
-        if (restoreVideoSuccess) {
-%>
-<script>
-    showSwalAlert('success', 'Khôi phục video thành công');
-</script>
-<%
-        }
-        session.removeAttribute("restoreVideoSuccess");
+    <c:remove var="restoreVideoSuccess" scope="session"/>
+</c:if>
+
+//confirm restore video
+<script type="text/javascript">
+    const confirmVideoToViews = (href) => {
+        Swal.fire({
+            title: 'Cảnh Báo !',
+            text: "Bạn có chắc chắn muốn công chiếu phim trở lại không ?",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Đồng ý !'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                document.querySelector('#confirmDelete-' + href).value = "true";
+                document.querySelector('#restoreForm-' + href).submit();
+            }
+        });
+
+        return false;
     }
-%>
+</script>
+
 </body>
 </html>

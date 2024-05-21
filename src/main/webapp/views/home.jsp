@@ -68,7 +68,7 @@
                     <div class="row">
                         <c:forEach items="${videos}" var="video">
                             <div class="col-lg-4 col-md-6 col-sm-6">
-                                <div class="product__item">
+                                <div class="product__item overflow-hidden">
                                     <a
                                             href="${initParam['mvcPath']}/video/detail?v=${video.href}">
                                         <div class="product__item__pic set-bg"
@@ -101,29 +101,9 @@
                     </div>
                 </div>
 
-                <div class="product__pagination d-flex justify-content-center">
-                    <c:if test="${currentPage == 1}">
-                        <a href="#"><i class="fa fa-angle-double-left"></i></a>
-                    </c:if>
+<%--                pagination--%>
+                <%@ include file="/views/common/pagination.jsp" %>
 
-                    <c:if test="${currentPage > 1}">
-                        <a href="${initParam['mvcPath']}/home?page=${currentPage - 1}"><i
-                                class="fa fa-angle-double-left"></i></a>
-                    </c:if>
-                    <c:forEach varStatus="i" begin="1" end="${maxPage}">
-                        <a href="${initParam['mvcPath']}/home?page=${i.index}" style="margin-left: 10px"
-                           class="current-page ${currentPage == i.index ? 'active' : ''}">${i.index}</a>
-                    </c:forEach>
-
-                    <c:if test="${currentPage == maxPage}">
-                        <a href="#"><i class="fa fa-angle-double-right"></i></a>
-                    </c:if>
-                    <c:if test="${currentPage < maxPage}">
-                        <a href="${initParam['mvcPath']}/home?page=${currentPage + 1}"><i
-                                class="fa fa-angle-double-right"></i></a>
-                    </c:if>
-
-                </div>
             </div>
 
 <%--            sidebar --%>

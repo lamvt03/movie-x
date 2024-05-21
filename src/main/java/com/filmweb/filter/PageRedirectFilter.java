@@ -21,7 +21,7 @@ public class PageRedirectFilter implements Filter {
             "/profile",
             "/payment",
             "/api",
-            "/admin/video/delete"
+            "/admin/video/"
     };
 
     @Override
