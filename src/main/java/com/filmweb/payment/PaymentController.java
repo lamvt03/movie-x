@@ -10,6 +10,7 @@ import com.filmweb.service.VideoService;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.mvc.Controller;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.Path;
@@ -36,11 +37,17 @@ public class PaymentController {
 
     @Inject
     private HttpSession session;
+
+    @Inject
+    private HttpServletRequest servletRequest;
+
     @GET
     @Path("/vnpay")
     public Response getPayment(
             @QueryParam("href") String href
     ) {
+        String clientIp = servletRequest.getRemoteAddr();
+
         VideoDto video = videoService.findByHref(href);
         long amount = video.getPrice() * 100;
         String vnp_TxnRef = VNPayConfig.getRandomNumber(8);
@@ -59,7 +66,7 @@ public class PaymentController {
         vnp_Params.put("vnp_OrderType", VNPayConfig.vnp_OrderType);
         vnp_Params.put("vnp_Locale", "vn");
         vnp_Params.put("vnp_ReturnUrl", returnUrl);
-        vnp_Params.put("vnp_IpAddr", VNPayConfig.vnp_LocalIpAdd);
+        vnp_Params.put("vnp_IpAddr", clientIp);
 
         Calendar cld = Calendar.getInstance(TimeZone.getTimeZone("Etc/GMT+7"));
         SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMddHHmmss");
@@ -119,7 +126,6 @@ public class PaymentController {
         }else{
             session.setAttribute("paySuccess", false);
         }
-
         return "redirect:video/detail?v=" + href;
     }
 }

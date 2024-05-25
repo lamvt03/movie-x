@@ -22,7 +22,7 @@ public class VNPayConfig {
     public static String vnp_Command = "pay";
     public static String vnp_OrderType = "other";
     public static String vnp_TestingBankCode = "NCB";
-    public static String vnp_LocalIpAdd = "127.0.0.1";
+//    public static String vnp_LocalIpAdd = "127.0.0.1";
 
     public static String hmacSHA512(final String key, final String data) {
         try {

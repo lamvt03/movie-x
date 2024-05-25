@@ -23,7 +23,7 @@
             <div class="col-lg-12">
                 <div class="breadcrumb__links">
                     <a href="${initParam['mvcPath']}/home"><i class="fa fa-home"></i> Trang chủ</a>
-                    <span>Thể loại</span>
+                    <span>Tất cả phim</span>
                 </div>
             </div>
         </div>
@@ -95,30 +95,8 @@
                     </div>
                 </div>
 
-                <div class="product__pagination d-flex justify-content-center">
-
-                    <c:if test="${currentPage == 1}">
-                        <a href="#"><i class="fa fa-angle-double-left"></i></a>
-                    </c:if>
-
-                    <c:if test="${currentPage > 1}">
-                        <a href="${initParam['mvcPath']}/category?page=${currentPage - 1}"><i
-                                class="fa fa-angle-double-left"></i></a>
-                    </c:if>
-                    <c:forEach varStatus="i" begin="1" end="${maxPage}">
-                        <a href="${initParam['mvcPath']}/category?page=${i.index}" style="margin-left: 10px"
-                           class="current-page ${currentPage == i.index ? 'active' : ''}">${i.index}</a>
-                    </c:forEach>
-
-                    <c:if test="${currentPage == maxPage}">
-                        <a href="#"><i class="fa fa-angle-double-right"></i></a>
-                    </c:if>
-                    <c:if test="${currentPage < maxPage}">
-                        <a href="${initParam['mvcPath']}/category?page=${currentPage + 1}"><i
-                                class="fa fa-angle-double-right"></i></a>
-                    </c:if>
-
-                </div>
+                <%--                pagination--%>
+                <%@ include file="/views/common/pagination.jsp" %>
             </div>
 
             <%@ include file="/views/common/sidebar.jsp"%>

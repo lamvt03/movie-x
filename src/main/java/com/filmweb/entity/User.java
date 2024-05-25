@@ -29,10 +29,10 @@ public class User extends AbstractEntity{
     private String fullName;
 
     @Column(name = "is_admin")
-    private Boolean isAdmin;
+    private Boolean isAdmin = Boolean.FALSE;
 
     @Column(name = "is_active")
-    private Boolean isActive;
+    private Boolean isActive = Boolean.FALSE;
 
     private String token;
 

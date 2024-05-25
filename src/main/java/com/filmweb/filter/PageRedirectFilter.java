@@ -28,7 +28,12 @@ public class PageRedirectFilter implements Filter {
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
         HttpServletRequest httpRequest = (HttpServletRequest) servletRequest;
 
+
         HttpSession session = httpRequest.getSession(true);
+
+        //store request path info to paginate
+        String pathInFo = httpRequest.getPathInfo();
+        session.setAttribute(SessionConstant.PATH_INFO, pathInFo);
 
         String requestURI = httpRequest.getRequestURI();
         if(isValidRequestURI(requestURI)){

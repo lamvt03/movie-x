@@ -17,14 +17,14 @@
             </c:when>
             <c:otherwise>
                 <li>
-                    <a class="d-flex justify-content-center align-items-center" href="${initParam['mvcPath']}/home?page=${currentPage - 1}"><i class="fa fa-angle-double-left"></i></a>
+                    <a class="d-flex justify-content-center align-items-center" href="${initParam['mvcPath']}${sessionScope.pathInfo}?page=${currentPage - 1}"><i class="fa fa-angle-double-left"></i></a>
                 </li>
             </c:otherwise>
         </c:choose>
 
         <c:forEach varStatus="i" begin="1" end="${maxPage}">
             <li>
-                <a href="${initParam['mvcPath']}/home?page=${i.index}"
+                <a href="${initParam['mvcPath']}${sessionScope.pathInfo}?page=${i.index}"
                    class="current-page ${currentPage == i.index ? 'active' : ''}">${i.index}</a>
             </li>
         </c:forEach>
@@ -37,7 +37,7 @@
             </c:when>
             <c:otherwise>
                 <li>
-                    <a class="d-flex justify-content-center align-items-center" href="${initParam['mvcPath']}/home?page=${currentPage + 1}"><i class="fa fa-angle-double-right"></i></a>
+                    <a class="d-flex justify-content-center align-items-center" href="${initParam['mvcPath']}${sessionScope.pathInfo}?page=${currentPage + 1}"><i class="fa fa-angle-double-right"></i></a>
                 </li>
             </c:otherwise>
         </c:choose>

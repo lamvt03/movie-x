@@ -92,7 +92,7 @@
                                         </ul>
 
                                         <h5>
-                                            <a href="#">${video.title }</a>
+                                            <a href="#">${video.title}</a>
                                         </h5>
                                     </div>
                                 </div>
@@ -103,7 +103,6 @@
 
 <%--                pagination--%>
                 <%@ include file="/views/common/pagination.jsp" %>
-
             </div>
 
 <%--            sidebar --%>

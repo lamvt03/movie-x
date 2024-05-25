@@ -15,6 +15,8 @@ import jakarta.servlet.http.HttpSession;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.Context;
 
+import java.util.concurrent.CompletableFuture;
+
 @ApplicationScoped
 @Controller
 @Path("/")
@@ -91,7 +93,7 @@ public class UserController {
             @FormParam("phone") String phone,
             @FormParam("password") String password,
             @FormParam("fullName") String fullName
-            ) throws MessagingException {
+            ){
         boolean existedEmail = userService.existByEmail(email);
         boolean existedPhone = userService.existsByPhone(phone);
 
@@ -99,7 +101,15 @@ public class UserController {
             UserDto auth = userService.register(email, password, phone, fullName);
 
             if (auth != null) {
-                emailService.sendRegisterEmail(servletContext, auth);
+                CompletableFuture.runAsync(
+                        () -> {
+                            try {
+                                emailService.sendRegisterEmail(servletContext, auth);
+                            } catch (MessagingException e) {
+                                throw new RuntimeException(e);
+                            }
+                        }
+                );
                 session.setAttribute("registerSuccess", true);
                 return "redirect:login";
             }

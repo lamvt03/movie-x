@@ -1,10 +1,8 @@
 package com.filmweb.service.impl;
 
-import com.filmweb.constant.AppConstant;
 import com.filmweb.constant.EmailConstant;
 import com.filmweb.dto.UserDto;
 import com.filmweb.service.EmailService;
-import com.filmweb.util.RandomUtil;
 import com.filmweb.util.SendEmailUtil;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
@@ -17,7 +15,7 @@ public class EmailServiceImpl implements EmailService {
     private SendEmailUtil sendEmailUtil;
 
     @Override
-    public void sendRegisterEmail(ServletContext servletContext,UserDto recipient) throws MessagingException {
+    public void sendRegisterEmail(ServletContext servletContext, UserDto recipient) throws MessagingException {
         String host = servletContext.getInitParameter(EmailConstant.HOST);
         String port = servletContext.getInitParameter(EmailConstant.PORT);
         String username = servletContext.getInitParameter(EmailConstant.USERNAME);

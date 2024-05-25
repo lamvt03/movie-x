@@ -72,9 +72,13 @@ public class UserServiceImpl implements UserService {
                 .phone(phone)
                 .fullName(fullName)
                 .token(token)
+                .isAdmin(Boolean.FALSE)
+                .isActive(Boolean.FALSE)
                 .avtId(randomUtil.randomAvtId(AppConstant.AVATAR_TOTAL))
                 .build();
-        return userMapper.toDto(userDao.create(userEntity));
+        return userMapper.toDto(
+                userDao.create(userEntity)
+        );
     }
 
     @Override
