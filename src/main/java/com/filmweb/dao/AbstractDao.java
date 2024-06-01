@@ -2,18 +2,17 @@ package com.filmweb.dao;
 
 import com.filmweb.util.JPAUtil;
 import jakarta.inject.Inject;
+import jakarta.persistence.Entity;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.Query;
-import jakarta.persistence.StoredProcedureQuery;
 import jakarta.persistence.TypedQuery;
 
 import java.util.List;
-import java.util.Map;
 
 public class AbstractDao<T> {
 
     @Inject
-    private JPAUtil jpaUtil;
+    protected JPAUtil jpaUtil;
 
     protected String buildSelectAllQuery(String entityName) {
         StringBuilder jpqlBd = new StringBuilder();
@@ -175,6 +174,18 @@ public class AbstractDao<T> {
     }
 
 
+    public List<T> findAll(Class<T> clazz, List<Long> ids){
+        EntityManager entityManager = jpaUtil.getEntityManager();
+        String hql = "SELECT e FROM " + clazz.getSimpleName() + " e WHERE e.id IN :ids";
+        try{
+            TypedQuery<T> query = entityManager.createQuery(hql, clazz);
+            query.setParameter("ids", ids);
+            return query.getResultList();
+        }finally {
+            entityManager.close();
+        }
+
+    }
     // find one by custom query
     public T findOne(Class<T> clazz, String jpql, Object... params) {
         EntityManager entityManager = jpaUtil.getEntityManager();
@@ -229,5 +240,4 @@ public class AbstractDao<T> {
             entityManager.close();
         }
     }
-
 }

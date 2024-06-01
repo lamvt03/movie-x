@@ -74,7 +74,7 @@ public class HomeController {
     public String getLikedVideos(
             @QueryParam("page") Integer page
     ){
-        long totalVideo = videoService.count();
+        long totalVideo = videoService.countAllLikedVideos();
         long maxPage = (long) Math.ceil(1.0 * totalVideo / AppConstant.SEARCH_PAGE_LIMIT);
         models.put("maxPage", maxPage);
 
@@ -84,7 +84,7 @@ public class HomeController {
         }
         models.put("currentPage", currentPage);
 
-        List<VideoDto> videos = videoService.findAllLiked(currentPage, AppConstant.SEARCH_PAGE_LIMIT);
+        List<VideoDto> videos = videoService.findLikedVideos(currentPage, AppConstant.SEARCH_PAGE_LIMIT);
         models.put("videos", videos);
         return "admin-liked-video-list.jsp";
     }

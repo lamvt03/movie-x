@@ -32,4 +32,7 @@ public interface VideoDao {
     List<Video> findByCategoryCode(String categoryCode);
 
     List<Video> findTopYear(int year, int page, int limit);
+    List<Video> findLikedVideos(int page, int limit);
+
+    long countAllLikedVideos();
 }

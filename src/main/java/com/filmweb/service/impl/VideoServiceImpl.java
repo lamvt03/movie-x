@@ -128,18 +128,11 @@ public class VideoServiceImpl implements VideoService {
     }
 
     @Override
-    public List<VideoDto> findAllLiked(int page, int limit) {
-        List<VideoDto> videos = videoDao.findAll().stream()
+    public List<VideoDto> findLikedVideos(int page, int limit) {
+        return videoDao.findLikedVideos(page, limit)
+                .stream()
                 .map(videoMapper::toDto)
-                .sorted(Comparator.comparingInt(VideoDto::getLikeQuantity).reversed())
                 .toList();
-        List<VideoDto> result = new ArrayList<>();
-        int start = (page-1)*limit;
-        int end = start + limit;
-        for(int i = start; i <= end && i < videos.size(); i++ ){
-            result.add(videos.get(i));
-        }
-        return result;
     }
 
     @Override
@@ -156,5 +149,10 @@ public class VideoServiceImpl implements VideoService {
         return videos.stream()
                 .map(videoMapper::toDto)
                 .toList();
+    }
+
+    @Override
+    public long countAllLikedVideos(){
+        return videoDao.countAllLikedVideos();
     }
 }

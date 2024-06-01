@@ -50,7 +50,7 @@
                                         <th scope="col">Đạo diễn</th>
                                         <th scope="col">Số lượt thích</th>
                                         <th scope="col">Trạng thái</th>
-                                        <th scope="col">Hành động</th>
+<%--                                        <th scope="col">Hành động</th>--%>
                                     </tr>
                                     </thead>
                                     <tbody>
@@ -65,23 +65,23 @@
                                                 <c:when test="${video.isActive}">Đang công chiếu</c:when>
                                                 <c:otherwise>Ngưng công chiếu</c:otherwise>
                                             </c:choose></td>
-                                            <td><button type="button" data-bs-toggle="modal"
-                                                        data-bs-target="#modalLiveDemo${loop.index}"
-                                                        class="btn btn-success ms-2 rounded-2">Xem</button></td>
+<%--                                            <td><button type="button" data-bs-toggle="modal"--%>
+<%--                                                        data-bs-target="#modalLiveDemo${loop.index}"--%>
+<%--                                                        class="btn btn-success ms-2 rounded-2">Xem</button></td>--%>
                                         </tr>
 
-                                        <!-- Modal -->
-                                        <div class="modal fade" id="modalLiveDemo${loop.index}"
-                                             tabindex="-1" aria-labelledby="exampleModalLabel"
-                                             aria-hidden="true">
-                                            <div class="modal-dialog modal-xl modal-dialog-centered">
-                                                <div class="modal-content">
-                                                    <iframe id="player" width="100%" height="600"
-                                                            src="https://www.youtube.com/embed/${video.href}"
-                                                            frameborder="0" allowfullscreen></iframe>
-                                                </div>
-                                            </div>
-                                        </div>
+<%--                                        <!-- Modal -->--%>
+<%--                                        <div class="modal fade" id="modalLiveDemo${loop.index}"--%>
+<%--                                             tabindex="-1" aria-labelledby="exampleModalLabel"--%>
+<%--                                             aria-hidden="true">--%>
+<%--                                            <div class="modal-dialog modal-xl modal-dialog-centered">--%>
+<%--                                                <div class="modal-content">--%>
+<%--                                                    <iframe id="player" width="100%" height="600"--%>
+<%--                                                            src="https://www.youtube.com/embed/${video.href}"--%>
+<%--                                                            frameborder="0" allowfullscreen></iframe>--%>
+<%--                                                </div>--%>
+<%--                                            </div>--%>
+<%--                                        </div>--%>
 
                                     </c:forEach>
                                     </tbody>

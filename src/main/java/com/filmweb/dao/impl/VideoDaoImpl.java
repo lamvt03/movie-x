@@ -4,6 +4,9 @@ import com.filmweb.dao.AbstractDao;
 import com.filmweb.dao.VideoDao;
 import com.filmweb.entity.Video;
 import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.Query;
+import jakarta.persistence.TypedQuery;
 
 import java.util.List;
 
@@ -72,5 +75,39 @@ public class VideoDaoImpl extends AbstractDao<Video> implements VideoDao {
     public List<Video> findTopYear(int year, int page, int limit) {
         String jpql = "SELECT v FROM Video v WHERE v.isActive = 1 AND v.price = 0 AND YEAR(v.createdAt) = ?1 ORDER BY v.views DESC";
         return super.findMany(Video.class, page, limit, jpql, year);
+    }
+
+    @Override
+    public List<Video> findLikedVideos(int page, int limit) {
+        EntityManager entityManager = super.jpaUtil.getEntityManager();
+        String jpql = "SELECT v FROM Video v " +
+                        "JOIN v.histories h " +
+                        "WHERE v.isActive = true AND h.isLiked = true " +
+                        "ORDER BY (" +
+                            "SELECT COUNT(h2) as likes FROM History h2 " +
+                            "WHERE h2.isLiked = true AND h2.video.id = v.id" +
+                        ") DESC";
+        try{
+            TypedQuery<Video> query = entityManager.createQuery(jpql, Video.class);
+            query.setFirstResult((page-1) * limit);
+            query.setMaxResults(limit);
+            return query.getResultList();
+        }finally {
+            entityManager.close();
+        }
+    }
+
+    @Override
+    public long countAllLikedVideos() {
+        EntityManager entityManager = super.jpaUtil.getEntityManager();
+        String jpql = "SELECT COUNT(v) FROM Video v " +
+                "JOIN v.histories h " +
+                "WHERE v.isActive = true AND h.isLiked = true ";
+        try{
+            Query query = entityManager.createQuery(jpql);
+            return (long)query.getSingleResult();
+        }finally {
+            entityManager.close();
+        }
     }
 }
