@@ -131,7 +131,7 @@ public class HomeController {
     ) {
         UserDto userDto = (UserDto) session.getAttribute(SessionConstant.CURRENT_USER);
         if (userDto != null) {
-            List<Order> orders = orderService.findByEmail(userDto.getEmail());
+            List<Order> orders = orderService.findByEmail(userDto.email());
             models.put("orders", orders);
         }
         return "transaction.jsp";
@@ -149,11 +149,11 @@ public class HomeController {
             if(page != null){
                 currentPage = page;
             }
-            List<VideoDto> videos = historyService.findViewedVideoByEmail(userDto.getEmail(), currentPage, AppConstant.SEARCH_PAGE_LIMIT);
+            List<VideoDto> videos = historyService.findViewedVideoByEmail(userDto.email(), currentPage, AppConstant.SEARCH_PAGE_LIMIT);
             models.put("videos", videos);
             models.put("currentPage", currentPage);
 
-            List<History> histories = historyService.findByEmail(userDto.getEmail());
+            List<History> histories = historyService.findByEmail(userDto.email());
             int maxPage = (int) Math.ceil(1.0 * histories.size() / AppConstant.SEARCH_PAGE_LIMIT);
             models.put("maxPage", maxPage);
 
@@ -167,7 +167,7 @@ public class HomeController {
         UserDto userDto = (UserDto) session.getAttribute(SessionConstant.CURRENT_USER);
 
         if (userDto != null) {
-            List<VideoDto> videos = historyService.findFavoriteVideoByEmail(userDto.getEmail());
+            List<VideoDto> videos = historyService.findFavoriteVideoByEmail(userDto.email());
             models.put("videos", videos);
         }
         return "favorite.jsp";

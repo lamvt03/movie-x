@@ -1,18 +1,30 @@
 package com.filmweb.service.impl;
 
+import com.filmweb.constant.AppConstant;
 import com.filmweb.constant.EmailConstant;
+import com.filmweb.dao.UserVerifiedEmailDao;
 import com.filmweb.dto.UserDto;
+import com.filmweb.entity.UserVerifiedEmail;
 import com.filmweb.service.EmailService;
-import com.filmweb.util.SendEmailUtil;
+import com.filmweb.util.RandomUtils;
+import com.filmweb.util.SendEmailUtils;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.mail.MessagingException;
 import jakarta.servlet.ServletContext;
 
+import java.time.LocalDateTime;
+
 @ApplicationScoped
 public class EmailServiceImpl implements EmailService {
     @Inject
-    private SendEmailUtil sendEmailUtil;
+    private SendEmailUtils sendEmailUtils;
+
+    @Inject
+    private RandomUtils randomUtils;
+
+    @Inject
+    private UserVerifiedEmailDao verifiedEmailDao;
 
     @Override
     public void sendRegisterEmail(ServletContext servletContext, UserDto recipient) throws MessagingException {
@@ -21,10 +33,17 @@ public class EmailServiceImpl implements EmailService {
         String username = servletContext.getInitParameter(EmailConstant.USERNAME);
         String password = servletContext.getInitParameter(EmailConstant.PASSWORD);
 
+        UserVerifiedEmail verifiedEmail = new UserVerifiedEmail();
+        String token = randomUtils.randomToken(AppConstant.REGISTER_TOKEN_LENGTH);
+        verifiedEmail.setToken(token);
+        verifiedEmail.setExpiredAt(LocalDateTime.now().plusMinutes(AppConstant.REGISTER_TOKEN_MINUTES));
+        verifiedEmail.setUserId(recipient.id());
+        verifiedEmailDao.create(verifiedEmail);
+
         String subject = "THANK FOR YOUR REGISTERING";
-        String content = sendEmailUtil.getRegiserMessageContent(recipient.getFullName(), recipient.getToken());
+        String content = sendEmailUtils.getRegisterMessageContent(recipient.fullName(), token);
         String contentType = "text/html; charset=utf-8";
-        sendEmailUtil.sendEmail(host, port, username, password, recipient.getEmail(), subject, content, contentType);
+        sendEmailUtils.sendEmail(host, port, username, password, recipient.email(), subject, content, contentType);
     }
 
     @Override
@@ -35,8 +54,8 @@ public class EmailServiceImpl implements EmailService {
         String password = servletContext.getInitParameter(EmailConstant.PASSWORD);
 
         String subject = "REQUEST TO RETRIEVE PASSWORD";
-        String content = sendEmailUtil.getForgotPasswordMessageContent(recipient.getFullName(), otp);
+        String content = sendEmailUtils.getForgotPasswordMessageContent(recipient.fullName(), otp);
         String contentType = "text/html; charset=utf-8";
-        sendEmailUtil.sendEmail(host, port, username, password, recipient.getEmail(), subject, content, contentType);
+        sendEmailUtils.sendEmail(host, port, username, password, recipient.email(), subject, content, contentType);
     }
 }

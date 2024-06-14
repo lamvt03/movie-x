@@ -11,7 +11,7 @@ import java.util.Date;
 import java.util.Properties;
 
 @ApplicationScoped
-public class SendEmailUtil {
+public class SendEmailUtils {
     public void sendEmail(
             String host,
             String port,
@@ -52,7 +52,7 @@ public class SendEmailUtil {
         // sends the e-mail
         Transport.send(msg);
     }
-    public String getRegiserMessageContent(String fullName, String token){
+    public String getRegisterMessageContent(String fullName, String token){
         return"<!DOCTYPE html>\r\n" + "<html lang=\"en\">\r\n" + "\r\n" + "<head>\r\n"
                 + "    <meta charset=\"UTF-8\">\r\n"
                 + "    <meta http-equiv=\"X-UA-Compatible\" content=\"IE=edge\">\r\n"
@@ -81,7 +81,7 @@ public class SendEmailUtil {
                 + "                        Chi tiết xin liên hệ hotline để được tư vấn thêm.<br><br>\r\n"
                 + "                        HotLine: 0886338217\r\n" + "                    </p>\r\n"
                 + "                    <a href=" + AppConstant.HOST_URL +"/movie-x/verify?token=" + token
-                + "\" class=\"btn\" style=\"float: right;\r\n" + "                    margin: 0 2% 4% 0;\r\n"
+                + " class=\"btn\" style=\"float: right;\r\n" + "                    margin: 0 2% 4% 0;\r\n"
                 + "                    background-color: #303840;\r\n" + "                    color: #f6faff;\r\n"
                 + "                    text-decoration: none;\r\n" + "                    font-weight: 800;\r\n"
                 + "                    padding: 8px 12px;\r\n" + "                    border-radius: 8px;\r\n"

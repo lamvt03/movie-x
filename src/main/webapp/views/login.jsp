@@ -114,11 +114,21 @@
 <c:if test="${not empty sessionScope.registerSuccess}">
     <c:if test="${sessionScope.registerSuccess}">
         <script>
-            showCenterAlert('success', 'Thành công', 'Email xác minh đang được gửi đến địa chỉ email của bạn. Quá trình này có thể mất từ 3 - 5 phút');
+            showCenterAlert('success', 'Thành công', 'Email xác minh đã được gửi đến địa chỉ email của bạn.');
         </script>
     </c:if>
 
     <c:remove var="registerSuccess" scope="session" />
+</c:if>
+
+<c:if test="${not empty sessionScope.alreadyVerified}">
+    <c:if test="${sessionScope.alreadyVerified}">
+        <script>
+            showCenterAlert('info', 'Thông báo', 'Tài khoản này đã được xác minh rồi');
+        </script>
+    </c:if>
+
+    <c:remove var="alreadyVerified" scope="session" />
 </c:if>
 
 <script type="text/javascript">

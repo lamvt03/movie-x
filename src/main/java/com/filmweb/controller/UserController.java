@@ -1,7 +1,9 @@
 package com.filmweb.controller;
 
 import com.filmweb.constant.SessionConstant;
+import com.filmweb.dao.UserVerifiedEmailDao;
 import com.filmweb.dto.UserDto;
+import com.filmweb.entity.UserVerifiedEmail;
 import com.filmweb.service.EmailService;
 import com.filmweb.service.UserService;
 import com.filmweb.util.AppUtils;
@@ -15,6 +17,7 @@ import jakarta.servlet.http.HttpSession;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.Context;
 
+import java.time.LocalDateTime;
 import java.util.concurrent.CompletableFuture;
 
 @ApplicationScoped
@@ -37,6 +40,9 @@ public class UserController {
     private EmailService emailService;
 
     @Inject
+    private UserVerifiedEmailDao verifiedEmailDao;
+
+    @Inject
     private AppUtils appUtils;
 
     @GET
@@ -53,8 +59,8 @@ public class UserController {
     ){
         UserDto userDto = userService.authenticate(email, password);
         if (userDto != null) {
-            boolean isAdmin = userDto.getIsAdmin();
-            boolean isActive = userDto.getIsActive();
+            boolean isAdmin = userDto.isAdmin();
+            boolean isActive = userDto.isActive();
 
             if (!isAdmin && isActive) {
                 session.setAttribute("loginSuccess", true);
@@ -93,7 +99,7 @@ public class UserController {
             @FormParam("phone") String phone,
             @FormParam("password") String password,
             @FormParam("fullName") String fullName
-            ){
+            ) throws MessagingException {
         boolean existedEmail = userService.existByEmail(email);
         boolean existedPhone = userService.existsByPhone(phone);
 
@@ -101,15 +107,7 @@ public class UserController {
             UserDto auth = userService.register(email, password, phone, fullName);
 
             if (auth != null) {
-                CompletableFuture.runAsync(
-                        () -> {
-                            try {
-                                emailService.sendRegisterEmail(servletContext, auth);
-                            } catch (MessagingException e) {
-                                throw new RuntimeException(e);
-                            }
-                        }
-                );
+                emailService.sendRegisterEmail(servletContext, auth);
                 session.setAttribute("registerSuccess", true);
                 return "redirect:login";
             }
@@ -124,9 +122,23 @@ public class UserController {
     public String verify(
             @QueryParam("token") String token
     ){
-        UserDto user = userService.verifyEmail(token);
-        session.setAttribute("email", user.getEmail());
-        return "redirect:verify/success";
+        UserVerifiedEmail verifiedEmail = verifiedEmailDao.findByToken(token);
+        if(verifiedEmail.getIsVerified()){
+            session.setAttribute("alreadyVerified", true);
+            return "redirect:login";
+        }
+        else if(verifiedEmail.getExpiredAt().isAfter(LocalDateTime.now())){
+            verifiedEmail.setIsVerified(Boolean.TRUE);
+            verifiedEmailDao.update(verifiedEmail);
+            UserDto user = userService.findById(verifiedEmail.getUserId());
+            session.setAttribute("email", user.email());
+            return "redirect:verify/success";
+        }else{
+
+        }
+//        UserDto user = userService.verifyEmail(token);
+//        session.setAttribute("email", user.getEmail());
+        return "redirect:home";
     }
 
     @GET
@@ -189,7 +201,7 @@ public class UserController {
     ) throws MessagingException {
         UserDto userDto = userService.findByEmail(email);
         if (userDto != null){
-            if (userDto.getIsActive()) {
+            if (userDto.isActive()) {
                 userService.sendForgotPasswordMessage(servletContext, session, userDto);
                 return "redirect:otp/enter";
             } else {
@@ -205,9 +217,9 @@ public class UserController {
     @Path("password/change")
     public String getChangePassword(){
         UserDto userDto = (UserDto) session.getAttribute(SessionConstant.CURRENT_USER);
-        models.put("email", userDto.getEmail());
-        models.put("phone", userDto.getPhone());
-        models.put("fullName", userDto.getFullName());
+        models.put("email", userDto.email());
+        models.put("phone", userDto.phone());
+        models.put("fullName", userDto.fullName());
         return "change-password.jsp";
     }
 
@@ -219,9 +231,9 @@ public class UserController {
             @FormParam("confirmation") Boolean confirm
     ){
         UserDto userDto = (UserDto) session.getAttribute(SessionConstant.CURRENT_USER);
-        if(userService.comparePassword(userDto.getEmail(), oldPassword)){
+        if(userService.comparePassword(userDto.email(), oldPassword)){
             if (confirm != null && confirm) {
-                UserDto user = userService.changePassword(userDto.getEmail(), newPassword.trim());
+                UserDto user = userService.changePassword(userDto.email(), newPassword.trim());
 
                 if (user != null) {
                     session.removeAttribute(SessionConstant.CURRENT_USER);
@@ -230,9 +242,9 @@ public class UserController {
                 }
             }
         }
-        models.put("email", userDto.getEmail());
-        models.put("phone", userDto.getPhone());
-        models.put("fullName", userDto.getFullName());
+        models.put("email", userDto.email());
+        models.put("phone", userDto.phone());
+        models.put("fullName", userDto.fullName());
         session.setAttribute("oldPasswordWrong", true);
         return "change-password.jsp";
     }
@@ -263,7 +275,7 @@ public class UserController {
         UserDto userDto = (UserDto) session.getAttribute(SessionConstant.CURRENT_USER);
         if (confirm != null && confirm){
             if (fullname != null && phone != null) {
-                UserDto user = userService.editProfile(userDto.getEmail(), fullname, phone);
+                UserDto user = userService.editProfile(userDto.email(), fullname, phone);
 
                 if (user != null) {
                     session.removeAttribute(SessionConstant.CURRENT_USER);

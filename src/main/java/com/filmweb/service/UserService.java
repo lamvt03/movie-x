@@ -13,9 +13,8 @@ public interface UserService {
     boolean existsByPhone(String phone);
     boolean existByEmail(String email);
     UserDto findByEmail(String email);
+    UserDto findById(Long id);
     UserDto register(String email, String password, String phone, String fullName);
-
-    UserDto verifyEmail(String token);
 
     void sendForgotPasswordMessage(ServletContext servletContext, HttpSession session, UserDto userDto) throws MessagingException;
 

@@ -13,11 +13,12 @@
         <class>com.filmweb.entity.User</class>
         <class>com.filmweb.entity.Video</class>
         <class>com.filmweb.entity.Category</class>
+        <class>com.filmweb.entity.UserVerifiedEmail</class>
         <exclude-unlisted-classes>true</exclude-unlisted-classes>
         <properties>
-<!--            <property name="jakarta.persistence.jdbc.url" value="jdbc:sqlserver://lamvt03server.database.windows.net:1433;databaseName=MovieX;useSSL=true;encrypt=true;trustServerCertificate=true;hostNameInCertificate=*.database.windows.net"/>-->
-<!--            <property name="jakarta.persistence.jdbc.user" value="lamvt03" />-->
-<!--            <property name="jakarta.persistence.jdbc.password" value="21092003aA@" />-->
+<!--            <property name="hibernate.connection.url" value="jdbc:sqlserver://lamvt03server.database.windows.net:1433;databaseName=MovieX;useSSL=true;encrypt=true;trustServerCertificate=true;hostNameInCertificate=*.database.windows.net"/>-->
+<!--            <property name="hibernate.connection.username" value="lamvt03" />-->
+<!--            <property name="hibernate.connection.password" value="21092003aA@" />-->
 
 <!--            hibernate connection -->
             <property name="hibernate.connection.driver_class" value="com.microsoft.sqlserver.jdbc.SQLServerDriver" />

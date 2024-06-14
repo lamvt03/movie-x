@@ -13,7 +13,6 @@ public class UserMapper {
                 entity.getEmail(),
                 entity.getPhone(),
                 entity.getFullName(),
-                entity.getToken(),
                 entity.getIsActive(),
                 entity.getIsAdmin(),
                 entity.getAvtId()

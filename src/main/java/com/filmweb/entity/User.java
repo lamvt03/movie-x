@@ -34,8 +34,6 @@ public class User extends AbstractEntity{
     @Column(name = "is_active")
     private Boolean isActive = Boolean.FALSE;
 
-    private String token;
-
     @Column(name = "avt_id")
     private Integer avtId;
 

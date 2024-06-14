@@ -1,5 +1,7 @@
 package com.filmweb.controller;
 
+import com.filmweb.constant.AppConstant;
+import com.filmweb.constant.PaymentConstant;
 import com.filmweb.constant.SessionConstant;
 import com.filmweb.dto.CommentDto;
 import com.filmweb.dto.UserDto;
@@ -53,8 +55,8 @@ public class VideoController {
             if(userDto == null){
                session.setAttribute("buyBeforeWatch", true);
             }else {
-                Order order = orderService.findByUserIdAndVideoId(userDto.getId(), video.getId());
-                if(order == null || !order.getVnp_ResponseCode().equals("00")){
+                Order order = orderService.findByUserIdAndVideoId(userDto.id(), video.getId());
+                if(order == null || !order.getVnp_ResponseCode().equals(PaymentConstant.VNPAY_SUCCESS_CODE)){
                    session.setAttribute("buyBeforeWatch", true);
                 }
             }
@@ -79,12 +81,12 @@ public class VideoController {
 
         UserDto  userDto = (UserDto) session.getAttribute(SessionConstant.CURRENT_USER);
         if(userDto != null){
-            Order order  = orderService.findByUserIdAndVideoId(userDto.getId(), video.getId());
+            Order order  = orderService.findByUserIdAndVideoId(userDto.id(), video.getId());
             if (order != null) {
                 models.put("order", order);
             }
 
-            Rating rating = ratingService.findByUserIdAndVideoId(userDto.getId(), video.getId());
+            Rating rating = ratingService.findByUserIdAndVideoId(userDto.id(), video.getId());
             if (rating != null) {
                 int ratingFromDatabase = rating.getStar();
                 String checkedAttribute5 = (ratingFromDatabase == 5) ? "checked" : "";
@@ -105,25 +107,9 @@ public class VideoController {
                 models.put("checkedAttribute2", "");
                 models.put("checkedAttribute1", "");
             }
-            History history = historyService.create(userDto.getId(), video.getId());
+            History history = historyService.create(userDto.id(), video.getId());
             models.put("flagLikeButton", history.getIsLiked());
         }
         return "video-detail.jsp";
     }
-
-    @Controller
-    @POST
-    @Path("/comment")
-    public String postComment(
-            @FormParam("content") String content,
-            @FormParam("href") String videoHref
-    ){
-        UserDto userDto = (UserDto) session.getAttribute(SessionConstant.CURRENT_USER);
-        if(userDto != null) {
-            VideoDto video = videoService.findByHref(videoHref);
-            commentService.create(userDto.getId(), video.getId(), content);
-        }
-        return "redirect:video/watch?v="+videoHref;
-    }
-
 }

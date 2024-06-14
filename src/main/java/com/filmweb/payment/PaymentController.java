@@ -108,7 +108,7 @@ public class PaymentController {
     }
 
     @GET
-    @Path("/vnpay/handle")
+    @Path("/vnpay/callback")
     public String getSuccessPayment(
             @QueryParam("href") String href,
             @QueryParam("vnp_TxnRef") String vnp_TxnRef,
@@ -120,7 +120,7 @@ public class PaymentController {
             @QueryParam("vnp_TransactionNo") String vnp_TransactionNo
     ) throws ParseException {
         UserDto userDto = (UserDto) session.getAttribute(SessionConstant.CURRENT_USER);
-        Order order = orderService.create(userDto.getId(), href, vnp_TxnRef, vnp_OrderInfo, vnp_PayDate, vnp_ResponseCode, vnp_Amount, vnp_BankCode, vnp_TransactionNo);
+        Order order = orderService.create(userDto.id(), href, vnp_TxnRef, vnp_OrderInfo, vnp_PayDate, vnp_ResponseCode, vnp_Amount, vnp_BankCode, vnp_TransactionNo);
         if(order.getVnp_ResponseCode().equals(PaymentConstant.VNPAY_SUCCESS_CODE)){
             session.setAttribute("paySuccess", true);
         }else{

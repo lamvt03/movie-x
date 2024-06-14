@@ -39,7 +39,7 @@ public class VideoAPI {
             @QueryParam("v") String href
     ){
         UserDto userDto = (UserDto) session.getAttribute(SessionConstant.CURRENT_USER);
-        boolean isLiked = historyService.updateLike(userDto.getId(), href);
+        boolean isLiked = historyService.updateLike(userDto.id(), href);
         Map<String, Boolean> map = Map.of("isLiked", isLiked);
         return Response.status(200).entity(map).build();
     }
@@ -68,7 +68,7 @@ public class VideoAPI {
     ){
         UserDto userDto = (UserDto) session.getAttribute(SessionConstant.CURRENT_USER);
         if(userDto != null){
-            CommentListResp resp = commentService.postComment(userDto.getId(), href, req);
+            CommentListResp resp = commentService.postComment(userDto.id(), href, req);
             return Response.status(200).entity(resp).build();
         }
 

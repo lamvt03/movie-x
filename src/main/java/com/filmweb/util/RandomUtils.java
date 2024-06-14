@@ -1,16 +1,12 @@
 package com.filmweb.util;
 
 import jakarta.enterprise.context.ApplicationScoped;
-import jakarta.enterprise.inject.Any;
-import jakarta.enterprise.inject.Default;
-import jakarta.enterprise.inject.Produces;
 import jakarta.inject.Inject;
-import lombok.RequiredArgsConstructor;
 
 import java.security.SecureRandom;
 
 @ApplicationScoped
-public class RandomUtil {
+public class RandomUtils {
 
     @Inject
     private SecureRandom random;
