@@ -1,6 +1,7 @@
 package com.filmweb.controller;
 
 import com.filmweb.constant.AppConstant;
+import com.filmweb.constant.CookieConstant;
 import com.filmweb.constant.SessionConstant;
 import com.filmweb.dao.UserVerifiedEmailDao;
 import com.filmweb.dto.UserDto;
@@ -19,12 +20,15 @@ import jakarta.mail.MessagingException;
 import jakarta.mvc.Controller;
 import jakarta.mvc.Models;
 import jakarta.servlet.ServletContext;
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.Context;
 
 import java.time.LocalDateTime;
+import java.util.Arrays;
 import java.util.List;
 
 @ApplicationScoped
@@ -68,7 +72,8 @@ public class UserController {
     @Path("login")
     public String postLogin(
             @FormParam("email") String email,
-            @FormParam("password") String password
+            @FormParam("password") String password,
+            @Context HttpServletResponse response
     ){
         UserDto userDto = userService.authenticate(email, password);
         if (userDto != null) {
@@ -79,8 +84,11 @@ public class UserController {
                 session.setAttribute("loginSuccess", true);
                 session.setAttribute(SessionConstant.CURRENT_USER, userDto);
 
-                String prevUrl = appUtils.getPrevPageUrl(session);
+                Cookie loginCookie = new Cookie(CookieConstant.EMAIL_LOGIN, userDto.getEmail());
+                loginCookie.setMaxAge(CookieConstant.LOGIN_DURATION);
+                response.addCookie(loginCookie);
 
+                String prevUrl = appUtils.getPrevPageUrl(session);
                 return "redirect:" + prevUrl;
             } else {
                 session.setAttribute("emailNotVerified", true);
@@ -94,8 +102,20 @@ public class UserController {
 
     @GET
     @Path("logout")
-    public String getLogout(){
+    public String getLogout(
+            @Context HttpServletRequest request,
+            @Context HttpServletResponse response
+            ){
         session.removeAttribute(SessionConstant.CURRENT_USER);
+
+        Arrays.stream(request.getCookies())
+                .filter(cookie -> cookie.getName().equals(CookieConstant.EMAIL_LOGIN))
+                .findFirst()
+                .ifPresent(cookie -> {
+                    cookie.setMaxAge(0);
+                    response.addCookie(cookie);
+                });
+
         String prevUrl = appUtils.getPrevPageUrl(session);
         return "redirect:" + prevUrl;
     }

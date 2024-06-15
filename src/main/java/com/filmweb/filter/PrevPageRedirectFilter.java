@@ -9,7 +9,7 @@ import jakarta.servlet.http.HttpSession;
 import java.io.IOException;
 
 @WebFilter("/movie-x/*")
-public class PageRedirectFilter implements Filter {
+public class PrevPageRedirectFilter implements Filter {
 
     private final String[] BLACK_LIST = {
             "/login",
