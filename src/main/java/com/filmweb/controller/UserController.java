@@ -13,9 +13,12 @@ import jakarta.mail.MessagingException;
 import jakarta.mvc.Controller;
 import jakarta.mvc.Models;
 import jakarta.servlet.ServletContext;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.Context;
+import jakarta.ws.rs.core.NewCookie;
 
 import java.time.LocalDateTime;
 import java.util.concurrent.CompletableFuture;
@@ -120,7 +123,8 @@ public class UserController {
     @GET
     @Path("verify")
     public String verify(
-            @QueryParam("token") String token
+            @QueryParam("token") String token,
+            @Context HttpServletResponse response
     ){
         UserVerifiedEmail verifiedEmail = verifiedEmailDao.findByToken(token);
         if(verifiedEmail.getIsVerified()){
@@ -134,11 +138,30 @@ public class UserController {
             session.setAttribute("email", user.email());
             return "redirect:verify/success";
         }else{
-
+            UserDto user = userService.findById(verifiedEmail.getUserId());
+            session.setAttribute(SessionConstant.VERIFIED_EMAIL, user.email());
+            return "redirect:verify/expired";
         }
-//        UserDto user = userService.verifyEmail(token);
-//        session.setAttribute("email", user.getEmail());
-        return "redirect:home";
+    }
+
+    @GET
+    @Path("verify/expired")
+    public String verifyExpired(){return "verify-expired.jsp";}
+
+    @GET
+    @Path("verify/resend")
+    public String resendVerifiedEmail() throws MessagingException {
+        String verifiedEmail = session.getAttribute(SessionConstant.VERIFIED_EMAIL).toString();
+        UserDto auth = userService.findByEmail(verifiedEmail);
+        emailService.sendRegisterEmail(servletContext, auth);
+        session.removeAttribute(SessionConstant.VERIFIED_EMAIL);
+        return "redirect:verify/notify";
+    }
+
+    @GET
+    @Path("verify/notify")
+    public String notifyVerifiedEmail(){
+        return "verify-notify.jsp";
     }
 
     @GET

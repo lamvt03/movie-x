@@ -194,6 +194,8 @@ public class AbstractDao<T> {
             for (int i = 0; i < params.length; i++) {
                 query.setParameter(i + 1, params[i]);
             }
+            query.setFirstResult(0);
+            query.setMaxResults(1);
             List<T> result = query.getResultList();
             return result.isEmpty() ? null : result.get(0);
         } finally {

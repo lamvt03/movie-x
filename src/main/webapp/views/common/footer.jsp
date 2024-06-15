@@ -104,7 +104,6 @@
             showTopEndAlert('warning', 'Tài khoản chưa được xác minh email');
         </script>
     </c:if>
-
     <c:remove var="emailNotVerified" scope="session"/>
 </c:if>
 
