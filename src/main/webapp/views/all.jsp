@@ -49,9 +49,8 @@
                                     <p>Sắp xếp:</p>
                                     <label>
                                         <select>
-                                            <option value="">A-Z</option>
-                                            <option value="">1-10</option>
-                                            <option value="">10-50</option>
+                                            <option value="">Mới nhất</option>
+                                            <option value="">Cũ nhất</option>
                                         </select>
                                     </label>
                                 </div>

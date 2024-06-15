@@ -1,27 +1,31 @@
 package com.filmweb.controller;
 
+import com.filmweb.constant.AppConstant;
 import com.filmweb.constant.SessionConstant;
 import com.filmweb.dao.UserVerifiedEmailDao;
 import com.filmweb.dto.UserDto;
+import com.filmweb.dto.VideoDto;
+import com.filmweb.entity.History;
+import com.filmweb.entity.Order;
 import com.filmweb.entity.UserVerifiedEmail;
 import com.filmweb.service.EmailService;
+import com.filmweb.service.HistoryService;
+import com.filmweb.service.OrderService;
 import com.filmweb.service.UserService;
-import com.filmweb.util.AppUtils;
+import com.filmweb.utils.AppUtils;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.mail.MessagingException;
 import jakarta.mvc.Controller;
 import jakarta.mvc.Models;
 import jakarta.servlet.ServletContext;
-import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.Context;
-import jakarta.ws.rs.core.NewCookie;
 
 import java.time.LocalDateTime;
-import java.util.concurrent.CompletableFuture;
+import java.util.List;
 
 @ApplicationScoped
 @Controller
@@ -43,6 +47,12 @@ public class UserController {
     private EmailService emailService;
 
     @Inject
+    private OrderService orderService;
+
+    @Inject
+    private HistoryService historyService;
+
+    @Inject
     private UserVerifiedEmailDao verifiedEmailDao;
 
     @Inject
@@ -62,8 +72,8 @@ public class UserController {
     ){
         UserDto userDto = userService.authenticate(email, password);
         if (userDto != null) {
-            boolean isAdmin = userDto.isAdmin();
-            boolean isActive = userDto.isActive();
+            boolean isAdmin = userDto.getIsAdmin();
+            boolean isActive = userDto.getIsActive();
 
             if (!isAdmin && isActive) {
                 session.setAttribute("loginSuccess", true);
@@ -81,6 +91,7 @@ public class UserController {
             return "login.jsp";
         }
     }
+
     @GET
     @Path("logout")
     public String getLogout(){
@@ -120,6 +131,7 @@ public class UserController {
         }
         return "redirect:register";
     }
+
     @GET
     @Path("verify")
     public String verify(
@@ -135,11 +147,11 @@ public class UserController {
             verifiedEmail.setIsVerified(Boolean.TRUE);
             verifiedEmailDao.update(verifiedEmail);
             UserDto user = userService.findById(verifiedEmail.getUserId());
-            session.setAttribute("email", user.email());
+            session.setAttribute("email", user.getEmail());
             return "redirect:verify/success";
         }else{
             UserDto user = userService.findById(verifiedEmail.getUserId());
-            session.setAttribute(SessionConstant.VERIFIED_EMAIL, user.email());
+            session.setAttribute(SessionConstant.VERIFIED_EMAIL, user.getEmail());
             return "redirect:verify/expired";
         }
     }
@@ -224,7 +236,7 @@ public class UserController {
     ) throws MessagingException {
         UserDto userDto = userService.findByEmail(email);
         if (userDto != null){
-            if (userDto.isActive()) {
+            if (userDto.getIsActive()) {
                 userService.sendForgotPasswordMessage(servletContext, session, userDto);
                 return "redirect:otp/enter";
             } else {
@@ -240,9 +252,9 @@ public class UserController {
     @Path("password/change")
     public String getChangePassword(){
         UserDto userDto = (UserDto) session.getAttribute(SessionConstant.CURRENT_USER);
-        models.put("email", userDto.email());
-        models.put("phone", userDto.phone());
-        models.put("fullName", userDto.fullName());
+        models.put("email", userDto.getEmail());
+        models.put("phone", userDto.getPhone());
+        models.put("fullName", userDto.getFullName());
         return "change-password.jsp";
     }
 
@@ -254,9 +266,9 @@ public class UserController {
             @FormParam("confirmation") Boolean confirm
     ){
         UserDto userDto = (UserDto) session.getAttribute(SessionConstant.CURRENT_USER);
-        if(userService.comparePassword(userDto.email(), oldPassword)){
+        if(userService.comparePassword(userDto.getEmail(), oldPassword)){
             if (confirm != null && confirm) {
-                UserDto user = userService.changePassword(userDto.email(), newPassword.trim());
+                UserDto user = userService.changePassword(userDto.getEmail(), newPassword.trim());
 
                 if (user != null) {
                     session.removeAttribute(SessionConstant.CURRENT_USER);
@@ -265,9 +277,9 @@ public class UserController {
                 }
             }
         }
-        models.put("email", userDto.email());
-        models.put("phone", userDto.phone());
-        models.put("fullName", userDto.fullName());
+        models.put("email", userDto.getEmail());
+        models.put("phone", userDto.getPhone());
+        models.put("fullName", userDto.getFullName());
         session.setAttribute("oldPasswordWrong", true);
         return "change-password.jsp";
     }
@@ -298,7 +310,7 @@ public class UserController {
         UserDto userDto = (UserDto) session.getAttribute(SessionConstant.CURRENT_USER);
         if (confirm != null && confirm){
             if (fullname != null && phone != null) {
-                UserDto user = userService.editProfile(userDto.email(), fullname, phone);
+                UserDto user = userService.editProfile(userDto.getEmail(), fullname, phone);
 
                 if (user != null) {
                     session.removeAttribute(SessionConstant.CURRENT_USER);
@@ -307,6 +319,54 @@ public class UserController {
             }
         }
         return "redirect:home";
+    }
+    @GET
+    @Path("transaction")
+    public String getTransaction(
+
+    ) {
+        UserDto userDto = (UserDto) session.getAttribute(SessionConstant.CURRENT_USER);
+        if (userDto != null) {
+            List<Order> orders = orderService.findByEmail(userDto.getEmail());
+            models.put("orders", orders);
+        }
+        return "transaction.jsp";
+    }
+
+    @GET
+    @Path("history")
+    public String getHistory(
+            @QueryParam("page") Integer page
+    ) {
+        UserDto userDto = (UserDto) session.getAttribute(SessionConstant.CURRENT_USER);
+
+        if (userDto != null) {
+            int currentPage = 1;
+            if(page != null){
+                currentPage = page;
+            }
+            List<VideoDto> videos = historyService.findViewedVideoByEmail(userDto.getEmail(), currentPage, AppConstant.SEARCH_PAGE_LIMIT);
+            models.put("videos", videos);
+            models.put("currentPage", currentPage);
+
+            List<History> histories = historyService.findByEmail(userDto.getEmail());
+            int maxPage = (int) Math.ceil(1.0 * histories.size() / AppConstant.SEARCH_PAGE_LIMIT);
+            models.put("maxPage", maxPage);
+
+        }
+        return "history.jsp";
+    }
+    @GET
+    @Path("favorite")
+    public String getFavorite(
+    ){
+        UserDto userDto = (UserDto) session.getAttribute(SessionConstant.CURRENT_USER);
+
+        if (userDto != null) {
+            List<VideoDto> videos = historyService.findFavoriteVideoByEmail(userDto.getEmail());
+            models.put("videos", videos);
+        }
+        return "favorite.jsp";
     }
 
 }

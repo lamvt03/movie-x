@@ -34,8 +34,7 @@ public class User extends AbstractEntity{
     @Column(name = "is_active")
     private Boolean isActive = Boolean.FALSE;
 
-    @Column(name = "avt_id")
-    private Integer avtId;
+    private String image;
 
     @OneToMany(mappedBy = "user")
     private List<Share> shares;

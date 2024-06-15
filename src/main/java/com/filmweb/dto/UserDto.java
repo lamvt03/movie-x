@@ -4,12 +4,15 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-public record UserDto(
-        Long id,
-        String email,
-        String phone,
-        String fullName,
-        Boolean isActive,
-        Boolean isAdmin,
-        Integer avtId
-) {}
+@AllArgsConstructor
+@NoArgsConstructor
+@Getter
+public class UserDto{
+    private Long id;
+    private String email;
+    private String phone;
+    private String fullName;
+    private Boolean isActive;
+    private Boolean isAdmin;
+    private String image;
+}

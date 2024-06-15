@@ -79,7 +79,7 @@ public class VideoDaoImpl extends AbstractDao<Video> implements VideoDao {
 
     @Override
     public List<Video> findLikedVideos(int page, int limit) {
-        EntityManager entityManager = super.jpaUtil.getEntityManager();
+        EntityManager entityManager = super.jpaUtils.getEntityManager();
         String jpql = "SELECT v FROM Video v " +
                         "JOIN v.histories h " +
                         "WHERE v.isActive = true AND h.isLiked = true " +
@@ -99,7 +99,7 @@ public class VideoDaoImpl extends AbstractDao<Video> implements VideoDao {
 
     @Override
     public long countAllLikedVideos() {
-        EntityManager entityManager = super.jpaUtil.getEntityManager();
+        EntityManager entityManager = super.jpaUtils.getEntityManager();
         String jpql = "SELECT COUNT(v) FROM Video v " +
                 "JOIN v.histories h " +
                 "WHERE v.isActive = true AND h.isLiked = true ";

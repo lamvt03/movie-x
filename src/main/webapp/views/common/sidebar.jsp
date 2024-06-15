@@ -43,7 +43,7 @@
             <c:forEach items="${newestComments}" var="newestComment">
                 <div class="product__sidebar__comment__item">
                     <div class="product__sidebar__comment__item__pic">
-                        <img class="rounded-top img-fluid" src="${pageContext.request.contextPath}/views/template/user/img/avt/avt-${newestComment.avtId}.jpg"
+                        <img class="rounded-top img-fluid" src="${newestComment.userImage}"
                              alt="">
                     </div>
                     <div class="product__sidebar__comment__item__text">

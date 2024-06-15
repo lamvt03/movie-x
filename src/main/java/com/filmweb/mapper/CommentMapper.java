@@ -3,7 +3,7 @@ package com.filmweb.mapper;
 import com.filmweb.dto.CommentDto;
 import com.filmweb.entity.Comment;
 import com.filmweb.entity.User;
-import com.filmweb.util.TimeFormatter;
+import com.filmweb.utils.TimeFormatter;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 
@@ -19,7 +19,7 @@ public class CommentMapper {
                 entity.getContent(),
                 timeAgo,
                 user.getFullName(),
-                user.getAvtId()
+                user.getImage()
         );
     }
 }

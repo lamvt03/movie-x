@@ -3,7 +3,7 @@ package com.filmweb.mapper;
 import com.filmweb.dto.VideoDto;
 import com.filmweb.entity.History;
 import com.filmweb.entity.Video;
-import com.filmweb.util.TimeFormatter;
+import com.filmweb.utils.TimeFormatter;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 

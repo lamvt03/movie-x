@@ -2,15 +2,14 @@ package com.filmweb.service.impl;
 
 import com.filmweb.constant.AppConstant;
 import com.filmweb.dao.UserDao;
-import com.filmweb.dao.UserVerifiedEmailDao;
+import com.filmweb.dto.GoogleUser;
 import com.filmweb.dto.UserDto;
 import com.filmweb.entity.User;
-import com.filmweb.entity.UserVerifiedEmail;
 import com.filmweb.mapper.UserMapper;
 import com.filmweb.service.EmailService;
 import com.filmweb.service.UserService;
-import com.filmweb.util.PasswordEncoder;
-import com.filmweb.util.RandomUtils;
+import com.filmweb.utils.PasswordEncoder;
+import com.filmweb.utils.RandomUtils;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.mail.MessagingException;
@@ -30,9 +29,6 @@ public class UserServiceImpl implements UserService {
 
     @Inject
     private UserDao userDao;
-
-    @Inject
-    private UserVerifiedEmailDao verifiedEmailDao;
 
     @Inject
     private UserMapper userMapper;
@@ -75,6 +71,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserDto register(String email, String password, String phone, String fullName) {
+        Integer avtId = randomUtils.randomAvtId(AppConstant.AVATAR_TOTAL);
         User userEntity = User.builder()
                 .email(email)
                 .password(passwordEncoder.encode(password))
@@ -82,7 +79,7 @@ public class UserServiceImpl implements UserService {
                 .fullName(fullName)
                 .isAdmin(Boolean.FALSE)
                 .isActive(Boolean.FALSE)
-                .avtId(randomUtils.randomAvtId(AppConstant.AVATAR_TOTAL))
+                .image(AppConstant.IMAGE_PREFIX + avtId + AppConstant.IMAGE_SUFFIX)
                 .build();
         return userMapper.toDto(
                 userDao.create(userEntity)
@@ -90,12 +87,27 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public UserDto register(GoogleUser user) {
+        User userEntity = User.builder()
+                .email(user.email())
+                .fullName(user.name())
+                .isAdmin(Boolean.FALSE)
+                .isActive(Boolean.TRUE)
+                .image(user.picture())
+                .build();
+        return userMapper.toDto(
+                userDao.create(userEntity)
+        );
+    }
+
+
+    @Override
     public void sendForgotPasswordMessage(ServletContext servletContext, HttpSession session, UserDto userDto) throws MessagingException {
         String otp = randomUtils.randomOtpValue(AppConstant.OTP_LENGTH);
         emailService.sendForgotEmail(servletContext, userDto, otp);
         session.setAttribute("otp", otp);
         session.setMaxInactiveInterval(180);
-        session.setAttribute("email", userDto.email());
+        session.setAttribute("email", userDto.getEmail());
     }
 
     @Override

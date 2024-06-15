@@ -6,8 +6,8 @@ import com.filmweb.dao.UserVerifiedEmailDao;
 import com.filmweb.dto.UserDto;
 import com.filmweb.entity.UserVerifiedEmail;
 import com.filmweb.service.EmailService;
-import com.filmweb.util.RandomUtils;
-import com.filmweb.util.SendEmailUtils;
+import com.filmweb.utils.RandomUtils;
+import com.filmweb.utils.SendEmailUtils;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.mail.MessagingException;
@@ -37,13 +37,13 @@ public class EmailServiceImpl implements EmailService {
         String token = randomUtils.randomToken(AppConstant.REGISTER_TOKEN_LENGTH);
         verifiedEmail.setToken(token);
         verifiedEmail.setExpiredAt(LocalDateTime.now().plusMinutes(AppConstant.REGISTER_TOKEN_MINUTES));
-        verifiedEmail.setUserId(recipient.id());
+        verifiedEmail.setUserId(recipient.getId());
         verifiedEmailDao.create(verifiedEmail);
 
         String subject = "THANK FOR YOUR REGISTERING";
-        String content = sendEmailUtils.getRegisterMessageContent(recipient.fullName(), token);
+        String content = sendEmailUtils.getRegisterMessageContent(recipient.getFullName(), token);
         String contentType = "text/html; charset=utf-8";
-        sendEmailUtils.sendEmail(host, port, username, password, recipient.email(), subject, content, contentType);
+        sendEmailUtils.sendEmail(host, port, username, password, recipient.getEmail(), subject, content, contentType);
     }
 
     @Override
@@ -54,8 +54,8 @@ public class EmailServiceImpl implements EmailService {
         String password = servletContext.getInitParameter(EmailConstant.PASSWORD);
 
         String subject = "REQUEST TO RETRIEVE PASSWORD";
-        String content = sendEmailUtils.getForgotPasswordMessageContent(recipient.fullName(), otp);
+        String content = sendEmailUtils.getForgotPasswordMessageContent(recipient.getFullName(), otp);
         String contentType = "text/html; charset=utf-8";
-        sendEmailUtils.sendEmail(host, port, username, password, recipient.email(), subject, content, contentType);
+        sendEmailUtils.sendEmail(host, port, username, password, recipient.getEmail(), subject, content, contentType);
     }
 }

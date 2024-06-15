@@ -20,7 +20,7 @@ const postComment = () => {
                 }
                 const html = data.comments.map(item => `<div class="anime__review__item">
                                     <div class="anime__review__item__pic">                 
-                                        <img src="/views/template/user/img/avt/avt-${item.avtId}.jpg" alt="avt" />
+                                        <img src="${item.userImage}" alt="avt" />
                                     </div>
                                     <div class="anime__review__item__text">
                                         <h6>

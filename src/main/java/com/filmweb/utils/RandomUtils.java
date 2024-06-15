@@ -1,4 +1,4 @@
-package com.filmweb.util;
+package com.filmweb.utils;
 
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;

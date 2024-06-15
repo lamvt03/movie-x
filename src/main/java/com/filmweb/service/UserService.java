@@ -1,5 +1,6 @@
 package com.filmweb.service;
 
+import com.filmweb.dto.GoogleUser;
 import com.filmweb.dto.UserDto;
 import jakarta.mail.MessagingException;
 import jakarta.servlet.ServletContext;
@@ -15,6 +16,7 @@ public interface UserService {
     UserDto findByEmail(String email);
     UserDto findById(Long id);
     UserDto register(String email, String password, String phone, String fullName);
+    UserDto register(GoogleUser user);
 
     void sendForgotPasswordMessage(ServletContext servletContext, HttpSession session, UserDto userDto) throws MessagingException;
 

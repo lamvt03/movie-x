@@ -1,8 +1,7 @@
-package com.filmweb.util;
+package com.filmweb.utils;
 
 import jakarta.enterprise.context.ApplicationScoped;
 
-import java.sql.Timestamp;
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.LinkedHashMap;

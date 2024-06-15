@@ -55,7 +55,7 @@ public class VideoController {
             if(userDto == null){
                session.setAttribute("buyBeforeWatch", true);
             }else {
-                Order order = orderService.findByUserIdAndVideoId(userDto.id(), video.getId());
+                Order order = orderService.findByUserIdAndVideoId(userDto.getId(), video.getId());
                 if(order == null || !order.getVnp_ResponseCode().equals(PaymentConstant.VNPAY_SUCCESS_CODE)){
                    session.setAttribute("buyBeforeWatch", true);
                 }
@@ -81,12 +81,12 @@ public class VideoController {
 
         UserDto  userDto = (UserDto) session.getAttribute(SessionConstant.CURRENT_USER);
         if(userDto != null){
-            Order order  = orderService.findByUserIdAndVideoId(userDto.id(), video.getId());
+            Order order  = orderService.findByUserIdAndVideoId(userDto.getId(), video.getId());
             if (order != null) {
                 models.put("order", order);
             }
 
-            Rating rating = ratingService.findByUserIdAndVideoId(userDto.id(), video.getId());
+            Rating rating = ratingService.findByUserIdAndVideoId(userDto.getId(), video.getId());
             if (rating != null) {
                 int ratingFromDatabase = rating.getStar();
                 String checkedAttribute5 = (ratingFromDatabase == 5) ? "checked" : "";
@@ -107,7 +107,7 @@ public class VideoController {
                 models.put("checkedAttribute2", "");
                 models.put("checkedAttribute1", "");
             }
-            History history = historyService.create(userDto.id(), video.getId());
+            History history = historyService.create(userDto.getId(), video.getId());
             models.put("flagLikeButton", history.getIsLiked());
         }
         return "video-detail.jsp";

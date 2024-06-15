@@ -1,4 +1,4 @@
-package com.filmweb.util;
+package com.filmweb.utils;
 
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.persistence.EntityManager;
@@ -6,7 +6,7 @@ import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.Persistence;
 
 @ApplicationScoped
-public class JPAUtil {
+public class JPAUtils {
     private EntityManagerFactory factory;
     private final String PERSISTENCE_UNIT_NAME = "film-web-persistence";
 

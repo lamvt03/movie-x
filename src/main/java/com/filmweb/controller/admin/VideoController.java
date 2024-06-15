@@ -5,7 +5,7 @@ import com.filmweb.dto.VideoDto;
 import com.filmweb.entity.Category;
 import com.filmweb.service.CategoryService;
 import com.filmweb.service.VideoService;
-import com.filmweb.util.AppUtils;
+import com.filmweb.utils.AppUtils;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.mvc.Controller;

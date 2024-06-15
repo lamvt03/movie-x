@@ -1,4 +1,4 @@
-package com.filmweb.util;
+package com.filmweb.utils;
 
 import com.filmweb.constant.AppConstant;
 import jakarta.enterprise.context.ApplicationScoped;

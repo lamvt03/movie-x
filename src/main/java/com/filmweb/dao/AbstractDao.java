@@ -1,8 +1,7 @@
 package com.filmweb.dao;
 
-import com.filmweb.util.JPAUtil;
+import com.filmweb.utils.JPAUtils;
 import jakarta.inject.Inject;
-import jakarta.persistence.Entity;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.Query;
 import jakarta.persistence.TypedQuery;
@@ -12,7 +11,7 @@ import java.util.List;
 public class AbstractDao<T> {
 
     @Inject
-    protected JPAUtil jpaUtil;
+    protected JPAUtils jpaUtils;
 
     protected String buildSelectAllQuery(String entityName) {
         StringBuilder jpqlBd = new StringBuilder();
@@ -36,7 +35,7 @@ public class AbstractDao<T> {
 
     //	find by id
     protected T findById(Class<T> clazz, Long id) {
-        EntityManager entityManager = jpaUtil.getEntityManager();
+        EntityManager entityManager = jpaUtils.getEntityManager();
         try {
             return entityManager.find(clazz, id);
         } finally {
@@ -46,7 +45,7 @@ public class AbstractDao<T> {
 
     //	find all
     protected List<T> findAll(Class<T> clazz) {
-        EntityManager entityManager = jpaUtil.getEntityManager();
+        EntityManager entityManager = jpaUtils.getEntityManager();
         try {
             String jpql = buildSelectAllQuery(clazz.getSimpleName());
             TypedQuery<T> query = entityManager.createQuery(jpql, clazz);
@@ -58,7 +57,7 @@ public class AbstractDao<T> {
 
     //	find all and pagination
     protected List<T> findAll(Class<T> clazz, int page, int limit) {
-        EntityManager entityManager = jpaUtil.getEntityManager();
+        EntityManager entityManager = jpaUtils.getEntityManager();
         try {
             String jpql = buildSelectAllQuery(clazz.getSimpleName());
             TypedQuery<T> query = entityManager.createQuery(jpql, clazz);
@@ -72,7 +71,7 @@ public class AbstractDao<T> {
 
     //	find all and is active
     protected List<T> findAll(Class<T> clazz, boolean isActive) {
-        EntityManager entityManager = jpaUtil.getEntityManager();
+        EntityManager entityManager = jpaUtils.getEntityManager();
         try {
             String jpql = buildSelectAllAndIsActiveQuery(clazz.getSimpleName(), isActive);
             TypedQuery<T> query = entityManager.createQuery(jpql, clazz);
@@ -84,7 +83,7 @@ public class AbstractDao<T> {
 
     //	find all and is active and pagination
     protected List<T> findAll(Class<T> clazz, boolean isActive, int page, int limit) {
-        EntityManager entityManager = jpaUtil.getEntityManager();
+        EntityManager entityManager = jpaUtils.getEntityManager();
         try {
             String jpql = buildSelectAllAndIsActiveQuery(clazz.getSimpleName(), isActive);
             TypedQuery<T> query = entityManager.createQuery(jpql, clazz);
@@ -97,13 +96,13 @@ public class AbstractDao<T> {
     }
 
     protected long count(Class<T> clazz){
-        EntityManager entityManager = jpaUtil.getEntityManager();
+        EntityManager entityManager = jpaUtils.getEntityManager();
         String jpql = "SELECT COUNT(o) FROM " + clazz.getSimpleName() + " o";
         Query query = entityManager.createQuery(jpql, clazz);
         return (long)query.getSingleResult();
     }
     protected long count(Class<T> clazz, boolean isActive){
-        EntityManager entityManager = jpaUtil.getEntityManager();
+        EntityManager entityManager = jpaUtils.getEntityManager();
         String jpql = "SELECT COUNT(o) FROM " + clazz.getSimpleName() + " o";
         if (isActive){
             jpql += " WHERE o.isActive = 1";
@@ -115,7 +114,7 @@ public class AbstractDao<T> {
         return (long)query.getSingleResult();
     }
     protected long count(Class<T> clazz, String jpql, Object... params){
-        EntityManager entityManager = jpaUtil.getEntityManager();
+        EntityManager entityManager = jpaUtils.getEntityManager();
         try{
             Query query = entityManager.createQuery(jpql, clazz);
             for (int i = 0; i < params.length; i++) {
@@ -128,7 +127,7 @@ public class AbstractDao<T> {
     }
 
     public T create(T entity) {
-        EntityManager entityManager = jpaUtil.getEntityManager();
+        EntityManager entityManager = jpaUtils.getEntityManager();
         try {
             entityManager.getTransaction().begin();
             entityManager.persist(entity);
@@ -143,7 +142,7 @@ public class AbstractDao<T> {
     }
 
     public T update(T entity) {
-        EntityManager entityManager = jpaUtil.getEntityManager();
+        EntityManager entityManager = jpaUtils.getEntityManager();
         try {
             entityManager.getTransaction().begin();
             entity = entityManager.merge(entity);
@@ -158,7 +157,7 @@ public class AbstractDao<T> {
     }
 
     public T delete(T entity) {
-        EntityManager entityManager = jpaUtil.getEntityManager();
+        EntityManager entityManager = jpaUtils.getEntityManager();
         try {
             entityManager.getTransaction().begin();
             entity = entityManager.merge(entity);
@@ -175,7 +174,7 @@ public class AbstractDao<T> {
 
 
     public List<T> findAll(Class<T> clazz, List<Long> ids){
-        EntityManager entityManager = jpaUtil.getEntityManager();
+        EntityManager entityManager = jpaUtils.getEntityManager();
         String hql = "SELECT e FROM " + clazz.getSimpleName() + " e WHERE e.id IN :ids";
         try{
             TypedQuery<T> query = entityManager.createQuery(hql, clazz);
@@ -188,7 +187,7 @@ public class AbstractDao<T> {
     }
     // find one by custom query
     public T findOne(Class<T> clazz, String jpql, Object... params) {
-        EntityManager entityManager = jpaUtil.getEntityManager();
+        EntityManager entityManager = jpaUtils.getEntityManager();
         try {
             TypedQuery<T> query = entityManager.createQuery(jpql, clazz);
             for (int i = 0; i < params.length; i++) {
@@ -205,7 +204,7 @@ public class AbstractDao<T> {
 
     // find many by custom query
     public List<T> findMany(Class<T> clazz, String jpql, Object... params) {
-        EntityManager entityManager = jpaUtil.getEntityManager();
+        EntityManager entityManager = jpaUtils.getEntityManager();
         try {
             TypedQuery<T> query = entityManager.createQuery(jpql, clazz);
             for (int i = 0; i < params.length; i++) {
@@ -218,7 +217,7 @@ public class AbstractDao<T> {
     }
     // find many by custom query with page and limit
     public List<T> findMany(Class<T> clazz, int page, int limit, String jpql, Object... params) {
-        EntityManager entityManager = jpaUtil.getEntityManager();
+        EntityManager entityManager = jpaUtils.getEntityManager();
         try {
             TypedQuery<T> query = entityManager.createQuery(jpql, clazz);
             for (int i = 0; i < params.length; i++) {
@@ -233,7 +232,7 @@ public class AbstractDao<T> {
     }
     // find many by custom query with limit
     public List<T> findMany(Class<T> clazz, int limit, String jpql, Object... params) {
-        EntityManager entityManager = jpaUtil.getEntityManager();
+        EntityManager entityManager = jpaUtils.getEntityManager();
         try {
             TypedQuery<T> query = entityManager.createQuery(jpql, clazz);
             query.setMaxResults(limit);

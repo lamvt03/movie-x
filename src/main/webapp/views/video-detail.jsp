@@ -193,7 +193,7 @@
                             <c:forEach items="${comments}" var="comment">
                                 <div class="anime__review__item">
                                     <div class="anime__review__item__pic">
-                                        <img src="${pageContext.request.contextPath}/views/template/user/img/avt/avt-${comment.avtId}.jpg"
+                                        <img src="${comment.userImage}"
                                              alt="avt"/>
                                     </div>
                                     <div class="anime__review__item__text">

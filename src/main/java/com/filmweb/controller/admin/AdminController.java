@@ -35,8 +35,8 @@ public class AdminController {
         UserDto admin = userService.authenticate(username, password);
 
         if (admin != null) {
-            Boolean isAdmin = admin.isAdmin();
-            Boolean isActive = admin.isActive();
+            Boolean isAdmin = admin.getIsAdmin();
+            Boolean isActive = admin.getIsActive();
 
             if (isAdmin && isActive) {
                 session.setAttribute(SessionConstant.CURRENT_ADMIN, admin);

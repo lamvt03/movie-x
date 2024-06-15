@@ -48,7 +48,7 @@
 
                 <div class="img-profile">
 
-                    <img src="${pageContext.request.contextPath}/views/template/user/img/avt/avt-${user.avtId}.jpg"
+                    <img src="${user.image}"
                          class="img-fluid rounded" width="60%" alt="avatar"/>
 
                 </div>

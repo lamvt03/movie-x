@@ -15,7 +15,7 @@ public class UserMapper {
                 entity.getFullName(),
                 entity.getIsActive(),
                 entity.getIsAdmin(),
-                entity.getAvtId()
+                entity.getImage()
         );
     }
 }
