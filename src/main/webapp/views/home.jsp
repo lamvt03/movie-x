@@ -50,7 +50,7 @@
 
         <div class="row">
 
-            <div class="col-lg-8">
+            <div class="col-12 col-lg-8">
                 <div class="trending__product">
                     <div class="row">
                         <div class="col-lg-8 col-md-8 col-sm-8">
@@ -65,9 +65,9 @@
                         </div>
                     </div>
 
-                    <div class="row">
+                    <div class="row video-wrapper">
                         <c:forEach items="${videos}" var="video">
-                            <div class="col-lg-4 col-md-6 col-sm-6">
+                            <div class="col-lg-4 col-md-6 col-sm-12">
                                 <div class="product__item overflow-hidden">
                                     <a
                                             href="${initParam['mvcPath']}/video/detail?v=${video.href}">
@@ -99,10 +99,15 @@
                             </div>
                         </c:forEach>
                     </div>
+
+                    <div class="row mt-2">
+                        <button class="col-12 col-md-6 offset-md-3 col-lg-4 offset-lg-4 btn load-more-video-btn">
+                            Xem Thêm
+                        </button>
+
+                    </div>
                 </div>
 
-<%--                pagination--%>
-                <%@ include file="/views/common/pagination.jsp" %>
             </div>
 
 <%--            sidebar --%>
@@ -114,6 +119,6 @@
 <!-- Product Section End -->
 
 <%@ include file="/views/common/footer.jsp" %>
-
+<script type="text/javascript" src="${pageContext.request.contextPath}/views/template/user/js/loadMoreVideo.js"></script>
 </body>
 </html>

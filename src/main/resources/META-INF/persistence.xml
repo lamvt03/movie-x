@@ -16,9 +16,6 @@
         <class>com.filmweb.entity.UserVerifiedEmail</class>
         <exclude-unlisted-classes>true</exclude-unlisted-classes>
         <properties>
-<!--            <property name="hibernate.connection.url" value="jdbc:sqlserver://lamvt03server.database.windows.net:1433;databaseName=MovieX;useSSL=true;encrypt=true;trustServerCertificate=true;hostNameInCertificate=*.database.windows.net"/>-->
-<!--            <property name="hibernate.connection.username" value="lamvt03" />-->
-<!--            <property name="hibernate.connection.password" value="21092003aA@" />-->
 
 <!--            hibernate connection -->
             <property name="hibernate.connection.driver_class" value="com.microsoft.sqlserver.jdbc.SQLServerDriver" />

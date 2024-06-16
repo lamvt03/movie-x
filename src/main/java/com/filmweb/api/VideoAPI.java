@@ -2,8 +2,11 @@ package com.filmweb.api;
 
 import com.filmweb.api.req.PostCommentReq;
 import com.filmweb.api.resp.CommentListResp;
+import com.filmweb.api.resp.VideoListResp;
+import com.filmweb.constant.AppConstant;
 import com.filmweb.constant.SessionConstant;
 import com.filmweb.dto.UserDto;
+import com.filmweb.dto.VideoDto;
 import com.filmweb.service.CommentService;
 import com.filmweb.service.HistoryService;
 import com.filmweb.service.VideoService;
@@ -14,7 +17,9 @@ import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 
+import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 @ApplicationScoped
 @Path("/api/video")
@@ -77,6 +82,23 @@ public class VideoAPI {
                 .entity(Map.of(
                         "error", 400,
                         "msg", "You must login before post comment"))
+                .build();
+    }
+    @GET
+    @Path("list")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response getVideoList(
+            @QueryParam("page") Integer page
+    ){
+        long totalVideo = videoService.countActiveVideos();
+        int maxPage = (int) Math.ceil(1.0 * totalVideo / AppConstant.PAGE_LIMIT);
+        int currentPage = Optional.ofNullable(page)
+                .filter(p -> p <= maxPage)
+                .orElseGet(() -> 1);
+        List<VideoDto> videos = videoService.findAll(currentPage, AppConstant.PAGE_LIMIT);
+        return Response
+                .status(200)
+                .entity(new VideoListResp(videos, currentPage, maxPage))
                 .build();
     }
 }

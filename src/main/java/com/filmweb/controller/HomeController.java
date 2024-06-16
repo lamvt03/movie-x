@@ -38,7 +38,7 @@ public class HomeController {
         List<VideoDto> trendingVideos = videoService.findTrending(4);
         models.put("trendingVideos", trendingVideos);
 
-        long totalVideo = videoService.count();
+        long totalVideo = videoService.countActiveVideos();
         int maxPage = (int) Math.ceil(1.0 * totalVideo / AppConstant.PAGE_LIMIT);
         models.put("maxPage", maxPage);
 
@@ -69,7 +69,7 @@ public class HomeController {
         String category = videos.get(0).getCategory();
         models.put("videos",videos);
         models.put("category", category);
-        return "video-all.jsp";
+        return "video-category.jsp";
     }
 
     @GET
@@ -78,7 +78,7 @@ public class HomeController {
             @QueryParam("page") Integer page
     ){
 
-        long totalVideo = videoService.count();
+        long totalVideo = videoService.countActiveVideos();
         int maxPage = (int) Math.ceil(1.0 * totalVideo / AppConstant.CATEGORY_PAGE_LIMIT);
         models.put("maxPage", maxPage);
 

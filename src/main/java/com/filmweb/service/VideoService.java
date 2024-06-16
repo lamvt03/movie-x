@@ -9,7 +9,7 @@ public interface VideoService {
     VideoDto findByHref(String href);
     List<VideoDto> findTrending(int limit);
     List<VideoDto> findAll(int page, int limit);
-    long count();
+    long countActiveVideos();
     List<VideoDto> findDeletedVideos(int page, int limit);
     long countDisabled();
     List<VideoDto> findByKeyword(String keyword);

@@ -5,7 +5,7 @@
 <jsp:useBean id="newestComments" scope="request" type="java.util.List"/>
 
 <%--top section --%>
-<div class="col-lg-4 col-md-6 col-sm-8">
+<div class="col-12 col-lg-4 col-md-6 col-sm-8">
     <div class="product__sidebar">
         <div class="product__sidebar__view">
             <div class="section-title">

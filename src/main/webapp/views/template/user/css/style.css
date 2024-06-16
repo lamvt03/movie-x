@@ -1836,6 +1836,21 @@ ol {
     cursor: pointer;
 }
 
+.load-more-video-btn {
+    background-color: var(--secondary-color);
+    color: #ffffff;
+    border: none;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+.load-more-video-btn:hover {
+    background-color: #333;
+    color: #fff;
+}
+
 /*---------------------
   Login
 -----------------------*/

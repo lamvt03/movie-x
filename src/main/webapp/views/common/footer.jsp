@@ -26,8 +26,8 @@
                 <div class="footer__nav">
                     <ul>
                         <li class="active"><a href="${initParam['mvcPath']}/home">Trang Chủ</a></li>
-                        <li><a href="${initParam['mvcPath']}/category">Danh Sách Phim</a></li>
-                        <li><a href="${initParam['mvcPath']}/about">Liên Hệ Với Tôi</a></li>
+                        <li><a href="${initParam['mvcPath']}/all">Danh Sách Phim</a></li>
+                        <li><a href="${initParam['mvcPath']}/about">Về Chúng Tôi</a></li>
                         <c:if test="${not empty sessionScope.currentUser}">
                             <li><a href="${initParam['mvcPath']}/profile">Trang Cá Nhân</a></li>
                         </c:if>
@@ -37,7 +37,6 @@
             </div>
             <div class="col-lg-12">
                 <p class="text-center">
-                    <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
                     Copyright &copy;
                     <script>
                         document.write(new Date().getFullYear());

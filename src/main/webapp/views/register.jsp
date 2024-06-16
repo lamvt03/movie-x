@@ -82,11 +82,11 @@
                 <div class="login__social__links">
                     <h3>Đăng nhập với:</h3>
                     <ul>
-                        <li><a href="#" class="facebook"><i class="fa-brands fa-facebook-f"></i> Đăng nhập với Facebook</a></li>
                         <li><a
-                                href="#"
+                                href="${initParam['mvcPath']}/oauth2/login/google"
                                 class="google"><i class="fa-brands fa-google"></i> Đăng nhập với
                             Google</a></li>
+                        <li><a href="#" class="facebook"><i class="fa-brands fa-facebook-f"></i> Đăng nhập với Facebook</a></li>
                         <li><a href="#" class="twitter"><i class="fa-brands fa-twitter"></i>
                             Đăng nhập với Twitter</a></li>
                     </ul>

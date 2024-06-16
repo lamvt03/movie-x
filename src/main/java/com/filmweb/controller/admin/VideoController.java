@@ -41,7 +41,7 @@ public class VideoController {
     public String getVideos(
             @QueryParam("page") Integer page
     ) {
-        long totalVideo = videoService.count();
+        long totalVideo = videoService.countActiveVideos();
         long maxPage = (long) Math.ceil(1.0 * totalVideo / AppConstant.SEARCH_PAGE_LIMIT);
         models.put("maxPage", maxPage);
 

@@ -47,12 +47,10 @@
                             <div class="col-lg-4 col-md-4 col-sm-6 d-flex justify-content-end align-items-end">
                                 <div class="product__page__filter">
                                     <p>Sắp xếp:</p>
-                                    <label>
-                                        <select>
-                                            <option value="">Mới nhất</option>
-                                            <option value="">Cũ nhất</option>
-                                        </select>
-                                    </label>
+                                    <select>
+                                        <option value="">Mới nhất</option>
+                                        <option value="">Cũ nhất</option>
+                                    </select>
                                 </div>
                             </div>
                         </div>

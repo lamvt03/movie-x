@@ -51,7 +51,7 @@ public class VideoServiceImpl implements VideoService {
     }
 
     @Override
-    public long count() {
+    public long countActiveVideos() {
         return videoDao.count(true);
     }
 

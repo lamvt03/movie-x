@@ -49,9 +49,8 @@
                                 <div class="product__page__filter">
                                     <p>Sắp xếp:</p>
                                     <select>
-                                        <option value="">A-Z</option>
-                                        <option value="">1-10</option>
-                                        <option value="">10-50</option>
+                                        <option value="">Mới nhất</option>
+                                        <option value="">Cũ nhất</option>
                                     </select>
                                 </div>
                             </div>
