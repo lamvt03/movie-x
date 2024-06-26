@@ -7,13 +7,11 @@ import com.filmweb.entity.Category;
 import com.filmweb.entity.Video;
 import com.filmweb.mapper.VideoMapper;
 import com.filmweb.service.VideoService;
+import com.filmweb.utils.RandomUtils;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
-import jakarta.transaction.Transactional;
 
-import java.sql.Timestamp;
-import java.util.ArrayList;
-import java.util.Comparator;
+import java.security.SecureRandom;
 import java.util.List;
 
 @ApplicationScoped
@@ -27,6 +25,9 @@ public class VideoServiceImpl implements VideoService {
 
     @Inject
     private VideoMapper videoMapper;
+
+    @Inject
+    private RandomUtils randomUtils;
 
     @Override
     public VideoDto findByHref(String href) {
@@ -76,10 +77,11 @@ public class VideoServiceImpl implements VideoService {
     }
 
     @Override
-    public VideoDto create(String title, String href, String poster, String director, String actor, String categoryCode, String description, String formattedPrice, String content) {
+    public Video create(String title, String href, String poster, String director, String actor, String categoryCode, String description, String formattedPrice) {
         Long price = Long.parseLong(formattedPrice.replace(".", ""));
         Category category = categoryDao.findByCode(categoryCode);
-        Video video = videoDao.create(
+        SecureRandom random = new SecureRandom();
+        return videoDao.create(
                 Video.builder()
                         .title(title)
                         .href(href)
@@ -88,13 +90,12 @@ public class VideoServiceImpl implements VideoService {
                         .actor(actor)
                         .category(category)
                         .price(price)
-                        .description(content)
+                        .description(description)
                         .isActive(Boolean.TRUE)
-                        .views(0)
+                        .views(random.nextInt(15))
                         .share(0)
                         .build()
         );
-        return videoMapper.toDto(video);
     }
 
     @Override
@@ -136,8 +137,8 @@ public class VideoServiceImpl implements VideoService {
     }
 
     @Override
-    public List<VideoDto> findByCategoryCode(String code) {
-        List<Video> videos = videoDao.findByCategoryCode(code);
+    public List<VideoDto> findByCategoryCode(String code, int page, int limit) {
+        List<Video> videos = videoDao.findByCategoryCodeAndViewsDesc(code, page, limit);
         return videos.stream()
                 .map(videoMapper::toDto)
                 .toList();
@@ -154,5 +155,13 @@ public class VideoServiceImpl implements VideoService {
     @Override
     public long countAllLikedVideos(){
         return videoDao.countAllLikedVideos();
+    }
+
+    @Override
+    public List<VideoDto> findOtherVideos(String categoryCode, int page, int limit) {
+        Category category = categoryDao.findByCode(categoryCode);
+        long randomId = randomUtils.randomInRangeExcept(categoryDao.count(), category.getId());
+        Category otherCategory = categoryDao.findById(randomId);
+        return findByCategoryCode(otherCategory.getCode(), page, limit);
     }
 }

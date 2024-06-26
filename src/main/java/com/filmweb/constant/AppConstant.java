@@ -2,9 +2,6 @@ package com.filmweb.constant;
 
 public class AppConstant {
 
-    public static final String HOST_URL = "http://localhost:8080";
-//    public static final String HOST_URL = "http://localhost:8080";
-
     public static final int REGISTER_TOKEN_LENGTH = 12;
 
     public static final int REGISTER_TOKEN_MINUTES = 60;

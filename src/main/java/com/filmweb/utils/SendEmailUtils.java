@@ -1,17 +1,23 @@
 package com.filmweb.utils;
 
-import com.filmweb.constant.AppConstant;
 import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.inject.Inject;
 import jakarta.mail.*;
 import jakarta.mail.internet.AddressException;
 import jakarta.mail.internet.InternetAddress;
 import jakarta.mail.internet.MimeMessage;
+import org.eclipse.microprofile.config.inject.ConfigProperty;
 
 import java.util.Date;
 import java.util.Properties;
 
 @ApplicationScoped
 public class SendEmailUtils {
+
+    @Inject
+    @ConfigProperty(name = "host.url")
+    private String hostUrl;
+
     public void sendEmail(
             String host,
             String port,
@@ -76,11 +82,11 @@ public class SendEmailUtils {
                 + fullName + " ,<br><br>\r\n" + "\r\n"
                 + "                        Cảm ơn bạn đã luôn tin tưởng và sử dụng ứng dụng của chúng tôi.<br><br>\r\n"
                 + "\r\n" + "\r\n"
-                + "                        Bạn có thể chỉnh sửa thông tin cá nhân của mình <a href=" + AppConstant.HOST_URL + "/movie-x/profile\">tại đây</a> sau khi tài khoản được kích hoạt.\r\n"
+                + "                        Bạn có thể chỉnh sửa thông tin cá nhân của mình <a href=" + hostUrl + "/movie-x/profile\">tại đây</a> sau khi tài khoản được kích hoạt.\r\n"
                 + "                       <br>\r\n" + "\r\n" + "<br>Trân trọng<br>\r\n" + "\r\n"
                 + "                        Chi tiết xin liên hệ hotline để được tư vấn thêm.<br><br>\r\n"
                 + "                        HotLine: 0886338217\r\n" + "                    </p>\r\n"
-                + "                    <a href=" + AppConstant.HOST_URL +"/movie-x/verify?token=" + token
+                + "                    <a href=" + hostUrl +"/movie-x/verify?token=" + token
                 + " class=\"btn\" style=\"float: right;\r\n" + "                    margin: 0 2% 4% 0;\r\n"
                 + "                    background-color: #303840;\r\n" + "                    color: #f6faff;\r\n"
                 + "                    text-decoration: none;\r\n" + "                    font-weight: 800;\r\n"

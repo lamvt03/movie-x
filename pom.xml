@@ -149,29 +149,17 @@
         </dependency>
 
 
-        <!--        <dependency>-->
-<!--            <groupId>com.google.api-client</groupId>-->
-<!--            <artifactId>google-api-client</artifactId>-->
-<!--            <version>2.3.0</version>-->
-<!--        </dependency>-->
-
-<!--        <dependency>-->
-<!--            <groupId>com.google.http-client</groupId>-->
-<!--            <artifactId>google-http-client</artifactId>-->
-<!--            <version>1.44.1</version>-->
-<!--        </dependency>-->
-
-<!--        <dependency>-->
-<!--            <groupId>com.google.http-client</groupId>-->
-<!--            <artifactId>google-http-client-gson</artifactId>-->
-<!--            <version>1.44.1</version>-->
-<!--        </dependency>-->
-
-<!--        <dependency>-->
-<!--            <groupId>com.google.http-client</groupId>-->
-<!--            <artifactId>google-http-client-apache-v2</artifactId>-->
-<!--            <version>1.44.1</version>-->
-<!--        </dependency>-->
+<!--        env-->
+        <dependency>
+            <groupId>org.eclipse.microprofile.config</groupId>
+            <artifactId>microprofile-config-api</artifactId>
+            <version>3.0</version>
+        </dependency>
+        <dependency>
+            <groupId>io.smallrye.config</groupId>
+            <artifactId>smallrye-config</artifactId>
+            <version>3.0.0</version>
+        </dependency>
 
 
         <!--        testing -->

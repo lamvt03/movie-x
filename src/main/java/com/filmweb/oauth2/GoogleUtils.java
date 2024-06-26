@@ -1,9 +1,10 @@
 package com.filmweb.oauth2;
 
-import com.filmweb.constant.AppConstant;
 import com.filmweb.dto.GoogleUser;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.inject.Inject;
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
@@ -16,6 +17,7 @@ import org.apache.http.impl.client.HttpClients;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.ssl.SSLContextBuilder;
 import org.apache.http.util.EntityUtils;
+import org.eclipse.microprofile.config.inject.ConfigProperty;
 
 import java.io.IOException;
 import java.security.KeyManagementException;
@@ -24,24 +26,58 @@ import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.List;
 
+@ApplicationScoped
 public class GoogleUtils {
 
-    public static String scope = "email+profile";
-    public static String redirect_uri = AppConstant.HOST_URL + "/movie-x/oauth2/login/google/callback";
-    public static String response_type = "code";
-    public static String client_id = "14458673516-4c8246q5dbb3be37hmaeu3t6hqijacmf.apps.googleusercontent.com";
-    public static String client_secret = "";
-    public static String approval_prompt = "force";
-    public static String grant_type = "authorization_code";
+    @Inject
+    @ConfigProperty(name = "oauth2.login.google.clientId")
+    private String client_id;
 
-    public static String TOKEN_URL = "https://oauth2.googleapis.com/token";
-    public static String USER_INFO_URL = "https://www.googleapis.com/oauth2/v1/userinfo?access_token=";
+    @Inject
+    @ConfigProperty(name = "oauth2.login.google.clientSecret")
+    private String client_secret;
 
-    public static String getLoginUrl() {
-        return "https://accounts.google.com/o/oauth2/auth?scope=" + scope + "&redirect_uri=" + redirect_uri + "&response_type=" + response_type + "&client_id=" + client_id + "&approval_prompt=" + approval_prompt;
+    @Inject
+    @ConfigProperty(name = "oauth2.login.google.scope")
+    private String scope;
+
+    @Inject
+    @ConfigProperty(name = "oauth2.login.google.redirectUri")
+    private String redirect_uri;
+
+    @Inject
+    @ConfigProperty(name = "oauth2.login.google.responseType")
+    private String response_type;
+
+    @Inject
+    @ConfigProperty(name = "oauth2.login.google.approvalPrompt")
+    private String approval_prompt;
+
+    @Inject
+    @ConfigProperty(name = "oauth2.login.google.grantType")
+    private String grant_type;
+
+    @Inject
+    @ConfigProperty(name="oauth2.login.google.tokenUrl")
+    private String tokenUrl;
+
+    @Inject
+    @ConfigProperty(name="oauth2.login.google.userInfoUrl")
+    private String userInfoUrl;
+
+    public String createLoginUrl() {
+        StringBuilder urlBuilder = new StringBuilder();
+        urlBuilder.append("https://accounts.google.com/o/oauth2/auth")
+                .append("?scope=").append(scope)
+                .append("&redirect_uri=").append(redirect_uri)
+                .append("&response_type=").append(response_type)
+                .append("&client_id=").append(client_id)
+                .append("&approval_prompt=").append(approval_prompt);
+        return urlBuilder.toString();
     }
 
-    public static String getToken(String code) throws NoSuchAlgorithmException, KeyStoreException, KeyManagementException, IOException {
+
+    public String getToken(String code) throws NoSuchAlgorithmException, KeyStoreException, KeyManagementException, IOException {
 
         // Create a trust manager that does not validate certificate chains
         SSLContextBuilder builder = new SSLContextBuilder();
@@ -51,7 +87,7 @@ public class GoogleUtils {
         CloseableHttpClient httpclient = HttpClients.custom().setSSLSocketFactory(
                 sslsf).build();
 
-        HttpPost httpPost = new HttpPost(TOKEN_URL);
+        HttpPost httpPost = new HttpPost(tokenUrl);
         httpPost.setHeader("Content-Type", "application/x-www-form-urlencoded");
 
         // Request parameters and other properties.
@@ -71,8 +107,8 @@ public class GoogleUtils {
         return jsonObject.get("access_token").toString().replaceAll("\"", "");
     }
 
-    public static GoogleUser getUserInfo(final String accessToken) throws IOException, NoSuchAlgorithmException, KeyStoreException, KeyManagementException {
-        String link = USER_INFO_URL + accessToken;
+    public GoogleUser getUserInfo(final String accessToken) throws IOException, NoSuchAlgorithmException, KeyStoreException, KeyManagementException {
+        String link = userInfoUrl +  "?access_token=" + accessToken;
 
         SSLContextBuilder builder = new SSLContextBuilder();
         builder.loadTrustMaterial(null, (chain, authType) -> true);

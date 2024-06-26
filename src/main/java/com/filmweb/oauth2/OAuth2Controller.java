@@ -35,12 +35,16 @@ public class OAuth2Controller {
     @Inject
     private UserService userService;
 
+    @Inject
+    private GoogleUtils googleUtils;
+
     @GET
     @Path("/login/google")
     public Response getLoginGoogle(
     ){
+        String loginUrl = googleUtils.createLoginUrl();
         return Response.status(Response.Status.SEE_OTHER)
-                .header(HttpHeaders.LOCATION, GoogleUtils.getLoginUrl())
+                .header(HttpHeaders.LOCATION, loginUrl)
                 .build();
     }
     @GET
@@ -48,8 +52,8 @@ public class OAuth2Controller {
     public String handleLoginGoogle(
             @QueryParam("code") String code
     ) throws IOException, NoSuchAlgorithmException, KeyStoreException, KeyManagementException {
-        String token = GoogleUtils.getToken(code);
-        GoogleUser googleUser = GoogleUtils.getUserInfo(token);
+        String token = googleUtils.getToken(code);
+        GoogleUser googleUser = googleUtils.getUserInfo(token);
 
         UserDto userDto = Optional.ofNullable(userService.findByEmail(googleUser.email()))
                         .orElseGet(() -> userService.register(googleUser));
