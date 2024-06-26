@@ -16,8 +16,6 @@ public interface VideoDao {
 
     Video findByHref(String href);
 
-    List<Video> findByName(String name);
-
     List<Video> findTrending(int limit);
 
     long count(boolean isActive);
@@ -29,7 +27,7 @@ public interface VideoDao {
     Video delete(Video entity);
 
     List<Video> findByKeyword(String keyword);
-    List<Video> findByCategoryCode(String categoryCode);
+    List<Video> findByCategoryCodeAndViewsDesc(String categoryCode, int page, int limit);
 
     List<Video> findTopYear(int year, int page, int limit);
     List<Video> findLikedVideos(int page, int limit);

@@ -14,7 +14,7 @@ public interface VideoService {
     long countDisabled();
     List<VideoDto> findByKeyword(String keyword);
 
-    VideoDto create(String title, String href, String poster, String director, String actor, String categoryCode, String description, String formattedPrice, String content);
+    Video create(String title, String href, String poster, String director, String actor, String categoryCode, String description, String formattedPrice);
 
     VideoDto update(String title, String href, String director, String actor, String categoryCode, String heading, String formattedPrice, String description);
 
@@ -23,9 +23,11 @@ public interface VideoService {
     VideoDto delete(String href);
 
     List<VideoDto> findLikedVideos(int page, int limit);
-    List<VideoDto> findByCategoryCode(String code);
+    List<VideoDto> findByCategoryCode(String code, int page, int limit);
 
     List<VideoDto> findTopYear(int year, int page, int limit);
 
     long countAllLikedVideos();
+
+    List<VideoDto> findOtherVideos(String categoryCode, int page, int limit);
 }

@@ -7,6 +7,7 @@ import com.filmweb.utils.TimeFormatter;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 
+import java.util.List;
 
 
 @ApplicationScoped
@@ -16,6 +17,9 @@ public class VideoMapper {
 
     public VideoDto toDto(Video entity) {
         if(entity != null){
+            List<History> histories = entity.getHistories().stream()
+                    .filter(History::getIsLiked)
+                    .toList();
             String timeAgo = timeFormatter.getTimeAgoString(entity.getCreatedAt());
             return new VideoDto(
                     entity.getId(),
@@ -32,9 +36,7 @@ public class VideoMapper {
                     entity.getPrice(),
                     entity.isActive(),
                     entity.getCreatedAt(),
-                    entity.getHistories().stream()
-                            .filter(History::getIsLiked)
-                            .toList().size(),
+                    histories.size(),
                     entity.getComments().size(),
                     timeAgo
             );

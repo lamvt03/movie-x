@@ -41,12 +41,6 @@ public class VideoDaoImpl extends AbstractDao<Video> implements VideoDao {
     }
 
     @Override
-    public List<Video> findByName(String name) {
-        String jpql = "SELECT o FROM Video o WHERE o.name = ?0";
-        return super.findMany(Video.class, jpql, name);
-    }
-
-    @Override
     public List<Video> findTrending(int limit) {
         String jpql = "SELECT o FROM Video o WHERE o.isActive = 1 ORDER BY o.views DESC";
         return super.findMany(Video.class, limit, jpql);
@@ -66,9 +60,9 @@ public class VideoDaoImpl extends AbstractDao<Video> implements VideoDao {
     }
 
     @Override
-    public List<Video> findByCategoryCode(String categoryCode) {
-        String jpql = "SELECT v FROM Video v JOIN v.category c WHERE v.isActive  = 1 AND c.code = ?1";
-        return super.findMany(Video.class, jpql, categoryCode);
+    public List<Video> findByCategoryCodeAndViewsDesc(String categoryCode, int page, int limit) {
+        String jpql = "SELECT v FROM Video v JOIN v.category c WHERE v.isActive  = 1 AND c.code = ?1 ORDER BY v.views DESC";
+        return super.findMany(Video.class, page, limit, jpql, categoryCode);
     }
 
     @Override

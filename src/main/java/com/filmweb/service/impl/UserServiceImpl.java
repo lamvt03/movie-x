@@ -100,6 +100,13 @@ public class UserServiceImpl implements UserService {
         );
     }
 
+    @Override
+    public UserDto verify(Long id) {
+        User user = userDao.findById(id);
+        user.setIsActive(Boolean.TRUE);
+        return userMapper.toDto(userDao.update(user));
+    }
+
 
     @Override
     public void sendForgotPasswordMessage(ServletContext servletContext, HttpSession session, UserDto userDto) throws MessagingException {

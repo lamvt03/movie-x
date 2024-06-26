@@ -78,11 +78,6 @@
                                     </c:forEach>
                                 </select>
                                 </div>
-<%--                                <div class="mb-3">--%>
-<%--                                    <label for="mo-ta" class="form-label">Mô tả</label> <input--%>
-<%--                                        type="text" class="form-control" value="${video.heading}"--%>
-<%--                                        name="heading" id="mo-ta">--%>
-<%--                                </div>--%>
                                 <div class="mb-3">
                                     <label class="form-label">Giá</label> <input type="text"
                                                                                  class="form-control" value="${formattedPrice}"

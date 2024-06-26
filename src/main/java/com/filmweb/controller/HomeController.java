@@ -65,10 +65,17 @@ public class HomeController {
     public String getVideosByCategory(
             @PathParam("category") String categoryCode
     ){
-        List<VideoDto> videos = videoService.findByCategoryCode(categoryCode);
-        String category = videos.get(0).getCategory();
+        List<VideoDto> videos = videoService.findByCategoryCode(categoryCode, 1, 9);
         models.put("videos",videos);
+
+        String category = videos.get(0).getCategory();
         models.put("category", category);
+
+        List<VideoDto> otherVideos = videoService.findOtherVideos(videos.get(0).getCategoryCode(), 1, 4);
+        models.put("otherVideos", otherVideos);
+
+        String otherCategory = otherVideos.get(0).getCategory();
+        models.put("otherCategory", otherCategory);
         return "video-category.jsp";
     }
 

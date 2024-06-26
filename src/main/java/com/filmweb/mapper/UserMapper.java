@@ -8,6 +8,9 @@ import jakarta.enterprise.context.ApplicationScoped;
 public class UserMapper {
 
     public UserDto toDto(User entity){
+        if(entity == null){
+            return null;
+        }
         return new UserDto(
                 entity.getId(),
                 entity.getEmail(),

@@ -77,11 +77,6 @@
 
                                 </div>
                                 <div class="mb-3">
-                                    <label for="mo-ta" class="form-label">Mô tả</label> <input
-                                        type="text" class="form-control" name="description" id="mo-ta"
-                                        placeholder="Nhập mô tả phim">
-                                </div>
-                                <div class="mb-3">
                                     <label class="form-label">Giá</label> <input type="text"
                                                                                  class="form-control"
                                                                                  oninput="formatPrice(this)"
@@ -89,9 +84,9 @@
                                                                                  placeholder="Nhập giá phim">
                                 </div>
                                 <div class="mb-3">
-                                    <label for="noted" class="form-label">Nội dung</label>
-                                    <textarea class="form-control" id="noted" name="content"
-                                              rows="5" placeholder="Nhập nội dung phim"></textarea>
+                                    <label for="noted" class="form-label">Mô tả</label>
+                                    <textarea class="form-control" id="noted" name="description"
+                                              rows="5"></textarea>
                                 </div>
 
                                 <input type="hidden" class="form-control" id="poster"

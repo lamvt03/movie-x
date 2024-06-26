@@ -2,6 +2,9 @@ const postComment = () => {
     document.querySelector('.loading-container').classList.remove('invisible');
     const href = document.querySelector('.href').value;
     const content = document.querySelector('.cmtInp').value;
+    if(!content){
+        return;
+    }
     const config = {
         method: 'POST',
         headers: {

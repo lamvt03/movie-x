@@ -19,4 +19,14 @@ public class CategoryDaoImpl extends AbstractDao<Category> implements CategoryDa
         String jpql = "SELECT c from Category c WHERE c.code = ?1";
         return super.findOne(Category.class, jpql, code);
     }
+
+    @Override
+    public long count() {
+        return super.count(Category.class);
+    }
+
+    @Override
+    public Category findById(long categoryId) {
+        return super.findById(Category.class, categoryId);
+    }
 }

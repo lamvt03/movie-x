@@ -14,4 +14,8 @@ public interface CategoryDao {
     Category update(Category entity);
 
     Category delete(Category entity);
+
+    long count();
+
+    Category findById(long categoryId);
 }

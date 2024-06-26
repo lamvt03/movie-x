@@ -45,8 +45,13 @@ public class VideoController {
             @QueryParam("v") String href
     ){
         UserDto userDto = (UserDto) session.getAttribute(SessionConstant.CURRENT_USER);
+
         VideoDto video = videoService.findByHref(href);
         models.put("video", video);
+
+        List<VideoDto> relatedVideos = videoService.findByCategoryCode(video.getCategoryCode(), 1, 3);
+        models.put("relatedVideos", relatedVideos);
+
         List<CommentDto> comments = commentService.findByVideoId(video.getId(), 1, 3);
         models.put("comments", comments);
         int lastPage = commentService.getLastPageByVideoHref(href, 3);
@@ -73,7 +78,10 @@ public class VideoController {
         VideoDto video = videoService.findByHref(href);
         models.put("video", video);
 
-        List<CommentDto> comments = commentService.findByVideoId(video.getId(), 1, 3);
+        List<VideoDto> relatedVideos = videoService.findByCategoryCode(video.getCategoryCode(), 1, 3);
+        models.put("relatedVideos", relatedVideos);
+
+        List<CommentDto> comments = commentService.findByVideoId(video.getId(), 1, 2);
         models.put("comments", comments);
 
         int lastPage = commentService.getLastPageByVideoHref(href, 3);

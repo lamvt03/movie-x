@@ -180,7 +180,7 @@
             </div>
         </div>
         <div class="row">
-            <div class="col-lg-8 col-md-8">
+            <div class="col-12 col-lg-8 col-md-6">
                 <div class="anime__details__review">
                     <div class="section-title">
                         <c:if test="${comments.size() > 0}">
@@ -222,7 +222,33 @@
                 </div>
 
             </div>
-
+            <div class="col-12 col-lg-4 col-md-6">
+                <div class="product__sidebar">
+                    <div class="product__sidebar__view">
+                        <div class="section-title">
+                            <h5>Có thể bạn sẽ thích</h5>
+                        </div>
+                        <div class="filter__gallery">
+                            <jsp:useBean id="relatedVideos" scope="request" type="java.util.List"/>
+                            <c:forEach items="${relatedVideos}" var="relatedVideo">
+                                <div class="product__sidebar__view__item set-bg"
+                                     data-setbg="${relatedVideo.poster}">
+                                    <div class="overlay d-flex justify-content-center align-items-center">
+                                        <a href="${initParam['mvcPath']}/video/detail?v=${relatedVideo.href}" style="font-size: 20px;" class="text-white fw-bold">Xem ngay  <i class="fa-solid fa-play"></i></a>
+                                    </div>
+                                    <div class="ep">1 Tập</div>
+                                    <div class="view">
+                                        <i class="fa fa-eye"></i> ${relatedVideo.views}
+                                    </div>
+                                    <h5>
+                                        <a href="#">${relatedVideo.title}</a>
+                                    </h5>
+                                </div>
+                            </c:forEach>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </section>

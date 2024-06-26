@@ -17,6 +17,7 @@ public interface UserService {
     UserDto findById(Long id);
     UserDto register(String email, String password, String phone, String fullName);
     UserDto register(GoogleUser user);
+    UserDto verify(Long id);
 
     void sendForgotPasswordMessage(ServletContext servletContext, HttpSession session, UserDto userDto) throws MessagingException;
 

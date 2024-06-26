@@ -3,6 +3,7 @@ package com.filmweb.controller.admin;
 import com.filmweb.constant.AppConstant;
 import com.filmweb.dto.VideoDto;
 import com.filmweb.entity.Category;
+import com.filmweb.entity.Video;
 import com.filmweb.service.CategoryService;
 import com.filmweb.service.VideoService;
 import com.filmweb.utils.AppUtils;
@@ -15,6 +16,7 @@ import jakarta.ws.rs.*;
 
 import java.text.DecimalFormat;
 import java.util.List;
+import java.util.Optional;
 
 @ApplicationScoped
 @Controller
@@ -94,14 +96,15 @@ public class VideoController {
             @FormParam("actor") String actor,
             @FormParam("category") String categoryCode,
             @FormParam("description") String description,
-            @FormParam("price") String formattedPrice,
-            @FormParam("content") String content
+            @FormParam("price") String formattedPrice
     ) {
         VideoDto video = videoService.findByHref(href);
 
         if (video == null) {
-            VideoDto videosCreate = videoService.create(title, href, poster, director, actor, categoryCode, description, formattedPrice, content);
-            session.setAttribute("addVideoSuccess", true);
+            Video v = videoService.create(title, href, poster, director, actor, categoryCode, description, formattedPrice);
+            if(v != null){
+                session.setAttribute("addVideoSuccess", true);
+            }
         } else {
             session.setAttribute("addVideoSuccess", false);
         }
