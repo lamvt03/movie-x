@@ -19,10 +19,10 @@ public class User extends AbstractEntity{
 
     private String password;
 
-    @Column(unique = true)
+//    @Column(unique = true)
     private String email;
 
-    @Column(unique = true)
+//    @Column(unique = true)
     private String phone;
 
     @Column(name = "full_name",columnDefinition = "nvarchar(max)")

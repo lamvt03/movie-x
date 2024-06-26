@@ -14,6 +14,7 @@ import com.filmweb.service.HistoryService;
 import com.filmweb.service.OrderService;
 import com.filmweb.service.UserService;
 import com.filmweb.utils.AppUtils;
+import com.filmweb.utils.JwtUtils;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.mail.MessagingException;
@@ -30,6 +31,7 @@ import jakarta.ws.rs.core.Context;
 import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
 @ApplicationScoped
 @Controller
@@ -62,6 +64,9 @@ public class UserController {
     @Inject
     private AppUtils appUtils;
 
+    @Inject
+    private JwtUtils jwtUtils;
+
     @GET
     @Path("login")
     public String getLogin(){
@@ -84,7 +89,8 @@ public class UserController {
                 session.setAttribute("loginSuccess", true);
                 session.setAttribute(SessionConstant.CURRENT_USER, userDto);
 
-                Cookie loginCookie = new Cookie(CookieConstant.EMAIL_LOGIN, userDto.getEmail());
+                String rememberToken = jwtUtils.generateRememberToken(userDto);
+                Cookie loginCookie = new Cookie(CookieConstant.REMEMBER_TOKEN, rememberToken);
                 loginCookie.setMaxAge(CookieConstant.LOGIN_DURATION);
                 response.addCookie(loginCookie);
 
@@ -108,13 +114,15 @@ public class UserController {
             ){
         session.removeAttribute(SessionConstant.CURRENT_USER);
 
-        Arrays.stream(request.getCookies())
-                .filter(cookie -> cookie.getName().equals(CookieConstant.EMAIL_LOGIN))
-                .findFirst()
-                .ifPresent(cookie -> {
-                    cookie.setMaxAge(0);
-                    response.addCookie(cookie);
-                });
+        if(request.getCookies() != null){
+            Arrays.stream(request.getCookies())
+                    .filter(cookie -> cookie.getName().equals(CookieConstant.REMEMBER_TOKEN))
+                    .findFirst()
+                    .ifPresent(cookie -> {
+                        cookie.setMaxAge(0);
+                        response.addCookie(cookie);
+                    });
+        }
 
         String prevUrl = appUtils.getPrevPageUrl(session);
         return "redirect:" + prevUrl;
@@ -155,8 +163,7 @@ public class UserController {
     @GET
     @Path("verify")
     public String verify(
-            @QueryParam("token") String token,
-            @Context HttpServletResponse response
+            @QueryParam("token") String token
     ){
         UserVerifiedEmail verifiedEmail = verifiedEmailDao.findByToken(token);
         if(verifiedEmail.getIsVerified()){
@@ -166,7 +173,7 @@ public class UserController {
         else if(verifiedEmail.getExpiredAt().isAfter(LocalDateTime.now())){
             verifiedEmail.setIsVerified(Boolean.TRUE);
             verifiedEmailDao.update(verifiedEmail);
-            UserDto user = userService.findById(verifiedEmail.getUserId());
+            UserDto user = userService.verify(verifiedEmail.getUserId());
             session.setAttribute("email", user.getEmail());
             return "redirect:verify/success";
         }else{

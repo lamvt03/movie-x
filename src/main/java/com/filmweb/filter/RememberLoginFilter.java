@@ -3,6 +3,7 @@ package com.filmweb.filter;
 import com.filmweb.constant.CookieConstant;
 import com.filmweb.constant.SessionConstant;
 import com.filmweb.service.UserService;
+import com.filmweb.utils.JwtUtils;
 import jakarta.inject.Inject;
 import jakarta.servlet.*;
 import jakarta.servlet.annotation.WebFilter;
@@ -19,22 +20,29 @@ public class RememberLoginFilter implements Filter {
     @Inject
     private UserService userService;
 
+    @Inject
+    private JwtUtils jwtUtils;
+
     @Override
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
         HttpServletRequest req = (HttpServletRequest) servletRequest;
 
         // If the user is already logged in, do nothing
-        if(req.getSession().getAttribute(SessionConstant.CURRENT_USER) != null){
+        if(req.getSession().getAttribute(SessionConstant.CURRENT_USER) != null
+                || req.getCookies() == null
+        ){
             filterChain.doFilter(servletRequest, servletResponse);
             return;
         }
 
         Arrays.stream(req.getCookies())
-                .filter(cookie -> cookie.getName().equals(CookieConstant.EMAIL_LOGIN))
+                .filter(cookie -> cookie.getName().equals(CookieConstant.REMEMBER_TOKEN))
                 .findFirst()
                 .map(Cookie::getValue)
+                .filter(token -> !jwtUtils.isTokenExpired(token))
+                .map(jwtUtils::extractSubject)
                 .flatMap(email -> Optional.ofNullable(userService.findByEmail(email)))
-                                                .ifPresent(user -> req.getSession().setAttribute(SessionConstant.CURRENT_USER, user));
+                .ifPresent(user -> req.getSession().setAttribute(SessionConstant.CURRENT_USER, user));
 
         filterChain.doFilter(servletRequest, servletResponse);
     }
