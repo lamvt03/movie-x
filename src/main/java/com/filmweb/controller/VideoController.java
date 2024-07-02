@@ -66,7 +66,7 @@ public class VideoController {
                 }
             }
         }
-        return "video-watch.jsp";
+        return "user/video-watch.jsp";
     }
 
     @Controller
@@ -81,7 +81,7 @@ public class VideoController {
         List<VideoDto> relatedVideos = videoService.findByCategoryCode(video.getCategoryCode(), 1, 3);
         models.put("relatedVideos", relatedVideos);
 
-        List<CommentDto> comments = commentService.findByVideoId(video.getId(), 1, 2);
+        List<CommentDto> comments = commentService.findByVideoId(video.getId(), 1, 3);
         models.put("comments", comments);
 
         int lastPage = commentService.getLastPageByVideoHref(href, 3);
@@ -118,6 +118,6 @@ public class VideoController {
             History history = historyService.create(userDto.getId(), video.getId());
             models.put("flagLikeButton", history.getIsLiked());
         }
-        return "video-detail.jsp";
+        return "user/video-detail.jsp";
     }
 }

@@ -5,7 +5,7 @@
   Time: 3:45 PM
   To change this template use File | Settings | File Templates.
 --%>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page contentType="text/html; charset=UTF-8" language="java" %>
 <%@ include file="/views/common/taglib.jsp" %>
 
 <html lang="en">
@@ -72,7 +72,7 @@
 
                         <p class="fw-bold">Server Không Khả Dụng !</p>
 
-                        <a href="${initParam['mvcPath']}/home" class="text-decoration-none fw-bold link_404">Quay Về Trang Chủ</a>
+                        <a href="${initParam.mvcPath}/home" class="text-decoration-none fw-bold link_404">Quay Về Trang Chủ</a>
                     </div>
                 </div>
             </div>

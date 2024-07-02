@@ -38,17 +38,17 @@ public class PrevPageRedirectFilter implements Filter {
         String requestURI = httpRequest.getRequestURI();
         if(isValidRequestURI(requestURI)){
             String queryString = httpRequest.getQueryString();
+            String prevPageUri = requestURI.substring("/movie-x/".length());
 
-            // Store the current URL in the session
-            session.setAttribute(SessionConstant.PREV_PAGE_URI, requestURI.substring("/movie-x/".length()));
-            session.setAttribute(SessionConstant.PREV_PAGE_QUERY_STRING, queryString);
+            String prevPageUrl = createPrevPageUrl(prevPageUri, queryString);
+            session.setAttribute(SessionConstant.PREV_PAGE_URL, prevPageUrl);
         }
         filterChain.doFilter(servletRequest, servletResponse);
 
     }
-    private boolean isResourceRequest(String requestURI) {
-        return requestURI.endsWith(".css") || requestURI.endsWith(".js") || requestURI.endsWith(".png") || requestURI.endsWith(".jpg");
-    }
+//    private boolean isResourceRequest(String requestURI) {
+//        return requestURI.endsWith(".css") || requestURI.endsWith(".js") || requestURI.endsWith(".png") || requestURI.endsWith(".jpg");
+//    }
 
     private boolean isValidRequestURI(String requestURI){
         for(String pattern: BLACK_LIST){
@@ -56,6 +56,16 @@ public class PrevPageRedirectFilter implements Filter {
                 return false;
             }
         }
-        return !isResourceRequest(requestURI);
+        return true;
+    }
+
+    private String createPrevPageUrl(String prevUri, String prevQueryString){
+        StringBuilder urlBd = new StringBuilder(prevUri);
+        if(prevQueryString != null){
+            urlBd
+                    .append("?")
+                    .append(prevQueryString);
+        }
+        return urlBd.toString();
     }
 }

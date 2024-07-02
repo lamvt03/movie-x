@@ -1,12 +1,12 @@
 package com.filmweb.controller.admin;
 
 import com.filmweb.constant.AppConstant;
+import com.filmweb.constant.SessionConstant;
 import com.filmweb.dto.VideoDto;
 import com.filmweb.entity.Category;
 import com.filmweb.entity.Video;
 import com.filmweb.service.CategoryService;
 import com.filmweb.service.VideoService;
-import com.filmweb.utils.AppUtils;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.mvc.Controller;
@@ -16,7 +16,6 @@ import jakarta.ws.rs.*;
 
 import java.text.DecimalFormat;
 import java.util.List;
-import java.util.Optional;
 
 @ApplicationScoped
 @Controller
@@ -35,11 +34,9 @@ public class VideoController {
     @Inject
     private HttpSession session;
 
-    @Inject
-    private AppUtils appUtils;
 
     @GET
-    @Path("videos")
+    @Path("/videos")
     public String getVideos(
             @QueryParam("page") Integer page
     ) {
@@ -55,11 +52,11 @@ public class VideoController {
 
         List<VideoDto> videos = videoService.findAll(currentPage, AppConstant.SEARCH_PAGE_LIMIT);
         models.put("videos", videos);
-        return "admin-video-list.jsp";
+        return "admin/video-list.jsp";
     }
 
     @GET
-    @Path("videos/disabled")
+    @Path("/videos/disabled")
     public String getDisabledVideos(
             @QueryParam("page") Integer page
     ) {
@@ -75,19 +72,19 @@ public class VideoController {
 
         List<VideoDto> videos = videoService.findDeletedVideos(currentPage, AppConstant.SEARCH_PAGE_LIMIT);
         models.put("videos", videos);
-        return "admin-disabled-video-list.jsp";
+        return "admin/disabled-video-list.jsp";
     }
 
     @GET
-    @Path("video/add")
+    @Path("/video/add")
     public String getVideoAdd() {
         List<Category> categories = categoryService.findAll();
         models.put("categories", categories);
-        return "admin-video-add.jsp";
+        return "admin/video-add.jsp";
     }
 
     @POST
-    @Path("video/add")
+    @Path("/video/add")
     public String postVideoAdd(
             @FormParam("title") String title,
             @FormParam("href") String href,
@@ -112,7 +109,7 @@ public class VideoController {
     }
 
     @GET
-    @Path("video/edit")
+    @Path("/video/edit")
     public String getVideoEdit(
             @QueryParam("v") String href
     ) {
@@ -126,10 +123,10 @@ public class VideoController {
 
         models.put("formattedPrice", formattedPrice);
         models.put("video", videoDto);
-        return "admin-video-edit.jsp";
+        return "admin/video-edit.jsp";
     }
     @POST
-    @Path("video/edit")
+    @Path("/video/edit")
     public String postVideoEdit(
             @FormParam("title") String title,
             @FormParam("href") String href,
@@ -150,7 +147,7 @@ public class VideoController {
         return "redirect:admin/video/edit";
     }
     @POST
-    @Path("video/delete")
+    @Path("/video/delete")
     public String postVideoDelete(
             @FormParam("href") String href
     ) {
@@ -158,12 +155,12 @@ public class VideoController {
         if(videoDto != null){
             session.setAttribute("deleteVideoSuccess", true);
         }
-        String prevUrl = appUtils.getPrevPageUrl(session);
+        String prevUrl = session.getAttribute(SessionConstant.PREV_PAGE_URL).toString();
         return "redirect:" + prevUrl;
     }
 
     @POST
-    @Path("video/restore")
+    @Path("/video/restore")
     public String postVideoRestore(
             @FormParam("href") String href
     ) {
@@ -172,7 +169,7 @@ public class VideoController {
         if(videoDto != null){
             session.setAttribute("restoreVideoSuccess", true);
         }
-        String prevUrl = appUtils.getPrevPageUrl(session);
+        String prevUrl = session.getAttribute(SessionConstant.PREV_PAGE_URL).toString();
         return "redirect:" + prevUrl;
     }
 }

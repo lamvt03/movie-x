@@ -36,7 +36,7 @@
                                     class="d-flex align-items-center gap-2 dropdown-item"> <i
                                 class="ti ti-replace fs-6"></i>
                             <p class="mb-0 fs-3">Đổi mật khẩu</p>
-                        </a> <a href="${initParam['mvcPath']}/admin/logout"
+                        </a> <a href="${initParam.mvcPath}/admin/logout"
                                 class="btn btn-outline-primary mx-3 mt-2 d-block">Đăng xuất</a>
                         </div>
                     </div>

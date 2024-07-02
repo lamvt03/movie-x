@@ -3,9 +3,9 @@ package com.filmweb.service;
 import com.filmweb.dto.GoogleUser;
 import com.filmweb.dto.UserDto;
 import jakarta.mail.MessagingException;
-import jakarta.servlet.ServletContext;
 import jakarta.servlet.http.HttpSession;
 
+import java.io.UnsupportedEncodingException;
 import java.util.List;
 
 public interface UserService {
@@ -19,7 +19,7 @@ public interface UserService {
     UserDto register(GoogleUser user);
     UserDto verify(Long id);
 
-    void sendForgotPasswordMessage(ServletContext servletContext, HttpSession session, UserDto userDto) throws MessagingException;
+    void sendForgotPasswordMessage(HttpSession session, UserDto userDto) throws MessagingException, UnsupportedEncodingException;
 
     UserDto changePassword(String email, String password);
 

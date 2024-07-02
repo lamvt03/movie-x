@@ -12,7 +12,7 @@ public class AppConstant {
     public static final int CATEGORY_PAGE_LIMIT = 9;
     public static final int AVATAR_TOTAL = 3;
 
-    public static final String IMAGE_PREFIX = "/views/template/user/img/avt/avt-";
+    public static final String IMAGE_PREFIX = "/views/user/assets/img/avt/avt-";
     public static final String IMAGE_SUFFIX = ".jpg";
 
 }

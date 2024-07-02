@@ -72,7 +72,7 @@
 
                         <p class="fw-bold">Trang bạn đang tìm kiếm không khả dụng!</p>
 
-                        <a href="${initParam['mvcPath']}/home" class="text-decoration-none fw-bold link_404">Quay Về Trang Chủ</a>
+                        <a href="${initParam.mvcPath}/home" class="text-decoration-none fw-bold link_404">Quay Về Trang Chủ</a>
                     </div>
                 </div>
             </div>

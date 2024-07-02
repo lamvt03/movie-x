@@ -6,7 +6,7 @@ import com.filmweb.dto.GoogleUser;
 import com.filmweb.dto.UserDto;
 import com.filmweb.entity.User;
 import com.filmweb.mapper.UserMapper;
-import com.filmweb.service.EmailService;
+import com.filmweb.service.MailService;
 import com.filmweb.service.UserService;
 import com.filmweb.utils.PasswordEncoder;
 import com.filmweb.utils.RandomUtils;
@@ -16,6 +16,7 @@ import jakarta.mail.MessagingException;
 import jakarta.servlet.ServletContext;
 import jakarta.servlet.http.HttpSession;
 
+import java.io.UnsupportedEncodingException;
 import java.util.List;
 import java.util.Optional;
 
@@ -34,7 +35,7 @@ public class UserServiceImpl implements UserService {
     private UserMapper userMapper;
 
     @Inject
-    private EmailService emailService;
+    private MailService mailService;
 
     @Override
     public UserDto authenticate(String email, String password) {
@@ -109,12 +110,8 @@ public class UserServiceImpl implements UserService {
 
 
     @Override
-    public void sendForgotPasswordMessage(ServletContext servletContext, HttpSession session, UserDto userDto) throws MessagingException {
-        String otp = randomUtils.randomOtpValue(AppConstant.OTP_LENGTH);
-        emailService.sendForgotEmail(servletContext, userDto, otp);
-        session.setAttribute("otp", otp);
-        session.setMaxInactiveInterval(180);
-        session.setAttribute("email", userDto.getEmail());
+    public void sendForgotPasswordMessage(HttpSession session, UserDto userDto) throws MessagingException, UnsupportedEncodingException {
+
     }
 
     @Override

@@ -76,12 +76,4 @@ public class JwtUtils {
     private Date extractExpiration(String token) {
         return extractClaim(token, Claims::getExpiration);
     }
-
-    public static void main(String[] args) {
-        JwtUtils jwtUtils = new JwtUtils();
-        String token = jwtUtils.generateToken(new HashMap<>(), "votruonglam2109@gmail.com");
-        System.out.println(token);
-        System.out.println(jwtUtils.extractSubject(token));
-        System.out.println(jwtUtils.isTokenValid(token, "votruonglam2109@gmail.com"));
-    }
 }

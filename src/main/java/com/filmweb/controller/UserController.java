@@ -9,12 +9,13 @@ import com.filmweb.dto.VideoDto;
 import com.filmweb.entity.History;
 import com.filmweb.entity.Order;
 import com.filmweb.entity.UserVerifiedEmail;
-import com.filmweb.service.EmailService;
+import com.filmweb.service.MailService;
 import com.filmweb.service.HistoryService;
 import com.filmweb.service.OrderService;
 import com.filmweb.service.UserService;
-import com.filmweb.utils.AppUtils;
 import com.filmweb.utils.JwtUtils;
+import com.filmweb.utils.MailUtils;
+import com.filmweb.utils.RandomUtils;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.mail.MessagingException;
@@ -28,10 +29,10 @@ import jakarta.servlet.http.HttpSession;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.Context;
 
+import java.io.UnsupportedEncodingException;
 import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Optional;
 
 @ApplicationScoped
 @Controller
@@ -41,16 +42,13 @@ public class UserController {
     @Inject
     private HttpSession session;
 
-    @Context
-    private ServletContext servletContext;
-
     @Inject
     private Models models;
 
     @Inject
     private UserService userService;
     @Inject
-    private EmailService emailService;
+    private MailService mailService;
 
     @Inject
     private OrderService orderService;
@@ -62,16 +60,11 @@ public class UserController {
     private UserVerifiedEmailDao verifiedEmailDao;
 
     @Inject
-    private AppUtils appUtils;
-
-    @Inject
     private JwtUtils jwtUtils;
 
-    @GET
-    @Path("login")
-    public String getLogin(){
-        return "login.jsp";
-    }
+    @Inject
+    private RandomUtils randomUtils;
+
 
     @POST
     @Path("login")
@@ -94,15 +87,15 @@ public class UserController {
                 loginCookie.setMaxAge(CookieConstant.LOGIN_DURATION);
                 response.addCookie(loginCookie);
 
-                String prevUrl = appUtils.getPrevPageUrl(session);
+                String prevUrl = session.getAttribute(SessionConstant.PREV_PAGE_URL).toString();
                 return "redirect:" + prevUrl;
             } else {
                 session.setAttribute("emailNotVerified", true);
-                return "login.jsp";
+                return "user/login.jsp";
             }
         } else {
             session.setAttribute("loginSuccess", false);
-            return "login.jsp";
+            return "user/login.jsp";
         }
     }
 
@@ -124,14 +117,8 @@ public class UserController {
                     });
         }
 
-        String prevUrl = appUtils.getPrevPageUrl(session);
+        String prevUrl = session.getAttribute(SessionConstant.PREV_PAGE_URL).toString();
         return "redirect:" + prevUrl;
-    }
-
-    @GET
-    @Path("register")
-    public String getRegister(){
-        return "register.jsp";
     }
 
     @POST
@@ -141,7 +128,7 @@ public class UserController {
             @FormParam("phone") String phone,
             @FormParam("password") String password,
             @FormParam("fullName") String fullName
-            ) throws MessagingException {
+            ) throws MessagingException, UnsupportedEncodingException {
         boolean existedEmail = userService.existByEmail(email);
         boolean existedPhone = userService.existsByPhone(phone);
 
@@ -149,7 +136,7 @@ public class UserController {
             UserDto auth = userService.register(email, password, phone, fullName);
 
             if (auth != null) {
-                emailService.sendRegisterEmail(servletContext, auth);
+                mailService.sendRegisterEmail(auth);
                 session.setAttribute("registerSuccess", true);
                 return "redirect:login";
             }
@@ -185,14 +172,14 @@ public class UserController {
 
     @GET
     @Path("verify/expired")
-    public String verifyExpired(){return "verify-expired.jsp";}
+    public String verifyExpired(){return "user/verify-expired.jsp";}
 
     @GET
     @Path("verify/resend")
-    public String resendVerifiedEmail() throws MessagingException {
+    public String resendVerifiedEmail() throws MessagingException, UnsupportedEncodingException {
         String verifiedEmail = session.getAttribute(SessionConstant.VERIFIED_EMAIL).toString();
         UserDto auth = userService.findByEmail(verifiedEmail);
-        emailService.sendRegisterEmail(servletContext, auth);
+        mailService.sendRegisterEmail(auth);
         session.removeAttribute(SessionConstant.VERIFIED_EMAIL);
         return "redirect:verify/notify";
     }
@@ -200,19 +187,19 @@ public class UserController {
     @GET
     @Path("verify/notify")
     public String notifyVerifiedEmail(){
-        return "verify-notify.jsp";
+        return "user/verify-notify.jsp";
     }
 
     @GET
     @Path("verify/success")
     public String verifySuccess(){
-        return "verify-success.jsp";
+        return "user/verify-success.jsp";
     }
 
     @GET
     @Path("otp/enter")
     public String enterOtp(){
-        return "enter-otp.jsp";
+        return "user/enter-otp.jsp";
     }
 
     @POST
@@ -220,7 +207,7 @@ public class UserController {
     public String validateOtp(
             @FormParam("otp") String otp
     ){
-        String sysOtp = (String)session.getAttribute("otp");
+        String sysOtp = session.getAttribute("otp").toString();
         if(otp.trim().equals(sysOtp)){
             return "redirect:password/new";
         }
@@ -231,7 +218,7 @@ public class UserController {
     @GET
     @Path("password/new")
     public String getNewPassword(){
-        return "new-password.jsp";
+        return "user/new-password.jsp";
     }
 
     @POST
@@ -253,18 +240,22 @@ public class UserController {
     @GET
     @Path("password/forgot")
     public String getForgot(){
-        return "forgot-password.jsp";
+        return "user/forgot-password.jsp";
     }
 
     @POST
     @Path("password/forgot")
     public String postForgot(
             @FormParam("email") String email
-    ) throws MessagingException {
+    ) throws MessagingException, UnsupportedEncodingException {
         UserDto userDto = userService.findByEmail(email);
         if (userDto != null){
             if (userDto.getIsActive()) {
-                userService.sendForgotPasswordMessage(servletContext, session, userDto);
+                String otp = randomUtils.randomOtpValue(AppConstant.OTP_LENGTH);
+                mailService.sendForgotEmail(userDto, otp);
+                session.setAttribute("otp", otp);
+                session.setMaxInactiveInterval(300);
+                session.setAttribute("email", userDto.getEmail());
                 return "redirect:otp/enter";
             } else {
                 session.setAttribute("userFalse", true);
@@ -282,7 +273,7 @@ public class UserController {
         models.put("email", userDto.getEmail());
         models.put("phone", userDto.getPhone());
         models.put("fullName", userDto.getFullName());
-        return "change-password.jsp";
+        return "user/change-password.jsp";
     }
 
     @POST
@@ -317,14 +308,14 @@ public class UserController {
     public String getProfile(){
         UserDto userDto = (UserDto) session.getAttribute(SessionConstant.CURRENT_USER);
         models.put("user", userDto);
-        return "profile.jsp";
+        return "user/profile.jsp";
     }
     @GET
     @Path("profile/edit")
     public String getEditProfile(){
         UserDto userDto = (UserDto) session.getAttribute(SessionConstant.CURRENT_USER);
         models.put("user", userDto);
-        return "edit-profile.jsp";
+        return "user/edit-profile.jsp";
     }
 
     @POST
@@ -357,7 +348,7 @@ public class UserController {
             List<Order> orders = orderService.findByEmail(userDto.getEmail());
             models.put("orders", orders);
         }
-        return "transaction.jsp";
+        return "user/transaction.jsp";
     }
 
     @GET
@@ -381,7 +372,7 @@ public class UserController {
             models.put("maxPage", maxPage);
 
         }
-        return "history.jsp";
+        return "user/history.jsp";
     }
     @GET
     @Path("favorite")
@@ -393,7 +384,7 @@ public class UserController {
             List<VideoDto> videos = historyService.findFavoriteVideoByEmail(userDto.getEmail());
             models.put("videos", videos);
         }
-        return "favorite.jsp";
+        return "user/favorite.jsp";
     }
 
 }

@@ -30,17 +30,17 @@ public class CategoryController {
     public String getCategories(){
         List<Category> categories = categoryService.findAll();
         models.put("categories", categories);
-        return "admin-category-list.jsp";
+        return "admin/category-list.jsp";
     }
 
     @GET
-    @Path("category/add")
+    @Path("/category/add")
     public String getAddCategory(){
-        return "admin-category-add.jsp";
+        return "admin/category-add.jsp";
     }
 
     @POST
-    @Path("category/add")
+    @Path("/category/add")
     public String postAddCategory(
             @FormParam("name") String name,
             @FormParam("code") String code
@@ -57,17 +57,17 @@ public class CategoryController {
     }
 
     @GET
-    @Path("category/edit")
+    @Path("/category/edit")
     public String getEditCategory(
             @QueryParam(value = "code") String code
     ){
         Category category = categoryService.findByCode(code);
         models.put("category", category);
-        return "admin-category-edit.jsp";
+        return "admin/category-edit.jsp";
     }
 
     @POST
-    @Path("category/edit")
+    @Path("/category/edit")
     public String postEditCategory(
             @FormParam("name") String name,
             @FormParam("code") String code
@@ -78,7 +78,7 @@ public class CategoryController {
     }
 
     @POST
-    @Path("category/delete")
+    @Path("/category/delete")
     public String postDeleteCategory(
             @FormParam("code") String code
     ){

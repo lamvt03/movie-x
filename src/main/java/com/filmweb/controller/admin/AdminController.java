@@ -23,7 +23,7 @@ public class AdminController {
     @GET
     @Path("/")
     public String getLogin(){
-        return "admin-login.jsp";
+        return "admin/login.jsp";
     }
 
     @POST
@@ -52,7 +52,7 @@ public class AdminController {
         }
     }
     @GET
-    @Path("logout")
+    @Path("/logout")
     public String getLogout(){
         session.removeAttribute(SessionConstant.CURRENT_ADMIN);
         return "redirect:admin";

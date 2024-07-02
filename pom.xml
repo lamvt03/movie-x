@@ -50,27 +50,6 @@
             <version>3.0.0</version>
             <scope>provided</scope>
         </dependency>
-        <dependency>
-            <groupId>org.jboss.weld.se</groupId>
-            <artifactId>weld-se-core</artifactId>
-            <version>4.0.0.Final</version>
-        </dependency>
-        <dependency>
-            <groupId>org.jboss.weld.se</groupId>
-            <artifactId>weld-se-shaded</artifactId>
-            <version>4.0.0.Final</version>
-        </dependency>
-        <dependency>
-            <groupId>org.jboss.weld.se</groupId>
-            <artifactId>weld-se-parent</artifactId>
-            <version>4.0.0.Final</version>
-            <type>pom</type>
-        </dependency>
-        <dependency>
-            <groupId>org.jboss.weld.se</groupId>
-            <artifactId>weld-se-tests</artifactId>
-            <version>4.0.0.Final</version>
-        </dependency>
 <!--        cdi: end -->
 
 <!--        lombok -->
@@ -148,18 +127,18 @@
             <version>2.10.1</version>
         </dependency>
 
-
-<!--        env-->
+        <!--        env-->
         <dependency>
             <groupId>org.eclipse.microprofile.config</groupId>
             <artifactId>microprofile-config-api</artifactId>
-            <version>3.0</version>
+            <version>3.0.1</version>
         </dependency>
         <dependency>
             <groupId>io.smallrye.config</groupId>
             <artifactId>smallrye-config</artifactId>
             <version>3.0.0</version>
         </dependency>
+
 
         <!--		jwt -->
         <dependency>

@@ -7,7 +7,7 @@ import jakarta.ws.rs.core.Application;
 import java.util.HashMap;
 import java.util.Map;
 
-@ApplicationPath("movie-x")
+@ApplicationPath("/movie-x")
 public class MvcConfig extends Application {
 
     //override default view location: /WEB-INF/views/

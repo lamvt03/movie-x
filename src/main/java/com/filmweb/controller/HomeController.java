@@ -1,8 +1,10 @@
 package com.filmweb.controller;
 
 import com.filmweb.constant.AppConstant;
+import com.filmweb.dao.UserDao;
 import com.filmweb.dto.CommentDto;
 import com.filmweb.dto.VideoDto;
+import com.filmweb.entity.User;
 import com.filmweb.service.CommentService;
 import com.filmweb.service.VideoService;
 import jakarta.enterprise.context.ApplicationScoped;
@@ -15,6 +17,7 @@ import jakarta.ws.rs.PathParam;
 import jakarta.ws.rs.QueryParam;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @ApplicationScoped
 @Controller
@@ -57,13 +60,26 @@ public class HomeController {
 
         List<CommentDto> newestComments = commentService.findNewestComments(3);
         models.put("newestComments", newestComments);
-        return "home.jsp";
+        return "user/home.jsp";
     }
 
     @GET
-    @Path("{category}")
+    @Path("login")
+    public String getLogin(){
+        return "user/login.jsp";
+    }
+
+    @GET
+    @Path("register")
+    public String getRegister(){
+        return "user/register.jsp";
+    }
+
+
+    @GET
+    @Path("/category")
     public String getVideosByCategory(
-            @PathParam("category") String categoryCode
+            @QueryParam("code") String categoryCode
     ){
         List<VideoDto> videos = videoService.findByCategoryCode(categoryCode, 1, 9);
         models.put("videos",videos);
@@ -76,7 +92,7 @@ public class HomeController {
 
         String otherCategory = otherVideos.get(0).getCategory();
         models.put("otherCategory", otherCategory);
-        return "video-category.jsp";
+        return "user/category.jsp";
     }
 
     @GET
@@ -104,7 +120,7 @@ public class HomeController {
         List<CommentDto> newestComments = commentService.findNewestComments(3);
         models.put("newestComments", newestComments);
 
-        return "all.jsp";
+        return "user/all.jsp";
     }
 
     @GET
@@ -114,13 +130,12 @@ public class HomeController {
     ) {
         List<VideoDto> videos = videoService.findByKeyword(keyword);
         models.put("videos", videos);
-        return "search.jsp";
+        return "user/search.jsp";
     }
 
     @GET
     @Path("/about")
-    public String getAbout(
-    ){
-        return "about.jsp";
+    public String getAbout(){
+        return "user/about.jsp";
     }
 }

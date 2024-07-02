@@ -2,45 +2,29 @@
          pageEncoding="UTF-8" %>
 <%@ include file="/views/common/taglib.jsp"%>
 
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-<script src="${pageContext.request.contextPath}/views/template/user/js/jquery-3.3.1.min.js"></script>
-<script src="${pageContext.request.contextPath}/views/admin/assets/libs/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-<script src="${pageContext.request.contextPath}/views/admin/assets/js/sidebarmenu.js"></script>
-<script src="${pageContext.request.contextPath}/views/admin/assets/js/app.min.js"></script>
-<script src="${pageContext.request.contextPath}/views/admin/assets/libs/apexcharts/dist/apexcharts.min.js"></script>
-<script src="${pageContext.request.contextPath}/views/admin/assets/libs/simplebar/dist/simplebar.js"></script>
-<script src="${pageContext.request.contextPath}/views/admin/assets/js/dashboard.js"></script>
-<script src="${pageContext.request.contextPath}/views/admin/assets/js/validateAdmin.js"></script>
+<script type="text/javascript" src="${pageContext.request.contextPath}/views/common/js/jquery-3.3.1.min.js"></script>
+<script type="text/javascript" src="${pageContext.request.contextPath}/views/common/js/sweetalert2.js"></script>
+<script type="text/javascript" src="${pageContext.request.contextPath}/views/admin/assets/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="${pageContext.request.contextPath}/views/admin/assets/js/sidebarmenu.js"></script>
+<script type="text/javascript" src="${pageContext.request.contextPath}/views/admin/assets/js/app.min.js"></script>
+<script type="text/javascript" src="${pageContext.request.contextPath}/views/admin/assets/js/apexcharts.min.js"></script>
+<script type="text/javascript" src="${pageContext.request.contextPath}/views/admin/assets/js/simplebar.min.js"></script>
+<script type="text/javascript" src="${pageContext.request.contextPath}/views/admin/assets/js/dashboard.js"></script>
+<script type="text/javascript" src="${pageContext.request.contextPath}/views/admin/assets/js/validateAdmin.js"></script>
 
-<%
-    Boolean loginAdmin = (Boolean) session.getAttribute("loginAdmin");
-    if (loginAdmin != null) {
-        if (loginAdmin) {
-%>
-<script>
-    showSwalAlert('success', 'Đăng nhập thành công !');
-</script>
-<%
-} else {
-%>
-<script>
-    showSwalAlert('error', 'Sai thông tin đăng nhập !');
-</script>
-<%
-        }
-        session.removeAttribute("loginAdmin");
-    }
-%>
-<%
-    Boolean loginAdminFail = (Boolean) session.getAttribute("loginAdminFail");
-    if (loginAdminFail != null) {
-        if (loginAdminFail) {
-%>
-<script>
-    showSwalAlert('warning', 'Tài khoản không hoạt động !');
-</script>
-<%
-        }
-        session.removeAttribute("loginAdminFail");
-    }
-%>
+
+<c:if test="${not empty sessionScope.loginAdmin}">
+    <c:choose>
+        <c:when test="${sessionScope.loginAdmin}">
+            <script>
+                showSwalAlert('success', 'Đăng nhập thành công');
+            </script>
+        </c:when>
+        <c:otherwise>
+            <script>
+                showSwalAlert('error', 'Sai thông tin đăng nhập');
+            </script>
+        </c:otherwise>
+    </c:choose>
+    <c:remove var="loginAdmin" scope="session" />
+</c:if>

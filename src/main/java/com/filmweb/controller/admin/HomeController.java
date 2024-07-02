@@ -36,7 +36,7 @@ public class HomeController {
     private VideoService videoService;
 
     @GET
-    @Path("dashboard")
+    @Path("/dashboard")
     public String getDashboard(){
         List<Order> orders = orderService.findAll();
         List<Order> successfulOrders = orderService.findSuccessfulOrders();
@@ -47,11 +47,11 @@ public class HomeController {
 
         models.put("totalPrice", totalPrice);
         models.put("orders", orders);
-        return "admin-dashboard.jsp";
+        return "admin/dashboard.jsp";
     }
 
     @GET
-    @Path("users")
+    @Path("/users")
     public String getUsers(
             @QueryParam("page") Integer page
     ){
@@ -66,11 +66,11 @@ public class HomeController {
         List<UserDto> users = userService.findAll(currentPage, AppConstant.SEARCH_PAGE_LIMIT);
         models.put("currentPage", currentPage);
         models.put("users", users);
-        return "admin-user-list.jsp";
+        return "admin/user-list.jsp";
     }
 
     @GET
-    @Path("videos/liked")
+    @Path("/videos/liked")
     public String getLikedVideos(
             @QueryParam("page") Integer page
     ){
@@ -86,7 +86,7 @@ public class HomeController {
 
         List<VideoDto> videos = videoService.findLikedVideos(currentPage, AppConstant.SEARCH_PAGE_LIMIT);
         models.put("videos", videos);
-        return "admin-liked-video-list.jsp";
+        return "admin/liked-video-list.jsp";
     }
 
 

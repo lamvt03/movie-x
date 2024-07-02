@@ -5,7 +5,6 @@ import com.filmweb.constant.SessionConstant;
 import com.filmweb.dto.GoogleUser;
 import com.filmweb.dto.UserDto;
 import com.filmweb.service.UserService;
-import com.filmweb.utils.AppUtils;
 import com.filmweb.utils.JwtUtils;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
@@ -30,9 +29,6 @@ import java.util.Optional;
 @Controller
 @Path("/oauth2")
 public class OAuth2Controller {
-
-    @Inject
-    private AppUtils appUtils;
 
     @Inject
     private HttpSession session;
@@ -75,7 +71,8 @@ public class OAuth2Controller {
         loginCookie.setMaxAge(CookieConstant.LOGIN_DURATION);
         response.addCookie(loginCookie);
 
-        return "redirect:" + appUtils.getPrevPageUrl(session);
+        String prevPageUrl = session.getAttribute(SessionConstant.PREV_PAGE_URL).toString();
+        return "redirect:" + prevPageUrl;
     }
 
 
