@@ -74,7 +74,7 @@ public class HomeController {
     public String getLikedVideos(
             @QueryParam("page") Integer page
     ){
-        long totalVideo = videoService.countAllLikedVideos();
+        long totalVideo = videoService.countLikedVideos();
         long maxPage = (long) Math.ceil(1.0 * totalVideo / AppConstant.SEARCH_PAGE_LIMIT);
         models.put("maxPage", maxPage);
 

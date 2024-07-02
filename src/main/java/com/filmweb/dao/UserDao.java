@@ -12,9 +12,6 @@ public interface UserDao {
 
     User findByPhone(String phone);
 
-    User findByToken(String token);
-
-
     List<User> findAll();
 
     List<User> findAll(int page, int limit);

@@ -9,6 +9,7 @@ import jakarta.persistence.Query;
 import jakarta.persistence.TypedQuery;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @ApplicationScoped
 public class VideoDaoImpl extends AbstractDao<Video> implements VideoDao {
@@ -74,18 +75,40 @@ public class VideoDaoImpl extends AbstractDao<Video> implements VideoDao {
     @Override
     public List<Video> findLikedVideos(int page, int limit) {
         EntityManager entityManager = super.jpaUtils.getEntityManager();
-        String jpql = "SELECT v FROM Video v " +
+        String jpql = "SELECT v.id, COUNT(h) AS likes FROM Video v " +
                         "JOIN v.histories h " +
                         "WHERE v.isActive = true AND h.isLiked = true " +
-                        "ORDER BY (" +
-                            "SELECT COUNT(h2) as likes FROM History h2 " +
-                            "WHERE h2.isLiked = true AND h2.video.id = v.id" +
-                        ") DESC";
+                        "GROUP BY v.id " +
+                        "ORDER BY likes DESC";
         try{
-            TypedQuery<Video> query = entityManager.createQuery(jpql, Video.class);
+            Query query = entityManager.createQuery(jpql);
             query.setFirstResult((page-1) * limit);
             query.setMaxResults(limit);
-            return query.getResultList();
+            List<Object[]> rs = query.getResultList();
+            if(!rs.isEmpty()){
+                List<Long> ids = rs.stream().map(r -> (Long)r[0])
+                                .toList();
+                return ids.stream().map(id -> super.findById(Video.class, id))
+                        .toList();
+            }
+            return null;
+        }finally {
+            entityManager.close();
+        }
+    }
+
+    @Override
+    public long countLikedVideos() {
+        EntityManager entityManager = super.jpaUtils.getEntityManager();
+        String jpql = "SELECT v.id, COUNT(h) AS likes FROM Video v " +
+                "JOIN v.histories h " +
+                "WHERE v.isActive = true AND h.isLiked = true " +
+                "GROUP BY v.id " +
+                "ORDER BY likes DESC";
+        try{
+            Query query = entityManager.createQuery(jpql);
+            List<Object[]> rs = query.getResultList();
+            return rs.isEmpty() ? 0 : rs.size();
         }finally {
             entityManager.close();
         }

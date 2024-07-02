@@ -137,6 +137,11 @@ public class VideoServiceImpl implements VideoService {
     }
 
     @Override
+    public long countLikedVideos() {
+        return videoDao.countLikedVideos();
+    }
+
+    @Override
     public List<VideoDto> findByCategoryCode(String code, int page, int limit) {
         List<Video> videos = videoDao.findByCategoryCodeAndViewsDesc(code, page, limit);
         return videos.stream()

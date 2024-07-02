@@ -31,6 +31,7 @@ public interface VideoDao {
 
     List<Video> findTopYear(int year, int page, int limit);
     List<Video> findLikedVideos(int page, int limit);
+    long countLikedVideos();
 
     long countAllLikedVideos();
 }

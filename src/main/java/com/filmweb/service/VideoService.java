@@ -23,6 +23,7 @@ public interface VideoService {
     VideoDto delete(String href);
 
     List<VideoDto> findLikedVideos(int page, int limit);
+    long countLikedVideos();
     List<VideoDto> findByCategoryCode(String code, int page, int limit);
 
     List<VideoDto> findTopYear(int year, int page, int limit);
