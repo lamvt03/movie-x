@@ -28,13 +28,6 @@ public class UserDaoImpl extends AbstractDao<User> implements UserDao {
     }
 
     @Override
-    public User findByToken(String token) {
-        String jpql = "SELECT o FROM User o WHERE o.token = ?1";
-        return super.findOne(User.class, jpql, token);
-    }
-
-
-    @Override
     public List<User> findAll() {
         return super.findAll(User.class);
     }
