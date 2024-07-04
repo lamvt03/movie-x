@@ -16,31 +16,33 @@ public class Video extends AbstractEntity{
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(columnDefinition = "nvarchar(max)")
+    @Column(columnDefinition = "nvarchar(255)")
     private String title;
 
     @Column(columnDefinition = "varchar(50)", unique = true)
     private String href;
 
-    @Column(columnDefinition = "varchar(max)")
+    @Column(columnDefinition = "varchar(255)")
     private String poster;
 
     private Integer views;
 
     private Integer share;
 
-    @Column(columnDefinition = "nvarchar(max)")
+    @Column(columnDefinition = "nvarchar(255)")
     private String director;
 
-    @Column(columnDefinition = "nvarchar(max)")
+    @Column(columnDefinition = "nvarchar(255)")
     private String actor;
 
     @ManyToOne
     @JoinColumn(name = "category_Id", referencedColumnName = "id")
     private Category category;
 
-    @Column(columnDefinition = "ntext")
+//    @Column(columnDefinition = "ntext") SQL Server
+    @Column(columnDefinition = "TEXT")
     private String description;
+
 
     private Long price;
 

@@ -1,6 +1,7 @@
 package com.filmweb.controller.admin;
 
 import com.filmweb.constant.AppConstant;
+import com.filmweb.dto.TopUserDto;
 import com.filmweb.dto.UserDto;
 import com.filmweb.dto.VideoDto;
 import com.filmweb.entity.Order;
@@ -16,6 +17,7 @@ import jakarta.ws.rs.GET;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.QueryParam;
 
+import java.util.Date;
 import java.util.List;
 
 @ApplicationScoped
@@ -89,5 +91,12 @@ public class HomeController {
         return "admin/liked-video-list.jsp";
     }
 
+    @GET
+    @Path("/topUsers")
+    public String getTopUsers(){
+        List<TopUserDto> topUsers = userService.findTopUsers(1, 10);
+        models.put("topUsers", topUsers);
+        return "admin/top-user-list.jsp";
+    }
 
 }

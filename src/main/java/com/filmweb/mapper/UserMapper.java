@@ -1,5 +1,6 @@
 package com.filmweb.mapper;
 
+import com.filmweb.dto.TopUserDto;
 import com.filmweb.dto.UserDto;
 import com.filmweb.entity.User;
 import jakarta.enterprise.context.ApplicationScoped;
@@ -19,6 +20,21 @@ public class UserMapper {
                 entity.getIsActive(),
                 entity.getIsAdmin(),
                 entity.getImage()
+        );
+    }
+    public TopUserDto toTopUserDto(User entity){
+        if(entity == null){
+            return null;
+        }
+        return new TopUserDto(
+                entity.getId(),
+                entity.getEmail(),
+                entity.getPhone(),
+                entity.getFullName(),
+                entity.getIsActive(),
+                entity.getIsAdmin(),
+                entity.getImage(),
+                0L
         );
     }
 }

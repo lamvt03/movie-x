@@ -1,12 +1,13 @@
 package com.filmweb.service;
 
+import com.filmweb.dto.CategoryDto;
 import com.filmweb.entity.Category;
 
 import java.util.List;
 
 public interface CategoryService {
 
-    List<Category> findAll();
+    List<CategoryDto> findAll();
 
     Category findByCode(String code);
 

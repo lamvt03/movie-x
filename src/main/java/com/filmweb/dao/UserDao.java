@@ -16,6 +16,8 @@ public interface UserDao {
 
     List<User> findAll(int page, int limit);
 
+    List<Object[]> findTopUsersAndTotal(int page, int limit);
+
     User create(User entity);
 
     User update(User entity);

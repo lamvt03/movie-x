@@ -3,6 +3,7 @@ package com.filmweb.service.impl;
 import com.filmweb.constant.AppConstant;
 import com.filmweb.dao.UserDao;
 import com.filmweb.dto.GoogleUser;
+import com.filmweb.dto.TopUserDto;
 import com.filmweb.dto.UserDto;
 import com.filmweb.entity.User;
 import com.filmweb.mapper.UserMapper;
@@ -108,12 +109,6 @@ public class UserServiceImpl implements UserService {
         return userMapper.toDto(userDao.update(user));
     }
 
-
-    @Override
-    public void sendForgotPasswordMessage(HttpSession session, UserDto userDto) throws MessagingException, UnsupportedEncodingException {
-
-    }
-
     @Override
     public UserDto changePassword(String email, String password) {
         User user = userDao.findByEmail(email);
@@ -154,6 +149,17 @@ public class UserServiceImpl implements UserService {
         List<User> users = userDao.findAll(page, limit);
         return users.stream()
                 .map(userMapper::toDto)
+                .toList();
+    }
+
+    @Override
+    public List<TopUserDto> findTopUsers(int page, int limit) {
+        return userDao.findTopUsersAndTotal(page, limit).stream()
+                .map(item -> {
+                    TopUserDto topUserDto = userMapper.toTopUserDto((User) item[0]);
+                    topUserDto.setTotal((Long) item[1]);
+                    return topUserDto;
+                })
                 .toList();
     }
 }

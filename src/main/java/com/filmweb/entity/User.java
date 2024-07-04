@@ -25,7 +25,7 @@ public class User extends AbstractEntity{
 //    @Column(unique = true)
     private String phone;
 
-    @Column(name = "full_name",columnDefinition = "nvarchar(max)")
+    @Column(name = "full_name",columnDefinition = "nvarchar(50)")
     private String fullName;
 
     @Column(name = "is_admin")

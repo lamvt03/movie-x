@@ -2,6 +2,7 @@ package com.filmweb.controller.admin;
 
 import com.filmweb.constant.AppConstant;
 import com.filmweb.constant.SessionConstant;
+import com.filmweb.dto.CategoryDto;
 import com.filmweb.dto.VideoDto;
 import com.filmweb.entity.Category;
 import com.filmweb.entity.Video;
@@ -78,7 +79,7 @@ public class VideoController {
     @GET
     @Path("/video/add")
     public String getVideoAdd() {
-        List<Category> categories = categoryService.findAll();
+        List<CategoryDto> categories = categoryService.findAll();
         models.put("categories", categories);
         return "admin/video-add.jsp";
     }
@@ -113,7 +114,7 @@ public class VideoController {
     public String getVideoEdit(
             @QueryParam("v") String href
     ) {
-        List<Category> categories = categoryService.findAll();
+        List<CategoryDto> categories = categoryService.findAll();
         models.put("categories", categories);
 
         VideoDto videoDto = videoService.findByHref(href);

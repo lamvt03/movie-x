@@ -34,6 +34,35 @@
             </div>
         </div>
 
+        <div class="product__sidebar__comment">
+            <div class="section-title">
+                <h5>TOP NGƯỜI DÙNG MUA PHIM</h5>
+            </div>
+
+            <jsp:useBean id="topUsers" scope="request" type="java.util.List"/>
+            <c:forEach items="${topUsers}" var="topUser">
+                <div class="product__sidebar__comment__item">
+                    <div class="product__sidebar__comment__item__pic">
+                        <img class="rounded-top img-fluid" src="${topUser.image}"
+                             alt="">
+                    </div>
+                    <div class="product__sidebar__comment__item__text">
+                        <h5 class="text-white mb-0 mt-3">
+                                ${topUser.fullName}
+                        </h5>
+                        <p class="text-light-indigo mt-2">
+                            <fmt:setLocale value="vi_VN"/>
+                            <c:set var="formattedTotal" value="${topUser.total}"/>
+                            <fmt:formatNumber var="formattedTotal"
+                                              value="${formattedTotal}" type="currency"
+                                              currencyCode="VND"/>
+                                ${formattedTotal}
+                        </p>
+                    </div>
+                </div>
+            </c:forEach>
+
+        </div>
 <%--        comment section --%>
         <div class="product__sidebar__comment">
             <div class="section-title">

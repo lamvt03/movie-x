@@ -17,9 +17,9 @@
 <!-- Css Styles -->
 <link rel="stylesheet" href="${pageContext.request.contextPath}/views/common/css/fontawesome.all.min.css" type="text/css">
 <link rel="stylesheet" href="${pageContext.request.contextPath}/views/user/assets/css/bootstrap.min.css" type="text/css">
-<link rel="stylesheet" href="${pageContext.request.contextPath}/views/user/assets/css/nice-select.css" type="text/css">
+<link rel="stylesheet" href="${pageContext.request.contextPath}/views/user/assets/css/nice-select.min.css" type="text/css">
 <link rel="stylesheet" href="${pageContext.request.contextPath}/views/user/assets/css/slicknav.min.css" type="text/css">
-<link rel="stylesheet" href="${pageContext.request.contextPath}/views/user/assets/css/plyr.css" type="text/css">
+<link rel="stylesheet" href="${pageContext.request.contextPath}/views/user/assets/css/plyr.min.css" type="text/css">
 <link rel="stylesheet" href="${pageContext.request.contextPath}/views/user/assets/css/owl.carousel.min.css" type="text/css">
-<link rel="stylesheet" href="${pageContext.request.contextPath}/views/user/assets/css/style.css" type="text/css">
+<link rel="stylesheet" href="${pageContext.request.contextPath}/views/user/assets/css/style.min.css" type="text/css">
 

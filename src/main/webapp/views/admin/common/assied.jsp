@@ -73,17 +73,11 @@
 					</span> <span class="hide-menu">Lượt thích từng video</span>
                 </a></li>
 
-                <li class="sidebar-item"><a class="sidebar-link"
-                                            href="userlike" aria-expanded="false"> <span> <i class="fa-regular fa-heart"></i>
-					</span> <span class="hide-menu">Người dùng yêu thích</span>
-                </a></li>
-
 
                 <li class="sidebar-item"><a class="sidebar-link"
-                                            href="doanhthu" aria-expanded="false"> <span> <i class="fa-solid fa-money-bill"></i>
-					</span> <span class="hide-menu">Doanh thu</span>
+                                            href="${initParam.mvcPath}/admin/topUsers" aria-expanded="false"> <span> <i class="fa-solid fa-money-bill"></i>
+					</span> <span class="hide-menu">Top người dùng</span>
                 </a></li>
-
             </ul>
         </nav>
         <!-- End Sidebar navigation -->

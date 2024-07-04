@@ -1,7 +1,9 @@
 package com.filmweb.service.impl;
 
 import com.filmweb.dao.CategoryDao;
+import com.filmweb.dto.CategoryDto;
 import com.filmweb.entity.Category;
+import com.filmweb.mapper.CategoryMapper;
 import com.filmweb.service.CategoryService;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
@@ -12,11 +14,16 @@ import java.util.List;
 public class CategoryServiceImpl implements CategoryService {
 
     @Inject
+    private CategoryMapper categoryMapper;
+
+    @Inject
     private CategoryDao categoryDao;
 
     @Override
-    public List<Category> findAll() {
-        return categoryDao.findAll();
+    public List<CategoryDto> findAll() {
+        return categoryDao.findAll().stream()
+                .map(categoryMapper::toDto)
+                .toList();
     }
 
     @Override

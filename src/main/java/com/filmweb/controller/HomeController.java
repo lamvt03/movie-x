@@ -3,9 +3,11 @@ package com.filmweb.controller;
 import com.filmweb.constant.AppConstant;
 import com.filmweb.dao.UserDao;
 import com.filmweb.dto.CommentDto;
+import com.filmweb.dto.TopUserDto;
 import com.filmweb.dto.VideoDto;
 import com.filmweb.entity.User;
 import com.filmweb.service.CommentService;
+import com.filmweb.service.UserService;
 import com.filmweb.service.VideoService;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
@@ -17,6 +19,7 @@ import jakarta.ws.rs.PathParam;
 import jakarta.ws.rs.QueryParam;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @ApplicationScoped
@@ -33,6 +36,9 @@ public class HomeController {
     @Inject
     private CommentService commentService;
 
+    @Inject
+    private UserService userService;
+
     @GET
     @Path("home")
     public String getHome(
@@ -45,10 +51,8 @@ public class HomeController {
         int maxPage = (int) Math.ceil(1.0 * totalVideo / AppConstant.PAGE_LIMIT);
         models.put("maxPage", maxPage);
 
-        int currentPage = 1;
-        if (page != null && page <= maxPage) {
-            currentPage = page;
-        }
+        int currentPage = Optional.ofNullable(page)
+                .orElseGet(() -> 1);
 
         models.put("currentPage", currentPage);
 
@@ -57,6 +61,9 @@ public class HomeController {
 
         List<VideoDto> topVideos = videoService.findTopYear(2024, 1, 4);
         models.put("topVideos", topVideos);
+
+        List<TopUserDto> topUsers = userService.findTopUsers(1, 3);
+        models.put("topUsers", topUsers);
 
         List<CommentDto> newestComments = commentService.findNewestComments(3);
         models.put("newestComments", newestComments);
@@ -105,10 +112,9 @@ public class HomeController {
         int maxPage = (int) Math.ceil(1.0 * totalVideo / AppConstant.CATEGORY_PAGE_LIMIT);
         models.put("maxPage", maxPage);
 
-        int currentPage = 1;
-        if (page != null && page <= maxPage) {
-            currentPage = page;
-        }
+        int currentPage = Optional.ofNullable(page)
+                .orElseGet(() -> 1);
+
         models.put("currentPage", currentPage);
 
         List<VideoDto> videos = videoService.findAll(currentPage, AppConstant.CATEGORY_PAGE_LIMIT);
@@ -116,6 +122,9 @@ public class HomeController {
 
         List<VideoDto> topVideos = videoService.findTopYear(2024, 1, 4);
         models.put("topVideos", topVideos);
+
+        List<TopUserDto> topUsers = userService.findTopUsers(1, 3);
+        models.put("topUsers", topUsers);
 
         List<CommentDto> newestComments = commentService.findNewestComments(3);
         models.put("newestComments", newestComments);

@@ -1,6 +1,7 @@
 package com.filmweb.service;
 
 import com.filmweb.dto.GoogleUser;
+import com.filmweb.dto.TopUserDto;
 import com.filmweb.dto.UserDto;
 import jakarta.mail.MessagingException;
 import jakarta.servlet.http.HttpSession;
@@ -19,8 +20,6 @@ public interface UserService {
     UserDto register(GoogleUser user);
     UserDto verify(Long id);
 
-    void sendForgotPasswordMessage(HttpSession session, UserDto userDto) throws MessagingException, UnsupportedEncodingException;
-
     UserDto changePassword(String email, String password);
 
     UserDto editProfile(String email, String fullName, String phone);
@@ -29,4 +28,6 @@ public interface UserService {
 
     List<UserDto> findAll();
     List<UserDto> findAll(int page, int limit);
+
+    List<TopUserDto> findTopUsers(int page, int limit);
 }

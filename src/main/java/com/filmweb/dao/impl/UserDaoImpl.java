@@ -4,6 +4,8 @@ import com.filmweb.dao.AbstractDao;
 import com.filmweb.dao.UserDao;
 import com.filmweb.entity.User;
 import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.Query;
 
 import java.util.List;
 import java.util.Map;
@@ -35,6 +37,19 @@ public class UserDaoImpl extends AbstractDao<User> implements UserDao {
     @Override
     public List<User> findAll(int page, int limit) {
         return super.findAll(User.class, page, limit);
+    }
+
+    @Override
+    public List<Object[]> findTopUsersAndTotal(int page, int limit) {
+        String hql = "SELECT u, sum(o.vnp_Amount) as total FROM User u "
+                +   "JOIN u.orders o "
+                +   "GROUP BY u "
+                +   "ORDER BY total DESC";
+        EntityManager entityManager = super.jpaUtils.getEntityManager();
+        Query query = entityManager.createQuery(hql);
+        query.setFirstResult((page - 1) * limit);
+        query.setMaxResults(limit);
+        return query.getResultList();
     }
 
 }

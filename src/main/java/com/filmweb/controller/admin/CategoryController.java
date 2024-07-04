@@ -1,5 +1,6 @@
 package com.filmweb.controller.admin;
 
+import com.filmweb.dto.CategoryDto;
 import com.filmweb.entity.Category;
 import com.filmweb.service.CategoryService;
 import jakarta.enterprise.context.ApplicationScoped;
@@ -28,7 +29,7 @@ public class CategoryController {
     @GET
     @Path("/categories")
     public String getCategories(){
-        List<Category> categories = categoryService.findAll();
+        List<CategoryDto> categories = categoryService.findAll();
         models.put("categories", categories);
         return "admin/category-list.jsp";
     }
