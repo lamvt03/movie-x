@@ -50,7 +50,7 @@
                         <h5 class="text-white mb-0 mt-3">
                                 ${topUser.fullName}
                         </h5>
-                        <p class="text-light-indigo mt-2">
+                        <p class="text-light opacity-75 mt-2">
                             <fmt:setLocale value="vi_VN"/>
                             <c:set var="formattedTotal" value="${topUser.total}"/>
                             <fmt:formatNumber var="formattedTotal"
@@ -80,10 +80,10 @@
                         <h5 class="text-white mb-0 mt-3">
                             ${newestComment.createdBy}
                         </h5>
-                        <p class="text-light-indigo">
+                        <p class="text-light">
                             ${newestComment.content}
                         </p>
-                        <span class="rounded bg-light-gray text-dark-light p-1 mt-3">${newestComment.timeAgo}</span>
+                        <span class="rounded bg-light text-dark p-1 mt-3">${newestComment.timeAgo}</span>
                     </div>
                 </div>
             </c:forEach>

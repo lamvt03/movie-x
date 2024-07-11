@@ -3,14 +3,13 @@ package com.filmweb.utils;
 import com.filmweb.dto.UserDto;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import org.eclipse.microprofile.config.inject.ConfigProperty;
 
-import java.security.Key;
+import javax.crypto.SecretKey;
 import java.time.Instant;
 import java.util.Date;
 import java.util.HashMap;
@@ -28,7 +27,7 @@ public class JwtUtils {
     @ConfigProperty(name = "jwt.expirationTime")
     private Long expirationTime;
 
-    private Key getSigningKey(){
+    private SecretKey getSigningKey(){
         byte[] keyBytes = Decoders.BASE64.decode(secretKey);
         return Keys.hmacShaKeyFor(keyBytes);
     }
@@ -39,7 +38,7 @@ public class JwtUtils {
                 .subject(subject)
                 .issuedAt(Date.from(Instant.now()))
                 .expiration(Date.from(Instant.now().plusSeconds(expirationTime)))
-                .signWith(getSigningKey(), SignatureAlgorithm.HS256)
+                .signWith(this.getSigningKey())
                 .compact();
     }
 
@@ -49,10 +48,10 @@ public class JwtUtils {
 
     private Claims extractAllClaims(String token){
         return Jwts.parser()
-                .setSigningKey(getSigningKey())
+                .verifyWith(getSigningKey())
                 .build()
-                .parseClaimsJws(token)
-                .getBody();
+                .parseSignedClaims(token)
+                .getPayload();
     }
 
     private <T> T extractClaim(String token, Function<Claims, T> claimResolver){

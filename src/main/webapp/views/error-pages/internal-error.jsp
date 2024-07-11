@@ -11,14 +11,11 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>${initParam['website-name']} | 505</title>
+    <title>${initParam.websiteName} | 505</title>
     <link rel="icon" href="${pageContext.request.contextPath}/views/error-pages/error.png" type="image/x-icon">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/views/common/css/bootstrap.min.css" />
 
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
-          integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
-          crossorigin="anonymous">
-
-    <style type="text/css">
+    <style>
         .page_404 {
             padding: 40px 0;
             background: #fff;
@@ -30,7 +27,7 @@
         }
 
         .four_zero_four_bg {
-            background-image: url(https://cdn.dribbble.com/users/285475/screenshots/2083086/dribbble_1.gif);
+            background-image: url(${pageContext.request.contextPath}/views/error-pages/error.gif);
             height: 400px;
             background-position: center;
         }
@@ -51,7 +48,7 @@
             display: inline-block;
         }
 
-        .contant_box_404 {
+        .content_box_404 {
             font-family: Arial, serif;
             margin-top: -50px;
         }
@@ -67,7 +64,7 @@
                         <h1 class="text-center fw-bold">500</h1>
                     </div>
 
-                    <div class="contant_box_404">
+                    <div class="content_box_404">
                         <h3 class="h2 fw-bold">Opps... Hỏng Rồi !!!</h3>
 
                         <p class="fw-bold">Server Không Khả Dụng !</p>
@@ -80,8 +77,6 @@
     </div>
 </section>
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
-        crossorigin="anonymous"></script>
+<script type="text/javascript" src="${pageContext.request.contextPath}/views/common/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
