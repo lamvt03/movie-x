@@ -57,7 +57,7 @@
                                     <td width="130px">${order.vnp_TxnRef}</td>
                                     <td width="130px"><a
                                             class="text-info fs-6 text-decoration-none font-weight-bold"
-                                            href="${initParam.mvcPath}/video/watch?v=${order.video.href}">Xem tại
+                                            href="${initParam.mvcPath}/v/watch/{order.video.slug}">Xem tại
                                         đây</a></td>
                                     <td>NGÂN HÀNG ${order.vnp_BankCode}</td>
                                     <td><fmt:formatDate value="${order.vnp_PayDate}"
