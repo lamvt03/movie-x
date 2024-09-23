@@ -30,7 +30,7 @@
                 <div class="breadcrumb__links">
                     <a href="${initParam.mvcPath}/home"><i class="fa fa-home"></i> Trang chủ</a> <a
                         href="${initParam.mvcPath}/${video.categoryCode}">${video.category}</a> <a id="detail-btn"
-                                                                                href="${initParam.mvcPath}/video/detail?v=${video.href}">${video.title}</a> <span>XEM PHIM</span>
+                                                                                href="${initParam.mvcPath}/v/detail/=${video.slug}">${video.title}</a> <span>XEM PHIM</span>
                 </div>
             </div>
         </div>
@@ -122,7 +122,7 @@
                                 <div class="product__sidebar__view__item set-bg"
                                      data-setbg="${relatedVideo.poster}">
                                     <div class="overlay d-flex justify-content-center align-items-center">
-                                        <a href="${initParam.mvcPath}/video/detail?v=${relatedVideo.href}" style="font-size: 20px;" class="text-white fw-bold">Xem ngay  <i class="fa-solid fa-play"></i></a>
+                                        <a href="${initParam.mvcPath}/v/detail/${relatedVideo.slug}" style="font-size: 20px;" class="text-white fw-bold">Xem ngay  <i class="fa-solid fa-play"></i></a>
                                     </div>
                                     <div class="ep">1 Tập</div>
                                     <div class="view">

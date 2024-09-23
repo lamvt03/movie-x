@@ -33,7 +33,7 @@
                                 <div class="label">${trendingVideo.category}</div>
                                 <h2>${trendingVideo.title}</h2>
                                 <p>Thể loại: ${trendingVideo.category}</p>
-                                <a href="${initParam.mvcPath}/video/detail?v=${trendingVideo.href}"><span>Xem
+                                <a href="${initParam.mvcPath}/v/detail/${trendingVideo.slug}"><span>Xem
 													Ngay</span> <i class="fa-solid fa-angle-right"></i></a>
                             </div>
                         </div>
@@ -73,7 +73,7 @@
                             <div class="col-lg-4 col-md-6 col-sm-12">
                                 <div class="product__item overflow-hidden">
                                     <a
-                                            href="${initParam.mvcPath}/video/detail?v=${video.href}">
+                                            href="${initParam.mvcPath}/v/detail/${video.slug}">
                                         <div class="product__item__pic set-bg"
                                              data-setbg="${video.poster}">
                                             <div class="ep">1 / 1</div>

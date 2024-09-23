@@ -73,6 +73,8 @@ public class PaymentController {
         }else{
             session.setAttribute("paySuccess", false);
         }
-        return "redirect:video/detail?v=" + href;
+        
+        // TODO: update
+        return "redirect:v/detail/" + href;
     }
 }

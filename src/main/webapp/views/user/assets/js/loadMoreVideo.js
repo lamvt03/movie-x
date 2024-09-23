@@ -20,7 +20,7 @@ loadMoreBtn.onclick = () => {
                 <div class="col-lg-4 col-md-6 col-sm-12">
                                 <div class="product__item overflow-hidden">
                                     <a
-                                            href="/movie-x/video/detail?v=${video.href}">
+                                            href="/movie-x/v/detail/${video.slug}">
                                         <div style="background-image: url('${video.poster}')" class="product__item__pic set-bg"
                                              data-setbg="${video.poster}">
                                              <div class="ep">1 / 1</div> 

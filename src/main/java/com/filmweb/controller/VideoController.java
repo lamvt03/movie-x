@@ -18,7 +18,7 @@ import jakarta.ws.rs.*;
 import java.util.List;
 
 @ApplicationScoped
-@Path("/video")
+@Path("/v")
 public class VideoController {
 
     @Inject
@@ -40,13 +40,13 @@ public class VideoController {
 
     @Controller
     @GET
-    @Path("/watch")
+    @Path("/watch/{slug}")
     public String watch(
-            @QueryParam("v") String href
+            @PathParam("slug") String slug
     ){
         UserDto userDto = (UserDto) session.getAttribute(SessionConstant.CURRENT_USER);
 
-        VideoDto video = videoService.findByHref(href);
+        VideoDto video = videoService.findBySlug(slug);
         models.put("video", video);
 
         List<VideoDto> relatedVideos = videoService.findByCategoryCode(video.getCategoryCode(), 1, 3);
@@ -54,7 +54,9 @@ public class VideoController {
 
         List<CommentDto> comments = commentService.findByVideoId(video.getId(), 1, 3);
         models.put("comments", comments);
-        int lastPage = commentService.getLastPageByVideoHref(href, 3);
+        
+        // TODO: get with slug
+        int lastPage = commentService.getLastPageByVideoHref(slug, 3);
         models.put("lastPage", lastPage);
         if(video.getPrice() > 0){
             if(userDto == null){
@@ -71,11 +73,11 @@ public class VideoController {
 
     @Controller
     @GET
-    @Path("/detail")
+    @Path("/detail/{slug}")
     public String getDetail(
-            @QueryParam("v") String href
+            @PathParam("slug") String slug
     ){
-        VideoDto video = videoService.findByHref(href);
+        VideoDto video = videoService.findBySlug(slug);
         models.put("video", video);
 
         List<VideoDto> relatedVideos = videoService.findByCategoryCode(video.getCategoryCode(), 1, 3);
@@ -83,8 +85,9 @@ public class VideoController {
 
         List<CommentDto> comments = commentService.findByVideoId(video.getId(), 1, 3);
         models.put("comments", comments);
-
-        int lastPage = commentService.getLastPageByVideoHref(href, 3);
+        
+        // TODO:
+        int lastPage = commentService.getLastPageByVideoHref(slug, 3);
         models.put("lastPage", lastPage);
 
         UserDto  userDto = (UserDto) session.getAttribute(SessionConstant.CURRENT_USER);

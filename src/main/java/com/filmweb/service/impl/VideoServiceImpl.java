@@ -34,6 +34,12 @@ public class VideoServiceImpl implements VideoService {
         Video video = videoDao.findByHref(href);
         return videoMapper.toDto(video);
     }
+    
+    @Override
+    public VideoDto findBySlug(String slug) {
+        Video video = videoDao.findBySlug(slug);
+        return videoMapper.toDto(video);
+    }
 
     @Override
     public List<VideoDto> findTrending(int limit) {

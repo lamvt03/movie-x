@@ -18,6 +18,7 @@ public class VideoDto {
     private Long id;
 
     private String title;
+    private String slug;
 
     private String href;
 

@@ -15,6 +15,7 @@ public interface VideoDao {
     List<Video> findByIsActiveFalseOrderByUpdatedAtDesc(int page, int limit);
 
     Video findByHref(String href);
+    Video findBySlug(String slug);
 
     List<Video> findTrending(int limit);
 

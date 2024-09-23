@@ -16,8 +16,11 @@ public class Video extends AbstractEntity{
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(columnDefinition = "nvarchar(255)")
+    @Column(columnDefinition = "nvarchar(50)")
     private String title;
+    
+    @Column(columnDefinition = "nvarchar(50)")
+    private String slug;
 
     @Column(columnDefinition = "varchar(50)", unique = true)
     private String href;
@@ -38,8 +41,7 @@ public class Video extends AbstractEntity{
     @ManyToOne
     @JoinColumn(name = "category_Id", referencedColumnName = "id")
     private Category category;
-
-//    @Column(columnDefinition = "ntext") SQL Server
+    
     @Column(columnDefinition = "TEXT")
     private String description;
 
@@ -48,10 +50,6 @@ public class Video extends AbstractEntity{
 
     @Column(name = "is_active")
     private boolean isActive;
-
-
-//    @OneToMany(mappedBy = "video", fetch = FetchType.EAGER)
-//    private List<Order> orders;
 
     @OneToMany(mappedBy = "video", fetch = FetchType.EAGER)
     private List<Comment> comments;
