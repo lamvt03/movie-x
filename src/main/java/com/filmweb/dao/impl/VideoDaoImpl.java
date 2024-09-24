@@ -40,6 +40,12 @@ public class VideoDaoImpl extends AbstractDao<Video> implements VideoDao {
         String jpql = "SELECT o FROM Video o WHERE o.href = ?1";
         return super.findOne(Video.class, jpql, href);
     }
+    
+    @Override
+    public Video findBySlug(String slug) {
+        String jpql = "SELECT o FROM Video o WHERE o.slug = ?1";
+        return super.findOne(Video.class, jpql, slug);
+    }
 
     @Override
     public List<Video> findTrending(int limit) {

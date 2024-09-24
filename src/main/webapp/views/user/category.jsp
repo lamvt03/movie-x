@@ -69,7 +69,7 @@
                             <div class="col-lg-4 col-md-4 col-sm-6">
                                 <div class="product__item">
                                     <a
-                                            href="${initParam.mvcPath}/video/detail?v=${video.href}">
+                                            href="${initParam.mvcPath}/v/detail/${video.slug}">
                                         <div class="product__item__pic set-bg"
                                              data-setbg="${video.poster}">
                                             <div class="comment">
@@ -111,7 +111,7 @@
                                 <div class="product__sidebar__view__item set-bg mix day years"
                                      data-setbg="${otherVideo.poster}">
                                     <div class="overlay d-flex justify-content-center align-items-center">
-                                        <a href="${initParam.mvcPath}/video/detail?v=${otherVideo.href}" style="font-size: 20px;" class="text-white fw-bold">Xem ngay  <i class="fa-solid fa-play"></i></a>
+                                        <a href="${initParam.mvcPath}/v/detail/${otherVideo.slug}" style="font-size: 20px;" class="text-white fw-bold">Xem ngay  <i class="fa-solid fa-play"></i></a>
                                     </div>
                                     <div class="ep">1 Tập</div>
                                     <div class="view">

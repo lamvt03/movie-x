@@ -24,6 +24,7 @@ public class VideoMapper {
             return new VideoDto(
                     entity.getId(),
                     entity.getTitle(),
+                    entity.getSlug(),
                     entity.getHref(),
                     entity.getPoster(),
                     entity.getViews(),

@@ -45,7 +45,7 @@
                             <div class="col-lg-3 col-md-4 col-sm-6">
                                 <div class="product__item">
                                     <a
-                                            href="${initParam.mvcPath}/video/detail?v=${video.href}">
+                                            href="${initParam.mvcPath}/v/detail/=${video.slug}">
                                         <div class="product__item__pic set-bg"
                                              data-setbg="${video.poster}">
                                             <!-- <div class="ep">18 / 18</div> -->

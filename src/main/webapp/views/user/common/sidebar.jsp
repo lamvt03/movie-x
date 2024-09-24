@@ -20,7 +20,7 @@
                     <div class="product__sidebar__view__item set-bg mix day years"
                          data-setbg="${topVideo.poster}">
                         <div class="overlay d-flex justify-content-center align-items-center">
-                            <a href="${initParam.mvcPath}/video/watch?v=${topVideo.href}" style="font-size: 20px;" class="text-white fw-bold">Xem ngay  <i class="fa-solid fa-play"></i></a>
+                            <a href="${initParam.mvcPath}/v/watch/${topVideo.slug}" style="font-size: 20px;" class="text-white fw-bold">Xem ngay  <i class="fa-solid fa-play"></i></a>
                         </div>
                         <div class="ep">1 Tập</div>
                         <div class="view">

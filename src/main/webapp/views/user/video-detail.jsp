@@ -138,7 +138,7 @@
                             <c:choose>
                                 <c:when test="${video.price == 0}">
                                     <a
-                                            href="${initParam.mvcPath}/video/watch?v=${video.href}"
+                                            href="${initParam.mvcPath}/v/watch/${video.slug}"
                                             class="watch-btn"><span>Xem ngay</span> <i
                                             class="fa fa-angle-right"></i></a>
                                 </c:when>
@@ -146,7 +146,7 @@
                                     <c:choose>
                                         <c:when test="${order.vnp_ResponseCode == '00'}">
                                             <a
-                                                    href="${initParam.mvcPath}/video/watch?v=${video.href}"
+                                                    href="${initParam.mvcPath}/v/watch/${video.slug}"
                                                     class="watch-btn"><span>Xem ngay</span> <i
                                                     class="fa fa-angle-right"></i></a>
                                         </c:when>
@@ -237,7 +237,7 @@
                                 <div class="product__sidebar__view__item set-bg"
                                      data-setbg="${relatedVideo.poster}">
                                     <div class="overlay d-flex justify-content-center align-items-center">
-                                        <a href="${initParam.mvcPath}/video/detail?v=${relatedVideo.href}" style="font-size: 20px;" class="text-white fw-bold">Xem ngay  <i class="fa-solid fa-play"></i></a>
+                                        <a href="${initParam.mvcPath}/v/detail/v=${relatedVideo.slug}" style="font-size: 20px;" class="text-white fw-bold">Xem ngay  <i class="fa-solid fa-play"></i></a>
                                     </div>
                                     <div class="ep">1 Tập</div>
                                     <div class="view">

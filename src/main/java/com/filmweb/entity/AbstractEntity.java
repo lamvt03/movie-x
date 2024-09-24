@@ -19,14 +19,12 @@ public abstract class AbstractEntity {
     protected LocalDateTime updatedAt;
 
     @PrePersist
-    public void onPrePersist(){
-        LocalDateTime now = LocalDateTime.now();
-        this.createdAt = now;
-        this.updatedAt = now;
+    public void onPrePersist() {
+        this.createdAt = LocalDateTime.now();
     }
 
     @PreUpdate
-    public void onPreUpdate(){
+    public void onPreUpdate() {
         this.updatedAt = LocalDateTime.now();
     }
 

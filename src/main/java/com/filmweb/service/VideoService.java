@@ -7,6 +7,7 @@ import java.util.List;
 
 public interface VideoService {
     VideoDto findByHref(String href);
+    VideoDto findBySlug(String slug);
     List<VideoDto> findTrending(int limit);
     List<VideoDto> findAll(int page, int limit);
     long countActiveVideos();
