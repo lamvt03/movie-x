@@ -35,4 +35,14 @@ public class SlugUtilsTest {
     
     assertEquals(actual, expected);
   }
+  
+  @Test
+  public void should_generate_slug_case4_correctly() {
+    String name = " Ông trùm báo thù ";
+    
+    String actual = SlugUtils.generateSlug(name, null);
+    String expected = "ong-trum-bao-thu";
+    
+    assertEquals(actual, expected);
+  }
 }

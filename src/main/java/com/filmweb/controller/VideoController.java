@@ -1,6 +1,5 @@
 package com.filmweb.controller;
 
-import com.filmweb.constant.AppConstant;
 import com.filmweb.constant.PaymentConstant;
 import com.filmweb.constant.SessionConstant;
 import com.filmweb.dto.CommentDto;
@@ -25,7 +24,6 @@ public class VideoController {
     private Models models;
     @Inject
     private HttpSession session;
-
     @Inject
     private VideoService videoService;
     @Inject
@@ -34,7 +32,6 @@ public class VideoController {
     private OrderService orderService;
     @Inject
     private RatingService ratingService;
-
     @Inject
     private HistoryService historyService;
 
