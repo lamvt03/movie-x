@@ -32,14 +32,14 @@ public class CategoryService {
         return categoryDao.create(
                 Category.builder()
                         .name(name)
-                        .code(code)
+                        .slug(code)
                         .build()
         );
     }
     
     public Category update(String name, String code) {
         Category category = findByCode(code);
-        category.setCode(code);
+        category.setSlug(code);
         category.setName(name);
         return categoryDao.update(category);
     }

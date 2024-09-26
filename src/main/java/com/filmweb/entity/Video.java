@@ -19,10 +19,10 @@ public class Video extends AbstractEntity{
     @Column(columnDefinition = "nvarchar(50)")
     private String title;
     
-    @Column(columnDefinition = "nvarchar(50)")
+    @Column(columnDefinition = "nvarchar(50)", unique = true, nullable = false)
     private String slug;
 
-    @Column(columnDefinition = "varchar(50)", unique = true)
+    @Column(columnDefinition = "varchar(50)", unique = true, nullable = false)
     private String href;
 
     @Column(columnDefinition = "varchar(255)")

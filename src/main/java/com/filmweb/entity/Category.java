@@ -22,7 +22,7 @@ public class Category {
     private String name;
 
     @Column(columnDefinition = "nvarchar(50)", unique = true)
-    private String code;
+    private String slug;
 
     @Column(name = "created_at")
     private LocalDateTime createdAt;

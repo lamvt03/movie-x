@@ -12,6 +12,6 @@ import java.util.Date;
 public class CategoryDto {
     private Long id;
     private String name;
-    private String code;
+    private String slug;
     private Date createdAt;
 }

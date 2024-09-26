@@ -154,6 +154,6 @@ public class VideoService {
         Category category = categoryDao.findByCode(categoryCode);
         long randomId = randomUtils.randomInRangeExcept(categoryDao.count(), category.getId());
         Category otherCategory = categoryDao.findById(randomId);
-        return findByCategoryCode(otherCategory.getCode(), page, limit);
+        return findByCategoryCode(otherCategory.getSlug(), page, limit);
     }
 }

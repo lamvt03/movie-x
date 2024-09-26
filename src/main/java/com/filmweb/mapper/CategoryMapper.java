@@ -16,7 +16,7 @@ public class CategoryMapper {
         return new CategoryDto(
             entity.getId(),
             entity.getName(),
-            entity.getCode(),
+            entity.getSlug(),
             Date.from(entity.getCreatedAt()
                     .atZone(ZoneId.systemDefault())
                     .toInstant())

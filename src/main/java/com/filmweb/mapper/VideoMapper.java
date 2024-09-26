@@ -32,7 +32,7 @@ public class VideoMapper {
                     entity.getDirector(),
                     entity.getActor(),
                     entity.getCategory().getName(),
-                    entity.getCategory().getCode(),
+                    entity.getCategory().getSlug(),
                     entity.getDescription(),
                     entity.getPrice(),
                     entity.isActive(),
