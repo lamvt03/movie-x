@@ -1,11 +1,9 @@
 package com.filmweb.controller;
 
 import com.filmweb.constant.AppConstant;
-import com.filmweb.dao.UserDao;
 import com.filmweb.dto.CommentDto;
 import com.filmweb.dto.TopUserDto;
 import com.filmweb.dto.VideoDto;
-import com.filmweb.entity.User;
 import com.filmweb.service.CommentService;
 import com.filmweb.service.UserService;
 import com.filmweb.service.VideoService;
@@ -15,12 +13,10 @@ import jakarta.mvc.Controller;
 import jakarta.mvc.Models;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.Path;
-import jakarta.ws.rs.PathParam;
 import jakarta.ws.rs.QueryParam;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @ApplicationScoped
 @Controller
@@ -38,9 +34,9 @@ public class HomeController {
 
     @Inject
     private UserService userService;
-
+    
     @GET
-    @Path("home")
+    @Path("/home")
     public String getHome(
             @QueryParam("page") Integer page
     ) {
@@ -70,18 +66,6 @@ public class HomeController {
         return "user/home.jsp";
     }
 
-    @GET
-    @Path("login")
-    public String getLogin(){
-        return "user/login.jsp";
-    }
-
-    @GET
-    @Path("register")
-    public String getRegister(){
-        return "user/register.jsp";
-    }
-
 
     @GET
     @Path("/category")
@@ -103,10 +87,10 @@ public class HomeController {
     }
 
     @GET
-    @Path("all")
+    @Path("/all")
     public String getCategory(
             @QueryParam("page") Integer page
-    ){
+    ) {
 
         long totalVideo = videoService.countActiveVideos();
         int maxPage = (int) Math.ceil(1.0 * totalVideo / AppConstant.CATEGORY_PAGE_LIMIT);
@@ -133,7 +117,7 @@ public class HomeController {
     }
 
     @GET
-    @Path("search")
+    @Path("/search")
     public String getSearch(
             @QueryParam("keyword") String keyword
     ) {

@@ -41,7 +41,7 @@ public class HibernateConfig {
     private String ddlAuto;
 
     @PostConstruct
-    public void init() {
+    public void postConstruct() {
         properties = new HashMap<>();
 
         //datasource
@@ -53,6 +53,6 @@ public class HibernateConfig {
         //action
         properties.put(Environment.DIALECT, dialect);
         properties.put(Environment.HBM2DDL_AUTO, ddlAuto);
-
+        
     }
 }

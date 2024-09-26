@@ -4,7 +4,6 @@ import com.filmweb.constant.AppConstant;
 import com.filmweb.constant.SessionConstant;
 import com.filmweb.dto.CategoryDto;
 import com.filmweb.dto.VideoDto;
-import com.filmweb.entity.Category;
 import com.filmweb.entity.Video;
 import com.filmweb.service.CategoryService;
 import com.filmweb.service.VideoService;

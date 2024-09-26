@@ -1,5 +1,6 @@
-package com.filmweb.utils;
+package com.filmweb.service;
 
+import com.filmweb.config.JwtConfigurationProperties;
 import com.filmweb.dto.UserDto;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
@@ -7,7 +8,7 @@ import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
-import org.eclipse.microprofile.config.inject.ConfigProperty;
+import org.eclipse.microprofile.config.inject.ConfigProperties;
 
 import javax.crypto.SecretKey;
 import java.time.Instant;
@@ -17,18 +18,14 @@ import java.util.Map;
 import java.util.function.Function;
 
 @ApplicationScoped
-public class JwtUtils {
-
+public class JwtService {
+    
     @Inject
-    @ConfigProperty(name = "jwt.secret")
-    private String secretKey;
-
-    @Inject
-    @ConfigProperty(name = "jwt.expirationTime")
-    private Long expirationTime;
-
+    @ConfigProperties(prefix = "jwt")
+    private JwtConfigurationProperties jwtConfigurationProperties;
+    
     private SecretKey getSigningKey(){
-        byte[] keyBytes = Decoders.BASE64.decode(secretKey);
+        byte[] keyBytes = Decoders.BASE64.decode(jwtConfigurationProperties.getSecret());
         return Keys.hmacShaKeyFor(keyBytes);
     }
 
@@ -37,7 +34,7 @@ public class JwtUtils {
                 .claims(claims)
                 .subject(subject)
                 .issuedAt(Date.from(Instant.now()))
-                .expiration(Date.from(Instant.now().plusSeconds(expirationTime)))
+                .expiration(Date.from(Instant.now().plusSeconds(jwtConfigurationProperties.getExpirationTime())))
                 .signWith(this.getSigningKey())
                 .compact();
     }

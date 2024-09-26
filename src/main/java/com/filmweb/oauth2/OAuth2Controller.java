@@ -5,7 +5,7 @@ import com.filmweb.constant.SessionConstant;
 import com.filmweb.dto.GoogleUser;
 import com.filmweb.dto.UserDto;
 import com.filmweb.service.UserService;
-import com.filmweb.utils.JwtUtils;
+import com.filmweb.service.JwtService;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.mvc.Controller;
@@ -40,7 +40,7 @@ public class OAuth2Controller {
     private GoogleUtils googleUtils;
 
     @Inject
-    private JwtUtils jwtUtils;
+    private JwtService jwtService;
 
     @GET
     @Path("/login/google")
@@ -66,7 +66,7 @@ public class OAuth2Controller {
         session.setAttribute(SessionConstant.CURRENT_USER, userDto);
         session.setAttribute("loginSuccess", true);
 
-        String rememberToken = jwtUtils.generateRememberToken(userDto);
+        String rememberToken = jwtService.generateRememberToken(userDto);
         Cookie loginCookie = new Cookie(CookieConstant.REMEMBER_TOKEN, rememberToken);
         loginCookie.setMaxAge(CookieConstant.LOGIN_DURATION);
         response.addCookie(loginCookie);
