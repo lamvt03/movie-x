@@ -31,7 +31,7 @@
             <div class="col-lg-12">
                 <div class="breadcrumb__links">
                     <a href="${initParam.mvcPath}/home"><i class="fa fa-home"></i> Trang chủ</a> <a
-                        href="${initParam.mvcPath}/${video.categoryCode}">${video.category}</a> <span>${video.title}</span>
+                        href="${initParam.mvcPath}/${video.categorySlug}">${video.category}</a> <span>${video.title}</span>
                 </div>
             </div>
         </div>

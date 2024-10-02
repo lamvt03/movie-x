@@ -16,32 +16,35 @@ public class VideoMapper {
     private TimeFormatter timeFormatter;
 
     public VideoDto toDto(Video entity) {
-        if(entity != null){
-            List<History> histories = entity.getHistories().stream()
-                    .filter(History::getIsLiked)
-                    .toList();
-            String timeAgo = timeFormatter.getTimeAgoString(entity.getCreatedAt());
-            return new VideoDto(
-                    entity.getId(),
-                    entity.getTitle(),
-                    entity.getSlug(),
-                    entity.getHref(),
-                    entity.getPoster(),
-                    entity.getViews(),
-                    entity.getShare(),
-                    entity.getDirector(),
-                    entity.getActor(),
-                    entity.getCategory().getName(),
-                    entity.getCategory().getSlug(),
-                    entity.getDescription(),
-                    entity.getPrice(),
-                    entity.isActive(),
-                    entity.getCreatedAt(),
-                    histories.size(),
-                    entity.getComments().size(),
-                    timeAgo
-            );
+        if (entity == null) {
+            return null;
         }
-        return null;
+        return VideoDto.builder()
+                .id(entity.getId())
+                .title(entity.getTitle())
+                .slug(entity.getSlug())
+                .href(entity.getHref())
+                .poster(entity.getPoster())
+                .views(entity.getViews())
+                .share(entity.getShare())
+                .director(entity.getDirector())
+                .actor(entity.getActor())
+                .category(entity.getCategory().getName())
+                .categorySlug(entity.getCategory().getSlug())
+                .description(entity.getDescription())
+                .price(entity.getPrice())
+                .isActive(entity.getIsActive())
+                .createdAt(entity.getCreatedAt())
+                .likeQuantity(
+                   entity.getHistories() != null ?
+                    entity.getHistories().stream()
+                        .filter(History::getIsLiked)
+                        .toList()
+                        .size() :
+                       0
+                )
+                .commentQuantity(entity.getComments() != null ? entity.getComments().size() : 0)
+                .timeAgo(timeFormatter.getTimeAgoString(entity.getCreatedAt()))
+                .build();
     }
 }

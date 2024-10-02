@@ -13,6 +13,7 @@ import jakarta.inject.Inject;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.UUID;
 
 @ApplicationScoped
 public class HistoryService {
@@ -28,8 +29,8 @@ public class HistoryService {
 
     @Inject
     private VideoMapper videoMapper;
-    
-    public History create(Long userId, Long videoId) {
+
+    public History createNewHistory(UUID userId, UUID videoId) {
         History history = historyDao.findByUserIdAndVideoId(userId, videoId);
         if(history == null){
             User user = userDao.findById(userId);
@@ -45,8 +46,8 @@ public class HistoryService {
         }
         return history;
     }
-    
-    public boolean updateLike(Long userId, String href) {
+
+    public boolean updateLike(UUID userId, String href) {
         Video video = videoDao.findByHref(href);
         History history = historyDao.findByUserIdAndVideoId(userId, video.getId());
         if (history.getIsLiked() == Boolean.FALSE){
@@ -59,11 +60,11 @@ public class HistoryService {
         History updateHistory = historyDao.update(history);
         return updateHistory.getIsLiked();
     }
-    
+
     public List<History> findByEmail(String email) {
         return historyDao.findByUserEmail(email);
     }
-    
+
     public List<VideoDto> findViewedVideoByEmail(String email, int page, int limit) {
         List<History> histories = historyDao.findByUserEmail(email, page, limit);
         return histories.stream()
@@ -71,7 +72,7 @@ public class HistoryService {
                 .map(videoMapper::toDto)
                 .toList();
     }
-    
+
     public List<VideoDto> findFavoriteVideoByEmail(String email) {
         List<History> histories = historyDao.findByUserEmailAndIsLiked(email);
         return histories.stream()

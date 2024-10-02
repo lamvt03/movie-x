@@ -39,11 +39,11 @@
                                     <i class="fa-sharp fa-solid fa-bars"></i> Thể Loại <i class="fa-solid fa-angle-down"></i>
                                 </a>
                                 <ul class="dropdown">
-                                    <li><a href="${initParam.mvcPath}/category?code=phim-hanh-dong">Phim hành động</a></li>
-                                    <li><a href="${initParam.mvcPath}/category?code=phim-vien-tuong">Phim viễn tưởng</a></li>
-                                    <li><a href="${initParam.mvcPath}/category?code=phim-co-trang">Phim cổ trang</a></li>
-                                    <li><a href="${initParam.mvcPath}/category?code=phim-kinh-di">Phim kinh dị</a></li>
-                                    <li><a href="${initParam.mvcPath}/category?code=phim-tam-ly">Phim tâm lý</a></li>
+                                    <li><a href="${initParam.mvcPath}/category/phim-hanh-dong">Phim hành động</a></li>
+                                    <li><a href="${initParam.mvcPath}/category/phim-vien-tuong">Phim viễn tưởng</a></li>
+                                    <li><a href="${initParam.mvcPath}/category/phim-co-trang">Phim cổ trang</a></li>
+                                    <li><a href="${initParam.mvcPath}/category/phim-kinh-di">Phim kinh dị</a></li>
+                                    <li><a href="${initParam.mvcPath}/category/phim-tam-ly">Phim tâm lý</a></li>
                                 </ul>
                             </li>
                             <li class="${sessionScope.pathInfo == "/about" ? "active" : null}">

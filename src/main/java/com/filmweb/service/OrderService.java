@@ -14,6 +14,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.UUID;
 
 @ApplicationScoped
 public class OrderService {
@@ -26,7 +27,7 @@ public class OrderService {
     @Inject
     private VideoDao videoDao;
     
-    public Order findByUserIdAndVideoId(Long userId, Long videoId) {
+    public Order findByUserIdAndVideoId(UUID userId, UUID videoId) {
         return orderDao.findByUserIdAndVideoId(userId, videoId);
     }
     
@@ -34,7 +35,7 @@ public class OrderService {
         return orderDao.findByUserEmail(email);
     }
     
-    public Order create(Long userId, String videoHref, String vnp_TxnRef, String vnp_OrderInfo, String vnp_PayDate, String vnp_ResponseCode, Long vnp_Amount, String vnp_BankCode, String vnp_TransactionNo) throws ParseException {
+    public Order create(UUID userId, String videoHref, String vnp_TxnRef, String vnp_OrderInfo, String vnp_PayDate, String vnp_ResponseCode, Long vnp_Amount, String vnp_BankCode, String vnp_TransactionNo) throws ParseException {
         User user = userDao.findById(userId);
         Video video = videoDao.findByHref(videoHref);
 

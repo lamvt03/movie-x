@@ -22,7 +22,7 @@ import java.util.List;
 @Controller
 @Path("/")
 public class UserController {
-    
+
     @Inject
     private HttpSession session;
 
@@ -39,14 +39,14 @@ public class UserController {
     private HistoryService historyService;
 
     @GET
-    @Path("profile")
+    @Path("/profile")
     public String getProfile(){
         UserDto userDto = (UserDto) session.getAttribute(SessionConstant.CURRENT_USER);
         models.put("user", userDto);
         return "user/profile.jsp";
     }
     @GET
-    @Path("profile/edit")
+    @Path("/profile/edit")
     public String getEditProfile(){
         UserDto userDto = (UserDto) session.getAttribute(SessionConstant.CURRENT_USER);
         models.put("user", userDto);
@@ -54,7 +54,7 @@ public class UserController {
     }
 
     @POST
-    @Path("profile/edit")
+    @Path("/profile/edit")
     public String postEditProfile(
             @FormParam("fullname") String fullname,
             @FormParam("phone") String phone,
@@ -74,7 +74,7 @@ public class UserController {
         return "redirect:home";
     }
     @GET
-    @Path("transaction")
+    @Path("/transaction")
     public String getTransaction(
 
     ) {
@@ -87,7 +87,7 @@ public class UserController {
     }
 
     @GET
-    @Path("history")
+    @Path("/history")
     public String getHistory(
             @QueryParam("page") Integer page
     ) {
@@ -110,7 +110,7 @@ public class UserController {
         return "user/history.jsp";
     }
     @GET
-    @Path("favorite")
+    @Path("/favorite")
     public String getFavorite(
     ){
         UserDto userDto = (UserDto) session.getAttribute(SessionConstant.CURRENT_USER);

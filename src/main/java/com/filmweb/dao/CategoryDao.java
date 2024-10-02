@@ -7,7 +7,7 @@ import java.util.List;
 public interface CategoryDao {
     List<Category> findAll();
 
-    Category findByCode(String code);
+    Category findBySlug(String slug);
 
     Category create(Category entity);
 
@@ -18,4 +18,5 @@ public interface CategoryDao {
     long count();
 
     Category findById(long categoryId);
+    Category findByOrdinal(long ordinal);
 }

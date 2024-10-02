@@ -19,7 +19,7 @@
 <%@ include file="/views/user/common/header.jsp" %>
 
 <section class="normal-breadcrumb set-bg"
-         data-setbg="views/user/assets/img/login-banner.jpg">
+         data-setbg="${pageContext.request.contextPath}/views/user/assets/img/login-banner.jpg">
     <div class="container">
         <div class="row">
             <div class="col-lg-12 text-center">
@@ -113,10 +113,11 @@
         return true;
     }
 </script>
+
 <c:if test="${not empty sessionScope.errorOTP}">
     <c:if test="${sessionScope.errorOTP}">
         <script>
-            showTopEndAlert('error', 'Mã OTP không chính xác !');
+            showTopEndAlert('error', 'Mã OTP không chính xác hoặc đã hết hạn');
         </script>
     </c:if>
     <c:remove var="errorOTP" scope="session"/>

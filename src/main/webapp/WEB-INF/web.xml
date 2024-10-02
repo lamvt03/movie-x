@@ -17,14 +17,14 @@
     </context-param>
 
     <!-- Error page for 404 - Not Found -->
-    <error-page>
-        <error-code>404</error-code>
-        <location>/views/error-pages/not-found.jsp</location>
-    </error-page>
+<!--    <error-page>-->
+<!--        <error-code>404</error-code>-->
+<!--        <location>/views/error-pages/not-found.jsp</location>-->
+<!--    </error-page>-->
 
     <!-- Error page for 500 - Internal Server Error -->
-    <error-page>
-        <error-code>500</error-code>
-        <location>/views/error-pages/internal-error.jsp</location>
-    </error-page>
+<!--    <error-page>-->
+<!--        <error-code>500</error-code>-->
+<!--        <location>/views/error-pages/internal-error.jsp</location>-->
+<!--    </error-page>-->
 </web-app>

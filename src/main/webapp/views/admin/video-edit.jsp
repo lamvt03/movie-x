@@ -68,7 +68,7 @@
                                 <div class="mb-3">
                                     <label for="category" class="form-label">Thể loại</label>
                                     <select id="category" class="form-select" name="category">
-                                    <option value="${video.categoryCode}" selected hidden>
+                                    <option value="${video.categorySlug}" selected hidden>
                                         ${video.category}
                                     </option>
 

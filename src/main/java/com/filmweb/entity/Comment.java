@@ -1,30 +1,28 @@
 package com.filmweb.entity;
 
 import jakarta.persistence.*;
+import java.util.UUID;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 import java.time.LocalDateTime;
+import lombok.Setter;
+import org.hibernate.annotations.JdbcType;
+import org.hibernate.type.descriptor.jdbc.NVarcharJdbcType;
+import org.hibernate.type.descriptor.jdbc.VarcharJdbcType;
 
-@NoArgsConstructor
-@AllArgsConstructor
-@Getter
-@Setter
-@Entity
-@Table(name = "comments")
+@Getter @Setter @Builder @NoArgsConstructor @AllArgsConstructor
+@Entity @Table(name = "comments")
 public class Comment {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-
-    @Column(columnDefinition = "nvarchar(255)")
+    
+    @Id @GeneratedValue @JdbcType(VarcharJdbcType.class)
+    private UUID id;
+    
+    @Column(length = 200) @JdbcType(NVarcharJdbcType.class)
     private String content;
-
-    @Column(name = "created_at")
-    private LocalDateTime createdAt;
 
     @ManyToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "user_id", referencedColumnName = "id")
@@ -33,6 +31,10 @@ public class Comment {
     @ManyToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "video_id", referencedColumnName = "id")
     private Video video;
+    
+    /* Audit fields */
+    @Column(name = "created_at")
+    private LocalDateTime createdAt;
 
     @PrePersist
     public void onPrePersist(){

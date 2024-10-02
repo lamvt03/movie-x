@@ -24,8 +24,8 @@ public class CategoryService {
                 .toList();
     }
     
-    public Category findByCode(String code) {
-        return categoryDao.findByCode(code);
+    public Category findBySlug(String slug) {
+        return categoryDao.findBySlug(slug);
     }
     
     public Category create(String name, String code) {
@@ -37,15 +37,15 @@ public class CategoryService {
         );
     }
     
-    public Category update(String name, String code) {
-        Category category = findByCode(code);
-        category.setSlug(code);
+    public Category update(String name, String slug) {
+        Category category = findBySlug(slug);
+        category.setSlug(slug);
         category.setName(name);
         return categoryDao.update(category);
     }
     
-    public void delete(String code) {
-        Category category = findByCode(code);
+    public void delete(String slug) {
+        Category category = findBySlug(slug);
         categoryDao.delete(category);
     }
 }

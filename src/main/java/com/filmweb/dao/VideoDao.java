@@ -3,10 +3,12 @@ package com.filmweb.dao;
 import com.filmweb.entity.Video;
 
 import java.util.List;
+import java.util.UUID;
 
 public interface VideoDao {
 
     Video findById(Long id);
+    Video findById(UUID id);
 
     List<Video> findAll();
 
@@ -28,7 +30,7 @@ public interface VideoDao {
     Video delete(Video entity);
 
     List<Video> findByKeyword(String keyword);
-    List<Video> findByCategoryCodeAndViewsDesc(String categoryCode, int page, int limit);
+    List<Video> findByCategorySlugAndViewsDesc(String categorySlug, int page, int limit);
 
     List<Video> findTopYear(int year, int page, int limit);
     List<Video> findLikedVideos(int page, int limit);

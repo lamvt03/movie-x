@@ -6,6 +6,7 @@ import com.filmweb.entity.Order;
 import jakarta.enterprise.context.ApplicationScoped;
 
 import java.util.List;
+import java.util.UUID;
 
 @ApplicationScoped
 public class OrderDaoImpl extends AbstractDao<Order> implements OrderDao {
@@ -29,7 +30,7 @@ public class OrderDaoImpl extends AbstractDao<Order> implements OrderDao {
     }
 
     @Override
-    public Order findByUserIdAndVideoId(long userId, long videoId) {
+    public Order findByUserIdAndVideoId(UUID userId, UUID videoId) {
         String jpql = "SELECT o FROM Order o WHERE o.user.id = ?1 AND o.video.id = ?2";
         return super.findOne(Order.class, jpql, userId, videoId);
     }

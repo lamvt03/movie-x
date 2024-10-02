@@ -3,14 +3,14 @@ package com.filmweb.dao;
 import com.filmweb.entity.Comment;
 
 import java.util.List;
+import java.util.UUID;
 
 public interface CommentDao {
     List<Comment> findByUserEmail(String email);
 
-    List<Comment> findByVideoId(Long videoId, int page, int limit);
+    List<Comment> findByVideoId(UUID videoId, int page, int limit);
 
     Comment findByUserIdAndVideoId(Long userId, Long videoId);
-
 
     Comment create(Comment entity);
 

@@ -13,6 +13,7 @@ import jakarta.mvc.Controller;
 import jakarta.mvc.Models;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.Path;
+import jakarta.ws.rs.PathParam;
 import jakarta.ws.rs.QueryParam;
 
 import java.util.List;
@@ -34,7 +35,7 @@ public class HomeController {
 
     @Inject
     private UserService userService;
-    
+
     @GET
     @Path("/home")
     public String getHome(
@@ -68,17 +69,17 @@ public class HomeController {
 
 
     @GET
-    @Path("/category")
+    @Path("/category/{slug}")
     public String getVideosByCategory(
-            @QueryParam("code") String categoryCode
+            @PathParam("slug") String slug
     ){
-        List<VideoDto> videos = videoService.findByCategoryCode(categoryCode, 1, 9);
+        List<VideoDto> videos = videoService.findByCategorySlug(slug, 1, 9);
         models.put("videos",videos);
 
         String category = videos.get(0).getCategory();
         models.put("category", category);
 
-        List<VideoDto> otherVideos = videoService.findOtherVideos(videos.get(0).getCategoryCode(), 1, 4);
+        List<VideoDto> otherVideos = videoService.findOtherVideos(videos.get(0).getCategorySlug(), 1, 4);
         models.put("otherVideos", otherVideos);
 
         String otherCategory = otherVideos.get(0).getCategory();

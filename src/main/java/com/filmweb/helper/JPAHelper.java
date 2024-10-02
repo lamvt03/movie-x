@@ -1,4 +1,4 @@
-package com.filmweb.utils;
+package com.filmweb.helper;
 
 import com.filmweb.config.HibernateConfig;
 import jakarta.enterprise.context.ApplicationScoped;
@@ -8,7 +8,7 @@ import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.Persistence;
 
 @ApplicationScoped
-public class JPAUtils {
+public class JPAHelper {
 
     @Inject
     private HibernateConfig hibernateConfig;

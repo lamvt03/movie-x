@@ -29,8 +29,8 @@
             <div class="col-lg-12">
                 <div class="breadcrumb__links">
                     <a href="${initParam.mvcPath}/home"><i class="fa fa-home"></i> Trang chủ</a> <a
-                        href="${initParam.mvcPath}/${video.categoryCode}">${video.category}</a> <a id="detail-btn"
-                                                                                href="${initParam.mvcPath}/v/detail/=${video.slug}">${video.title}</a> <span>XEM PHIM</span>
+                        href="${initParam.mvcPath}/${video.categorySlug}">${video.category}</a> <a id="detail-btn"
+                                                                                href="${initParam.mvcPath}/v/detail/${video.slug}">${video.title}</a> <span>XEM PHIM</span>
                 </div>
             </div>
         </div>

@@ -15,9 +15,9 @@ public class CategoryDaoImpl extends AbstractDao<Category> implements CategoryDa
     }
 
     @Override
-    public Category findByCode(String code) {
-        String jpql = "SELECT c from Category c WHERE c.code = ?1";
-        return super.findOne(Category.class, jpql, code);
+    public Category findBySlug(String slug) {
+        String jpql = "SELECT c from Category c WHERE c.slug = ?1";
+        return super.findOne(Category.class, jpql, slug);
     }
 
     @Override
@@ -28,5 +28,11 @@ public class CategoryDaoImpl extends AbstractDao<Category> implements CategoryDa
     @Override
     public Category findById(long categoryId) {
         return super.findById(Category.class, categoryId);
+    }
+    
+    @Override
+    public Category findByOrdinal(long ordinal) {
+        String jpql = "SELECT c from Category c WHERE c.ordinal = ?1";
+        return super.findOne(Category.class, jpql, ordinal);
     }
 }

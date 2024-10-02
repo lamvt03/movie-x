@@ -15,11 +15,13 @@ public class PrevPageRedirectFilter implements Filter {
             "/login",
             "/logout",
             "/register",
+            "/payment",
+            "/profile",
+            "/history",
+            "/favorite",
             "/password",
             "/otp",
             "/verify",
-            "/profile",
-            "/payment",
             "/api",
             "/admin/video/"
     };
@@ -46,9 +48,6 @@ public class PrevPageRedirectFilter implements Filter {
         filterChain.doFilter(servletRequest, servletResponse);
 
     }
-//    private boolean isResourceRequest(String requestURI) {
-//        return requestURI.endsWith(".css") || requestURI.endsWith(".js") || requestURI.endsWith(".png") || requestURI.endsWith(".jpg");
-//    }
 
     private boolean isValidRequestURI(String requestURI){
         for(String pattern: BLACK_LIST){

@@ -6,6 +6,7 @@ import com.filmweb.entity.Rating;
 import jakarta.enterprise.context.ApplicationScoped;
 
 import java.util.List;
+import java.util.UUID;
 
 @ApplicationScoped
 public class RatingDaoImpl extends AbstractDao<Rating> implements RatingDao {
@@ -16,7 +17,7 @@ public class RatingDaoImpl extends AbstractDao<Rating> implements RatingDao {
     }
 
     @Override
-    public Rating findByUserIdAndVideoId(Long userId, Long videoId) {
+    public Rating findByUserIdAndVideoId(UUID userId, UUID videoId) {
         String jpql = "SELECT o FROM Rating o WHERE o.user.id = ?1 AND o.video.id = ?2 AND o.video.isActive = 1";
         return super.findOne(Rating.class, jpql, userId, videoId);
     }

@@ -3,6 +3,7 @@ package com.filmweb.dao;
 import com.filmweb.entity.History;
 
 import java.util.List;
+import java.util.UUID;
 
 public interface HistoryDao {
     List<History> findByUserEmail(String email);
@@ -10,7 +11,7 @@ public interface HistoryDao {
 
     List<History> findByUserEmailAndIsLiked(String email);
 
-    History findByUserIdAndVideoId(Long userId, Long videoId);
+    History findByUserIdAndVideoId(UUID userId, UUID videoId);
 
     History create(History entity);
 

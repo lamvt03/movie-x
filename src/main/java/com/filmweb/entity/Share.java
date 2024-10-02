@@ -1,22 +1,21 @@
 package com.filmweb.entity;
 
 import jakarta.persistence.*;
+import java.util.UUID;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDateTime;
 
-@NoArgsConstructor
-@AllArgsConstructor
-@Getter @Setter
-@Entity
-@Table(name = "shares")
+@Getter @Setter @Builder @NoArgsConstructor @AllArgsConstructor
+@Entity @Table(name = "shares")
 public class Share {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    // @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private UUID id;
 
     private String email;
 

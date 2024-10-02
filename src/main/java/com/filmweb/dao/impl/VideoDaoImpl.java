@@ -6,16 +6,20 @@ import com.filmweb.entity.Video;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.Query;
-import jakarta.persistence.TypedQuery;
 
 import java.util.List;
-import java.util.stream.Collectors;
+import java.util.UUID;
 
 @ApplicationScoped
 public class VideoDaoImpl extends AbstractDao<Video> implements VideoDao {
 
     @Override
     public Video findById(Long id) {
+        return super.findById(Video.class, id);
+    }
+    
+    @Override
+    public Video findById(UUID id) {
         return super.findById(Video.class, id);
     }
 
@@ -67,9 +71,9 @@ public class VideoDaoImpl extends AbstractDao<Video> implements VideoDao {
     }
 
     @Override
-    public List<Video> findByCategoryCodeAndViewsDesc(String categoryCode, int page, int limit) {
-        String jpql = "SELECT v FROM Video v JOIN v.category c WHERE v.isActive  = 1 AND c.code = ?1 ORDER BY v.views DESC";
-        return super.findMany(Video.class, page, limit, jpql, categoryCode);
+    public List<Video> findByCategorySlugAndViewsDesc(String categorySlug, int page, int limit) {
+        String jpql = "SELECT v FROM Video v JOIN v.category c WHERE v.isActive  = 1 AND c.slug = ?1 ORDER BY v.views DESC";
+        return super.findMany(Video.class, page, limit, jpql, categorySlug);
     }
 
     @Override
@@ -80,7 +84,7 @@ public class VideoDaoImpl extends AbstractDao<Video> implements VideoDao {
 
     @Override
     public List<Video> findLikedVideos(int page, int limit) {
-        EntityManager entityManager = super.jpaUtils.getEntityManager();
+        EntityManager entityManager = super.jpaHelper.getEntityManager();
         String jpql = "SELECT v.id, COUNT(h) AS likes FROM Video v " +
                         "JOIN v.histories h " +
                         "WHERE v.isActive = true AND h.isLiked = true " +
@@ -105,7 +109,7 @@ public class VideoDaoImpl extends AbstractDao<Video> implements VideoDao {
 
     @Override
     public long countLikedVideos() {
-        EntityManager entityManager = super.jpaUtils.getEntityManager();
+        EntityManager entityManager = super.jpaHelper.getEntityManager();
         String jpql = "SELECT v.id, COUNT(h) AS likes FROM Video v " +
                 "JOIN v.histories h " +
                 "WHERE v.isActive = true AND h.isLiked = true " +
@@ -122,7 +126,7 @@ public class VideoDaoImpl extends AbstractDao<Video> implements VideoDao {
 
     @Override
     public long countAllLikedVideos() {
-        EntityManager entityManager = super.jpaUtils.getEntityManager();
+        EntityManager entityManager = super.jpaHelper.getEntityManager();
         String jpql = "SELECT COUNT(v) FROM Video v " +
                 "JOIN v.histories h " +
                 "WHERE v.isActive = true AND h.isLiked = true ";

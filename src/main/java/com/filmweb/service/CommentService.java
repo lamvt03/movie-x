@@ -14,6 +14,7 @@ import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 
 import java.util.List;
+import java.util.UUID;
 
 @ApplicationScoped
 public class CommentService {
@@ -31,7 +32,7 @@ public class CommentService {
     private VideoDao videoDao;
 
     
-    public List<CommentDto> findByVideoId(Long videoId, int page, int limit) {
+    public List<CommentDto> findByVideoId(UUID videoId, int page, int limit) {
         List<Comment> comments = commentDao.findByVideoId(videoId, page, limit);
         return comments.stream().map(commentMapper::toDto)
                 .toList();
@@ -41,7 +42,7 @@ public class CommentService {
         return null;
     }
     
-    public Comment create(Long userId, Long videoId, String content) {
+    public Comment create(UUID userId, Long videoId, String content) {
         User user = userDao.findById(userId);
         Video video = videoDao.findById(videoId);
         Comment comment = new Comment();
@@ -69,7 +70,7 @@ public class CommentService {
         return (int)Math.ceil(1.0 * totalComments / limit);
     }
     
-    public CommentListResp postComment(Long userId, String href, PostCommentReq req) {
+    public CommentListResp postComment(UUID userId, String href, PostCommentReq req) {
         User user = userDao.findById(userId);
         Video video = videoDao.findByHref(href);
         Comment comment = new Comment();

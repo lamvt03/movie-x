@@ -5,8 +5,10 @@ import com.filmweb.constant.CookieConstant;
 import com.filmweb.constant.SessionConstant;
 import com.filmweb.dao.UserVerifiedEmailDao;
 import com.filmweb.dto.UserDto;
+import com.filmweb.entity.Otp;
 import com.filmweb.entity.UserVerifiedEmail;
 import com.filmweb.service.MailService;
+import com.filmweb.service.OtpService;
 import com.filmweb.service.UserService;
 import com.filmweb.service.JwtService;
 import com.filmweb.utils.RandomUtils;
@@ -33,40 +35,43 @@ import java.util.Arrays;
 @Controller
 @Path("/")
 public class AuthenticationController {
-  
+
   @Inject
   private HttpSession session;
-  
+
   @Inject
   private UserService userService;
-  
+
   @Inject
   private Models models;
-  
+
   @Inject
   private MailService mailService;
-  
+
   @Inject
   private UserVerifiedEmailDao verifiedEmailDao;
-  
+
   @Inject
   private JwtService jwtService;
-  
+
   @Inject
   private RandomUtils randomUtils;
   
+  @Inject
+  private OtpService otpService;
+
   @GET
   @Path("/login")
   public String getLogin(){
     return "user/login.jsp";
   }
-  
+
   @GET
   @Path("/register")
   public String getRegister(){
     return "user/register.jsp";
   }
-  
+
   @POST
   @Path("/login")
   public String postLogin(
@@ -78,16 +83,16 @@ public class AuthenticationController {
     if (userDto != null) {
       boolean isAdmin = userDto.getIsAdmin();
       boolean isActive = userDto.getIsActive();
-      
+
       if (!isAdmin && isActive) {
         session.setAttribute("loginSuccess", true);
         session.setAttribute(SessionConstant.CURRENT_USER, userDto);
-        
+
         String rememberToken = jwtService.generateRememberToken(userDto);
         Cookie loginCookie = new Cookie(CookieConstant.REMEMBER_TOKEN, rememberToken);
         loginCookie.setMaxAge(CookieConstant.LOGIN_DURATION);
         response.addCookie(loginCookie);
-        
+
         String prevUrl = session.getAttribute(SessionConstant.PREV_PAGE_URL).toString();
         return "redirect:" + prevUrl;
       } else {
@@ -99,7 +104,7 @@ public class AuthenticationController {
       return "user/login.jsp";
     }
   }
-  
+
   @GET
   @Path("/logout")
   public String getLogout(
@@ -107,7 +112,7 @@ public class AuthenticationController {
       @Context HttpServletResponse response
   ){
     session.removeAttribute(SessionConstant.CURRENT_USER);
-    
+
     if(request.getCookies() != null){
       Arrays.stream(request.getCookies())
           .filter(cookie -> cookie.getName().equals(CookieConstant.REMEMBER_TOKEN))
@@ -117,11 +122,11 @@ public class AuthenticationController {
             response.addCookie(cookie);
           });
     }
-    
+
     String prevUrl = session.getAttribute(SessionConstant.PREV_PAGE_URL).toString();
     return "redirect:" + prevUrl;
   }
-  
+
   @POST
   @Path("/register")
   public String postRegister(
@@ -132,10 +137,10 @@ public class AuthenticationController {
   ) throws MessagingException, UnsupportedEncodingException {
     boolean existedEmail = userService.existByEmail(email);
     boolean existedPhone = userService.existsByPhone(phone);
-    
+
     if (!existedEmail && !existedPhone) {
       UserDto auth = userService.register(email, password, phone, fullName);
-      
+
       if (auth != null) {
         mailService.sendRegisterEmail(auth);
         session.setAttribute("registerSuccess", true);
@@ -147,7 +152,7 @@ public class AuthenticationController {
     }
     return "redirect:register";
   }
-  
+
   @GET
   @Path("/verify")
   public String verify(
@@ -170,11 +175,11 @@ public class AuthenticationController {
       return "redirect:verify/expired";
     }
   }
-  
+
   @GET
   @Path("/verify/expired")
   public String verifyExpired(){return "user/verify-expired.jsp";}
-  
+
   @GET
   @Path("/verify/resend")
   public String resendVerifiedEmail() throws MessagingException, UnsupportedEncodingException {
@@ -184,89 +189,86 @@ public class AuthenticationController {
     session.removeAttribute(SessionConstant.VERIFIED_EMAIL);
     return "redirect:verify/notify";
   }
-  
+
   @GET
   @Path("/verify/notify")
   public String notifyVerifiedEmail(){
     return "user/verify-notify.jsp";
   }
-  
+
   @GET
   @Path("/verify/success")
   public String verifySuccess(){
     return "user/verify-success.jsp";
   }
-  
+
   @GET
   @Path("/otp/enter")
   public String enterOtp(){
     return "user/enter-otp.jsp";
   }
-  
+
   @POST
   @Path("/otp/validate")
   public String validateOtp(
-      @FormParam("otp") String otp
+      @FormParam("otp") String otpCode
   ){
-    String sysOtp = session.getAttribute("otp").toString();
-    if(otp.trim().equals(sysOtp)){
+    if(otpService.validateOtpCode(otpCode.trim())) {
       return "redirect:password/new";
     }
     session.setAttribute("errorOTP", true);
     return "redirect:otp/enter";
   }
-  
+
   @GET
   @Path("/password/new")
   public String getNewPassword(){
     return "user/new-password.jsp";
   }
-  
+
   @POST
   @Path("/password/new")
   public String postNewPassword(
       @FormParam("password") String password
   ){
-    String email = (String) session.getAttribute("email");
+    String email = session.getAttribute("email").toString();
     if(email != null && password != null){
       UserDto userDto = userService.changePassword(email, password.trim());
-      
+
       if (userDto != null) {
         session.setAttribute("changePassSuccess", true);
+        session.removeAttribute("email");
       }
     }
     return "redirect:login";
   }
-  
+
   @GET
   @Path("/password/forgot")
   public String getForgot(){
     return "user/forgot-password.jsp";
   }
-  
+
   @POST
   @Path("/password/forgot")
   public String postForgot(
       @FormParam("email") String email
-  ) throws MessagingException, UnsupportedEncodingException {
+  ) {
     UserDto userDto = userService.findByEmail(email);
     if (userDto != null){
       if (userDto.getIsActive()) {
-        String otp = randomUtils.randomOtpValue(AppConstant.OTP_LENGTH);
-        mailService.sendForgotEmail(userDto, otp);
-        session.setAttribute("otp", otp);
-        session.setMaxInactiveInterval(300);
+        otpService.generateAndSendOtpCode(userDto);
         session.setAttribute("email", userDto.getEmail());
         return "redirect:otp/enter";
       } else {
         session.setAttribute("userFalse", true);
       }
-    }else{
+    } else {
       session.setAttribute("existEmail", true);
     }
     return "redirect:password/forgot";
   }
-  
+
   @GET
   @Path("/password/change")
   public String getChangePassword(){
@@ -276,7 +278,7 @@ public class AuthenticationController {
     models.put("fullName", userDto.getFullName());
     return "user/change-password.jsp";
   }
-  
+
   @POST
   @Path("/password/change")
   public String postChangePassword(
@@ -288,7 +290,7 @@ public class AuthenticationController {
     if(userService.comparePassword(userDto.getEmail(), oldPassword)){
       if (confirm != null && confirm) {
         UserDto user = userService.changePassword(userDto.getEmail(), newPassword.trim());
-        
+
         if (user != null) {
           session.removeAttribute(SessionConstant.CURRENT_USER);
           session.setAttribute("newPassSuccess", true);
