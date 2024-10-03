@@ -9,23 +9,28 @@ import jakarta.enterprise.context.ApplicationScoped;
 public class UserMapper {
 
     public UserDto toDto(User entity){
+        
         if(entity == null){
             return null;
         }
-        return new UserDto(
-                entity.getId(),
-                entity.getEmail(),
-                entity.getPhone(),
-                entity.getFullName(),
-                entity.getIsActive(),
-                entity.getIsAdmin(),
-                entity.getImage()
-        );
+        
+        return UserDto.builder()
+            .id(entity.getId())
+            .email(entity.getEmail())
+            .phone(entity.getPhone())
+            .fullName(entity.getFullName())
+            .isActive(entity.getIsActive())
+            .isAdmin(entity.getIsAdmin())
+            .image(entity.getImage())
+            .build();
     }
+    
     public TopUserDto toTopUserDto(User entity){
+        
         if(entity == null){
             return null;
         }
+        
         return new TopUserDto(
                 entity.getId(),
                 entity.getEmail(),

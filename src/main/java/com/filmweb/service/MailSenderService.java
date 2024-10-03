@@ -16,7 +16,7 @@ import java.io.UnsupportedEncodingException;
 import java.time.LocalDateTime;
 
 @ApplicationScoped
-public class MailService {
+public class MailSenderService {
     @Inject
     private MailUtils mailUtils;
 
@@ -24,20 +24,10 @@ public class MailService {
     private RandomUtils randomUtils;
 
     @Inject
-    private UserVerifiedEmailDao verifiedEmailDao;
-
-    @Inject
     @ConfigProperty(name="host.url")
     private String hostUrl;
     
-    public void sendRegisterEmail(UserDto recipient) throws MessagingException, UnsupportedEncodingException {
-        UserVerifiedEmail verifiedEmail = new UserVerifiedEmail();
-        String token = randomUtils.randomToken(AppConstant.REGISTER_TOKEN_LENGTH);
-        verifiedEmail.setToken(token);
-        verifiedEmail.setExpiredAt(LocalDateTime.now().plusMinutes(AppConstant.REGISTER_TOKEN_MINUTES));
-        verifiedEmail.setUserId(recipient.getId());
-        verifiedEmailDao.create(verifiedEmail);
-
+    public void sendRegisterEmail(UserDto recipient, String token) throws MessagingException, UnsupportedEncodingException {
         String subject = "Kích hoạt tài khoản của bạn trên Movie X";
         String content = EmailTemplateUtils.buildRegistrationMail(recipient.getFullName(), token, hostUrl);
         String contentType = "text/html; charset=utf-8";

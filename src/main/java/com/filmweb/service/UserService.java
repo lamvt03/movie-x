@@ -1,6 +1,14 @@
 package com.filmweb.service;
 
+import static com.filmweb.constant.SessionConstant.CURRENT_USER;
+import static com.filmweb.utils.AlertUtils.buildToastErrorMessage;
+import static com.filmweb.utils.AlertUtils.buildToastSuccessMessage;
+import static com.filmweb.utils.AlertUtils.buildToastWarningMessage;
+
 import com.filmweb.constant.AppConstant;
+import com.filmweb.constant.CookieConstant;
+import com.filmweb.constant.SessionConstant;
+import com.filmweb.dao.OnboardingTokenDao;
 import com.filmweb.dao.UserDao;
 import com.filmweb.dto.GoogleUser;
 import com.filmweb.dto.TopUserDto;
@@ -10,13 +18,23 @@ import com.filmweb.mapper.UserMapper;
 import com.filmweb.utils.RandomUtils;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
-
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
+import jakarta.transaction.Transactional;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+import lombok.extern.jbosslog.JBossLog;
 
 @ApplicationScoped
+@JBossLog
 public class UserService {
+    
+    public static final String IMAGE_PREFIX = "/views/user/assets/img/avt/avt-";
+    public static final String IMAGE_SUFFIX = ".jpg";
+    
     @Inject
     private RandomUtils randomUtils;
 
@@ -28,6 +46,18 @@ public class UserService {
 
     @Inject
     private UserMapper userMapper;
+    
+    @Inject
+    private OnboardingTokenService onboardingTokenService;
+    
+    @Inject
+    private OtpService otpService;
+    
+    @Inject
+    private OnboardingTokenDao onboardingTokenDao;
+    
+    @Inject
+    private JwtService jwtService;
 
     public UserDto authenticate(String email, String password) {
         User user = userDao.findByEmail(email);
@@ -57,20 +87,24 @@ public class UserService {
 
     }
 
+    @Transactional
     public UserDto register(String email, String password, String phone, String fullName) {
         Integer avtId = randomUtils.randomAvtId(AppConstant.AVATAR_TOTAL);
-        User userEntity = User.builder()
+        User user= User.builder()
                 .email(email)
                 .password(passwordEncodeService.encode(password))
                 .phone(phone)
                 .fullName(fullName)
                 .isAdmin(Boolean.FALSE)
                 .isActive(Boolean.FALSE)
-                .image(AppConstant.IMAGE_PREFIX + avtId + AppConstant.IMAGE_SUFFIX)
+                .image(buildUserImageLink(avtId))
                 .build();
-        return userMapper.toDto(
-                userDao.create(userEntity)
-        );
+        
+        User createdUser = userDao.create(user);
+        
+        onboardingTokenService.generateAndSendOnboardingToken(createdUser.getId());
+        
+        return userMapper.toDto(createdUser);
     }
 
     public UserDto register(GoogleUser user) {
@@ -132,11 +166,87 @@ public class UserService {
 
     public List<TopUserDto> findTopUsers(int page, int limit) {
         return userDao.findTopUsersAndTotal(page, limit).stream()
-                .map(item -> {
-                    TopUserDto topUserDto = userMapper.toTopUserDto((User) item[0]);
-                    topUserDto.setTotal((Long) item[1]);
-                    return topUserDto;
+            .map(item -> {
+                TopUserDto topUserDto = userMapper.toTopUserDto((User) item[0]);
+                topUserDto.setTotal((Long) item[1]);
+                return topUserDto;
                 })
-                .toList();
+            .toList();
+    }
+    
+    public String handleVerifyOnboardingToken(String token, HttpSession session) {
+        var onboardingToken = onboardingTokenDao.findByToken(token);
+        
+        if (onboardingToken.getUser().getEmailVerifiedAt() != null) {
+            session.setAttribute("alreadyVerified", true);
+            return "redirect:login";
+        }
+        
+        var now = LocalDateTime.now();
+        var user = onboardingToken.getUser();
+        
+        if (onboardingToken.getExpiredAt().isAfter(now)) {
+            user.setEmailVerifiedAt(now);
+            userDao.update(user);
+            
+            session.setAttribute("email", user.getEmail());
+            return "redirect:verify/success";
+        }
+        
+        session.setAttribute(SessionConstant.VERIFIED_EMAIL, user.getEmail());
+        return "redirect:verify/error";
+    }
+    
+    @Transactional
+    public String handleLogin(HttpSession session, HttpServletResponse response, String email, String password) {
+        var userDto = authenticate(email, password);
+        
+        if (userDto == null) {
+            buildToastErrorMessage(session, "Tên đăng nhập hoặc mật khẩu không đúng");
+            return "user/login.jsp";
+        }
+        
+        if (!userDto.getIsActive()) {
+            buildToastWarningMessage(session, "Vui lòng xác thực email trước khi đăng nhập");
+            return "user/login.jsp";
+        }
+        
+        if (!userDto.getIsAdmin()) {
+            session.setAttribute(CURRENT_USER, userDto);
+            
+            String rememberToken = jwtService.generateRememberToken(userDto);
+            Cookie loginCookie = new Cookie(CookieConstant.REMEMBER_TOKEN, rememberToken);
+            loginCookie.setMaxAge(CookieConstant.LOGIN_DURATION);
+            response.addCookie(loginCookie);
+            
+            String prevUrl = session.getAttribute(SessionConstant.PREV_PAGE_URL).toString();
+            
+            buildToastSuccessMessage(session, "Đăng nhập thành công");
+            return "redirect:" + prevUrl;
+        }
+        
+        return null;
+    }
+    
+    public String handleForgotPassword(String email, HttpSession session) {
+        UserDto userDto = findByEmail(email);
+        
+        if (userDto == null) {
+            session.setAttribute("existEmail", true);
+            return "redirect:password/forgot";
+        }
+        
+        if (userDto.getIsActive()) {
+            otpService.generateAndSendOtpCode(userDto);
+            session.setAttribute("email", userDto.getEmail());
+            return "redirect:otp/enter";
+        }
+        
+        session.setAttribute("userFalse", true);
+        return "redirect:password/forgot";
+    }
+    
+    private String buildUserImageLink(int avtId) {
+        return IMAGE_PREFIX + avtId + IMAGE_SUFFIX;
     }
 }

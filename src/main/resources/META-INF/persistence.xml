@@ -15,6 +15,7 @@
         <class>com.filmweb.entity.Category</class>
         <class>com.filmweb.entity.UserVerifiedEmail</class>
         <class>com.filmweb.entity.Otp</class>
+        <class>com.filmweb.entity.OnboardingToken</class>
         <exclude-unlisted-classes>true</exclude-unlisted-classes>
         <properties>
 

@@ -7,15 +7,16 @@ const showTopEndAlert = (icon, title) => {
         timer: 3000,
         timerProgressBar: true,
         didOpen: (toast) => {
-            toast.addEventListener('mouseenter', Swal.stopTimer)
-            toast.addEventListener('mouseleave', Swal.resumeTimer)
+            toast.addEventListener('mouseenter', Swal.stopTimer);
+            toast.addEventListener('mouseleave', Swal.resumeTimer);
         }
     });
+
     Toast.fire({
         icon: icon,
         title: title
     });
-}
+};
 
 // center alert
 const showCenterAlert = (icon, title, message) =>{
@@ -24,4 +25,4 @@ const showCenterAlert = (icon, title, message) =>{
         message,
         icon
     );
-}
+};

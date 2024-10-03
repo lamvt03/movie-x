@@ -2,12 +2,13 @@ package com.filmweb.dto;
 
 import java.util.UUID;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-@AllArgsConstructor
-@NoArgsConstructor
-@Getter
+@Data
+@Builder
 public class UserDto{
     private UUID id;
     private String email;

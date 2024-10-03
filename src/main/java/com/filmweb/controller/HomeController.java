@@ -1,12 +1,15 @@
 package com.filmweb.controller;
 
 import com.filmweb.constant.AppConstant;
+import com.filmweb.dao.UserDao;
 import com.filmweb.dto.CommentDto;
 import com.filmweb.dto.TopUserDto;
 import com.filmweb.dto.VideoDto;
 import com.filmweb.service.CommentService;
+import com.filmweb.service.PasswordEncodeService;
 import com.filmweb.service.UserService;
 import com.filmweb.service.VideoService;
+import jakarta.annotation.PostConstruct;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.mvc.Controller;
@@ -64,6 +67,7 @@ public class HomeController {
 
         List<CommentDto> newestComments = commentService.findNewestComments(3);
         models.put("newestComments", newestComments);
+        
         return "user/home.jsp";
     }
 

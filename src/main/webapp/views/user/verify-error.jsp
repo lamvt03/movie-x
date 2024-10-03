@@ -29,7 +29,7 @@
                 <div class="blog__details__content">
                     <div class="blog__details__text">
                         <p>
-                            <i class="fa-solid fa-circle-exclamation"></i> Token của tài khoản đã hết hạn
+                            <i class="fa-solid fa-circle-exclamation"></i> Token của bạn đã hết hạn
                         </p>
                         <a role="button" href="${initParam.mvcPath}/verify/resend" class="site-btn">Click vào đây để gửi lại token</a>
                     </div>

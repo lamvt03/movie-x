@@ -21,7 +21,7 @@
 
 <!-- Normal Breadcrumb Begin -->
 <section class="normal-breadcrumb set-bg"
-         data-setbg="views/user/assets/img/login-banner.jpg">
+         data-setbg="${pageContext.request.contextPath}/views/user/assets/img/login-banner.jpg">
     <div class="container">
         <div class="row">
             <div class="col-lg-12 text-center">

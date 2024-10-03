@@ -1,23 +1,19 @@
 package com.filmweb.controller;
 
-import com.filmweb.constant.AppConstant;
+import static com.filmweb.constant.SessionConstant.CURRENT_USER;
+
 import com.filmweb.constant.CookieConstant;
 import com.filmweb.constant.SessionConstant;
 import com.filmweb.dao.UserVerifiedEmailDao;
 import com.filmweb.dto.UserDto;
-import com.filmweb.entity.Otp;
-import com.filmweb.entity.UserVerifiedEmail;
-import com.filmweb.service.MailService;
+import com.filmweb.service.JwtService;
+import com.filmweb.service.MailSenderService;
 import com.filmweb.service.OtpService;
 import com.filmweb.service.UserService;
-import com.filmweb.service.JwtService;
-import com.filmweb.utils.RandomUtils;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
-import jakarta.mail.MessagingException;
 import jakarta.mvc.Controller;
 import jakarta.mvc.Models;
-import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
@@ -27,8 +23,6 @@ import jakarta.ws.rs.POST;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.QueryParam;
 import jakarta.ws.rs.core.Context;
-import java.io.UnsupportedEncodingException;
-import java.time.LocalDateTime;
 import java.util.Arrays;
 
 @ApplicationScoped
@@ -46,25 +40,20 @@ public class AuthenticationController {
   private Models models;
 
   @Inject
-  private MailService mailService;
+  private MailSenderService mailSenderService;
 
   @Inject
   private UserVerifiedEmailDao verifiedEmailDao;
 
   @Inject
   private JwtService jwtService;
-
-  @Inject
-  private RandomUtils randomUtils;
   
   @Inject
   private OtpService otpService;
 
   @GET
   @Path("/login")
-  public String getLogin(){
-    return "user/login.jsp";
-  }
+  public String getLogin(){ return "user/login.jsp"; }
 
   @GET
   @Path("/register")
@@ -79,30 +68,8 @@ public class AuthenticationController {
       @FormParam("password") String password,
       @Context HttpServletResponse response
   ){
-    UserDto userDto = userService.authenticate(email, password);
-    if (userDto != null) {
-      boolean isAdmin = userDto.getIsAdmin();
-      boolean isActive = userDto.getIsActive();
-
-      if (!isAdmin && isActive) {
-        session.setAttribute("loginSuccess", true);
-        session.setAttribute(SessionConstant.CURRENT_USER, userDto);
-
-        String rememberToken = jwtService.generateRememberToken(userDto);
-        Cookie loginCookie = new Cookie(CookieConstant.REMEMBER_TOKEN, rememberToken);
-        loginCookie.setMaxAge(CookieConstant.LOGIN_DURATION);
-        response.addCookie(loginCookie);
-
-        String prevUrl = session.getAttribute(SessionConstant.PREV_PAGE_URL).toString();
-        return "redirect:" + prevUrl;
-      } else {
-        session.setAttribute("emailNotVerified", true);
-        return "user/login.jsp";
-      }
-    } else {
-      session.setAttribute("loginSuccess", false);
-      return "user/login.jsp";
-    }
+    
+    return userService.handleLogin(session, response, email, password);
   }
 
   @GET
@@ -111,7 +78,7 @@ public class AuthenticationController {
       @Context HttpServletRequest request,
       @Context HttpServletResponse response
   ){
-    session.removeAttribute(SessionConstant.CURRENT_USER);
+    session.removeAttribute(CURRENT_USER);
 
     if(request.getCookies() != null){
       Arrays.stream(request.getCookies())
@@ -134,15 +101,13 @@ public class AuthenticationController {
       @FormParam("phone") String phone,
       @FormParam("password") String password,
       @FormParam("fullName") String fullName
-  ) throws MessagingException, UnsupportedEncodingException {
+  ) {
     boolean existedEmail = userService.existByEmail(email);
     boolean existedPhone = userService.existsByPhone(phone);
 
     if (!existedEmail && !existedPhone) {
       UserDto auth = userService.register(email, password, phone, fullName);
-
       if (auth != null) {
-        mailService.sendRegisterEmail(auth);
         session.setAttribute("registerSuccess", true);
         return "redirect:login";
       }
@@ -155,40 +120,23 @@ public class AuthenticationController {
 
   @GET
   @Path("/verify")
-  public String verify(
-      @QueryParam("token") String token
-  ){
-    UserVerifiedEmail verifiedEmail = verifiedEmailDao.findByToken(token);
-    if(verifiedEmail.getIsVerified()){
-      session.setAttribute("alreadyVerified", true);
-      return "redirect:login";
-    }
-    else if(verifiedEmail.getExpiredAt().isAfter(LocalDateTime.now())){
-      verifiedEmail.setIsVerified(Boolean.TRUE);
-      verifiedEmailDao.update(verifiedEmail);
-      UserDto user = userService.verify(verifiedEmail.getUserId());
-      session.setAttribute("email", user.getEmail());
-      return "redirect:verify/success";
-    }else{
-      UserDto user = userService.findById(verifiedEmail.getUserId());
-      session.setAttribute(SessionConstant.VERIFIED_EMAIL, user.getEmail());
-      return "redirect:verify/expired";
-    }
+  public String verify(@QueryParam("token") String token) {
+    return userService.handleVerifyOnboardingToken(token, session);
   }
 
   @GET
-  @Path("/verify/expired")
-  public String verifyExpired(){return "user/verify-expired.jsp";}
+  @Path("/verify/error")
+  public String verifyExpired(){return "user/verify-error.jsp";}
 
-  @GET
-  @Path("/verify/resend")
-  public String resendVerifiedEmail() throws MessagingException, UnsupportedEncodingException {
-    String verifiedEmail = session.getAttribute(SessionConstant.VERIFIED_EMAIL).toString();
-    UserDto auth = userService.findByEmail(verifiedEmail);
-    mailService.sendRegisterEmail(auth);
-    session.removeAttribute(SessionConstant.VERIFIED_EMAIL);
-    return "redirect:verify/notify";
-  }
+  // @GET
+  // @Path("/verify/resend")
+  // public String resendVerifiedEmail() throws MessagingException, UnsupportedEncodingException {
+  //   String verifiedEmail = session.getAttribute(SessionConstant.VERIFIED_EMAIL).toString();
+  //   UserDto auth = userService.findByEmail(verifiedEmail);
+  //   mailSenderService.sendRegisterEmail(auth);
+  //   session.removeAttribute(SessionConstant.VERIFIED_EMAIL);
+  //   return "redirect:verify/notify";
+  // }
 
   @GET
   @Path("/verify/notify")
@@ -251,28 +199,14 @@ public class AuthenticationController {
 
   @POST
   @Path("/password/forgot")
-  public String postForgot(
-      @FormParam("email") String email
-  ) {
-    UserDto userDto = userService.findByEmail(email);
-    if (userDto != null){
-      if (userDto.getIsActive()) {
-        otpService.generateAndSendOtpCode(userDto);
-        session.setAttribute("email", userDto.getEmail());
-        return "redirect:otp/enter";
-      } else {
-        session.setAttribute("userFalse", true);
-      }
-    } else {
-      session.setAttribute("existEmail", true);
-    }
-    return "redirect:password/forgot";
+  public String postForgot(@FormParam("email") String email) {
+    return userService.handleForgotPassword(email, session);
   }
 
   @GET
   @Path("/password/change")
   public String getChangePassword(){
-    UserDto userDto = (UserDto) session.getAttribute(SessionConstant.CURRENT_USER);
+    UserDto userDto = (UserDto) session.getAttribute(CURRENT_USER);
     models.put("email", userDto.getEmail());
     models.put("phone", userDto.getPhone());
     models.put("fullName", userDto.getFullName());
@@ -286,13 +220,13 @@ public class AuthenticationController {
       @FormParam("newPass") String newPassword,
       @FormParam("confirmation") Boolean confirm
   ){
-    UserDto userDto = (UserDto) session.getAttribute(SessionConstant.CURRENT_USER);
+    UserDto userDto = (UserDto) session.getAttribute(CURRENT_USER);
     if(userService.comparePassword(userDto.getEmail(), oldPassword)){
       if (confirm != null && confirm) {
         UserDto user = userService.changePassword(userDto.getEmail(), newPassword.trim());
 
         if (user != null) {
-          session.removeAttribute(SessionConstant.CURRENT_USER);
+          session.removeAttribute(CURRENT_USER);
           session.setAttribute("newPassSuccess", true);
           return "redirect:login";
         }

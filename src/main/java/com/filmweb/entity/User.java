@@ -22,10 +22,10 @@ public class User {
     @Column(length = 80) @JdbcType(VarcharJdbcType.class)
     private String password;
 
-    @Column(length = 30, unique = true) @JdbcType(VarcharJdbcType.class)
+    @Column(length = 30) @JdbcType(VarcharJdbcType.class)
     private String email;
 
-    @Column(length = 20, unique = true) @JdbcType(VarcharJdbcType.class)
+    @Column(length = 20) @JdbcType(VarcharJdbcType.class)
     private String phone;
 
     @Column(name = "full_name", length = 50) @JdbcType(NVarcharJdbcType.class)
@@ -39,6 +39,9 @@ public class User {
     
     @JdbcType(VarcharJdbcType.class)
     private String image;
+    
+    @Column(name = "email_verified_at") @JdbcType(TimestampJdbcType.class)
+    private LocalDateTime emailVerifiedAt;
 
     @OneToMany(mappedBy = "user")
     private List<Share> shares;
