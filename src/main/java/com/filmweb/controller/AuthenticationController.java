@@ -24,7 +24,9 @@ import jakarta.ws.rs.Path;
 import jakarta.ws.rs.QueryParam;
 import jakarta.ws.rs.core.Context;
 import java.util.Arrays;
+import lombok.extern.jbosslog.JBossLog;
 
+@JBossLog
 @ApplicationScoped
 @Controller
 @Path("/")
@@ -38,15 +40,6 @@ public class AuthenticationController {
 
   @Inject
   private Models models;
-
-  @Inject
-  private MailSenderService mailSenderService;
-
-  @Inject
-  private UserVerifiedEmailDao verifiedEmailDao;
-
-  @Inject
-  private JwtService jwtService;
   
   @Inject
   private OtpService otpService;
@@ -68,6 +61,7 @@ public class AuthenticationController {
       @FormParam("password") String password,
       @Context HttpServletResponse response
   ){
+    log.infof("RECEIVED call to login account with email [%s]", email);
     
     return userService.handleLogin(session, response, email, password);
   }

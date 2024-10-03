@@ -1,6 +1,7 @@
 package com.filmweb.service;
 
 import static com.filmweb.constant.SessionConstant.CURRENT_USER;
+import static com.filmweb.utils.AlertUtils.buildDialogErrorMessage;
 import static com.filmweb.utils.AlertUtils.buildToastErrorMessage;
 import static com.filmweb.utils.AlertUtils.buildToastSuccessMessage;
 import static com.filmweb.utils.AlertUtils.buildToastWarningMessage;
@@ -232,7 +233,7 @@ public class UserService {
         UserDto userDto = findByEmail(email);
         
         if (userDto == null) {
-            session.setAttribute("existEmail", true);
+            buildDialogErrorMessage(session, "Thất bại", "Email không tồn tại trong cơ sở dữ liệu");
             return "redirect:password/forgot";
         }
         
@@ -242,6 +243,8 @@ public class UserService {
             return "redirect:otp/enter";
         }
         
+        // Account not active
+        buildDialogErrorMessage(session, "Thất bại", "Tài khoản với email này chưa được kích hoạt");
         session.setAttribute("userFalse", true);
         return "redirect:password/forgot";
     }

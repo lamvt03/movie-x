@@ -88,3 +88,14 @@
     <c:remove var="toastIcon" scope="session"/>
     <c:remove var="toastMessage" scope="session"/>
 </c:if>
+
+<c:if test="${not empty sessionScope.dialogMessage}">
+
+    <script>
+        showCenterAlert('${sessionScope.dialogIcon}', '${sessionScope.dialogTitle}' ,'${sessionScope.dialogMessage}');
+    </script>
+
+    <c:remove var="dialogIcon" scope="session"/>
+    <c:remove var="dialogTitle" scope="session"/>
+    <c:remove var="dialogMessage" scope="session"/>
+</c:if>
