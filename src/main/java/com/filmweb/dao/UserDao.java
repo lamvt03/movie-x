@@ -3,7 +3,6 @@ package com.filmweb.dao;
 import com.filmweb.entity.User;
 
 import java.util.List;
-import java.util.Map;
 import java.util.UUID;
 
 public interface UserDao {

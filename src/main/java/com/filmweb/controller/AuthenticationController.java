@@ -1,13 +1,10 @@
 package com.filmweb.controller;
 
 import static com.filmweb.constant.SessionConstant.CURRENT_USER;
+import static com.filmweb.utils.AlertUtils.buildDialogSuccessMessage;
 
-import com.filmweb.constant.CookieConstant;
 import com.filmweb.constant.SessionConstant;
-import com.filmweb.dao.UserVerifiedEmailDao;
 import com.filmweb.dto.UserDto;
-import com.filmweb.service.JwtService;
-import com.filmweb.service.MailSenderService;
 import com.filmweb.service.OtpService;
 import com.filmweb.service.UserService;
 import jakarta.enterprise.context.ApplicationScoped;
@@ -23,7 +20,6 @@ import jakarta.ws.rs.POST;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.QueryParam;
 import jakarta.ws.rs.core.Context;
-import java.util.Arrays;
 import lombok.extern.jbosslog.JBossLog;
 
 @JBossLog
@@ -72,17 +68,7 @@ public class AuthenticationController {
       @Context HttpServletRequest request,
       @Context HttpServletResponse response
   ){
-    session.removeAttribute(CURRENT_USER);
-
-    if(request.getCookies() != null){
-      Arrays.stream(request.getCookies())
-          .filter(cookie -> cookie.getName().equals(CookieConstant.REMEMBER_TOKEN))
-          .findFirst()
-          .ifPresent(cookie -> {
-            cookie.setMaxAge(0);
-            response.addCookie(cookie);
-          });
-    }
+    userService.logoutUser(session, request, response);
 
     String prevUrl = session.getAttribute(SessionConstant.PREV_PAGE_URL).toString();
     return "redirect:" + prevUrl;
@@ -122,15 +108,11 @@ public class AuthenticationController {
   @Path("/verify/error")
   public String verifyExpired(){return "user/verify-error.jsp";}
 
-  // @GET
-  // @Path("/verify/resend")
-  // public String resendVerifiedEmail() throws MessagingException, UnsupportedEncodingException {
-  //   String verifiedEmail = session.getAttribute(SessionConstant.VERIFIED_EMAIL).toString();
-  //   UserDto auth = userService.findByEmail(verifiedEmail);
-  //   mailSenderService.sendRegisterEmail(auth);
-  //   session.removeAttribute(SessionConstant.VERIFIED_EMAIL);
-  //   return "redirect:verify/notify";
-  // }
+  @GET
+  @Path("/verify/resend")
+  public String resendVerificationEmail() {
+    return userService.handleResendVerificationEmail(session);
+  }
 
   @GET
   @Path("/verify/notify")
@@ -158,6 +140,7 @@ public class AuthenticationController {
     if(otpService.validateOtpCode(otpCode.trim())) {
       return "redirect:password/new";
     }
+    
     session.setAttribute("errorOTP", true);
     return "redirect:otp/enter";
   }
@@ -178,7 +161,7 @@ public class AuthenticationController {
       UserDto userDto = userService.changePassword(email, password.trim());
 
       if (userDto != null) {
-        session.setAttribute("changePassSuccess", true);
+        buildDialogSuccessMessage(session, "Thành công", "Lấy lại mật khẩu thành công");
         session.removeAttribute("email");
       }
     }
@@ -210,26 +193,12 @@ public class AuthenticationController {
   @POST
   @Path("/password/change")
   public String postChangePassword(
+      @Context HttpServletRequest request,
+      @Context HttpServletResponse response,
       @FormParam("oldPass") String oldPassword,
-      @FormParam("newPass") String newPassword,
-      @FormParam("confirmation") Boolean confirm
+      @FormParam("newPass") String newPassword
   ){
     UserDto userDto = (UserDto) session.getAttribute(CURRENT_USER);
-    if(userService.comparePassword(userDto.getEmail(), oldPassword)){
-      if (confirm != null && confirm) {
-        UserDto user = userService.changePassword(userDto.getEmail(), newPassword.trim());
-
-        if (user != null) {
-          session.removeAttribute(CURRENT_USER);
-          session.setAttribute("newPassSuccess", true);
-          return "redirect:login";
-        }
-      }
-    }
-    models.put("email", userDto.getEmail());
-    models.put("phone", userDto.getPhone());
-    models.put("fullName", userDto.getFullName());
-    session.setAttribute("oldPasswordWrong", true);
-    return "change-password.jsp";
+    return userService.handleChangePassword(session, request, response, models, userDto, oldPassword, newPassword);
   }
 }

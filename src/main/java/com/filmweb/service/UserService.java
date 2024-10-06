@@ -2,6 +2,7 @@ package com.filmweb.service;
 
 import static com.filmweb.constant.SessionConstant.CURRENT_USER;
 import static com.filmweb.utils.AlertUtils.buildDialogErrorMessage;
+import static com.filmweb.utils.AlertUtils.buildDialogSuccessMessage;
 import static com.filmweb.utils.AlertUtils.buildToastErrorMessage;
 import static com.filmweb.utils.AlertUtils.buildToastSuccessMessage;
 import static com.filmweb.utils.AlertUtils.buildToastWarningMessage;
@@ -19,11 +20,14 @@ import com.filmweb.mapper.UserMapper;
 import com.filmweb.utils.RandomUtils;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
+import jakarta.mvc.Models;
 import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import jakarta.transaction.Transactional;
 import java.time.LocalDateTime;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -121,18 +125,14 @@ public class UserService {
         );
     }
 
-    public UserDto verify(UUID id) {
-        User user = userDao.findById(id);
-        user.setIsActive(Boolean.TRUE);
-        return userMapper.toDto(userDao.update(user));
-    }
-
     public UserDto changePassword(String email, String password) {
         User user = userDao.findByEmail(email);
+        
         if(user != null){
             user.setPassword(passwordEncodeService.encode(password));
             return userMapper.toDto(userDao.update(user));
         }
+        
         return null;
     }
 
@@ -175,6 +175,40 @@ public class UserService {
             .toList();
     }
     
+    @Transactional
+    public String handleChangePassword(
+        HttpSession session,
+        HttpServletRequest request,
+        HttpServletResponse response,
+        Models models,
+        UserDto userDto,
+        String oldPassword,
+        String newPassword) {
+        
+        if (!comparePassword(userDto.getEmail(), oldPassword)) {
+            models.put("email", userDto.getEmail());
+            models.put("phone", userDto.getPhone());
+            models.put("fullName", userDto.getFullName());
+            
+            buildToastErrorMessage(session, "Mật khẩu cũ không chính xác");
+            return "user/change-password.jsp";
+        }
+        
+        var user = userDao.findByEmail(userDto.getEmail());
+        user.setPassword(passwordEncodeService.encode(newPassword));
+        var userUpdated = userDao.update(user);
+
+        if (userUpdated != null) {
+            logoutUser(session, request, response);
+            
+            buildDialogSuccessMessage(session, "Thành Công", "Thay đổi mật khẩu thành công");
+            return "redirect:login";
+        }
+        
+        return null;
+    }
+    
+    @Transactional
     public String handleVerifyOnboardingToken(String token, HttpSession session) {
         var onboardingToken = onboardingTokenDao.findByToken(token);
         
@@ -229,6 +263,7 @@ public class UserService {
         return null;
     }
     
+    @Transactional
     public String handleForgotPassword(String email, HttpSession session) {
         UserDto userDto = findByEmail(email);
         
@@ -249,7 +284,36 @@ public class UserService {
         return "redirect:password/forgot";
     }
     
+    @Transactional
+    public String handleResendVerificationEmail(HttpSession session) {
+        String verifiedEmail = session.getAttribute(SessionConstant.VERIFIED_EMAIL).toString();
+        
+        UserDto userDto = findByEmail(verifiedEmail);
+        
+        onboardingTokenService.generateAndSendOnboardingToken(userDto.getId());
+        
+        session.removeAttribute(SessionConstant.VERIFIED_EMAIL);
+        return "redirect:verify/notify";
+    }
+    
+    public void logoutUser(HttpSession session, HttpServletRequest request, HttpServletResponse response) {
+        session.removeAttribute(CURRENT_USER);
+        
+        if (request.getCookies() == null) {
+            return;
+        }
+        
+        Arrays.stream(request.getCookies())
+            .filter(cookie -> cookie.getName().equals(CookieConstant.REMEMBER_TOKEN))
+            .findFirst()
+            .ifPresent(cookie -> {
+                cookie.setMaxAge(0);
+                response.addCookie(cookie);
+            });
+    }
+    
     private String buildUserImageLink(int avtId) {
         return IMAGE_PREFIX + avtId + IMAGE_SUFFIX;
     }
+    
 }

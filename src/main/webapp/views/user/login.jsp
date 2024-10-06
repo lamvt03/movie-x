@@ -89,31 +89,8 @@
 
 <%@ include file="/views/user/common/footer.jsp" %>
 
-<c:if test="${not empty sessionScope.changePassSuccess}">
-    <c:if test="${sessionScope.changePassSuccess}">
-        <script>
-            showCenterAlert('success', 'Thành Công !', 'Lấy lại mật khẩu thành công !');
-        </script>
-    </c:if>
-
-    <%-- Remove the attribute after displaying the message --%>
-    <c:remove var="changePassSuccess" scope="session"/>
-</c:if>
-
 <%-- Remove the "otp" attribute --%>
 <c:remove var="otp" scope="session"/>
-
-
-<c:if test="${not empty sessionScope.newPassSuccess}">
-    <c:if test="${sessionScope.newPassSuccess}">
-        <script>
-            showCenterAlert('success', 'Thành Công', 'Thay đổi mật khẩu thành công');
-        </script>
-    </c:if>
-
-    <%-- Remove the attribute after displaying the message --%>
-    <c:remove var="newPassSuccess" scope="session"/>
-</c:if>
 
 <c:if test="${not empty sessionScope.registerSuccess}">
     <c:if test="${sessionScope.registerSuccess}">
