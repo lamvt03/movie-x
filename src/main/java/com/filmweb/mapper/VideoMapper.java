@@ -3,17 +3,11 @@ package com.filmweb.mapper;
 import com.filmweb.dto.VideoDto;
 import com.filmweb.entity.History;
 import com.filmweb.entity.Video;
-import com.filmweb.utils.TimeFormatter;
+import com.filmweb.utils.TimeFormatUtils;
 import jakarta.enterprise.context.ApplicationScoped;
-import jakarta.inject.Inject;
-
-import java.util.List;
-
 
 @ApplicationScoped
 public class VideoMapper {
-    @Inject
-    private TimeFormatter timeFormatter;
 
     public VideoDto toDto(Video entity) {
         if (entity == null) {
@@ -45,7 +39,7 @@ public class VideoMapper {
                        0
                 )
                 .commentQuantity(entity.getComments() != null ? entity.getComments().size() : 0)
-                .timeAgo(timeFormatter.getTimeAgoString(entity.getCreatedAt()))
+                .timeAgo(TimeFormatUtils.getTimeAgoString(entity.getCreatedAt()))
                 .build();
     }
 }

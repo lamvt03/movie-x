@@ -14,6 +14,7 @@ import com.filmweb.utils.RandomUtils;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import java.security.SecureRandom;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @ApplicationScoped
@@ -83,6 +84,7 @@ public class VideoService {
         // TODO: generate slug
 
         // TODO: fix this
+        
         SecureRandom random = new SecureRandom();
         return videoDao.create(
                 Video.builder()

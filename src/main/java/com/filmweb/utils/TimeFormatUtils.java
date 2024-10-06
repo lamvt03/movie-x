@@ -1,18 +1,15 @@
 package com.filmweb.utils;
 
-import jakarta.enterprise.context.ApplicationScoped;
-
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-@ApplicationScoped
-public class TimeFormatter {
+public class TimeFormatUtils {
 
-    private final Map<String, Long> intervals = new LinkedHashMap<>();
-
-    public TimeFormatter(){
+    private final static Map<String, Long> intervals = new LinkedHashMap<>();
+    
+    static {
         intervals.put("năm", 31536000L);
         intervals.put("tháng", 2592000L);
         intervals.put("tuần", 604800L);
@@ -22,12 +19,12 @@ public class TimeFormatter {
         intervals.put("giây", 1L);
     }
 
-    private Duration getDuration(LocalDateTime timestamp) {
+    private static Duration getDuration(LocalDateTime timestamp) {
         return Duration.between(timestamp, LocalDateTime.now());
     }
 
-    public String getTimeAgoString(LocalDateTime timestamp){
-        long seconds = this.getDuration(timestamp).toSeconds();
+    public static String getTimeAgoString(LocalDateTime timestamp){
+        long seconds = getDuration(timestamp).toSeconds();
 
         for(Map.Entry<String, Long> entry : intervals.entrySet()){
             String key = entry.getKey();

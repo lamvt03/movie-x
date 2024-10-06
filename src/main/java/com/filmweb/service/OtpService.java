@@ -36,7 +36,7 @@ public class OtpService {
   private UserDao userDao;
   
   @Inject
-  private MailSenderService mailSenderService;
+  private NotificationService notificationService;
   
   @Transactional
   public void generateAndSendOtpCode(UserDto userDto) {
@@ -58,7 +58,7 @@ public class OtpService {
     
     executor.submit(() -> {
       try {
-        mailSenderService.sendForgotEmail(userDto, otpCode);
+        notificationService.sendForgotEmail(userDto, otpCode);
       } catch (MessagingException | UnsupportedEncodingException e) {
         log.errorf("FAILED to send forgot password email for user with ID %s", userDto.getId());
       }

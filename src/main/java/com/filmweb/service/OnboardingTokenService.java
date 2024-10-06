@@ -35,7 +35,7 @@ public class OnboardingTokenService {
   private RandomUtils randomUtils;
   
   @Inject
-  private MailSenderService mailSenderService;
+  private NotificationService notificationService;
   
   @Inject
   private UserMapper userMapper;
@@ -61,7 +61,7 @@ public class OnboardingTokenService {
     
     executor.submit(() -> {
       try {
-        mailSenderService.sendRegisterEmail(userMapper.toDto(user), token);
+        notificationService.sendRegisterEmail(userMapper.toDto(user), token);
       } catch (MessagingException | UnsupportedEncodingException e) {
         log.errorf("FAILED to send register email for user with ID %s", userId);
       }
