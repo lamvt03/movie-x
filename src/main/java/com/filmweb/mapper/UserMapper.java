@@ -18,10 +18,12 @@ public class UserMapper {
             .id(entity.getId())
             .email(entity.getEmail())
             .phone(entity.getPhone())
+            .type(entity.getType())
             .fullName(entity.getFullName())
             .isActive(entity.getIsActive())
             .isAdmin(entity.getIsAdmin())
             .image(entity.getImage())
+            
             .build();
     }
     

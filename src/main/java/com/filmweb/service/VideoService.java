@@ -1,7 +1,11 @@
 package com.filmweb.service;
 
+import static com.filmweb.domain.video.VideoPaymentType.FREE;
+import static com.filmweb.domain.video.VideoPaymentType.PAID;
+
 import com.filmweb.dao.CategoryDao;
 import com.filmweb.dao.VideoDao;
+import com.filmweb.domain.video.VideoPaymentType;
 import com.filmweb.dto.VideoDto;
 import com.filmweb.entity.Category;
 import com.filmweb.entity.Video;
@@ -72,42 +76,46 @@ public class VideoService {
                 .toList();
     }
 
-    // public Video create(String title, String href, String poster, String director, String actor, String categoryCode, String description, String formattedPrice) {
-    //     Long price = Long.parseLong(formattedPrice.replace(".", ""));
-    //     Category category = categoryDao.findByCode(categoryCode);
-    //     // String slug
-    //
-    //     // TODO: fix this
-    //     SecureRandom random = new SecureRandom();
-    //     return videoDao.create(
-    //             Video.builder()
-    //                     .title(title)
-    //                     .href(href)
-    //                     .poster(poster)
-    //                     .director(director)
-    //                     .actor(actor)
-    //                     .category(category)
-    //                     .price(price)
-    //                     .description(description)
-    //                     .isActive(Boolean.TRUE)
-    //                     .views(random.nextInt(15))
-    //                     .share(0)
-    //                     .build()
-    //     );
-    // }
+    public Video create(String title, String href, String poster, String director, String actor, String categorySlug, String description, String formattedPrice) {
+        long price = Long.parseLong(formattedPrice.replace(".", ""));
+        Category category = categoryDao.findBySlug(categorySlug);
+        
+        // TODO: generate slug
 
-    // public VideoDto update(String title, String href, String director, String actor, String categoryCode, String heading, String formattedPrice, String description) {
-    //     Video video = videoDao.findByHref(href);
-    //     Category category = categoryDao.findByCode(categoryCode);
-    //     video.setTitle(title);
-    //     video.setDirector(director);
-    //     video.setActor(actor);
-    //     video.setCategory(category);
-    //     Long price = Long.parseLong(formattedPrice.replace(".", ""));
-    //     video.setPrice(price);
-    //     video.setDescription(description);
-    //     return videoMapper.toDto(videoDao.update(video));
-    // }
+        // TODO: fix this
+        SecureRandom random = new SecureRandom();
+        return videoDao.create(
+                Video.builder()
+                        .title(title)
+                        .href(href)
+                        .poster(poster)
+                        .director(director)
+                        .actor(actor)
+                        .category(category)
+                        .price(price)
+                        .paymentType(price > 0 ? PAID : FREE)
+                        .description(description)
+                        .isActive(Boolean.TRUE)
+                        .views(random.nextInt(15))
+                        .share(0)
+                        .build()
+        );
+    }
+
+    public VideoDto update(String title, String href, String director, String actor, String categoryCode, String heading, String formattedPrice, String description) {
+        Video video = videoDao.findByHref(href);
+        Category category = categoryDao.findBySlug(categoryCode);
+        video.setTitle(title);
+        video.setDirector(director);
+        video.setActor(actor);
+        video.setCategory(category);
+        
+        long price = Long.parseLong(formattedPrice.replace(".", ""));
+        video.setPrice(price);
+        video.setPaymentType(price > 0 ? PAID : FREE);
+        video.setDescription(description);
+        return videoMapper.toDto(videoDao.update(video));
+    }
 
     // public VideoDto restore(String href) {
     //     Video video = videoDao.findByHref(href);

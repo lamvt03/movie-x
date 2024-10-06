@@ -1,11 +1,15 @@
 package com.filmweb.service;
 
 import static com.filmweb.constant.SessionConstant.CURRENT_USER;
+import static com.filmweb.domain.user.UserType.GOOGLE;
+import static com.filmweb.domain.user.UserType.INTERNAL;
 import static com.filmweb.utils.AlertUtils.buildDialogErrorMessage;
 import static com.filmweb.utils.AlertUtils.buildDialogSuccessMessage;
 import static com.filmweb.utils.AlertUtils.buildToastErrorMessage;
 import static com.filmweb.utils.AlertUtils.buildToastSuccessMessage;
 import static com.filmweb.utils.AlertUtils.buildToastWarningMessage;
+import static java.lang.Boolean.FALSE;
+import static java.lang.Boolean.TRUE;
 
 import com.filmweb.constant.AppConstant;
 import com.filmweb.constant.CookieConstant;
@@ -100,8 +104,9 @@ public class UserService {
                 .password(passwordEncodeService.encode(password))
                 .phone(phone)
                 .fullName(fullName)
-                .isAdmin(Boolean.FALSE)
-                .isActive(Boolean.FALSE)
+                .isAdmin(FALSE)
+                .isActive(FALSE)
+                .type(INTERNAL)
                 .image(buildUserImageLink(avtId))
                 .build();
         
@@ -116,8 +121,9 @@ public class UserService {
         User userEntity = User.builder()
                 .email(user.getEmail())
                 .fullName(user.getName())
-                .isAdmin(Boolean.FALSE)
-                .isActive(Boolean.TRUE)
+                .isAdmin(FALSE)
+                .isActive(TRUE)
+                .type(GOOGLE)
                 .image(user.getId())
                 .build();
         return userMapper.toDto(

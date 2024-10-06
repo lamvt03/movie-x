@@ -1,5 +1,6 @@
 package com.filmweb.entity;
 
+import com.filmweb.domain.user.UserType;
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
 import java.util.UUID;
@@ -27,6 +28,10 @@ public class User {
 
     @Column(length = 20) @JdbcType(VarcharJdbcType.class)
     private String phone;
+    
+    @Column(length = 20) @JdbcType(VarcharJdbcType.class)
+    @Enumerated(EnumType.STRING)
+    private UserType type;
 
     @Column(name = "full_name", length = 50) @JdbcType(NVarcharJdbcType.class)
     private String fullName;

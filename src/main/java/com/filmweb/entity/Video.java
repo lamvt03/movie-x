@@ -1,5 +1,6 @@
 package com.filmweb.entity;
 
+import com.filmweb.domain.video.VideoPaymentType;
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
 import java.util.UUID;
@@ -32,6 +33,10 @@ public class Video {
     
     @Column(unique = true, nullable = false) @JdbcType(VarcharJdbcType.class)
     private String poster;
+    
+    @Column(name = "payment_type",length = 10) @JdbcType(VarcharJdbcType.class)
+    @Enumerated(EnumType.STRING)
+    private VideoPaymentType paymentType;
 
     private Integer views;
 

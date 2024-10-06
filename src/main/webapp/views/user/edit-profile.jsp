@@ -70,15 +70,6 @@
 
                     </div>
 
-                    <div class="col-6 col-md-4 col-lg-3">
-
-							<span> <a style="color: #D14A2D;" href="${initParam.mvcPath}/password/change"
-                                      class="fs-6 text-decoration-none font-weight-bold">
-									Đổi mật khẩu </a>
-							</span>
-
-                    </div>
-
                 </div>
 
                 <hr class="text-dark">

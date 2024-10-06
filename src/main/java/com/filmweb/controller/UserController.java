@@ -45,6 +45,7 @@ public class UserController {
         models.put("user", userDto);
         return "user/profile.jsp";
     }
+    
     @GET
     @Path("/profile/edit")
     public String getEditProfile(){

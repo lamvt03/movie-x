@@ -184,9 +184,7 @@ public class AuthenticationController {
   @Path("/password/change")
   public String getChangePassword(){
     UserDto userDto = (UserDto) session.getAttribute(CURRENT_USER);
-    models.put("email", userDto.getEmail());
-    models.put("phone", userDto.getPhone());
-    models.put("fullName", userDto.getFullName());
+    models.put("user", userDto);
     return "user/change-password.jsp";
   }
 

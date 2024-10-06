@@ -60,6 +60,9 @@
                                         <ul class="dropdown">
                                             <li><a href="${initParam.mvcPath}/profile">Trang cá nhân</a></li>
                                             <li><a href="${initParam.mvcPath}/transaction">Lịch sử giao dịch</a></li>
+                                            <c:if test="${sessionScope.currentUser.type == 'INTERNAL'}">
+                                                <li><a href="${initParam.mvcPath}/password/change">Đổi mật khẩu</a></li>
+                                            </c:if>
                                             <li><a href="${initParam.mvcPath}/logout">Đăng xuất</a></li>
                                         </ul>
                                     </li>

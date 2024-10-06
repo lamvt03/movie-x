@@ -25,6 +25,7 @@ public class VideoMapper {
                 .slug(entity.getSlug())
                 .href(entity.getHref())
                 .poster(entity.getPoster())
+                .paymentType(entity.getPaymentType())
                 .views(entity.getViews())
                 .share(entity.getShare())
                 .director(entity.getDirector())

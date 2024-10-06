@@ -1,5 +1,6 @@
 package com.filmweb.dto;
 
+import com.filmweb.domain.video.VideoPaymentType;
 import com.filmweb.entity.Comment;
 import com.filmweb.entity.Order;
 import jakarta.persistence.*;
@@ -22,6 +23,7 @@ public class VideoDto {
     String slug;
     String href;
     String poster;
+    VideoPaymentType paymentType;
     Integer views;
     Integer share;
     String director;
