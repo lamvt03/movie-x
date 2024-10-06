@@ -32,6 +32,7 @@ public class VideoDto {
     String categorySlug;
     String description;
     Long price;
+    String formattedPrice;
     Boolean isActive;
     LocalDateTime createdAt;
     Integer likeQuantity;

@@ -3,6 +3,7 @@ package com.filmweb.mapper;
 import com.filmweb.dto.VideoDto;
 import com.filmweb.entity.History;
 import com.filmweb.entity.Video;
+import com.filmweb.utils.PriceFormatUtils;
 import com.filmweb.utils.TimeFormatUtils;
 import jakarta.enterprise.context.ApplicationScoped;
 
@@ -28,6 +29,7 @@ public class VideoMapper {
                 .categorySlug(entity.getCategory().getSlug())
                 .description(entity.getDescription())
                 .price(entity.getPrice())
+                .formattedPrice(PriceFormatUtils.formatPrice(entity.getPrice()))
                 .isActive(entity.getIsActive())
                 .createdAt(entity.getCreatedAt())
                 .likeQuantity(
