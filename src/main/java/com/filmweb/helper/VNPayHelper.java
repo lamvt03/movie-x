@@ -1,9 +1,10 @@
-package com.filmweb.payment;
+package com.filmweb.helper;
 
+import com.filmweb.config.VNPayConfigurationProperties;
 import com.filmweb.utils.RandomUtils;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
-import org.eclipse.microprofile.config.inject.ConfigProperty;
+import org.eclipse.microprofile.config.inject.ConfigProperties;
 
 import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
@@ -13,42 +14,14 @@ import java.text.SimpleDateFormat;
 import java.util.*;
 
 @ApplicationScoped
-public class VNPayUtils {
+public class VNPayHelper {
 
     @Inject
     private RandomUtils randomUtils;
-
+    
     @Inject
-    @ConfigProperty(name = "vnp.payUrl")
-    private String vnp_PayUrl;
-
-    @Inject
-    @ConfigProperty(name = "vnp.returnUrl")
-    private String vnp_ReturnUrl;
-
-    @Inject
-    @ConfigProperty(name = "vnp.tmnCode")
-    private String vnp_TmnCode;
-
-    @Inject
-    @ConfigProperty(name = "vnp.secretKey")
-    private String secretKey;
-
-    @Inject
-    @ConfigProperty(name = "vnp.version")
-    private String vnp_Version;
-
-    @Inject
-    @ConfigProperty(name = "vnp.command")
-    private String vnp_Command;
-
-    @Inject
-    @ConfigProperty(name = "vnp.otherType")
-    private String vnp_OrderType;
-
-    @Inject
-    @ConfigProperty(name = "vnp.bankCode")
-    private String vnp_TestingBankCode;
+    @ConfigProperties(prefix = "vnp")
+    private VNPayConfigurationProperties vnPayConfigurationProperties;
 
     private String hmacSHA512(final String key, final String data) {
         try {
@@ -76,18 +49,18 @@ public class VNPayUtils {
     public String createPaymentUrl(String clientIp, String href, long amount){
         String vnp_TxnRef = randomUtils.randomOtpValue(8);
 
-        String returnUrl = vnp_ReturnUrl + "?href=" + href;
+        String returnUrl = vnPayConfigurationProperties.getReturnUrl() + "?href=" + href;
 
         Map<String, String> vnp_Params = new HashMap<>();
-        vnp_Params.put("vnp_Version", vnp_Version);
-        vnp_Params.put("vnp_Command", vnp_Command);
-        vnp_Params.put("vnp_TmnCode", vnp_TmnCode);
+        vnp_Params.put("vnp_Version", vnPayConfigurationProperties.getVersion());
+        vnp_Params.put("vnp_Command", vnPayConfigurationProperties.getCommand());
+        vnp_Params.put("vnp_TmnCode", vnPayConfigurationProperties.getTmnCode());
         vnp_Params.put("vnp_Amount", String.valueOf(amount));
         vnp_Params.put("vnp_CurrCode", "VND");
-        vnp_Params.put("vnp_BankCode", vnp_TestingBankCode);
+        vnp_Params.put("vnp_BankCode", vnPayConfigurationProperties.getBankCode());
         vnp_Params.put("vnp_TxnRef", vnp_TxnRef);
         vnp_Params.put("vnp_OrderInfo", "Thanh toan don hang:" + vnp_TxnRef);
-        vnp_Params.put("vnp_OrderType", vnp_OrderType);
+        vnp_Params.put("vnp_OrderType", vnPayConfigurationProperties.getOrderType());
         vnp_Params.put("vnp_Locale", "vn");
         vnp_Params.put("vnp_ReturnUrl", returnUrl);
         vnp_Params.put("vnp_IpAddr", clientIp);
@@ -122,9 +95,9 @@ public class VNPayUtils {
             }
         }
         String queryUrl = query.toString();
-        String vnp_SecureHash = hmacSHA512(secretKey, hashData.toString());
+        String vnp_SecureHash = hmacSHA512(vnPayConfigurationProperties.getSecretKey(), hashData.toString());
         queryUrl += "&vnp_SecureHash=" + vnp_SecureHash;
 
-        return vnp_PayUrl + "?" + queryUrl;
+        return vnPayConfigurationProperties.getPayUrl() + "?" + queryUrl;
     }
 }
