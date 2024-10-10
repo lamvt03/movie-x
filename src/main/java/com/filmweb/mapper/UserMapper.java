@@ -23,7 +23,8 @@ public class UserMapper {
             .isActive(entity.getIsActive())
             .isAdmin(entity.getIsAdmin())
             .image(entity.getImage())
-            
+            .totalBalanceAmount(entity.getTotalBalanceAmount())
+            .remainingBalanceAmount(entity.getRemainingBalanceAmount())
             .build();
     }
     

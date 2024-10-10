@@ -13,9 +13,9 @@
         <class>com.filmweb.entity.User</class>
         <class>com.filmweb.entity.Video</class>
         <class>com.filmweb.entity.Category</class>
-        <class>com.filmweb.entity.UserVerifiedEmail</class>
         <class>com.filmweb.entity.Otp</class>
         <class>com.filmweb.entity.OnboardingToken</class>
+        <class>com.filmweb.entity.UserBalanceTransaction</class>
         <exclude-unlisted-classes>true</exclude-unlisted-classes>
         <properties>
 

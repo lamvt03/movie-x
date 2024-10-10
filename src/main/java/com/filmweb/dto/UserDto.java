@@ -19,4 +19,6 @@ public class UserDto{
     private Boolean isActive;
     private Boolean isAdmin;
     private String image;
+    private Long totalBalanceAmount;
+    private Long remainingBalanceAmount;
 }

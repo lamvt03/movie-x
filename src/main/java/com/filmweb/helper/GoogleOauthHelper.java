@@ -1,5 +1,6 @@
-package com.filmweb.oauth2;
+package com.filmweb.helper;
 
+import com.filmweb.config.GoogleOauth2ConfigurationProperties;
 import com.filmweb.dto.GoogleUser;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
@@ -17,6 +18,7 @@ import org.apache.http.impl.client.HttpClients;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.ssl.SSLContextBuilder;
 import org.apache.http.util.EntityUtils;
+import org.eclipse.microprofile.config.inject.ConfigProperties;
 import org.eclipse.microprofile.config.inject.ConfigProperty;
 
 import java.io.IOException;
@@ -27,52 +29,20 @@ import java.util.ArrayList;
 import java.util.List;
 
 @ApplicationScoped
-public class GoogleUtils {
-
+public class GoogleOauthHelper {
+    
     @Inject
-    @ConfigProperty(name = "oauth2.login.google.clientId")
-    private String client_id;
-
-    @Inject
-    @ConfigProperty(name = "oauth2.login.google.clientSecret")
-    private String client_secret;
-
-    @Inject
-    @ConfigProperty(name = "oauth2.login.google.scope")
-    private String scope;
-
-    @Inject
-    @ConfigProperty(name = "oauth2.login.google.redirectUri")
-    private String redirect_uri;
-
-    @Inject
-    @ConfigProperty(name = "oauth2.login.google.responseType")
-    private String response_type;
-
-    @Inject
-    @ConfigProperty(name = "oauth2.login.google.approvalPrompt")
-    private String approval_prompt;
-
-    @Inject
-    @ConfigProperty(name = "oauth2.login.google.grantType")
-    private String grant_type;
-
-    @Inject
-    @ConfigProperty(name="oauth2.login.google.tokenUrl")
-    private String tokenUrl;
-
-    @Inject
-    @ConfigProperty(name="oauth2.login.google.userInfoUrl")
-    private String userInfoUrl;
+    @ConfigProperties(prefix = "google.oauth2")
+    private GoogleOauth2ConfigurationProperties googleOauth2ConfigurationProperties;
 
     public String createLoginUrl() {
         StringBuilder urlBuilder = new StringBuilder();
         urlBuilder.append("https://accounts.google.com/o/oauth2/auth")
-                .append("?scope=").append(scope)
-                .append("&redirect_uri=").append(redirect_uri)
-                .append("&response_type=").append(response_type)
-                .append("&client_id=").append(client_id)
-                .append("&approval_prompt=").append(approval_prompt);
+                .append("?scope=").append(googleOauth2ConfigurationProperties.getScope())
+                .append("&redirect_uri=").append(googleOauth2ConfigurationProperties.getRedirectUri())
+                .append("&response_type=").append(googleOauth2ConfigurationProperties.getResponseType())
+                .append("&client_id=").append(googleOauth2ConfigurationProperties.getClientId())
+                .append("&approval_prompt=").append(googleOauth2ConfigurationProperties.getApprovalPrompt());
         return urlBuilder.toString();
     }
 
@@ -87,16 +57,16 @@ public class GoogleUtils {
         CloseableHttpClient httpclient = HttpClients.custom().setSSLSocketFactory(
                 sslsf).build();
 
-        HttpPost httpPost = new HttpPost(tokenUrl);
+        HttpPost httpPost = new HttpPost(googleOauth2ConfigurationProperties.getTokenUrl());
         httpPost.setHeader("Content-Type", "application/x-www-form-urlencoded");
 
         // Request parameters and other properties.
         List<NameValuePair> params = new ArrayList<>();
-        params.add(new BasicNameValuePair("client_id", client_id));
-        params.add(new BasicNameValuePair("client_secret", client_secret));
+        params.add(new BasicNameValuePair("client_id", googleOauth2ConfigurationProperties.getClientId()));
+        params.add(new BasicNameValuePair("client_secret", googleOauth2ConfigurationProperties.getClientSecret()));
         params.add(new BasicNameValuePair("code", code));
-        params.add(new BasicNameValuePair("grant_type", grant_type));
-        params.add(new BasicNameValuePair("redirect_uri", redirect_uri));
+        params.add(new BasicNameValuePair("grant_type", googleOauth2ConfigurationProperties.getGrantType()));
+        params.add(new BasicNameValuePair("redirect_uri", googleOauth2ConfigurationProperties.getRedirectUri()));
 
         // Execute and get the response.
         httpPost.setEntity(new UrlEncodedFormEntity(params, "UTF-8"));
@@ -108,7 +78,7 @@ public class GoogleUtils {
     }
 
     public GoogleUser getUserInfo(final String accessToken) throws IOException, NoSuchAlgorithmException, KeyStoreException, KeyManagementException {
-        String link = userInfoUrl +  "?access_token=" + accessToken;
+        String link = googleOauth2ConfigurationProperties.getUserInfoUrl() +  "?access_token=" + accessToken;
 
         SSLContextBuilder builder = new SSLContextBuilder();
         builder.loadTrustMaterial(null, (chain, authType) -> true);

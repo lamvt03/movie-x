@@ -8,6 +8,7 @@ import lombok.*;
 
 import java.util.List;
 import org.hibernate.annotations.JdbcType;
+import org.hibernate.type.descriptor.jdbc.BigIntJdbcType;
 import org.hibernate.type.descriptor.jdbc.BooleanJdbcType;
 import org.hibernate.type.descriptor.jdbc.NVarcharJdbcType;
 import org.hibernate.type.descriptor.jdbc.TimestampJdbcType;
@@ -44,6 +45,12 @@ public class User {
     
     @JdbcType(VarcharJdbcType.class)
     private String image;
+    
+    @Column(name = "total_balance_amount") @JdbcType(BigIntJdbcType.class)
+    private Long totalBalanceAmount;
+    
+    @Column(name = "remaining_balance_amount")@JdbcType(BigIntJdbcType.class)
+    private Long remainingBalanceAmount;
     
     @Column(name = "email_verified_at") @JdbcType(TimestampJdbcType.class)
     private LocalDateTime emailVerifiedAt;
