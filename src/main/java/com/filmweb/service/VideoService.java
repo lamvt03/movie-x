@@ -60,15 +60,15 @@ public class VideoService {
         return videoDao.count(true);
     }
 
-    // public List<VideoDto> findDeletedVideos(int page, int limit) {
-    //     return videoDao.findByIsActiveFalseOrderByUpdatedAtDesc(page, limit).stream()
-    //             .map(videoMapper::toDto)
-    //             .toList();
-    // }
+    public List<VideoDto> findDeletedVideos(int page, int limit) {
+        return videoDao.findByIsActiveFalseOrderByUpdatedAtDesc(page, limit).stream()
+                .map(videoMapper::toDto)
+                .toList();
+    }
 
-    // public long countDisabled() {
-    //     return videoDao.count(false);
-    // }
+    public long countDisabled() {
+        return videoDao.count(false);
+    }
 
     public List<VideoDto> findByKeyword(String keyword) {
         List<Video> videos = videoDao.findByKeyword(keyword);
@@ -119,19 +119,20 @@ public class VideoService {
         return videoMapper.toDto(videoDao.update(video));
     }
 
-    // public VideoDto restore(String href) {
-    //     Video video = videoDao.findByHref(href);
-    //     video.setActive(Boolean.TRUE);
-    //     return videoMapper.toDto(videoDao.update(video));
-    // }
+    public VideoDto restore(String href) {
+        Video video = videoDao.findByHref(href);
+        // TODO:
+        // video.setActive(Boolean.TRUE);
+        return videoMapper.toDto(videoDao.update(video));
+    }
 
-    // public VideoDto delete(String href) {
-    //     Video video = videoDao.findByHref(href);
-    //     video.setActive(Boolean.FALSE);
-    //     return videoMapper.toDto(
-    //             videoDao.update(video)
-    //     );
-    // }
+    public VideoDto delete(String href) {
+        Video video = videoDao.findByHref(href);
+        // video.setActive(Boolean.FALSE);
+        return videoMapper.toDto(
+                videoDao.update(video)
+        );
+    }
 
     public List<VideoDto> findLikedVideos(int page, int limit) {
         return videoDao.findLikedVideos(page, limit)
