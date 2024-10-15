@@ -57,6 +57,8 @@
                                     </a>
                                         <ul class="dropdown">
                                             <li><a href="${initParam.mvcPath}/profile">Trang cá nhân</a></li>
+                                            <li><a href="${initParam.mvcPath}/history">Phim đã xem</a></li>
+                                            <li><a href="${initParam.mvcPath}/favorite">Phim yêu thích</a></li>
                                             <li><a href="${initParam.mvcPath}/transaction">Lịch sử giao dịch</a></li>
                                             <c:if test="${sessionScope.currentUser.registrationType == 'INTERNAL'}">
                                                 <li><a href="${initParam.mvcPath}/password/change">Đổi mật khẩu</a></li>

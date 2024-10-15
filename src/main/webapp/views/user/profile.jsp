@@ -51,16 +51,8 @@
 
                 </div>
 
-                <div class="link-profile mt-4">
-                    <h6>
-                        <a style="color: #D14A2D;" href="${initParam.mvcPath}/history" class="font-weight-bold">Lịch sử
-                            truy cập</a>
-                    </h6>
-                    <h6 class="text-dark font-weight-bold mb-2">
-                        <a style="color: #D14A2D;" href="${initParam.mvcPath}/favorite" class="font-weight-bold">Phim
-                            yêu thích</a>
-                    </h6>
-
+                <div id="delete-account-btn" class="link-profile mt-4">
+                    <button type="button" class="btn btn-danger">Xoá tài khoản</button>
                 </div>
 
             </div>
@@ -74,8 +66,6 @@
                         <div class="col-12 col-md-12 col-lg-9">
 
                             <h4 class="text-dark font-weight-bold">Movie X</h4>
-                            <span style="color: #D14A2D;" class="font-weight-bold">BLOG Xem Phim
-									</span>
 
                         </div>
 
@@ -128,5 +118,29 @@
 <!-- Forgotpass Section End -->
 
 <%@ include file="/views/user/common/footer.jsp" %>
+
+<script type="text/javascript">
+    const deleteAccountBtn = document.querySelector('#delete-account-btn');
+    const html = "<ul>" +
+            "<li>Xóa vĩnh viễn tất cả dữ liệu liên quan đến tài khoản của bạn</li>"
+          + "<li>Bạn sẽ không thể khôi phục lại tài khoản hoặc dữ liệu sau khi đã xóa</li>"
+          + "<li>Các dịch vụ và quyền lợi liên quan đến tài khoản sẽ bị mất</li>"
+         + "</ul>"
+    deleteAccountBtn.onclick = () => {
+        Swal.fire({
+            title: 'Xác nhận xoá tài khoản',
+            html: html,
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Đồng ý'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                window.location.href = "/movie-x/account/delete";
+            }
+        })
+    }
+</script>
 </body>
 </html>

@@ -1,8 +1,8 @@
 package com.filmweb.service;
 
 import static com.filmweb.constant.SessionConstant.CURRENT_USER;
-import static com.filmweb.domain.user.UserType.GOOGLE;
-import static com.filmweb.domain.user.UserType.INTERNAL;
+import static com.filmweb.domain.user.UserRegistrationType.GOOGLE;
+import static com.filmweb.domain.user.UserRegistrationType.INTERNAL;
 import static com.filmweb.utils.AlertUtils.buildDialogErrorMessage;
 import static com.filmweb.utils.AlertUtils.buildDialogSuccessMessage;
 import static com.filmweb.utils.AlertUtils.buildToastErrorMessage;
@@ -106,8 +106,10 @@ public class UserService {
                 .fullName(fullName)
                 .isAdmin(FALSE)
                 .isActive(FALSE)
-                .type(INTERNAL)
+                .registrationType(INTERNAL)
                 .image(buildUserImageLink(avtId))
+                .totalBalanceAmount(0L)
+                .remainingBalanceAmount(0L)
                 .build();
         
         User createdUser = userDao.create(user);
@@ -123,8 +125,11 @@ public class UserService {
                 .fullName(user.getName())
                 .isAdmin(FALSE)
                 .isActive(TRUE)
-                .type(GOOGLE)
-                .image(user.getId())
+                .registrationType(GOOGLE)
+                .emailVerifiedAt(LocalDateTime.now())
+                .image(user.getPicture())
+                .totalBalanceAmount(0L)
+                .remainingBalanceAmount(0L)
                 .build();
         return userMapper.toDto(
                 userDao.create(userEntity)
@@ -215,6 +220,23 @@ public class UserService {
     }
     
     @Transactional
+    public String handleDeleteMyAccount(
+        HttpSession session,
+        HttpServletRequest request,
+        HttpServletResponse response,
+        UserDto user) {
+        var u = userDao.findById(user.getId());
+        u.setDeletedAt(LocalDateTime.now());
+        u.setIsActive(FALSE);
+        
+        userDao.update(u);
+        logoutUser(session, request, response);
+        
+        buildToastSuccessMessage(session, "Tài khoản của bạn đã bị xoá khỏi hệ thống");
+        return "redirect:login";
+    }
+    
+    @Transactional
     public String handleVerifyOnboardingToken(String token, HttpSession session) {
         var onboardingToken = onboardingTokenDao.findByToken(token);
         
@@ -247,7 +269,7 @@ public class UserService {
             return "user/login.jsp";
         }
         
-        if (!userDto.getIsActive()) {
+        if (userDto.getEmailVerifiedAt() == null) {
             buildToastWarningMessage(session, "Vui lòng xác thực email trước khi đăng nhập");
             return "user/login.jsp";
         }

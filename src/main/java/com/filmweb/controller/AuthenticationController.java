@@ -201,4 +201,14 @@ public class AuthenticationController {
     UserDto userDto = (UserDto) session.getAttribute(CURRENT_USER);
     return userService.handleChangePassword(session, request, response, models, userDto, oldPassword, newPassword);
   }
+  
+  @GET
+  @Path("/account/delete")
+  public String deleteMyAccount(
+      @Context HttpServletRequest request,
+      @Context HttpServletResponse response
+  ){
+    UserDto userDto = (UserDto) session.getAttribute(CURRENT_USER);
+    return userService.handleDeleteMyAccount(session, request, response, userDto);
+  }
 }

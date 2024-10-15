@@ -19,7 +19,6 @@ public class UserMapper {
             .id(entity.getId())
             .email(entity.getEmail())
             .phone(entity.getPhone() != null ? entity.getPhone() : PHONE_NOT_UPDATE_MESSAGE)
-            .type(entity.getType())
             .registrationType(entity.getRegistrationType())
             .fullName(entity.getFullName())
             .isActive(entity.getIsActive())
@@ -27,6 +26,7 @@ public class UserMapper {
             .image(entity.getImage())
             .totalBalanceAmount(entity.getTotalBalanceAmount())
             .remainingBalanceAmount(entity.getRemainingBalanceAmount())
+            .emailVerifiedAt(entity.getEmailVerifiedAt())
             .build();
     }
     

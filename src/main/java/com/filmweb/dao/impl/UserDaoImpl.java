@@ -19,13 +19,13 @@ public class UserDaoImpl extends AbstractDao<User> implements UserDao {
 
     @Override
     public User findByEmail(String email) {
-        String jpql = "SELECT o FROM User o WHERE o.email = ?1";
+        String jpql = "SELECT o FROM User o WHERE o.deletedAt IS NULL AND o.email = ?1";
         return super.findOne(User.class, jpql, email);
     }
 
     @Override
     public User findByPhone(String phone) {
-        String jpql = "SELECT o FROM User o WHERE o.phone = ?1";
+        String jpql = "SELECT o FROM User o WHERE o.deletedAt IS NULL AND o.phone = ?1";
         return super.findOne(User.class, jpql, phone);
     }
 
