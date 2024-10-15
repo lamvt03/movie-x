@@ -67,7 +67,7 @@
                     <div class="content_box_404">
                         <h3 class="h2 fw-bold">Có vẻ như bạn đã nhầm lẫn</h3>
 
-                        <p class="fw-bold">Trang bạn đang tìm kiếm không khả dụng!</p>
+                        <p class="fw-bold">Trang bạn đang tìm kiếm không khả dụng</p>
 
                         <a href="${initParam.mvcPath}/home" class="text-decoration-none fw-bold link_404">Quay Về Trang Chủ</a>
                     </div>

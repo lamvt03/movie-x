@@ -96,12 +96,12 @@ public class VideoDaoImpl extends AbstractDao<Video> implements VideoDao {
             query.setMaxResults(limit);
             List<Object[]> rs = query.getResultList();
             if(!rs.isEmpty()){
-                List<Long> ids = rs.stream().map(r -> (Long)r[0])
+                List<UUID> ids = rs.stream().map(r -> (UUID)r[0])
                                 .toList();
                 return ids.stream().map(id -> super.findById(Video.class, id))
                         .toList();
             }
-            return null;
+            return List.of();
         }finally {
             entityManager.close();
         }

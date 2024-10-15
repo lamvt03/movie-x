@@ -39,11 +39,9 @@
                                     <i class="fa-sharp fa-solid fa-bars"></i> Thể Loại <i class="fa-solid fa-angle-down"></i>
                                 </a>
                                 <ul class="dropdown">
-                                    <li><a href="${initParam.mvcPath}/category/phim-hanh-dong">Phim hành động</a></li>
-                                    <li><a href="${initParam.mvcPath}/category/phim-vien-tuong">Phim viễn tưởng</a></li>
-                                    <li><a href="${initParam.mvcPath}/category/phim-co-trang">Phim cổ trang</a></li>
-                                    <li><a href="${initParam.mvcPath}/category/phim-kinh-di">Phim kinh dị</a></li>
-                                    <li><a href="${initParam.mvcPath}/category/phim-tam-ly">Phim tâm lý</a></li>
+                                    <c:forEach items="${sessionScope.categories}" var="category">
+                                        <li><a href="${initParam.mvcPath}/category/${category.slug}">${category.name}</a></li>
+                                    </c:forEach>
                                 </ul>
                             </li>
                             <li class="${sessionScope.pathInfo == "/about" ? "active" : null}">
@@ -60,7 +58,7 @@
                                         <ul class="dropdown">
                                             <li><a href="${initParam.mvcPath}/profile">Trang cá nhân</a></li>
                                             <li><a href="${initParam.mvcPath}/transaction">Lịch sử giao dịch</a></li>
-                                            <c:if test="${sessionScope.currentUser.type == 'INTERNAL'}">
+                                            <c:if test="${sessionScope.currentUser.registrationType == 'INTERNAL'}">
                                                 <li><a href="${initParam.mvcPath}/password/change">Đổi mật khẩu</a></li>
                                             </c:if>
                                             <li><a href="${initParam.mvcPath}/logout">Đăng xuất</a></li>

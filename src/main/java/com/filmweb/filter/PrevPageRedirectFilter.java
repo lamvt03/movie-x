@@ -1,6 +1,10 @@
 package com.filmweb.filter;
 
+import static com.filmweb.constant.SessionConstant.CATEGORY_LIST;
+
 import com.filmweb.constant.SessionConstant;
+import com.filmweb.service.CategoryService;
+import jakarta.inject.Inject;
 import jakarta.servlet.*;
 import jakarta.servlet.annotation.WebFilter;
 import jakarta.servlet.http.HttpServletRequest;
@@ -10,7 +14,7 @@ import java.io.IOException;
 
 @WebFilter("/movie-x/*")
 public class PrevPageRedirectFilter implements Filter {
-
+    
     private final String[] BLACK_LIST = {
             "/login",
             "/logout",
@@ -25,6 +29,9 @@ public class PrevPageRedirectFilter implements Filter {
             "/api",
             "/admin/video/"
     };
+    
+    @Inject
+    private CategoryService categoryService;
 
     @Override
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
@@ -32,6 +39,8 @@ public class PrevPageRedirectFilter implements Filter {
 
 
         HttpSession session = httpRequest.getSession(true);
+        
+        session.setAttribute(CATEGORY_LIST, categoryService.findAll());
 
         //store request path info to paginate
         String pathInFo = httpRequest.getPathInfo();

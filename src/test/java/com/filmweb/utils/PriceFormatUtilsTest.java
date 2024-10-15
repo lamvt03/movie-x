@@ -10,7 +10,7 @@ public class PriceFormatUtilsTest {
   public void should_format_price_correctly() {
     long price = 15000;
     
-    String actual = PriceFormatUtils.formatPrice(price);
+    String actual = PriceFormatUtils.toFomattedString(price);
     String expected = "15.000 ₫";
     
     assertEquals(actual, expected);

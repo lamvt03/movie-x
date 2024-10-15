@@ -2,6 +2,8 @@ package com.filmweb.controller.admin;
 
 import com.filmweb.constant.AppConstant;
 import com.filmweb.constant.SessionConstant;
+import com.filmweb.domain.video.VideoCreationPayload;
+import com.filmweb.domain.video.VideoUpdatePayload;
 import com.filmweb.dto.CategoryDto;
 import com.filmweb.dto.VideoDto;
 import com.filmweb.entity.Video;
@@ -16,6 +18,7 @@ import jakarta.ws.rs.*;
 
 import java.text.DecimalFormat;
 import java.util.List;
+import java.util.UUID;
 
 @ApplicationScoped
 @Controller
@@ -87,18 +90,26 @@ public class VideoController {
     public String postVideoAdd(
             @FormParam("title") String title,
             @FormParam("href") String href,
-            @FormParam("poster") String poster,
             @FormParam("director") String director,
             @FormParam("actor") String actor,
-            @FormParam("category") String categoryCode,
+            @FormParam("categoryId") UUID categoryId,
             @FormParam("description") String description,
             @FormParam("price") String formattedPrice
     ) {
-        VideoDto video = videoService.findByHref(href);
+        var video = videoService.findByHref(href);
 
         if (video == null) {
-            Video v = videoService.create(title, href, poster, director, actor, categoryCode, description, formattedPrice);
+            var v = videoService.createNewVideo(VideoCreationPayload.builder()
+                        .title(title)
+                        .href(href)
+                        .director(director)
+                        .actor(actor)
+                        .categoryId(categoryId)
+                        .description(description)
+                        .formattedPrice(formattedPrice)
+                        .build());
             if(v != null){
+                // TODO: use function
                 session.setAttribute("addVideoSuccess", true);
             }
         } else {
@@ -108,14 +119,14 @@ public class VideoController {
     }
 
     @GET
-    @Path("/video/edit")
+    @Path("/video/edit/{id}")
     public String getVideoEdit(
-            @QueryParam("v") String href
+            @PathParam("id") UUID id
     ) {
         List<CategoryDto> categories = categoryService.findAll();
         models.put("categories", categories);
 
-        VideoDto videoDto = videoService.findByHref(href);
+        VideoDto videoDto = videoService.findById(id);
         long price = videoDto.getPrice();
         DecimalFormat decimalFormat = new DecimalFormat("#.###");
         String formattedPrice = decimalFormat.format(price);
@@ -124,20 +135,31 @@ public class VideoController {
         models.put("video", videoDto);
         return "admin/video-edit.jsp";
     }
+    
     @POST
-    @Path("/video/edit")
+    @Path("/video/edit/{id}")
     public String postVideoEdit(
+            @PathParam("id") UUID id,
             @FormParam("title") String title,
+            // TODO: can update href because now use id
             @FormParam("href") String href,
             @FormParam("director") String director,
             @FormParam("actor") String actor,
-            @FormParam("category") String category,
-            @FormParam("heading") String heading,
+            @FormParam("categorySlug") String categorySlug,
             @FormParam("price") String formattedPrice,
             @FormParam("description") String description
     ) {
-
-        VideoDto videoDto = videoService.update(title, href, director, actor, category, heading, formattedPrice, description);
+        VideoDto videoDto = videoService.updateVideo(
+            VideoUpdatePayload.builder()
+                .id(id)
+                .title(title)
+                .director(director)
+                .actor(actor)
+                .categorySlug(categorySlug)
+                .formattedPrice(formattedPrice)
+                .description(description)
+                .build());
+        
         if(videoDto != null){
             session.setAttribute("updateVideoSuccess", true);
             return "redirect:admin/videos";

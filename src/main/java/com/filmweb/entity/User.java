@@ -1,5 +1,6 @@
 package com.filmweb.entity;
 
+import com.filmweb.domain.user.UserRegistrationType;
 import com.filmweb.domain.user.UserType;
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
@@ -33,6 +34,10 @@ public class User {
     @Column(length = 20) @JdbcType(VarcharJdbcType.class)
     @Enumerated(EnumType.STRING)
     private UserType type;
+    
+    @Column(name = "registration_type", length = 10) @JdbcType(VarcharJdbcType.class)
+    @Enumerated(EnumType.STRING)
+    private UserRegistrationType registrationType;
 
     @Column(name = "full_name", length = 50) @JdbcType(NVarcharJdbcType.class)
     private String fullName;

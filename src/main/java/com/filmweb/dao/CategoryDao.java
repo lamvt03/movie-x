@@ -3,6 +3,7 @@ package com.filmweb.dao;
 import com.filmweb.entity.Category;
 
 import java.util.List;
+import java.util.UUID;
 
 public interface CategoryDao {
     List<Category> findAll();
@@ -17,6 +18,6 @@ public interface CategoryDao {
 
     long count();
 
-    Category findById(long categoryId);
+    Category findById(UUID id);
     Category findByOrdinal(long ordinal);
 }

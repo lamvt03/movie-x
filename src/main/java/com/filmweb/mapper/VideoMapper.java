@@ -29,7 +29,7 @@ public class VideoMapper {
                 .categorySlug(entity.getCategory().getSlug())
                 .description(entity.getDescription())
                 .price(entity.getPrice())
-                .formattedPrice(PriceFormatUtils.formatPrice(entity.getPrice()))
+                .formattedPrice(PriceFormatUtils.toFomattedString(entity.getPrice()))
                 .isActive(entity.getIsActive())
                 .createdAt(entity.getCreatedAt())
                 .likeQuantity(

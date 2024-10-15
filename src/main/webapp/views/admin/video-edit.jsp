@@ -40,7 +40,7 @@
                     <h5 class="card-title fw-semibold mb-4 mt-2">Chỉnh Sửa Phim</h5>
                     <div class="card">
                         <div class="card-body">
-                            <form id="ConfirmEditForm" action="${initParam.mvcPath}/admin/video/edit"
+                            <form id="ConfirmEditForm" action="${initParam.mvcPath}/admin/video/edit/${video.id}"
                                   onsubmit="return editVideo()" method="post">
 
                                 <div class="mb-3">
@@ -50,7 +50,7 @@
                                 </div>
                                 <fieldset>
                                     <div class="mb-3">
-                                        <label class="form-label">Link phim</label> <input
+                                        <label class="form-label">Href phim</label> <input
                                             type="text" class="form-control" value="${video.href}"
                                             name="href" readonly>
                                     </div>
@@ -67,14 +67,14 @@
                                 </div>
                                 <div class="mb-3">
                                     <label for="category" class="form-label">Thể loại</label>
-                                    <select id="category" class="form-select" name="category">
+                                    <select id="category" class="form-select" name="categorySlug">
                                     <option value="${video.categorySlug}" selected hidden>
                                         ${video.category}
                                     </option>
-
+<%--                                        TODO: use category id instead --%>
                                     <jsp:useBean id="categories" scope="request" type="java.util.List"/>
                                     <c:forEach items="${categories}" var="category">
-                                        <option value="${category.code}">${category.name}</option>
+                                        <option value="${category.slug}">${category.name}</option>
                                     </c:forEach>
                                 </select>
                                 </div>

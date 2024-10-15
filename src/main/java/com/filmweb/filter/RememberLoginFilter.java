@@ -2,6 +2,7 @@ package com.filmweb.filter;
 
 import com.filmweb.constant.CookieConstant;
 import com.filmweb.constant.SessionConstant;
+import com.filmweb.service.CategoryService;
 import com.filmweb.service.UserService;
 import com.filmweb.service.JwtService;
 import jakarta.inject.Inject;
@@ -25,6 +26,7 @@ public class RememberLoginFilter implements Filter {
 
     @Override
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
+        
         HttpServletRequest req = (HttpServletRequest) servletRequest;
 
         // If the user is already logged in, do nothing

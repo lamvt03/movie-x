@@ -14,10 +14,14 @@ public class PriceFormatUtils {
     currency = Currency.getInstance("VND");
   }
   
-  public static String formatPrice(long price) {
+  public static String toFomattedString(long price) {
     var formatter = NumberFormat.getCurrencyInstance(locale);
     formatter.setCurrency(currency);
     
     return formatter.format(price);
+  }
+  
+  public static Long toNumber(String formattedPrice) {
+    return Long.parseLong(formattedPrice.replace(".", ""));
   }
 }

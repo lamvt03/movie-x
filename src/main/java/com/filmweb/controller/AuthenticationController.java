@@ -1,9 +1,11 @@
 package com.filmweb.controller;
 
 import static com.filmweb.constant.SessionConstant.CURRENT_USER;
+import static com.filmweb.domain.user.UserRegistrationType.INTERNAL;
 import static com.filmweb.utils.AlertUtils.buildDialogSuccessMessage;
 
 import com.filmweb.constant.SessionConstant;
+import com.filmweb.domain.user.UserRegistrationType;
 import com.filmweb.dto.UserDto;
 import com.filmweb.service.OtpService;
 import com.filmweb.service.UserService;
@@ -182,7 +184,7 @@ public class AuthenticationController {
 
   @GET
   @Path("/password/change")
-  public String getChangePassword(){
+  public String getChangePassword() {
     UserDto userDto = (UserDto) session.getAttribute(CURRENT_USER);
     models.put("user", userDto);
     return "user/change-password.jsp";

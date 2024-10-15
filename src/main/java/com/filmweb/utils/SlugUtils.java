@@ -16,7 +16,7 @@ public class SlugUtils {
     return slug;
   }
   
-  private static String generateSlug(String name) {
+  public static String generateSlug(String name) {
     String slug = name.trim().toLowerCase();
     
     slug = Normalizer.normalize(slug, Normalizer.Form.NFC);

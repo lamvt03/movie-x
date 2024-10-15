@@ -1,5 +1,6 @@
 package com.filmweb.dto;
 
+import com.filmweb.domain.user.UserRegistrationType;
 import com.filmweb.domain.user.UserType;
 import java.util.UUID;
 import lombok.AllArgsConstructor;
@@ -15,6 +16,7 @@ public class UserDto{
     private String email;
     private String phone;
     private UserType type;
+    private UserRegistrationType registrationType;
     private String fullName;
     private Boolean isActive;
     private Boolean isAdmin;

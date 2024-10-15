@@ -64,14 +64,14 @@
                                 </div>
                                 <div class="mb-3">
                                     <label for="category" class="form-label">Thể loại</label>
-                                    <select id="category" class="form-select" name="category">
+                                    <select id="category" class="form-select" name="categoryId">
                                         <option value="none" selected disabled hidden>
                                             --Chọn thể loại--
                                         </option>
 
                                         <jsp:useBean id="categories" scope="request" type="java.util.List"/>
                                         <c:forEach items="${categories}" var="category">
-                                            <option value="${category.code}">${category.name}</option>
+                                            <option value="${category.id}">${category.name}</option>
                                         </c:forEach>
                                     </select>
 
@@ -109,6 +109,8 @@
 <%@ include file="/views/admin/common/footer.jsp" %>
 
 <script type="text/javascript">
+
+    // TODO: delete, generate poster by Java code
     function fillHrefOnPoster() {
         var href = document.getElementById("link-phim").value;
         var poster = document.getElementById("poster");

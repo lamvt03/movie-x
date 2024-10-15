@@ -11,6 +11,7 @@ import jakarta.servlet.http.HttpSession;
 import jakarta.ws.rs.*;
 
 import java.util.List;
+import java.util.UUID;
 
 @ApplicationScoped
 @Controller
@@ -58,22 +59,25 @@ public class CategoryController {
     }
 
     @GET
-    @Path("/category/edit")
+    @Path("/category/edit/{id}")
     public String getEditCategory(
-            @QueryParam(value = "code") String code
+            @PathParam("id") UUID id
     ){
-        Category category = categoryService.findBySlug(code);
+        Category category = categoryService.findById(id);
         models.put("category", category);
         return "admin/category-edit.jsp";
     }
 
     @POST
-    @Path("/category/edit")
+    @Path("/category/edit/{id}")
     public String postEditCategory(
+            @PathParam("id") UUID id,
             @FormParam("name") String name,
+            
+            // TODO: delete
             @FormParam("code") String code
     ){
-        categoryService.update(name, code);
+        categoryService.update(id, name);
         session.setAttribute("updateCategorySuccess", true);
         return "redirect:admin/categories";
     }

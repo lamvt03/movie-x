@@ -72,7 +72,7 @@
                                             <td>
                                                 <div class="btn-group" role="group">
                                                     <a
-                                                            href="${initParam.mvcPath}/admin/video/edit?v=${video.href}"
+                                                            href="${initParam.mvcPath}/admin/video/edit/${video.id}"
                                                             class="btn btn-primary ms-2 rounded-2"
                                                     >
                                                         Sửa

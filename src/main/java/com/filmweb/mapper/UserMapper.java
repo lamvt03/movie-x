@@ -7,6 +7,7 @@ import jakarta.enterprise.context.ApplicationScoped;
 
 @ApplicationScoped
 public class UserMapper {
+    private static final String PHONE_NOT_UPDATE_MESSAGE = "Chưa cập nhật";
 
     public UserDto toDto(User entity){
         
@@ -17,8 +18,9 @@ public class UserMapper {
         return UserDto.builder()
             .id(entity.getId())
             .email(entity.getEmail())
-            .phone(entity.getPhone())
+            .phone(entity.getPhone() != null ? entity.getPhone() : PHONE_NOT_UPDATE_MESSAGE)
             .type(entity.getType())
+            .registrationType(entity.getRegistrationType())
             .fullName(entity.getFullName())
             .isActive(entity.getIsActive())
             .isAdmin(entity.getIsAdmin())
@@ -37,7 +39,7 @@ public class UserMapper {
         return new TopUserDto(
                 entity.getId(),
                 entity.getEmail(),
-                entity.getPhone(),
+                entity.getPhone() != null ? entity.getPhone() : PHONE_NOT_UPDATE_MESSAGE,
                 entity.getFullName(),
                 entity.getIsActive(),
                 entity.getIsAdmin(),

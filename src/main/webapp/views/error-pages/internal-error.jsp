@@ -61,13 +61,10 @@
             <div class="col-sm-12">
                 <div class="col-sm-12 col-sm-offset-1 text-center">
                     <div class="four_zero_four_bg">
-                        <h1 class="text-center fw-bold">500</h1>
                     </div>
 
                     <div class="content_box_404">
-                        <h3 class="h2 fw-bold">Opps... Hỏng Rồi !!!</h3>
-
-                        <p class="fw-bold">Server Không Khả Dụng !</p>
+                        <h3 class="h2 fw-bold">Đã xảy ra lỗi. Vui lòng quay về trang chủ</h3>
 
                         <a href="${initParam.mvcPath}/home" class="text-decoration-none fw-bold link_404">Quay Về Trang Chủ</a>
                     </div>

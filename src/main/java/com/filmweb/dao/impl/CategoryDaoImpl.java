@@ -6,6 +6,7 @@ import com.filmweb.entity.Category;
 import jakarta.enterprise.context.ApplicationScoped;
 
 import java.util.List;
+import java.util.UUID;
 
 @ApplicationScoped
 public class CategoryDaoImpl extends AbstractDao<Category> implements CategoryDao {
@@ -26,8 +27,8 @@ public class CategoryDaoImpl extends AbstractDao<Category> implements CategoryDa
     }
 
     @Override
-    public Category findById(long categoryId) {
-        return super.findById(Category.class, categoryId);
+    public Category findById(UUID id) {
+        return super.findById(Category.class, id);
     }
     
     @Override
