@@ -46,7 +46,7 @@ public class VideoController {
         VideoDto video = videoService.findBySlug(slug);
         models.put("video", video);
 
-        List<VideoDto> relatedVideos = videoService.findByCategorySlug(video.getSlug(), 1, 3);
+        List<VideoDto> relatedVideos = videoService.findByCategorySlug(video.getCategorySlug(), 1, 3);
         models.put("relatedVideos", relatedVideos);
 
         List<CommentDto> comments = commentService.findByVideoId(video.getId(), 1, 3);
