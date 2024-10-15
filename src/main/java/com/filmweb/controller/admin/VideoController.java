@@ -2,11 +2,10 @@ package com.filmweb.controller.admin;
 
 import com.filmweb.constant.AppConstant;
 import com.filmweb.constant.SessionConstant;
-import com.filmweb.domain.video.VideoCreationPayload;
-import com.filmweb.domain.video.VideoUpdatePayload;
+import com.filmweb.domain.video.payload.VideoCreationPayload;
+import com.filmweb.domain.video.payload.VideoUpdatePayload;
 import com.filmweb.dto.CategoryDto;
 import com.filmweb.dto.VideoDto;
-import com.filmweb.entity.Video;
 import com.filmweb.service.CategoryService;
 import com.filmweb.service.VideoService;
 import jakarta.enterprise.context.ApplicationScoped;

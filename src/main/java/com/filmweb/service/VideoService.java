@@ -5,9 +5,8 @@ import static com.filmweb.domain.video.VideoPaymentType.PAID;
 
 import com.filmweb.dao.CategoryDao;
 import com.filmweb.dao.VideoDao;
-import com.filmweb.domain.video.VideoCreationPayload;
-import com.filmweb.domain.video.VideoPaymentType;
-import com.filmweb.domain.video.VideoUpdatePayload;
+import com.filmweb.domain.video.payload.VideoCreationPayload;
+import com.filmweb.domain.video.payload.VideoUpdatePayload;
 import com.filmweb.dto.VideoDto;
 import com.filmweb.entity.Category;
 import com.filmweb.entity.Video;
@@ -18,7 +17,6 @@ import com.filmweb.utils.SlugUtils;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import java.security.SecureRandom;
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
