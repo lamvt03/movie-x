@@ -22,5 +22,5 @@
 <link rel="stylesheet" href="${pageContext.request.contextPath}/views/user/assets/css/slicknav.min.css" type="text/css">
 <link rel="stylesheet" href="${pageContext.request.contextPath}/views/user/assets/css/plyr.min.css" type="text/css">
 <link rel="stylesheet" href="${pageContext.request.contextPath}/views/user/assets/css/owl.carousel.min.css" type="text/css">
-<link rel="stylesheet" href="${pageContext.request.contextPath}/views/user/assets/css/style.min.css" type="text/css">
+<link rel="stylesheet" href="${pageContext.request.contextPath}/views/user/assets/css/style.css" type="text/css">
 

@@ -46,14 +46,13 @@ public class VideoController {
         VideoDto video = videoService.findBySlug(slug);
         models.put("video", video);
 
-        List<VideoDto> relatedVideos = videoService.findByCategoryCode(video.getCategoryCode(), 1, 3);
+        List<VideoDto> relatedVideos = videoService.findByCategorySlug(video.getCategorySlug(), 1, 3);
         models.put("relatedVideos", relatedVideos);
 
         List<CommentDto> comments = commentService.findByVideoId(video.getId(), 1, 3);
         models.put("comments", comments);
         
-        // TODO: get with slug
-        int lastPage = commentService.getLastPageByVideoHref(slug, 3);
+        int lastPage = commentService.getLastPageByVideoHref(video.getHref(), 3);
         models.put("lastPage", lastPage);
         if(video.getPrice() > 0){
             if(userDto == null){
@@ -77,13 +76,12 @@ public class VideoController {
         VideoDto video = videoService.findBySlug(slug);
         models.put("video", video);
 
-        List<VideoDto> relatedVideos = videoService.findByCategoryCode(video.getCategoryCode(), 1, 3);
+        List<VideoDto> relatedVideos = videoService.findByCategorySlug(video.getCategorySlug(), 1, 3);
         models.put("relatedVideos", relatedVideos);
 
         List<CommentDto> comments = commentService.findByVideoId(video.getId(), 1, 3);
         models.put("comments", comments);
         
-        // TODO:
         int lastPage = commentService.getLastPageByVideoHref(slug, 3);
         models.put("lastPage", lastPage);
 
@@ -115,7 +113,7 @@ public class VideoController {
                 models.put("checkedAttribute2", "");
                 models.put("checkedAttribute1", "");
             }
-            History history = historyService.create(userDto.getId(), video.getId());
+            History history = historyService.createNewHistory(userDto.getId(), video.getId());
             models.put("flagLikeButton", history.getIsLiked());
         }
         return "user/video-detail.jsp";

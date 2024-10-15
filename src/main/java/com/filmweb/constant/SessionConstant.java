@@ -7,4 +7,5 @@ public class SessionConstant {
     public static final String PREV_PAGE_URL = "PREV_PAGE_URL";
     public static final String VERIFIED_EMAIL = "VERIFIED_EMAIL";
     public static final String PATH_INFO = "pathInfo";
+    public static final String CATEGORY_LIST = "categories";
 }

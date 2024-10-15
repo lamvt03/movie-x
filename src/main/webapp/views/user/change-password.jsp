@@ -1,3 +1,4 @@
+
 <%--
   Created by IntelliJ IDEA.
   User: Asus
@@ -7,9 +8,7 @@
 --%>
 <%@ page contentType="text/html; charset=UTF-8" language="java" %>
 
-<jsp:useBean id="email" scope="request" type="java.lang.String"/>
-<jsp:useBean id="fullName" scope="request" type="java.lang.String"/>
-<jsp:useBean id="phone" scope="request" type="java.lang.String"/>
+<jsp:useBean id="user" scope="request" type="com.filmweb.dto.UserDto"/>
 
 <html lang="en">
 <head>
@@ -18,8 +17,6 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>${initParam.websiteName} - Đổi Mật Khẩu</title>
     <%@ include file="/views/user/common/head.jsp" %>
-<%--    <link rel="stylesheet"--%>
-<%--          href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">--%>
 </head>
 <body>
 <%@ include file="/views/user/common/header.jsp" %>
@@ -32,7 +29,7 @@
             <div class="col-lg-12 text-center">
                 <div class="normal__breadcrumb__text">
                     <h2>Trang cá nhân</h2>
-                    <p>Chào mừng bạn đến với website chính thức của MOVIE W3B</p>
+                    <p>Chào mừng bạn đến với website chính thức của MOVIE X</p>
                 </div>
             </div>
         </div>
@@ -48,16 +45,13 @@
         <div class="col-12 col-md-3 col-lg-3">
 
             <div class="img-profile">
-
-                <img src="${pageContext.request.contextPath}/views/user/assets/img/default-avt.jpg"
-                     class="img-fluid">
-
+                <img src="${user.image}" class="rounded-top img-fluid" />
             </div>
 
             <div class="link-profile">
 
-                <h6 class="text-secondary text-center mb-2">${fullName}</h6>
-                <h6 class="text-secondary text-center mb-2">${email}</h6>
+                <h6 class="text-secondary text-center mb-2">${user.fullName}</h6>
+                <h6 class="text-secondary text-center mb-2">${user.email}</h6>
                 <h6 class="text-secondary text-center">
                     <img src="${pageContext.request.contextPath}/views/user/assets/img/vn.png" class="img-fluid"
                          width="20px" alt=""> Việt Nam
@@ -70,20 +64,6 @@
         <div class="col-12 col-md-9 col-lg-9">
 
             <div class="profile-name">
-
-                <div class="row">
-
-                    <div class="col-6 col-md-8 col-lg-9">
-
-							<span> <a style="color: #D14A2D;" href="${initParam.mvcPath}/profile/edit"
-                                      class="fs-6 text-decoration-none font-weight-bold">
-									<i class="bi bi-chevron-left"></i> Quay về
-							</a>
-							</span>
-
-                    </div>
-
-                </div>
 
                 <hr class="text-dark">
 
@@ -105,7 +85,7 @@
                             <fieldset disabled>
                                 <div class="mb-4">
                                     <input type="text" class="form-control disable"
-                                           value="${email}" placeholder="username" />
+                                           value="${user.email}" placeholder="username" />
                                 </div>
                             </fieldset>
 

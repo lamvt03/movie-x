@@ -50,7 +50,7 @@
                                     <tr>
                                         <th scope="col">STT</th>
                                         <th scope="col">Thể loại</th>
-                                        <th scope="col">Thời điểm tạo </th>
+                                        <th scope="col">Slug</th>
                                         <th scope="col">Hành động</th>
                                     </tr>
                                     </thead>
@@ -61,21 +61,18 @@
                                         <tr>
                                             <td scope="row">${loop.index + 1}</td>
                                             <td>${category.name}</td>
-
-                                            <fmt:formatDate value="${category.createdAt}" pattern="hh:mm:ss dd-MM-yyyy"
-                                                            var="formattedDate"/>
-                                            <td>${formattedDate}</td>
+                                            <td>${category.slug}</td>
                                             <td>
                                                 <div class="btn-group" role="group">
                                                     <a class="btn btn-primary ms-2 rounded-2"
                                                        onclick=""
-                                                       href="${initParam.mvcPath}/admin/category/edit?code=${category.code}"
+                                                       href="${initParam.mvcPath}/admin/category/edit/${category.id}"
                                                     >
                                                         Sửa
                                                     </a>
-                                                    <button class="btn btn-danger ms-2 rounded-2"
-                                                            onclick="submitDeleteForm()">Xoá
-                                                    </button>
+<%--                                                    <button class="btn btn-danger ms-2 rounded-2"--%>
+<%--                                                            onclick="submitDeleteForm()">Xoá--%>
+<%--                                                    </button>--%>
                                                 </div>
                                             </td>
                                         </tr>
@@ -83,9 +80,8 @@
 
                                         <form id="delete-category-form"
                                               action="${initParam.mvcPath}/admin/category/delete" method="post">
-                                            <input type="hidden" name="code" value="${category.code}">
+                                            <input type="hidden" name="code" value="${category.slug}">
                                         </form>
-
                                     </c:forEach>
 
                                     </tbody>
@@ -125,7 +121,7 @@
     <c:choose>
         <c:when test="${sessionScope.updateCategorySuccess}">
             <script>
-                showCenterAlert('success', 'Thông báo', 'Chỉnh sửa phim thành công');
+                showCenterAlert('success', 'Thông báo', 'Chỉnh sửa thể loại phim thành công');
             </script>
         </c:when>
     </c:choose>

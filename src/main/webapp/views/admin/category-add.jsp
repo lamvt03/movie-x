@@ -45,9 +45,10 @@
                                 <div class="mb-3">
                                     <label for="name" class="form-label">Tên thể loại</label> <input
                                         type="text" class="form-control" name="name" id="name"
-                                        placeholder="Nhập tên phim">
+                                        placeholder="Nhập tên thể loại">
                                 </div>
                                 <div class="mb-3">
+<%--                                    TODO: delete--%>
                                     <label for="code" class="form-label">Code phim</label> <input
                                         type="text" class="form-control bg-dark-light text-white" name="code" id="code"
                                         placeholder="Code thể loại" readonly>

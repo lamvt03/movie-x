@@ -1,40 +1,43 @@
 package com.filmweb.entity;
 
 import jakarta.persistence.*;
+import java.time.LocalDateTime;
+import java.util.UUID;
 import lombok.*;
 
 import java.sql.Timestamp;
+import org.hibernate.annotations.JdbcType;
+import org.hibernate.type.descriptor.jdbc.BigIntJdbcType;
+import org.hibernate.type.descriptor.jdbc.NCharJdbcType;
+import org.hibernate.type.descriptor.jdbc.TimestampJdbcType;
+import org.hibernate.type.descriptor.jdbc.VarcharJdbcType;
 
-@NoArgsConstructor
-@AllArgsConstructor
-@Getter
-@Setter
-@Builder
-@Entity
-@Table(name = "orders")
+@Getter @Setter @Builder @NoArgsConstructor @AllArgsConstructor
+@Entity @Table(name = "orders")
 public class Order {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-
-    @Column(columnDefinition = "nchar(8)")
+    
+    @Id @GeneratedValue @JdbcType(VarcharJdbcType.class)
+    private UUID id;
+    
+    @Column(length = 8) @JdbcType(NCharJdbcType.class)
     private String vnp_TxnRef;
-
-    @Column(columnDefinition = "nchar(30)")
+    
+    @Column(length = 30) @JdbcType(NCharJdbcType.class)
     private String vnp_OrderInfo;
-
-    @Column(columnDefinition = "nchar(2)")
+    
+    @Column(length = 2) @JdbcType(NCharJdbcType.class)
     private String vnp_ResponseCode;
-
-    @Column(columnDefinition = "nchar(8)")
+    
+    @Column(length = 8) @JdbcType(NCharJdbcType.class)
     private String vnp_TransactionNo;
-
-    @Column(columnDefinition = "nchar(20)")
+    
+    @Column(length = 20) @JdbcType(NCharJdbcType.class)
     private String vnp_BankCode;
-
+    
+    @JdbcType(BigIntJdbcType.class)
     private Long vnp_Amount;
-
-    @Column(columnDefinition = "datetime")
+    
+    @JdbcType(TimestampJdbcType.class)
     private Timestamp vnp_PayDate;
 
     @ManyToOne(cascade = CascadeType.MERGE)
@@ -44,4 +47,13 @@ public class Order {
     @ManyToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     private User user;
+    
+    /* Audit field */
+    @Column(name = "created_at") @JdbcType(TimestampJdbcType.class)
+    private LocalDateTime createdAt;
+   
+    @PrePersist
+    public void onPrePersist() {
+        this.createdAt = LocalDateTime.now();
+    }
 }

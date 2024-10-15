@@ -6,6 +6,7 @@ import com.filmweb.entity.Comment;
 import jakarta.enterprise.context.ApplicationScoped;
 
 import java.util.List;
+import java.util.UUID;
 
 @ApplicationScoped
 public class CommentDaoImpl extends AbstractDao<Comment> implements CommentDao {
@@ -16,7 +17,7 @@ public class CommentDaoImpl extends AbstractDao<Comment> implements CommentDao {
     }
 
     @Override
-    public List<Comment> findByVideoId(Long videoId, int page, int limit) {
+    public List<Comment> findByVideoId(UUID videoId, int page, int limit) {
         String jpql = "SELECT o FROM Comment o WHERE o.video.id= ?1 AND o.video.isActive = 1 ORDER BY o.createdAt DESC";
         return super.findMany(Comment.class,page, limit, jpql, videoId);
     }

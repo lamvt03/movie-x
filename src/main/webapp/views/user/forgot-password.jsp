@@ -109,22 +109,6 @@
         return true;
     }
 </script>
-<c:if test="${not empty sessionScope.existEmail}">
-    <c:if test="${sessionScope.existEmail}">
-        <script>
-            showCenterAlert('error', 'Thất bại', 'Email không tồn tại trong cơ sở dữ liệu');
-        </script>
-    </c:if>
-    <c:remove var="existEmail" scope="session"/>
-</c:if>
-<c:if test="${not empty sessionScope.userFalse}">
-    <c:if test="${sessionScope.userFalse}">
-        <script>
-            showCenterAlert('error', 'Thất bại', 'Email không hoạt động vui lòng liên hệ admin');
-        </script>
-    </c:if>
-    <c:remove var="userFalse" scope="session"/>
-</c:if>
 
 </body>
 </html>

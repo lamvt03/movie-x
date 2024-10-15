@@ -6,6 +6,7 @@ import com.filmweb.entity.History;
 import jakarta.enterprise.context.ApplicationScoped;
 
 import java.util.List;
+import java.util.UUID;
 
 @ApplicationScoped
 public class HistoryDaoImpl extends AbstractDao<History> implements HistoryDao{
@@ -30,7 +31,7 @@ public class HistoryDaoImpl extends AbstractDao<History> implements HistoryDao{
     }
 
     @Override
-    public History findByUserIdAndVideoId(Long userId, Long videoId) {
+    public History findByUserIdAndVideoId(UUID userId, UUID videoId) {
         String jpql = "SELECT o FROM History o WHERE o.user.id = ?1 AND o.video.id = ?2 AND o.video.isActive = 1";
         return super.findOne(History.class, jpql, userId, videoId);
     }

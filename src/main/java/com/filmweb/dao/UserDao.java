@@ -3,10 +3,10 @@ package com.filmweb.dao;
 import com.filmweb.entity.User;
 
 import java.util.List;
-import java.util.Map;
+import java.util.UUID;
 
 public interface UserDao {
-    User findById(Long id);
+    User findById(UUID id);
 
     User findByEmail(String email);
 

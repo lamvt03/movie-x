@@ -2,24 +2,23 @@ package com.filmweb.mapper;
 
 import com.filmweb.dto.CommentDto;
 import com.filmweb.entity.Comment;
-import com.filmweb.entity.User;
-import com.filmweb.utils.TimeFormatter;
+import com.filmweb.utils.TimeFormatUtils;
 import jakarta.enterprise.context.ApplicationScoped;
-import jakarta.inject.Inject;
 
 @ApplicationScoped
 public class CommentMapper {
-    @Inject
-    private TimeFormatter timeFormatter;
 
     public CommentDto toDto(Comment entity){
-        String timeAgo = timeFormatter.getTimeAgoString(entity.getCreatedAt());
-        User user = entity.getUser();
-        return new CommentDto(
-                entity.getContent(),
-                timeAgo,
-                user.getFullName(),
-                user.getImage()
-        );
+        
+        if (entity == null) {
+            return null;
+        }
+        
+        return CommentDto.builder()
+            .content(entity.getContent())
+            .timeAgo(TimeFormatUtils.getTimeAgoString(entity.getCreatedAt()))
+            .createdBy(entity.getUser().getFullName())
+            .userImage(entity.getUser().getImage())
+            .build();
     }
 }

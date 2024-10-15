@@ -1,29 +1,30 @@
 package com.filmweb.entity;
 
 import jakarta.persistence.*;
+import java.util.UUID;
 import lombok.*;
 
 import java.time.LocalDateTime;
+import org.hibernate.annotations.JdbcType;
+import org.hibernate.type.descriptor.jdbc.BooleanJdbcType;
+import org.hibernate.type.descriptor.jdbc.TimestampJdbcType;
+import org.hibernate.type.descriptor.jdbc.VarcharJdbcType;
 
-@NoArgsConstructor
-@AllArgsConstructor
-@Builder
-@Getter
-@Setter
-@Entity
-@Table(name = "histories")
+@Getter @Setter @Builder @NoArgsConstructor @AllArgsConstructor
+@Entity @Table(name = "histories")
 public class History {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    
+    @Id @GeneratedValue @JdbcType(VarcharJdbcType.class)
+    private UUID id;
 
     @Column(name = "is_liked")
+    // @JdbcType(BooleanJdbcType.class)
     private Boolean isLiked;
 
-    @Column(name = "viewed_at")
+    @Column(name = "viewed_at") @JdbcType(TimestampJdbcType.class)
     private LocalDateTime viewedAt;
 
-    @Column(name = "liked_at")
+    @Column(name = "liked_at") @JdbcType(TimestampJdbcType.class)
     private LocalDateTime likedAt;
 
     @ManyToOne(cascade = CascadeType.MERGE)

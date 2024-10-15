@@ -1,6 +1,10 @@
 package com.filmweb.filter;
 
+import static com.filmweb.constant.SessionConstant.CATEGORY_LIST;
+
 import com.filmweb.constant.SessionConstant;
+import com.filmweb.service.CategoryService;
+import jakarta.inject.Inject;
 import jakarta.servlet.*;
 import jakarta.servlet.annotation.WebFilter;
 import jakarta.servlet.http.HttpServletRequest;
@@ -10,19 +14,24 @@ import java.io.IOException;
 
 @WebFilter("/movie-x/*")
 public class PrevPageRedirectFilter implements Filter {
-
+    
     private final String[] BLACK_LIST = {
             "/login",
             "/logout",
             "/register",
+            "/payment",
+            "/profile",
+            "/history",
+            "/favorite",
             "/password",
             "/otp",
             "/verify",
-            "/profile",
-            "/payment",
             "/api",
             "/admin/video/"
     };
+    
+    @Inject
+    private CategoryService categoryService;
 
     @Override
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
@@ -30,6 +39,8 @@ public class PrevPageRedirectFilter implements Filter {
 
 
         HttpSession session = httpRequest.getSession(true);
+        
+        session.setAttribute(CATEGORY_LIST, categoryService.findAll());
 
         //store request path info to paginate
         String pathInFo = httpRequest.getPathInfo();
@@ -46,9 +57,6 @@ public class PrevPageRedirectFilter implements Filter {
         filterChain.doFilter(servletRequest, servletResponse);
 
     }
-//    private boolean isResourceRequest(String requestURI) {
-//        return requestURI.endsWith(".css") || requestURI.endsWith(".js") || requestURI.endsWith(".png") || requestURI.endsWith(".jpg");
-//    }
 
     private boolean isValidRequestURI(String requestURI){
         for(String pattern: BLACK_LIST){

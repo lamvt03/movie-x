@@ -6,6 +6,7 @@ import com.filmweb.entity.Category;
 import jakarta.enterprise.context.ApplicationScoped;
 
 import java.util.List;
+import java.util.UUID;
 
 @ApplicationScoped
 public class CategoryDaoImpl extends AbstractDao<Category> implements CategoryDao {
@@ -15,9 +16,9 @@ public class CategoryDaoImpl extends AbstractDao<Category> implements CategoryDa
     }
 
     @Override
-    public Category findByCode(String code) {
-        String jpql = "SELECT c from Category c WHERE c.code = ?1";
-        return super.findOne(Category.class, jpql, code);
+    public Category findBySlug(String slug) {
+        String jpql = "SELECT c from Category c WHERE c.slug = ?1";
+        return super.findOne(Category.class, jpql, slug);
     }
 
     @Override
@@ -26,7 +27,13 @@ public class CategoryDaoImpl extends AbstractDao<Category> implements CategoryDa
     }
 
     @Override
-    public Category findById(long categoryId) {
-        return super.findById(Category.class, categoryId);
+    public Category findById(UUID id) {
+        return super.findById(Category.class, id);
+    }
+    
+    @Override
+    public Category findByOrdinal(long ordinal) {
+        String jpql = "SELECT c from Category c WHERE c.ordinal = ?1";
+        return super.findOne(Category.class, jpql, ordinal);
     }
 }

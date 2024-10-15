@@ -1,51 +1,41 @@
 package com.filmweb.dto;
 
+import com.filmweb.domain.video.VideoPaymentType;
 import com.filmweb.entity.Comment;
 import com.filmweb.entity.Order;
 import jakarta.persistence.*;
+import java.util.UUID;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.List;
+import lombok.Value;
 
-@NoArgsConstructor
-@AllArgsConstructor
-@Getter
+@Value
+@Builder
 public class VideoDto {
-    private Long id;
-
-    private String title;
-    private String slug;
-
-    private String href;
-
-    private String poster;
-
-    private Integer views;
-
-    private Integer share;
-
-    private String director;
-
-    private String actor;
-
-    private String category;
-    private String categoryCode;
-
-    private String description;
-
-    private Long price;
-
-    private Boolean isActive;
-
-    private LocalDateTime createdAt;
-
-    private Integer likeQuantity;
-
-    private Integer commentQuantity;
-
-    private String timeAgo;
+    UUID id;
+    String title;
+    String slug;
+    String href;
+    String poster;
+    VideoPaymentType paymentType;
+    Integer views;
+    Integer share;
+    String director;
+    String actor;
+    String category;
+    String categorySlug;
+    String description;
+    Long price;
+    String formattedPrice;
+    Boolean isActive;
+    LocalDateTime createdAt;
+    Integer likeQuantity;
+    Integer commentQuantity;
+    String timeAgo;
 }

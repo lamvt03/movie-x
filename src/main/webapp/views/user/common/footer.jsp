@@ -79,34 +79,23 @@
 <script type="text/javascript" src="${pageContext.request.contextPath}/views/user/assets/js/custom.js"></script>
 <script type="text/javascript" src="${pageContext.request.contextPath}/views/user/assets/js/validateUser.js"></script>
 
-<!-- đăng nhập thành công -->
-<c:if test="${not empty sessionScope.loginSuccess}">
-    <c:choose>
-        <c:when test="${sessionScope.loginSuccess}">
-            <script>
-                showTopEndAlert('success', 'Đăng nhập thành công');
-            </script>
-        </c:when>
-        <c:otherwise>
-            <script>
-                showTopEndAlert('error', 'Tên tài khoản hoặc mật khẩu không chính xác');
-            </script>
-        </c:otherwise>
-    </c:choose>
-    <c:remove var="loginSuccess" scope="session" />
+<c:if test="${not empty sessionScope.toastMessage}">
+
+    <script>
+        showTopEndAlert('${sessionScope.toastIcon}', '${sessionScope.toastMessage}');
+    </script>
+
+    <c:remove var="toastIcon" scope="session"/>
+    <c:remove var="toastMessage" scope="session"/>
 </c:if>
 
+<c:if test="${not empty sessionScope.dialogMessage}">
 
-<c:if test="${not empty sessionScope.emailNotVerified}">
-    <c:if test="${sessionScope.emailNotVerified}">
-        <script>
-            showTopEndAlert('warning', 'Tài khoản chưa được xác minh email');
-        </script>
-    </c:if>
-    <c:remove var="emailNotVerified" scope="session"/>
+    <script>
+        showCenterAlert('${sessionScope.dialogIcon}', '${sessionScope.dialogTitle}' ,'${sessionScope.dialogMessage}');
+    </script>
+
+    <c:remove var="dialogIcon" scope="session"/>
+    <c:remove var="dialogTitle" scope="session"/>
+    <c:remove var="dialogMessage" scope="session"/>
 </c:if>
-
-
-
-
-

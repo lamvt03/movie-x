@@ -1,5 +1,6 @@
 package com.filmweb.dto;
 
+import java.util.UUID;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -9,7 +10,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @Getter
 public class TopUserDto {
-    private Long id;
+    private UUID id;
     private String email;
     private String phone;
     private String fullName;

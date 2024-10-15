@@ -8,12 +8,12 @@ import jakarta.persistence.EntityManager;
 import jakarta.persistence.Query;
 
 import java.util.List;
-import java.util.Map;
+import java.util.UUID;
 
 @ApplicationScoped
 public class UserDaoImpl extends AbstractDao<User> implements UserDao {
     @Override
-    public User findById(Long id) {
+    public User findById(UUID id) {
         return super.findById(User.class, id);
     }
 
@@ -45,7 +45,7 @@ public class UserDaoImpl extends AbstractDao<User> implements UserDao {
                 +   "JOIN u.orders o "
                 +   "GROUP BY u "
                 +   "ORDER BY total DESC";
-        EntityManager entityManager = super.jpaUtils.getEntityManager();
+        EntityManager entityManager = super.jpaHelper.getEntityManager();
         Query query = entityManager.createQuery(hql);
         query.setFirstResult((page - 1) * limit);
         query.setMaxResults(limit);

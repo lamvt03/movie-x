@@ -31,7 +31,7 @@
             <div class="col-lg-12">
                 <div class="breadcrumb__links">
                     <a href="${initParam.mvcPath}/home"><i class="fa fa-home"></i> Trang chủ</a> <a
-                        href="${initParam.mvcPath}/${video.categoryCode}">${video.category}</a> <span>${video.title}</span>
+                        href="${initParam.mvcPath}/${video.categorySlug}">${video.category}</a> <span>${video.title}</span>
                 </div>
             </div>
         </div>
@@ -152,24 +152,14 @@
                                         </c:when>
                                         <c:otherwise>
                                             <c:if test="${not empty sessionScope.currentUser}">
-                                                <fmt:setLocale value="vi_VN"/>
-                                                <c:set var="formattedPrice" value="${video.price}"/>
-                                                <fmt:formatNumber var="formattedPrice"
-                                                                  value="${formattedPrice}" type="currency"
-                                                                  currencyCode="VND"/>
                                                 <a onclick="clickConfirmPayment()" style="cursor: pointer;"
-                                                   class="watch-btn"><span>${formattedPrice}</span> <i
+                                                   class="watch-btn"><span>${video.formattedPrice}</span> <i
                                                         class="fa fa-angle-right"></i></a>
                                             </c:if>
 
                                             <c:if test="${empty sessionScope.currentUser}">
-                                                <fmt:setLocale value="vi_VN"/>
-                                                <c:set var="formattedPrice" value="${video.price}"/>
-                                                <fmt:formatNumber var="formattedPrice"
-                                                                  value="${formattedPrice}" type="currency"
-                                                                  currencyCode="VND"/>
                                                 <a class="watch-btn" id="clickBeforeLogin"
-                                                   style="cursor: pointer;"> <span>${formattedPrice}</span>
+                                                   style="cursor: pointer;"> <span>${video.formattedPrice}</span>
                                                     <i class="fa fa-angle-right"></i>
                                                 </a>
                                             </c:if>

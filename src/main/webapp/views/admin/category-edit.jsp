@@ -40,7 +40,7 @@
                     <h5 class="card-title fw-semibold mb-4 mt-2">Thêm Thể Loại Mới</h5>
                     <div class="card">
                         <div class="card-body">
-                            <form onsubmit="" action="${initParam.mvcPath}/admin/category/edit"
+                            <form onsubmit="" action="${initParam.mvcPath}/admin/category/edit/${category.id}"
                                   method="post">
 
                                 <div class="mb-3">
@@ -50,9 +50,10 @@
                                         placeholder="Nhập tên phim">
                                 </div>
                                 <div class="mb-3">
+<%--                                    TODO: delete because slug generate by Java code --%>
                                     <label for="code" class="form-label">Code phim</label> <input
                                         type="text" class="form-control bg-dark-light text-white" name="code" id="code"
-                                        value="${category.code}"
+                                        value="${category.slug}"
                                         placeholder="Code thể loại" readonly>
                                 </div>
 

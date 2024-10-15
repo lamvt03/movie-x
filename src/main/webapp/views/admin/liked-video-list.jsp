@@ -94,7 +94,7 @@
                             <c:if test="${currentPage == 1}">
                                 <li class="page-item text-secondary disabled"><a
                                         class="page-link" href="#" aria-disabled="true"> <i
-                                        class="ti ti-chevron-left"></i>
+                                        class="fa-solid fa-caret-left"></i>
                                 </a></li>
                             </c:if>
 
@@ -102,7 +102,7 @@
                                 <li class="page-item text-secondary"><a class="page-link"
                                                                         href="${initParam.mvcPath}/admin/videos/liked?page=${currentPage - 1}"
                                                                         aria-disabled="true">
-                                    <i class="ti ti-chevron-left"></i>
+                                    <i class="fa-solid fa-caret-left"></i>
                                 </a></li>
                             </c:if>
 
@@ -117,7 +117,7 @@
                             <c:if test="${currentPage == maxPage}">
                                 <li class="page-item text-secondary disabled"><a
                                         class="page-link" href="#" aria-disabled="true"> <i
-                                        class="ti ti-chevron-right"></i>
+                                        class="fa-solid fa-caret-right"></i>
                                 </a></li>
                             </c:if>
 
@@ -125,7 +125,7 @@
                                 <li class="page-item text-secondary"><a class="page-link"
                                                                         href="${initParam.mvcPath}/admin/videos/liked?page=${currentPage + 1}"
                                                                         aria-disabled="true">
-                                    <i class="ti ti-chevron-right"></i>
+                                    <i class="fa-solid fa-caret-right"></i>
                                 </a></li>
                             </c:if>
                         </ul>

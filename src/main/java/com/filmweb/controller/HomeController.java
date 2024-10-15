@@ -5,10 +5,11 @@ import com.filmweb.dao.UserDao;
 import com.filmweb.dto.CommentDto;
 import com.filmweb.dto.TopUserDto;
 import com.filmweb.dto.VideoDto;
-import com.filmweb.entity.User;
 import com.filmweb.service.CommentService;
+import com.filmweb.service.PasswordEncodeService;
 import com.filmweb.service.UserService;
 import com.filmweb.service.VideoService;
+import jakarta.annotation.PostConstruct;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.mvc.Controller;
@@ -20,7 +21,6 @@ import jakarta.ws.rs.QueryParam;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @ApplicationScoped
 @Controller
@@ -40,7 +40,7 @@ public class HomeController {
     private UserService userService;
 
     @GET
-    @Path("home")
+    @Path("/home")
     public String getHome(
             @QueryParam("page") Integer page
     ) {
@@ -67,34 +67,23 @@ public class HomeController {
 
         List<CommentDto> newestComments = commentService.findNewestComments(3);
         models.put("newestComments", newestComments);
+        
         return "user/home.jsp";
     }
 
-    @GET
-    @Path("login")
-    public String getLogin(){
-        return "user/login.jsp";
-    }
 
     @GET
-    @Path("register")
-    public String getRegister(){
-        return "user/register.jsp";
-    }
-
-
-    @GET
-    @Path("/category")
+    @Path("/category/{slug}")
     public String getVideosByCategory(
-            @QueryParam("code") String categoryCode
+            @PathParam("slug") String slug
     ){
-        List<VideoDto> videos = videoService.findByCategoryCode(categoryCode, 1, 9);
+        List<VideoDto> videos = videoService.findByCategorySlug(slug, 1, 9);
         models.put("videos",videos);
 
         String category = videos.get(0).getCategory();
         models.put("category", category);
 
-        List<VideoDto> otherVideos = videoService.findOtherVideos(videos.get(0).getCategoryCode(), 1, 4);
+        List<VideoDto> otherVideos = videoService.findOtherVideos(videos.get(0).getCategorySlug(), 1, 4);
         models.put("otherVideos", otherVideos);
 
         String otherCategory = otherVideos.get(0).getCategory();
@@ -103,10 +92,10 @@ public class HomeController {
     }
 
     @GET
-    @Path("all")
+    @Path("/all")
     public String getCategory(
             @QueryParam("page") Integer page
-    ){
+    ) {
 
         long totalVideo = videoService.countActiveVideos();
         int maxPage = (int) Math.ceil(1.0 * totalVideo / AppConstant.CATEGORY_PAGE_LIMIT);
@@ -133,7 +122,7 @@ public class HomeController {
     }
 
     @GET
-    @Path("search")
+    @Path("/search")
     public String getSearch(
             @QueryParam("keyword") String keyword
     ) {
