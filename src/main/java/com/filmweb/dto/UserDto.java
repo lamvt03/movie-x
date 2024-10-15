@@ -2,6 +2,7 @@ package com.filmweb.dto;
 
 import com.filmweb.domain.user.UserRegistrationType;
 import com.filmweb.domain.user.UserType;
+import java.time.LocalDateTime;
 import java.util.UUID;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -15,7 +16,6 @@ public class UserDto{
     private UUID id;
     private String email;
     private String phone;
-    private UserType type;
     private UserRegistrationType registrationType;
     private String fullName;
     private Boolean isActive;
@@ -23,4 +23,5 @@ public class UserDto{
     private String image;
     private Long totalBalanceAmount;
     private Long remainingBalanceAmount;
+    private LocalDateTime emailVerifiedAt;
 }

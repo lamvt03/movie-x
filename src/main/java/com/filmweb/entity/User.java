@@ -31,10 +31,6 @@ public class User {
     @Column(length = 20) @JdbcType(VarcharJdbcType.class)
     private String phone;
     
-    @Column(length = 20) @JdbcType(VarcharJdbcType.class)
-    @Enumerated(EnumType.STRING)
-    private UserType type;
-    
     @Column(name = "registration_type", length = 10) @JdbcType(VarcharJdbcType.class)
     @Enumerated(EnumType.STRING)
     private UserRegistrationType registrationType;
