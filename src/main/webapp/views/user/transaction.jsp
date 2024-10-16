@@ -42,6 +42,7 @@
                                 <th scope="col">Loại thẻ</th>
                                 <th scope="col">Số tiền</th>
                                 <th scope="col">Trạng thái</th>
+                                <th scope="col">Thời điểm</th>
                             </tr>
                             </thead>
                             <tbody>
@@ -61,6 +62,11 @@
                                     <td>
                                         <span class="fw-semibold mb-0 badge bg-${paymentTransaction.statusCode}">
                                                 ${paymentTransaction.statusMessage}
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <span>
+                                                ${paymentTransaction.createdAt}
                                         </span>
                                     </td>
                                 </tr>

@@ -18,6 +18,7 @@ import com.filmweb.dao.OnboardingTokenDao;
 import com.filmweb.dao.UserBalanceTransactionDao;
 import com.filmweb.dao.UserDao;
 import com.filmweb.dao.VideoDao;
+import com.filmweb.domain.user.UserRegistrationType;
 import com.filmweb.domain.user.UserTransactionType;
 import com.filmweb.dto.GoogleUser;
 import com.filmweb.dto.TopUserDto;
@@ -25,20 +26,25 @@ import com.filmweb.dto.UserDto;
 import com.filmweb.entity.User;
 import com.filmweb.entity.UserBalanceTransaction;
 import com.filmweb.mapper.UserMapper;
+import com.filmweb.mapper.VideoMapper;
 import com.filmweb.utils.RandomUtils;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
+import jakarta.mail.MessagingException;
 import jakarta.mvc.Models;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import jakarta.transaction.Transactional;
+import java.io.UnsupportedEncodingException;
 import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 import lombok.extern.jbosslog.JBossLog;
 
 @ApplicationScoped
@@ -47,6 +53,8 @@ public class UserService {
     
     public static final String IMAGE_PREFIX = "/views/user/assets/img/avt/avt-";
     public static final String IMAGE_SUFFIX = ".jpg";
+    
+    private final ExecutorService executor = Executors.newSingleThreadExecutor();
     
     @Inject
     private RandomUtils randomUtils;
@@ -80,6 +88,12 @@ public class UserService {
     
     @Inject
     private UserVideoPurchaseService userVideoPurchaseService;
+    
+    @Inject
+    private NotificationService notificationService;
+    
+    @Inject
+    private VideoMapper videoMapper;
 
     public UserDto authenticate(String email, String password) {
         User user = userDao.findByEmail(email);
@@ -101,6 +115,10 @@ public class UserService {
 
     public UserDto findByEmail(String email) {
         return userMapper.toDto(userDao.findByEmail(email));
+    }
+    
+    public UserDto findByEmailAndRegistrationType(String email, UserRegistrationType registrationType) {
+        return userMapper.toDto(userDao.findByEmailAndRegistrationType(email, registrationType));
     }
 
     public UserDto findById(UUID id) {
@@ -401,6 +419,14 @@ public class UserService {
         
         user.setRemainingBalanceAmount(user.getRemainingBalanceAmount() - video.getPrice());
         userDao.update(user);
+        
+        executor.submit(() -> {
+            try {
+                notificationService.sendVideoPurchaseSuccessMail(userMapper.toDto(user), videoMapper.toDto(video));
+            } catch (MessagingException | UnsupportedEncodingException e) {
+                log.errorf("FAILED to send video purchase success email for user with ID %s", userId);
+            }
+        });
         
         buildDialogSuccessMessage(session, "Thông báo", "Mua phim thành công");
         return "redirect:v/detail/" + videoSlug;

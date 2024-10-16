@@ -1,8 +1,8 @@
 package com.filmweb.service;
 
 import com.filmweb.dto.UserDto;
+import com.filmweb.dto.VideoDto;
 import com.filmweb.utils.EmailTemplateUtils;
-import com.filmweb.utils.RandomUtils;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.mail.MessagingException;
@@ -14,9 +14,7 @@ import java.io.UnsupportedEncodingException;
 public class NotificationService {
     @Inject
     private MailSenderService mailSenderService;
-
-    @Inject
-    private RandomUtils randomUtils;
+    
 
     @Inject
     @ConfigProperty(name="host.url")
@@ -35,4 +33,16 @@ public class NotificationService {
         String contentType = "text/html; charset=utf-8";
         mailSenderService.sendEmail(recipient.getEmail(), subject, content, contentType);
     }
+    
+    public void sendVideoPurchaseSuccessMail(UserDto recipient, VideoDto video) throws MessagingException, UnsupportedEncodingException {
+        String subject = "Bạn vừa mua một bộ phim trên Movie X";
+        String content = EmailTemplateUtils.buildVideoPurchaseSuccessMail(recipient.getFullName(), video.getTitle(), video.getPrice(), buildVideoDetailUrl(video.getSlug()));
+        String contentType = "text/html; charset=utf-8";
+        mailSenderService.sendEmail(recipient.getEmail(), subject, content, contentType);
+    }
+    
+    private String buildVideoDetailUrl(String slug) {
+        return String.format("%s/movie-x/v/detail/%s", hostUrl, slug);
+    }
+    
 }

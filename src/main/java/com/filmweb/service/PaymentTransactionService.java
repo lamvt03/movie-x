@@ -78,7 +78,7 @@ public class PaymentTransactionService {
   
   @Transactional
   public List<PaymentTransactionDto> findByUserId(UUID userId) {
-    return paymentTransactionDao.findByUserId(userId)
+    return paymentTransactionDao.findByUserIdOrderByCreatedAtDesc(userId)
                .stream()
                .map(this::toDto)
                .toList();

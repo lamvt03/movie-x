@@ -1,9 +1,11 @@
 package com.filmweb.controller;
 
+import static com.filmweb.utils.AlertUtils.buildToastErrorMessage;
 import static com.filmweb.utils.AlertUtils.buildToastSuccessMessage;
 
 import com.filmweb.constant.CookieConstant;
 import com.filmweb.constant.SessionConstant;
+import com.filmweb.domain.user.UserRegistrationType;
 import com.filmweb.dto.GoogleUser;
 import com.filmweb.dto.UserDto;
 import com.filmweb.helper.GoogleOauthHelper;
@@ -64,12 +66,18 @@ public class OAuth2Controller {
         String token = googleOauthHelper.getToken(code);
         GoogleUser googleUser = googleOauthHelper.getUserInfo(token);
 
-        UserDto userDto = Optional.ofNullable(userService.findByEmail(googleUser.getEmail()))
-                        .orElseGet(() -> userService.register(googleUser));
-
-        session.setAttribute(SessionConstant.CURRENT_USER, userDto);
+        UserDto userDto = userService.findByEmailAndRegistrationType(googleUser.getEmail(), UserRegistrationType.INTERNAL);
         
-        String rememberToken = jwtService.generateRememberToken(userDto);
+        if (userDto != null) {
+            buildToastErrorMessage(session, "Email này đã được đăng ký tài khoản trước đó");
+            return "redirect:login";
+        }
+        
+        var userRegistered = userService.register(googleUser);
+
+        session.setAttribute(SessionConstant.CURRENT_USER, userRegistered);
+        
+        String rememberToken = jwtService.generateRememberToken(userRegistered);
         Cookie loginCookie = new Cookie(CookieConstant.REMEMBER_TOKEN, rememberToken);
         loginCookie.setMaxAge(CookieConstant.LOGIN_DURATION);
         response.addCookie(loginCookie);

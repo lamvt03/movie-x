@@ -2,6 +2,7 @@ package com.filmweb.dao.impl;
 
 import com.filmweb.dao.AbstractDao;
 import com.filmweb.dao.UserDao;
+import com.filmweb.domain.user.UserRegistrationType;
 import com.filmweb.entity.User;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.persistence.EntityManager;
@@ -22,7 +23,13 @@ public class UserDaoImpl extends AbstractDao<User> implements UserDao {
         String jpql = "SELECT o FROM User o WHERE o.deletedAt IS NULL AND o.email = ?1";
         return super.findOne(User.class, jpql, email);
     }
-
+    
+    @Override
+    public User findByEmailAndRegistrationType(String email, UserRegistrationType registrationType) {
+        String jpql = "SELECT o FROM User o WHERE o.deletedAt IS NULL AND o.email = ?1 AND o.registrationType = ?2";
+        return super.findOne(User.class, jpql, email, registrationType);
+    }
+    
     @Override
     public User findByPhone(String phone) {
         String jpql = "SELECT o FROM User o WHERE o.deletedAt IS NULL AND o.phone = ?1";
