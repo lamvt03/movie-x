@@ -36,6 +36,12 @@ public class AlertUtils {
     session.setAttribute(DIALOG_MESSAGE_FIELD, message);
   }
   
+  public static void buildDialogWarningMessage(HttpSession session, String title, String message) {
+    session.setAttribute(DIALOG_ICON_FIELD, ICON_WARNING);
+    session.setAttribute(DIALOG_TITLE_FIELD, title);
+    session.setAttribute(DIALOG_MESSAGE_FIELD, message);
+  }
+  
   public static void buildDialogErrorMessage(HttpSession session, String title, String message) {
     session.setAttribute(DIALOG_ICON_FIELD, ICON_ERROR);
     session.setAttribute(DIALOG_TITLE_FIELD, title);

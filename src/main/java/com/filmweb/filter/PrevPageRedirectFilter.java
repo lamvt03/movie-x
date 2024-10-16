@@ -28,7 +28,8 @@ public class PrevPageRedirectFilter implements Filter {
             "/verify",
             "/api",
             "/admin/video/",
-            "/account"
+            "/account",
+            "/video/purchase"
     };
     
     @Inject

@@ -17,6 +17,7 @@ import com.filmweb.constant.SessionConstant;
 import com.filmweb.dao.OnboardingTokenDao;
 import com.filmweb.dao.UserBalanceTransactionDao;
 import com.filmweb.dao.UserDao;
+import com.filmweb.dao.VideoDao;
 import com.filmweb.domain.user.UserTransactionType;
 import com.filmweb.dto.GoogleUser;
 import com.filmweb.dto.TopUserDto;
@@ -73,6 +74,12 @@ public class UserService {
     
     @Inject
     private UserBalanceTransactionDao userBalanceTransactionDao;
+    
+    @Inject
+    private VideoDao videoDao;
+    
+    @Inject
+    private UserVideoPurchaseService userVideoPurchaseService;
 
     public UserDto authenticate(String email, String password) {
         User user = userDao.findByEmail(email);
@@ -369,8 +376,30 @@ public class UserService {
         );
     }
     
+    public String handlePurchaseVideo(HttpSession session, UUID userId, String videoSlug) {
+        var user = userDao.findById(userId);
+        var video = videoDao.findBySlug(videoSlug);
+        
+        if (userVideoPurchaseService.checkUserVideoPurchase(user.getId(), video.getId())) {
+            buildToastWarningMessage(session, "Bạn đã mua phim này rồi");
+            return "redirect:v/detail/" + videoSlug;
+        }
+        
+        if (user.getRemainingBalanceAmount() < video.getPrice()) {
+            buildToastErrorMessage(session, "Số dư trong tài khoản không đủ, vui lòng nạp thêm");
+            return "redirect:v/detail/" + videoSlug;
+        }
+        
+        userVideoPurchaseService.createUserVideoPurchase(user, video, video.getPrice());
+        
+        user.setRemainingBalanceAmount(user.getRemainingBalanceAmount() - video.getPrice());
+        userDao.update(user);
+        
+        buildDialogSuccessMessage(session, "Thông báo", "Mua phim thành công");
+        return "redirect:v/detail/" + videoSlug;
+    }
+    
     private String buildUserImageLink(int avtId) {
         return IMAGE_PREFIX + avtId + IMAGE_SUFFIX;
     }
-    
 }

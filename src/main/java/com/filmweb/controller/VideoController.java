@@ -1,5 +1,7 @@
 package com.filmweb.controller;
 
+import static com.filmweb.utils.AlertUtils.buildDialogWarningMessage;
+
 import com.filmweb.constant.PaymentConstant;
 import com.filmweb.constant.SessionConstant;
 import com.filmweb.dto.CommentDto;
@@ -29,11 +31,13 @@ public class VideoController {
     @Inject
     private CommentService commentService;
     @Inject
-    private OrderService orderService;
-    @Inject
     private RatingService ratingService;
     @Inject
     private HistoryService historyService;
+    @Inject
+    private UserVideoPurchaseService userVideoPurchaseService;
+    @Inject
+    private UserService userService;
 
     @Controller
     @GET
@@ -54,16 +58,14 @@ public class VideoController {
         
         int lastPage = commentService.getLastPageByVideoHref(video.getHref(), 3);
         models.put("lastPage", lastPage);
+        
         if(video.getPrice() > 0){
-            if(userDto == null){
-               session.setAttribute("buyBeforeWatch", true);
-            }else {
-                Order order = orderService.findByUserIdAndVideoId(userDto.getId(), video.getId());
-                if(order == null || !order.getVnp_ResponseCode().equals(PaymentConstant.VNPAY_SUCCESS_CODE)){
-                   session.setAttribute("buyBeforeWatch", true);
-                }
+            if(userDto == null || !userVideoPurchaseService.checkUserVideoPurchase(userDto.getId(), video.getId())) {
+               buildDialogWarningMessage(session, "Cảnh báo", "Bạn chưa mua phim này!");
+               return "redirect:v/detail/" + slug;
             }
         }
+        
         return "user/video-watch.jsp";
     }
 
@@ -87,10 +89,8 @@ public class VideoController {
 
         UserDto  userDto = (UserDto) session.getAttribute(SessionConstant.CURRENT_USER);
         if(userDto != null){
-            Order order  = orderService.findByUserIdAndVideoId(userDto.getId(), video.getId());
-            if (order != null) {
-                models.put("order", order);
-            }
+            var wasPurchasedByUser = userVideoPurchaseService.checkUserVideoPurchase(userDto.getId(), video.getId());
+            models.put("wasPurchasedByUser", wasPurchasedByUser);
 
             Rating rating = ratingService.findByUserIdAndVideoId(userDto.getId(), video.getId());
             if (rating != null) {
@@ -117,5 +117,15 @@ public class VideoController {
             models.put("flagLikeButton", history.getIsLiked());
         }
         return "user/video-detail.jsp";
+    }
+    
+    @Controller
+    @GET
+    @Path("/purchase/{slug}")
+    public String purchaseVideo(
+        @PathParam("slug") String slug
+    ) {
+        UserDto userDto = (UserDto) session.getAttribute(SessionConstant.CURRENT_USER);
+        return userService.handlePurchaseVideo(session, userDto.getId(), slug);
     }
 }

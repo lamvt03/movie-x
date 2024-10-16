@@ -58,6 +58,13 @@ public class PaymentController {
                 .build();
         }
         
+        if (paymentAmount < 20000) {
+            buildToastErrorMessage(session, "Vui lòng nhập số tiền lớn hơn hoặc bằng 20,000 VND");
+            return Response.status(Response.Status.SEE_OTHER)
+                       .header(HttpHeaders.LOCATION, "/movie-x/profile")
+                       .build();
+        }
+        
         UserDto userDto = (UserDto) session.getAttribute(SessionConstant.CURRENT_USER);
         String clientIp = servletRequest.getRemoteAddr();
         

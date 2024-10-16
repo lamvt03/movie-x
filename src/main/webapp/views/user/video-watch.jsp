@@ -144,6 +144,7 @@
 
 <%@ include file="/views/user/common/footer.jsp" %>
 
+<%--TODO: delete--%>
 <c:if test="${not empty sessionScope.buyBeforeWatch}">
     <script type="text/javascript">
         Swal.fire({
