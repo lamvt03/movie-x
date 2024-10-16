@@ -1,5 +1,6 @@
 package com.filmweb.dao;
 
+import com.filmweb.domain.user.UserRegistrationType;
 import com.filmweb.entity.User;
 
 import java.util.List;
@@ -9,6 +10,8 @@ public interface UserDao {
     User findById(UUID id);
 
     User findByEmail(String email);
+    
+    User findByEmailAndRegistrationType(String email, UserRegistrationType registrationType);
 
     User findByPhone(String phone);
 

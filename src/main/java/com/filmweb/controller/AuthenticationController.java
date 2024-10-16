@@ -69,7 +69,7 @@ public class AuthenticationController {
   public String getLogout(
       @Context HttpServletRequest request,
       @Context HttpServletResponse response
-  ){
+  ) {
     userService.logoutUser(session, request, response);
 
     String prevUrl = session.getAttribute(SessionConstant.PREV_PAGE_URL).toString();
