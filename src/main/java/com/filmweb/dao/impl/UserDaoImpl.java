@@ -38,6 +38,12 @@ public class UserDaoImpl extends AbstractDao<User> implements UserDao {
     public List<User> findAll(int page, int limit) {
         return super.findAll(User.class, page, limit);
     }
+    
+    @Override
+    public List<User> findAllOrderByTotalBalanceAmountDesc(int page, int limit) {
+        String jpql = "SELECT o FROM User o ORDER BY o.totalBalanceAmount DESC";
+        return super.findMany(User.class, page, limit, jpql);
+    }
 
     @Override
     public List<Object[]> findTopUsersAndTotal(int page, int limit) {

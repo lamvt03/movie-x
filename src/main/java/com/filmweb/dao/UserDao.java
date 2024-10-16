@@ -15,6 +15,7 @@ public interface UserDao {
     List<User> findAll();
 
     List<User> findAll(int page, int limit);
+    List<User> findAllOrderByTotalBalanceAmountDesc(int page, int limit);
 
     List<Object[]> findTopUsersAndTotal(int page, int limit);
 
