@@ -1,11 +1,14 @@
 package com.filmweb.controller.admin;
 
 import com.filmweb.constant.AppConstant;
+import com.filmweb.domain.payment.PaymentStatus;
+import com.filmweb.dto.PaymentTransactionDto;
 import com.filmweb.dto.TopUserDto;
 import com.filmweb.dto.UserDto;
 import com.filmweb.dto.VideoDto;
 import com.filmweb.entity.Order;
 import com.filmweb.service.OrderService;
+import com.filmweb.service.PaymentTransactionService;
 import com.filmweb.service.UserService;
 import com.filmweb.service.VideoService;
 import jakarta.enterprise.context.ApplicationScoped;
@@ -34,19 +37,22 @@ public class HomeController {
 
     @Inject
     private VideoService videoService;
+    
+    @Inject
+    private PaymentTransactionService paymentTransactionService;
 
     @GET
     @Path("/dashboard")
     public String getDashboard(){
-        List<Order> orders = orderService.findAll();
-        List<Order> successfulOrders = orderService.findSuccessfulOrders();
+        var paymentTransactions = paymentTransactionService.findLatestPaymentTransaction(1, 10);
+        var successfulPaymentTransactions = paymentTransactionService.findByStatus(PaymentStatus.SUCCESS);
 
-        long totalPrice = successfulOrders.stream()
-                .map(Order::getVnp_Amount)
-                .reduce((long)0, Long::sum);
+        long totalPrice = successfulPaymentTransactions.stream()
+                .map(PaymentTransactionDto::getPaymentAmount)
+                .reduce(0L, Long::sum);
 
         models.put("totalPrice", totalPrice);
-        models.put("orders", orders);
+        models.put("paymentTransactions", paymentTransactions);
         return "admin/dashboard.jsp";
     }
 

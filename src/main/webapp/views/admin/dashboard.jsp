@@ -8,6 +8,8 @@
 <%@ page contentType="text/html; charset=UTF-8" language="java" %>
 <%@ include file="/views/common/taglib.jsp" %>
 
+<jsp:useBean id="paymentTransactions" scope="request" type="java.util.List"/>
+
 <html lang="en">
 <head>
     <meta charset="utf-8">
@@ -145,34 +147,10 @@
                 </div>
             </div>
             <div class="row">
-                <div class="col-lg-4 d-flex align-items-stretch">
+                <div class="col-lg-12 d-flex align-items-stretch">
                     <div class="card w-100">
                         <div class="card-body p-2">
-                            <div class="mb-4">
-                                <h5 class="card-title fw-semibold">Giao dịch gần đây</h5>
-                            </div>
-                            <ul class="timeline-widget mb-0 position-relative mb-n5">
-                                <jsp:useBean id="orders" scope="request" type="java.util.List"/>
-                                <c:forEach items="${orders}" var="order">
-                                    <li class="timeline-item d-flex position-relative overflow-hidden">
-                                        <div class="timeline-time text-dark flex-shrink-0 text-end">
-                                            <fmt:formatDate value="${order.vnp_PayDate}"
-                                                            pattern="dd-MM-yyyy | HH:mm:ss"/>
-                                        </div>
-                                        <div class="timeline-badge-wrap d-flex flex-column align-items-center">
-                                            <span class="timeline-badge border-2 border border-success flex-shrink-0 my-8"></span>
-                                        </div>
-                                        <div class="timeline-desc fs-3 text-dark mt-n1">${order.vnp_OrderInfo}</div>
-                                    </li>
-                                </c:forEach>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-8 d-flex align-items-stretch">
-                    <div class="card w-100">
-                        <div class="card-body p-2">
-                            <h5 class="card-title fw-semibold mb-4">Chi tiết giao dịch</h5>
+                            <h5 class="card-title fw-semibold mb-4">Giao dịch gần đây</h5>
                             <div class="table-responsive">
                                 <table class="table text-nowrap mb-0 align-middle">
                                     <thead class="text-dark fs-4">
@@ -184,58 +162,61 @@
                                             <h6 class="fw-semibold mb-0">Mã giao dịch</h6>
                                         </th>
                                         <th class="border-bottom-0">
-                                            <h6 class="fw-semibold mb-0">Họ tên</h6>
+                                            <h6 class="fw-semibold mb-0">Người dùng</h6>
                                         </th>
                                         <th class="border-bottom-0">
-                                            <h6 class="fw-semibold mb-0">Ngân hàng</h6>
+                                            <h6 class="fw-semibold mb-0">Phương thức</h6>
                                         </th>
                                         <th class="border-bottom-0">
-                                            <h6 class="fw-semibold mb-0">Giá tiền</h6>
+                                            <h6 class="fw-semibold mb-0">Loại thẻ</h6>
+                                        </th>
+                                        <th class="border-bottom-0">
+                                            <h6 class="fw-semibold mb-0">Số tiền</h6>
                                         </th>
                                         <th class="border-bottom-0">
                                             <h6 class="fw-semibold mb-0">Trạng thái</h6>
                                         </th>
+                                        <th class="border-bottom-0">
+                                            <h6 class="fw-semibold mb-0">Thời điểm</h6>
+                                        </th>
                                     </tr>
                                     </thead>
                                     <tbody>
-                                    <c:forEach items="${orders}" var="order" varStatus="loop">
+                                    <c:forEach items="${paymentTransactions}" var="paymentTransaction" varStatus="loop">
                                         <tr>
                                             <td class="border-bottom-0">
                                                 <h6 class="fw-semibold mb-0">${loop.index + 1}</h6>
                                             </td>
                                             <td class="border-bottom-0">
-                                                <h6 class="fw-semibold mb-1">${order.vnp_TxnRef}</h6>
+                                                <h6 class="fw-semibold mb-1">${paymentTransaction.referenceTransactionNumber}</h6>
                                             </td>
                                             <td class="border-bottom-0">
-                                                <p class="mb-0 fw-normal">${order.user.fullName}</p>
+                                                <p class="mb-0 fw-normal">${paymentTransaction.fullName}</p>
                                             </td>
                                             <td class="border-bottom-0">
                                                 <div class="d-flex align-items-center gap-2">
-                                                    <span class="badge bg-primary rounded-3 fw-semibold">${order.vnp_BankCode}</span>
+                                                    <span class="badge bg-primary rounded-3 fw-semibold">${paymentTransaction.provider}</span>
+                                                </div>
+                                            </td>
+                                            <td class="border-bottom-0">
+                                                <div class="d-flex align-items-center gap-2">
+                                                    <span class="badge bg-indigo rounded-3 fw-semibold">${paymentTransaction.cardType}</span>
                                                 </div>
                                             </td>
                                             <td class="border-bottom-0">
                                                 <h6 class="fw-semibold mb-0">
-                                                    <c:set var="amount" value="${order.vnp_Amount}"/>
-                                                    <c:set var="locale" value="vi_VN"/>
-                                                    <fmt:setLocale value="${locale}"/>
-                                                    <fmt:formatNumber value="${amount}" type="currency"
-                                                                      currencyCode="VND"/>
+                                                        ${paymentTransaction.formattedPaymentAmount}
                                                 </h6>
                                             </td>
                                             <td class="border-bottom-0">
-                                                <h6 class="fw-semibold mb-0">
-                                                    <c:choose>
-                                                        <c:when test="${order.vnp_ResponseCode == '00'}">
-																	<span class="text-success font-weight-bold">Thành
-																		công</span>
-                                                        </c:when>
-                                                        <c:otherwise>
-																	<span class="text-danger font-weight-bold">Thất
-																		bại</span>
-                                                        </c:otherwise>
-                                                    </c:choose>
-                                                </h6>
+                                                <span class="fw-semibold mb-0 badge bg-${paymentTransaction.statusCode}">
+                                                        ${paymentTransaction.statusMessage}
+                                                </span>
+                                            </td>
+                                            <td>
+                                                <span>
+                                                    ${paymentTransaction.createdAt}
+                                                </span>
                                             </td>
                                         </tr>
                                     </c:forEach>
