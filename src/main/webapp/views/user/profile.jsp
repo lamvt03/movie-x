@@ -42,39 +42,45 @@
     <div class="rounded-lg">
         <div class="row bg-white p-5 m-1" style="border-radius: 6px">
 
-            <div class="col-12 col-md-3 col-lg-3">
+            <div class="col-12 col-md-6 col-lg-6">
 
-                <div class="img-profile">
+                <div class="row">
+                    <div class="col-lg-9 img-profile">
 
-                    <img src="${user.image}"
-                         class="img-fluid rounded" width="60%" alt="avatar"/>
+                        <img src="${user.image}"
+                             class="img-fluid rounded" width="60%" alt="avatar"/>
 
+                    </div>
                 </div>
 
-                <div id="delete-account-btn" class="link-profile mt-4">
-                    <button type="button" class="btn btn-danger">Xoá tài khoản</button>
+                <h5 class="mt-4 fw-bold">Số dư tài khoản: <span class="text-danger">${user.remainingBalanceAmount}</span></h5>
+                <div class="link-profile mt-4">
+                    <button id="deposit-btn" type="button" class="btn btn-success">Nạp tiền <i class="fa-solid fa-money-bill-transfer"></i></button>
+                    <br/>
+                    <div class="mt-2"></div>
+                    <button id="delete-account-btn" type="button" class="btn btn-outline-danger">Xoá tài khoản <i class="fa-solid fa-triangle-exclamation"></i></button>
                 </div>
 
             </div>
 
-            <div class="col-12 col-md-9 col-lg-9">
+            <div class="col-12 col-md-6 col-lg-6">
 
                 <div class="profile-name">
 
                     <div class="row">
 
-                        <div class="col-12 col-md-12 col-lg-9">
+                        <div class="col-12 col-md-12 col-lg-6">
 
                             <h4 class="text-dark font-weight-bold">Movie X</h4>
 
                         </div>
 
-                        <div class="col-lg-3">
+                        <div class="col-lg-6">
 
-                            <h4>
+                            <h4 class="text-end">
                                 <a style="color: #D14A2D;" href="${initParam.mvcPath}/profile/edit"
                                    class="font-weight-bold text-decoration-none h6">
-                                    Chỉnh sửa thông tin </a>
+                                    Chỉnh sửa thông tin <i class="fa-regular fa-pen-to-square"></i></i></a>
                             </h4>
 
                         </div>
@@ -87,7 +93,7 @@
 
                 <div class="info mt-5">
 
-                    <h4 class="text-dark mb-3 font-weight-bold">Thông tin</h4>
+                    <h4 class="text-dark mb-3 font-weight-bold">Thông tin tài khoản</h4>
 
                     <div class="row">
 
@@ -118,6 +124,24 @@
 <!-- Forgotpass Section End -->
 
 <%@ include file="/views/user/common/footer.jsp" %>
+<script type="text/javascript">
+    const depositBtn = document.querySelector('#deposit-btn');
+    depositBtn.onclick = () => {
+        Swal.fire({
+            title: "Nạp tiền",
+            text: "Vui lòng nhập số tiền cần nạp",
+            input: 'text',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Đồng ý'
+        }).then((result) => {
+            if (result.value) {
+                window.location.href = "/movie-x/payment/vnpay?amount=" + result.value;
+            }
+        });
+    }
+</script>
 
 <script type="text/javascript">
     const deleteAccountBtn = document.querySelector('#delete-account-btn');

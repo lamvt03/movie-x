@@ -1,7 +1,6 @@
 package com.filmweb.helper;
 
 import com.filmweb.config.VNPayConfigurationProperties;
-import com.filmweb.utils.RandomUtils;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import org.eclipse.microprofile.config.inject.ConfigProperties;
@@ -15,9 +14,8 @@ import java.util.*;
 
 @ApplicationScoped
 public class VNPayHelper {
-
-    @Inject
-    private RandomUtils randomUtils;
+    
+    private static final String PAYMENT_TRANSACTION_INFO_PATTERN = "Thanh toan giao dich nap tien %s";
     
     @Inject
     @ConfigProperties(prefix = "vnp")
@@ -46,23 +44,20 @@ public class VNPayHelper {
         }
     }
 
-    public String createPaymentUrl(String clientIp, String href, long amount){
-        String vnp_TxnRef = randomUtils.randomOtpValue(8);
-
-        String returnUrl = vnPayConfigurationProperties.getReturnUrl() + "?href=" + href;
+    public String createPaymentUrl(UUID paymentTransactionId, long amount, String clientIp){
 
         Map<String, String> vnp_Params = new HashMap<>();
         vnp_Params.put("vnp_Version", vnPayConfigurationProperties.getVersion());
         vnp_Params.put("vnp_Command", vnPayConfigurationProperties.getCommand());
         vnp_Params.put("vnp_TmnCode", vnPayConfigurationProperties.getTmnCode());
-        vnp_Params.put("vnp_Amount", String.valueOf(amount));
+        vnp_Params.put("vnp_Amount", String.valueOf(amount * 100));
         vnp_Params.put("vnp_CurrCode", "VND");
-        vnp_Params.put("vnp_BankCode", vnPayConfigurationProperties.getBankCode());
-        vnp_Params.put("vnp_TxnRef", vnp_TxnRef);
-        vnp_Params.put("vnp_OrderInfo", "Thanh toan don hang:" + vnp_TxnRef);
+        // vnp_Params.put("vnp_BankCode", vnPayConfigurationProperties.getBankCode());
+        vnp_Params.put("vnp_TxnRef", paymentTransactionId.toString());
+        vnp_Params.put("vnp_OrderInfo", buildPaymentTransactionInfo(paymentTransactionId));
         vnp_Params.put("vnp_OrderType", vnPayConfigurationProperties.getOrderType());
         vnp_Params.put("vnp_Locale", "vn");
-        vnp_Params.put("vnp_ReturnUrl", returnUrl);
+        vnp_Params.put("vnp_ReturnUrl", vnPayConfigurationProperties.getReturnUrl());
         vnp_Params.put("vnp_IpAddr", clientIp);
 
         Calendar cld = Calendar.getInstance(TimeZone.getTimeZone("Etc/GMT+7"));
@@ -99,5 +94,9 @@ public class VNPayHelper {
         queryUrl += "&vnp_SecureHash=" + vnp_SecureHash;
 
         return vnPayConfigurationProperties.getPayUrl() + "?" + queryUrl;
+    }
+    
+    private String buildPaymentTransactionInfo(UUID paymentTransactionId) {
+        return String.format(PAYMENT_TRANSACTION_INFO_PATTERN, paymentTransactionId.toString());
     }
 }

@@ -1,5 +1,6 @@
 package com.filmweb.entity;
 
+import com.filmweb.domain.payment.PaymentCardType;
 import com.filmweb.domain.payment.PaymentProvider;
 import com.filmweb.domain.payment.PaymentStatus;
 import jakarta.persistence.CascadeType;
@@ -7,10 +8,9 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
-import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
-import jakarta.persistence.OneToOne;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.PrePersist;
 import jakarta.persistence.Table;
 import java.time.LocalDateTime;
@@ -29,8 +29,7 @@ import org.hibernate.type.descriptor.jdbc.VarcharJdbcType;
 @Entity @Table(name = "payment_transactions")
 public class PaymentTransaction {
   
-  @Id @GeneratedValue
-  @JdbcType(VarcharJdbcType.class)
+  @Id @JdbcType(VarcharJdbcType.class)
   private UUID id;
   
   @JdbcType(BigIntJdbcType.class)
@@ -44,7 +43,23 @@ public class PaymentTransaction {
   @Enumerated(EnumType.STRING)
   private PaymentStatus status;
   
-  @OneToOne(cascade = CascadeType.MERGE)
+  @Column(name = "reference_transaction_number",length = 50) @JdbcType(VarcharJdbcType.class)
+  private String referenceTransactionNumber;
+  
+  @Column(name = "transaction_info",length = 100) @JdbcType(VarcharJdbcType.class)
+  private String transactionInfo;
+  
+  @Column(name = "bank_code",length = 10) @JdbcType(VarcharJdbcType.class)
+  private String bankCode;
+  
+  @Column(name = "card_type",length = 10) @JdbcType(VarcharJdbcType.class)
+  @Enumerated(EnumType.STRING)
+  private PaymentCardType cardType;
+  
+  @Column(name = "paid_at") @JdbcType(TimestampJdbcType.class)
+  private LocalDateTime paidAt;
+  
+  @ManyToOne(cascade = CascadeType.MERGE)
   @JoinColumn(name = "user_id", referencedColumnName = "id")
   private User user;
   

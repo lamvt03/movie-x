@@ -1,5 +1,5 @@
 package com.filmweb.domain.payment;
 
 public enum PaymentStatus {
-  SUCCESS
+  PENDING, SUCCESS, FAILED
 }

@@ -38,7 +38,6 @@ public class PrevPageRedirectFilter implements Filter {
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
         HttpServletRequest httpRequest = (HttpServletRequest) servletRequest;
 
-
         HttpSession session = httpRequest.getSession(true);
         
         session.setAttribute(CATEGORY_LIST, categoryService.findAll());

@@ -16,6 +16,8 @@
         <class>com.filmweb.entity.Otp</class>
         <class>com.filmweb.entity.OnboardingToken</class>
         <class>com.filmweb.entity.UserBalanceTransaction</class>
+        <class>com.filmweb.entity.UserVideoPurchase</class>
+        <class>com.filmweb.entity.PaymentTransaction</class>
         <exclude-unlisted-classes>true</exclude-unlisted-classes>
         <properties>
 

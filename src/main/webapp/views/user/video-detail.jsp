@@ -405,30 +405,6 @@
         })
     }
 
-
-    <c:if test="${not empty sessionScope.paySuccess}">
-        <c:choose>
-            <c:when test="${sessionScope.paySuccess}">
-                Swal.fire({
-                    title: 'Chúc mừng',
-                    text: "Bạn đã mua phim thành công!",
-                    icon: 'success',
-                    confirmButtonColor: '#3085d6',
-                    confirmButtonText: 'OK'
-                });
-            </c:when>
-            <c:otherwise>
-                Swal.fire({
-                    title: 'Thông báo',
-                    text: "Đã có lỗi xảy ra!",
-                    icon: 'error',
-                    confirmButtonColor: '#3085d6',
-                    confirmButtonText: 'OK'
-                });
-            </c:otherwise>
-        </c:choose>
-        <c:remove var="paySuccess" scope="session" />
-    </c:if>
 </script>
 </body>
 </html>

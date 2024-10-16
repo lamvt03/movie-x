@@ -42,7 +42,8 @@ public class UserController {
     @Path("/profile")
     public String getProfile(){
         UserDto userDto = (UserDto) session.getAttribute(SessionConstant.CURRENT_USER);
-        models.put("user", userDto);
+        var user = userService.findById(userDto.getId());
+        models.put("user", user);
         return "user/profile.jsp";
     }
     
