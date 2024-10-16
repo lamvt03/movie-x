@@ -9,10 +9,12 @@ import com.filmweb.domain.payment.PaymentProvider;
 import com.filmweb.domain.payment.PaymentStatus;
 import com.filmweb.dto.PaymentTransactionDto;
 import com.filmweb.entity.PaymentTransaction;
+import com.filmweb.utils.PriceFormatUtils;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.UUID;
 
 @ApplicationScoped
@@ -58,6 +60,22 @@ public class PaymentTransactionService {
     return toDto(paymentTransactionDao.findById(id));
   }
   
+  @Transactional
+  public List<PaymentTransactionDto> findLatestPaymentTransaction(int page, int limit) {
+    return paymentTransactionDao.findAllOrderByCreatedAtDesc(page, limit)
+               .stream()
+               .map(this::toDto)
+               .toList();
+  }
+  
+  @Transactional
+  public List<PaymentTransactionDto> findByStatus(PaymentStatus status) {
+    return paymentTransactionDao.findByStatus(status)
+               .stream()
+               .map(this::toDto)
+               .toList();
+  }
+  
   private PaymentTransactionDto toDto(PaymentTransaction entity) {
     if (entity == null) {
       return null;
@@ -65,7 +83,16 @@ public class PaymentTransactionService {
     
     return PaymentTransactionDto.builder()
         .id(entity.getId())
+        .referenceTransactionNumber(entity.getReferenceTransactionNumber())
+        .fullName(entity.getUser().getFullName())
         .paymentAmount(entity.getAmount())
+        .formattedPaymentAmount(PriceFormatUtils.toFomattedString(entity.getAmount()))
+        .status(entity.getStatus())
+        .statusCode(getStatusCode(entity.getStatus()))
+        .statusMessage(getStatusMessage(entity.getStatus()))
+        .provider(entity.getProvider())
+        .cardType(entity.getCardType())
+        .createdAt(entity.getCreatedAt())
         .userId(entity.getUser().getId())
         .build();
   }
@@ -74,6 +101,22 @@ public class PaymentTransactionService {
     return switch (statusCode) {
       case "00" -> PaymentStatus.SUCCESS;
       default -> PaymentStatus.FAILED;
+    };
+  }
+  
+  private String getStatusCode(PaymentStatus status) {
+    return switch (status) {
+      case SUCCESS -> "success";
+      case PENDING -> "warning";
+      case FAILED -> "error";
+    };
+  }
+  
+  private String getStatusMessage(PaymentStatus status) {
+    return switch (status) {
+      case SUCCESS -> "Thành công";
+      case PENDING -> "Chưa thanh toán";
+      case FAILED -> "Thất bại";
     };
   }
 }
