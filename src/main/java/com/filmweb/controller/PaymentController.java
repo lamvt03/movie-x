@@ -1,13 +1,16 @@
 package com.filmweb.controller;
 
-import com.filmweb.constant.PaymentConstant;
+import static com.filmweb.domain.payment.PaymentProvider.VNPAY;
+import static com.filmweb.domain.user.UserTransactionType.DEPOSIT;
+import static com.filmweb.utils.AlertUtils.buildDialogSuccessMessage;
+import static com.filmweb.utils.AlertUtils.buildToastErrorMessage;
+
 import com.filmweb.constant.SessionConstant;
+import com.filmweb.domain.payment.PaymentCardType;
 import com.filmweb.dto.UserDto;
-import com.filmweb.dto.VideoDto;
-import com.filmweb.entity.Order;
 import com.filmweb.helper.VNPayHelper;
-import com.filmweb.service.OrderService;
-import com.filmweb.service.VideoService;
+import com.filmweb.service.PaymentTransactionService;
+import com.filmweb.service.UserService;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.mvc.Controller;
@@ -19,7 +22,7 @@ import jakarta.ws.rs.QueryParam;
 import jakarta.ws.rs.core.Context;
 import jakarta.ws.rs.core.HttpHeaders;
 import jakarta.ws.rs.core.Response;
-import java.text.ParseException;
+import java.util.UUID;
 
 @ApplicationScoped
 @Controller
@@ -27,29 +30,41 @@ import java.text.ParseException;
 public class PaymentController {
 
     @Inject
-    private OrderService orderService;
-
-    @Inject
-    private VideoService videoService;
-
-    @Inject
     private HttpSession session;
 
     @Inject
     private VNPayHelper vnpayHelper;
+    
+    @Inject
+    private PaymentTransactionService paymentTransactionService;
+    
+    @Inject
+    private UserService userService;
 
     @GET
     @Path("/vnpay")
     public Response getPayment(
-            @QueryParam("href") String href,
+            @QueryParam("amount") String amount,
             @Context HttpServletRequest servletRequest
     ) {
+        Long paymentAmount = null;
+        
+        try {
+            paymentAmount = Long.valueOf(amount);
+        } catch (Exception e) {
+            buildToastErrorMessage(session, "Số tiền cần nạp phải là một số nguyên dương");
+            return Response.status(Response.Status.SEE_OTHER)
+                .header(HttpHeaders.LOCATION, "/movie-x/profile")
+                .build();
+        }
+        
+        UserDto userDto = (UserDto) session.getAttribute(SessionConstant.CURRENT_USER);
         String clientIp = servletRequest.getRemoteAddr();
+        
+        UUID paymentTransactionId = UUID.randomUUID();
+        paymentTransactionService.createNewPaymentTransaction(paymentTransactionId, userDto.getId(), paymentAmount, VNPAY);
 
-        VideoDto video = videoService.findByHref(href);
-        long amount = video.getPrice() * 100;
-
-        String paymentUrl = vnpayHelper.createPaymentUrl(clientIp, href, amount);
+        String paymentUrl = vnpayHelper.createPaymentUrl(paymentTransactionId, paymentAmount, clientIp);
         return Response.status(Response.Status.SEE_OTHER)
                 .header(HttpHeaders.LOCATION, paymentUrl)
                 .build();
@@ -58,25 +73,18 @@ public class PaymentController {
     @GET
     @Path("/vnpay/callback")
     public String getSuccessPayment(
-            @QueryParam("href") String href,
-            @QueryParam("vnp_TxnRef") String vnp_TxnRef,
-            @QueryParam("vnp_OrderInfo") String vnp_OrderInfo,
-            @QueryParam("vnp_PayDate") String vnp_PayDate,
-            @QueryParam("vnp_ResponseCode") String vnp_ResponseCode,
-            @QueryParam("vnp_Amount") Long vnp_Amount,
-            @QueryParam("vnp_BankCode") String vnp_BankCode,
-            @QueryParam("vnp_TransactionNo") String vnp_TransactionNo
-    ) throws ParseException {
-        UserDto userDto = (UserDto) session.getAttribute(SessionConstant.CURRENT_USER);
-        Order order = orderService.create(userDto.getId(), href, vnp_TxnRef, vnp_OrderInfo, vnp_PayDate, vnp_ResponseCode, vnp_Amount, vnp_BankCode, vnp_TransactionNo);
-        if(order.getVnp_ResponseCode().equals(PaymentConstant.VNPAY_SUCCESS_CODE)){
-            session.setAttribute("paySuccess", true);
-        } else {
-            session.setAttribute("paySuccess", false);
-        }
-
-        // TODO: update
-        VideoDto video = videoService.findByHref(href);
-        return "redirect:v/detail/" + video.getSlug();
+            @QueryParam("vnp_TxnRef") UUID paymentTractionId,
+            @QueryParam("vnp_OrderInfo") String paymentInfo,
+            @QueryParam("vnp_BankCode") String bankCode,
+            @QueryParam("vnp_TransactionNo") String referenceTransactionNumber,
+            @QueryParam("vnp_TransactionStatus") String statusCode,
+            @QueryParam("vnp_CardType") PaymentCardType cardType
+    ) {
+        var paymentTransaction = paymentTransactionService.updatePaymentTransaction(paymentTractionId, paymentInfo, bankCode, referenceTransactionNumber, statusCode, cardType);
+        userService.topUpUserBalance(paymentTransaction.getUserId(), paymentTransaction.getPaymentAmount());
+        userService.createNewUserBalanceTransaction(paymentTransaction.getUserId(), paymentTransaction.getPaymentAmount(), DEPOSIT);
+        
+        buildDialogSuccessMessage(session, "Thành công", "Vui lòng kiểm tra lại số dư tài khoản");
+        return "redirect:profile";
     }
 }

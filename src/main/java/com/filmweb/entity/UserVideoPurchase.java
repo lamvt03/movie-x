@@ -1,11 +1,8 @@
 package com.filmweb.entity;
 
-import com.filmweb.domain.user.UserTransactionType;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
@@ -25,22 +22,24 @@ import org.hibernate.type.descriptor.jdbc.TimestampJdbcType;
 import org.hibernate.type.descriptor.jdbc.VarcharJdbcType;
 
 @Getter @Setter @Builder @NoArgsConstructor @AllArgsConstructor
-@Entity @Table(name = "user_balance_transactions")
-public class UserBalanceTransaction {
+@Entity @Table(name = "user_video_purchases")
+public class UserVideoPurchase {
   
-  @Id @GeneratedValue @JdbcType(VarcharJdbcType.class)
+  @Id @GeneratedValue
+  @JdbcType(VarcharJdbcType.class)
   private UUID id;
   
+  @Column(name = "purchase_amount")
   @JdbcType(BigIntJdbcType.class)
-  private Long amount;
-  
-  @Column(name = "transaction_type", length = 20) @JdbcType(VarcharJdbcType.class)
-  @Enumerated(EnumType.STRING)
-  private UserTransactionType transactionType;
+  private Long purchaseAmount;
   
   @ManyToOne(cascade = CascadeType.MERGE)
   @JoinColumn(name = "user_id", referencedColumnName = "id")
   private User user;
+  
+  @ManyToOne(cascade = CascadeType.MERGE)
+  @JoinColumn(name = "video_id", referencedColumnName = "id")
+  private Video video;
   
   @Column(name = "created_at") @JdbcType(TimestampJdbcType.class)
   private LocalDateTime createdAt;

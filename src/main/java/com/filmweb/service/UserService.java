@@ -15,11 +15,14 @@ import com.filmweb.constant.AppConstant;
 import com.filmweb.constant.CookieConstant;
 import com.filmweb.constant.SessionConstant;
 import com.filmweb.dao.OnboardingTokenDao;
+import com.filmweb.dao.UserBalanceTransactionDao;
 import com.filmweb.dao.UserDao;
+import com.filmweb.domain.user.UserTransactionType;
 import com.filmweb.dto.GoogleUser;
 import com.filmweb.dto.TopUserDto;
 import com.filmweb.dto.UserDto;
 import com.filmweb.entity.User;
+import com.filmweb.entity.UserBalanceTransaction;
 import com.filmweb.mapper.UserMapper;
 import com.filmweb.utils.RandomUtils;
 import jakarta.enterprise.context.ApplicationScoped;
@@ -67,6 +70,9 @@ public class UserService {
     
     @Inject
     private JwtService jwtService;
+    
+    @Inject
+    private UserBalanceTransactionDao userBalanceTransactionDao;
 
     public UserDto authenticate(String email, String password) {
         User user = userDao.findByEmail(email);
@@ -338,6 +344,29 @@ public class UserService {
                 cookie.setMaxAge(0);
                 response.addCookie(cookie);
             });
+    }
+    
+    @Transactional
+    public void topUpUserBalance(UUID id, Long amount) {
+        var user = userDao.findById(id);
+        
+        user.setTotalBalanceAmount(user.getTotalBalanceAmount() + amount);
+        user.setRemainingBalanceAmount(user.getRemainingBalanceAmount() + amount);
+        
+        userDao.update(user);
+    }
+    
+    @Transactional
+    public void createNewUserBalanceTransaction(UUID userId, Long amount, UserTransactionType transactionType) {
+        var user = userDao.findById(userId);
+        
+        userBalanceTransactionDao.create(
+            UserBalanceTransaction.builder()
+                .amount(amount)
+                .transactionType(transactionType)
+                .user(user)
+                .build()
+        );
     }
     
     private String buildUserImageLink(int avtId) {

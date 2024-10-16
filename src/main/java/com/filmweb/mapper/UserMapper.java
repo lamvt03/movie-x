@@ -3,6 +3,7 @@ package com.filmweb.mapper;
 import com.filmweb.dto.TopUserDto;
 import com.filmweb.dto.UserDto;
 import com.filmweb.entity.User;
+import com.filmweb.utils.PriceFormatUtils;
 import jakarta.enterprise.context.ApplicationScoped;
 
 @ApplicationScoped
@@ -24,8 +25,8 @@ public class UserMapper {
             .isActive(entity.getIsActive())
             .isAdmin(entity.getIsAdmin())
             .image(entity.getImage())
-            .totalBalanceAmount(entity.getTotalBalanceAmount())
-            .remainingBalanceAmount(entity.getRemainingBalanceAmount())
+            .totalBalanceAmount(PriceFormatUtils.toFomattedString(entity.getTotalBalanceAmount()))
+            .remainingBalanceAmount(PriceFormatUtils.toFomattedString(entity.getRemainingBalanceAmount()))
             .emailVerifiedAt(entity.getEmailVerifiedAt())
             .build();
     }
