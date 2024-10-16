@@ -129,7 +129,7 @@
     depositBtn.onclick = () => {
         Swal.fire({
             title: "Nạp tiền",
-            text: "Vui lòng nhập số tiền cần nạp",
+            text: "Vui lòng nhập số tiền lớn hơn hoặc bằng 20,000 VND",
             input: 'text',
             showCancelButton: true,
             confirmButtonColor: '#3085d6',

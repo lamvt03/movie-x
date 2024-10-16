@@ -55,7 +55,7 @@ public class VideoAPI {
     public Response putLike(
             @QueryParam("v") String href,
             @QueryParam("page") Integer page
-    ){
+    ) {
         CommentListResp resp = commentService.loadMoreComments(href, page, 3);
         return Response
                 .status(200)

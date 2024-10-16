@@ -144,7 +144,7 @@
                                 </c:when>
                                 <c:otherwise>
                                     <c:choose>
-                                        <c:when test="${order.vnp_ResponseCode == '00'}">
+                                        <c:when test="${wasPurchasedByUser}">
                                             <a
                                                     href="${initParam.mvcPath}/v/watch/${video.slug}"
                                                     class="watch-btn"><span>Xem ngay</span> <i
@@ -390,19 +390,54 @@
 
     /* hỏi khi thanh toán */
     function clickConfirmPayment() {
-        Swal.fire({
-            title: 'Xác nhận',
-            text: "Bạn có chắc chắn muốn mua phim không ?",
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonColor: '#3085d6',
-            cancelButtonColor: '#d33',
-            confirmButtonText: 'Đồng ý'
-        }).then((result) => {
-            if (result.isConfirmed) {
-                window.location.href = "/movie-x/payment/vnpay?href=${video.href}";
-            }
-        })
+        const config = {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                videoId: '${video.id}'
+            })
+        }
+        fetch('/movie-x/api/user/check-balance', config)
+            .then(resp => resp.json())
+            .then((data) => {
+                if (!data.success) return;
+                if (data.canPurchase) {
+                    Swal.fire({
+                        title: 'Xác nhận',
+                        text: "Bạn có chắc chắn muốn mua phim với giá ${video.formattedPrice} không ?",
+                        icon: 'warning',
+                        showCancelButton: true,
+                        confirmButtonColor: '#3085d6',
+                        cancelButtonColor: '#d33',
+                        confirmButtonText: 'Đồng ý'
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            window.location.href = "/movie-x/v/purchase/${video.slug}";
+                        }
+                    })
+                } else {
+                    console.log('khong du');
+                    Swal.fire({
+                        title: 'Thông báo',
+                        text: "Số dư trong tài khoản không đủ",
+                        icon: 'warning',
+                        showCloseButton: true,
+                        showCancelButton: true,
+                        focusCancel: false,
+                        cancelButtonColor: '#e74c3c',
+                        cancelButtonText: 'Huỷ',
+                        confirmButtonColor: '#27ae60',
+                        confirmButtonText: '<a style="color: white;" href="${initParam.mvcPath}/profile">Nạp tiền ngay</a>'
+                    })
+                }
+            })
+
+
+
+
+
     }
 
 </script>
