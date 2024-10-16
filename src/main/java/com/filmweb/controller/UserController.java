@@ -8,6 +8,7 @@ import com.filmweb.entity.History;
 import com.filmweb.entity.Order;
 import com.filmweb.service.HistoryService;
 import com.filmweb.service.OrderService;
+import com.filmweb.service.PaymentTransactionService;
 import com.filmweb.service.UserService;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
@@ -37,6 +38,9 @@ public class UserController {
 
     @Inject
     private HistoryService historyService;
+    
+    @Inject
+    private PaymentTransactionService paymentTransactionService;
 
     @GET
     @Path("/profile")
@@ -81,10 +85,8 @@ public class UserController {
 
     ) {
         UserDto userDto = (UserDto) session.getAttribute(SessionConstant.CURRENT_USER);
-        if (userDto != null) {
-            List<Order> orders = orderService.findByEmail(userDto.getEmail());
-            models.put("orders", orders);
-        }
+        var paymentTransactions = paymentTransactionService.findByUserId(userDto.getId());
+        models.put("paymentTransactions", paymentTransactions);
         return "user/transaction.jsp";
     }
 

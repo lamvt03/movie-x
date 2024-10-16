@@ -62,7 +62,7 @@ public class HomeController {
         List<VideoDto> topVideos = videoService.findTopYear(2024, 1, 4);
         models.put("topVideos", topVideos);
 
-        List<TopUserDto> topUsers = userService.findTopUsers(1, 3);
+        var topUsers = userService.findTopPaymentUsers(1, 3);
         models.put("topUsers", topUsers);
 
         List<CommentDto> newestComments = commentService.findNewestComments(3);

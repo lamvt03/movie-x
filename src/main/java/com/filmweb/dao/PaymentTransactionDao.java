@@ -22,4 +22,9 @@ public class PaymentTransactionDao extends AbstractDao<PaymentTransaction> {
     String jpql = "SELECT o FROM PaymentTransaction o WHERE o.status = ?1 ";
     return super.findMany(PaymentTransaction.class, jpql, status);
   }
+  
+  public List<PaymentTransaction> findByUserId(UUID userId) {
+    String jpql = "SELECT o FROM PaymentTransaction o JOIN o.user u WHERE u.id = ?1 ";
+    return super.findMany(PaymentTransaction.class, jpql, userId);
+  }
 }

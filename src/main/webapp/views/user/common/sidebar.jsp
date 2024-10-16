@@ -36,11 +36,11 @@
 
         <div class="product__sidebar__comment">
             <div class="section-title">
-                <h5>TOP NGƯỜI DÙNG MUA PHIM</h5>
+                <h5>BXH NGƯỜI DÙNG NẠP TIỀN</h5>
             </div>
 
             <jsp:useBean id="topUsers" scope="request" type="java.util.List"/>
-            <c:forEach items="${topUsers}" var="topUser">
+            <c:forEach items="${topUsers}" var="topUser" varStatus="loop">
                 <div class="product__sidebar__comment__item">
                     <div class="product__sidebar__comment__item__pic">
                         <img class="rounded-top img-fluid" src="${topUser.image}"
@@ -51,12 +51,7 @@
                                 ${topUser.fullName}
                         </h5>
                         <p class="text-light opacity-75 mt-2">
-                            <fmt:setLocale value="vi_VN"/>
-                            <c:set var="formattedTotal" value="${topUser.total}"/>
-                            <fmt:formatNumber var="formattedTotal"
-                                              value="${formattedTotal}" type="currency"
-                                              currencyCode="VND"/>
-                                ${formattedTotal}
+                                ${topUser.totalBalanceAmount}
                         </p>
                     </div>
                 </div>

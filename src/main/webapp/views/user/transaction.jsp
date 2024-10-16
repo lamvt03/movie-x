@@ -9,6 +9,7 @@
 <%@ include file="/views/common/taglib.jsp" %>
 
 <jsp:useBean id="now" class="java.util.Date"/>
+<jsp:useBean id="paymentTransactions" scope="request" type="java.util.List"/>
 
 <html lang="en">
 <head>
@@ -22,15 +23,10 @@
 <%@ include file="/views/user/common/header.jsp" %>
 
 <!-- Blog Details Section Begin -->
-<section class="login spad container" style="min-height: 73vh">
+<section class="login spad container mt-5" style="min-height: 73vh">
     <div class="text-white text-center">
-        <h4 class="font-weight-bold">Lịch Sử Giao Dịch</h4>
+        <h4 class="font-weight-bold">Lịch Sử Nạp Tiền</h4>
         <br>
-    </div>
-    <div class="blog__details__title">
-        <h6>
-            <fmt:formatDate value="${now}" pattern="EEE, HH:mm:ss, dd-MM-yyyy"/>
-        </h6>
     </div>
     <div class="rounded-lg">
         <div class="row bg-white p-2 m-1" style="border-radius: 6px">
@@ -42,41 +38,31 @@
                             <tr style="font-size: 14px">
                                 <th scope="col">#</th>
                                 <th scope="col">Mã giao dịch</th>
-                                <th scope="col">Video</th>
-                                <th scope="col">Hình thức thanh toán</th>
-                                <th scope="col">Ngày</th>
-                                <th scope="col">Giờ</th>
-                                <th scope="col">Giá tiền</th>
+                                <th scope="col">Phương thức</th>
+                                <th scope="col">Loại thẻ</th>
+                                <th scope="col">Số tiền</th>
                                 <th scope="col">Trạng thái</th>
                             </tr>
                             </thead>
                             <tbody>
-                            <c:forEach items="${orders}" var="order" varStatus="loop">
+                            <c:forEach items="${paymentTransactions}" var="paymentTransaction" varStatus="loop">
                                 <tr style="font-size: 14px">
-                                    <td scope="row">${loop.index + 1}</td>
-                                    <td width="130px">${order.vnp_TxnRef}</td>
-                                    <td width="130px"><a
-                                            class="text-info fs-6 text-decoration-none font-weight-bold"
-                                            href="${initParam.mvcPath}/v/watch/{order.video.slug}">Xem tại
-                                        đây</a></td>
-                                    <td>NGÂN HÀNG ${order.vnp_BankCode}</td>
-                                    <td><fmt:formatDate value="${order.vnp_PayDate}"
-                                                        pattern="dd/MM/yyyy"/></td>
-                                    <td><fmt:formatDate value="${order.vnp_PayDate}"
-                                                        pattern="HH:mm:ss"/></td>
-                                    <td><c:set var="amount" value="${order.vnp_Amount}"/> <c:set
-                                            var="locale" value="vi_VN"/> <fmt:setLocale
-                                            value="${locale}"/> <fmt:formatNumber
-                                            value="${amount}" type="currency" currencyCode="VND"/></td>
-                                    <td width="140px"><c:choose>
-                                        <c:when test="${order.vnp_ResponseCode == '00'}">
-														<span class="text-success font-weight-bold">Thành
-															công</span>
-                                        </c:when>
-                                        <c:otherwise>
-                                            <span class="text-danger font-weight-bold">Thất bại</span>
-                                        </c:otherwise>
-                                    </c:choose></td>
+                                    <td>${loop.index + 1}</td>
+                                    <td>${paymentTransaction.referenceTransactionNumber}</td>
+                                    <td>
+                                        <span class="badge bg-primary rounded-3 fw-semibold">${paymentTransaction.provider}</span>
+                                    </td>
+                                    <td>
+                                        <span class="badge bg-primary rounded-3 fw-semibold">${paymentTransaction.cardType}</span>
+                                    </td>
+                                    <td>
+                                        ${paymentTransaction.formattedPaymentAmount}
+                                    </td>
+                                    <td>
+                                        <span class="fw-semibold mb-0 badge bg-${paymentTransaction.statusCode}">
+                                                ${paymentTransaction.statusMessage}
+                                        </span>
+                                    </td>
                                 </tr>
                             </c:forEach>
                             </tbody>

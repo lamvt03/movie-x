@@ -69,17 +69,13 @@ public class OAuth2Controller {
 
         session.setAttribute(SessionConstant.CURRENT_USER, userDto);
         
-        generateAndStoreRememberToken(response, userDto);
+        String rememberToken = jwtService.generateRememberToken(userDto);
+        Cookie loginCookie = new Cookie(CookieConstant.REMEMBER_TOKEN, rememberToken);
+        loginCookie.setMaxAge(CookieConstant.LOGIN_DURATION);
+        response.addCookie(loginCookie);
       
         buildToastSuccessMessage(session, "Đăng nhập thành công");
         String prevPageUrl = session.getAttribute(SessionConstant.PREV_PAGE_URL).toString();
         return "redirect:" + prevPageUrl;
-    }
-    
-    private void generateAndStoreRememberToken(HttpServletResponse response, UserDto user) {
-      String rememberToken = jwtService.generateRememberToken(user);
-      Cookie loginCookie = new Cookie(CookieConstant.REMEMBER_TOKEN, rememberToken);
-      loginCookie.setMaxAge(CookieConstant.LOGIN_DURATION);
-      response.addCookie(loginCookie);
     }
 }

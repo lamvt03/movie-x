@@ -76,6 +76,14 @@ public class PaymentTransactionService {
                .toList();
   }
   
+  @Transactional
+  public List<PaymentTransactionDto> findByUserId(UUID userId) {
+    return paymentTransactionDao.findByUserId(userId)
+               .stream()
+               .map(this::toDto)
+               .toList();
+  }
+  
   private PaymentTransactionDto toDto(PaymentTransaction entity) {
     if (entity == null) {
       return null;

@@ -199,6 +199,13 @@ public class UserService {
             .toList();
     }
     
+    public List<UserDto> findTopPaymentUsers(int page, int limit) {
+        return userDao.findAllOrderByTotalBalanceAmountDesc(page, limit)
+            .stream()
+            .map(userMapper::toDto)
+            .toList();
+    }
+    
     @Transactional
     public String handleChangePassword(
         HttpSession session,
