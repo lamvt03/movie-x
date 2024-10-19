@@ -26,13 +26,10 @@
             <div class="col-lg-12">
                 <div class="footer__nav">
                     <ul>
-                        <li class="active"><a href="${initParam.mvcPath}/home">Trang Chủ</a></li>
                         <li><a href="${initParam.mvcPath}/all">Danh Sách Phim</a></li>
                         <li><a href="${initParam.mvcPath}/about">Về Chúng Tôi</a></li>
-                        <c:if test="${not empty sessionScope.currentUser}">
-                            <li><a href="${initParam.mvcPath}/profile">Trang Cá Nhân</a></li>
-                        </c:if>
-
+                        <li><a target="_blank" href="${initParam.mvcPath}/term-of-use">Điều khoản sử dụng</a></li>
+                        <li><a target="_blank" href="${initParam.mvcPath}/privacy-policy">Chính sách bảo mật</a></li>
                     </ul>
                 </div>
             </div>

@@ -29,7 +29,9 @@ public class PrevPageRedirectFilter implements Filter {
             "/api",
             "/admin/video/",
             "/account",
-            "/video/purchase"
+            "/video/purchase",
+            "/term-of-use",
+            "/privacy-policy"
     };
     
     @Inject
@@ -56,7 +58,6 @@ public class PrevPageRedirectFilter implements Filter {
             session.setAttribute(SessionConstant.PREV_PAGE_URL, prevPageUrl);
         }
         filterChain.doFilter(servletRequest, servletResponse);
-
     }
 
     private boolean isValidRequestURI(String requestURI){
