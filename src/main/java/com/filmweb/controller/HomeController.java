@@ -136,4 +136,16 @@ public class HomeController {
     public String getAbout(){
         return "user/about.jsp";
     }
+    
+    @GET
+    @Path("/term-of-use")
+    public String getTermOfUse(){
+        return "user/term-of-use.jsp";
+    }
+    
+    @GET
+    @Path("/privacy-policy")
+    public String getPrivacyPolicy(){
+        return "user/privacy-policy.jsp";
+    }
 }
