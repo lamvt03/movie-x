@@ -1,4 +1,4 @@
-<jsp:useBean id="video" scope="request" type="com.filmweb.dto.VideoDto"/>
+<jsp:useBean id="video" scope="request" type="com.moviex.dto.VideoDto"/>
 <%--
   Created by IntelliJ IDEA.
   User: Asus
