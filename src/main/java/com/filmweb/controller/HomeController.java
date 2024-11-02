@@ -2,6 +2,7 @@ package com.filmweb.controller;
 
 import com.filmweb.constant.AppConstant;
 import com.filmweb.dao.UserDao;
+import com.filmweb.dao.VideoDao;
 import com.filmweb.dto.CommentDto;
 import com.filmweb.dto.TopUserDto;
 import com.filmweb.dto.VideoDto;
@@ -131,9 +132,13 @@ public class HomeController {
         return "user/search.jsp";
     }
 
+    @Inject
+    private VideoDao videoDao;
+    
     @GET
     @Path("/about")
     public String getAbout(){
+        videoDao.existingBySlug("cuong-doat");
         return "user/about.jsp";
     }
     

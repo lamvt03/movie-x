@@ -17,6 +17,8 @@ import com.filmweb.utils.SlugUtils;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import java.security.SecureRandom;
+import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
@@ -93,7 +95,7 @@ public class VideoService {
         Category category = categoryDao.findBySlug(categorySlug);
         
         // TODO: generate slug
-
+        
         // TODO: fix this
         
         SecureRandom random = new SecureRandom();
@@ -120,8 +122,7 @@ public class VideoService {
         
         var price = PriceFormatUtils.toNumber(payload.getFormattedPrice());
         
-        // TODO: make sure slug always unique
-        var slug = SlugUtils.generateSlug(payload.getTitle());
+        var slug = generateUniqueSlug(payload.getTitle());
         
         SecureRandom random = new SecureRandom();
         
@@ -151,8 +152,7 @@ public class VideoService {
         Category category = categoryDao.findBySlug(payload.getCategorySlug());
         long price = PriceFormatUtils.toNumber(payload.getFormattedPrice());
         
-        // TODO: make sure slug always unique
-        var slug = SlugUtils.generateSlug(payload.getTitle());
+        var slug = generateUniqueSlug(payload.getTitle());
         
         video.setTitle(payload.getTitle());
         video.setDirector(payload.getDirector());
@@ -231,6 +231,16 @@ public class VideoService {
         long randomOrdinal = randomUtils.randomInRangeExcept(categoryDao.count(), category.getOrdinal());
         Category otherCategory = categoryDao.findByOrdinal(randomOrdinal);
         return findByCategorySlug(otherCategory.getSlug(), page, limit);
+    }
+    
+    private String generateUniqueSlug(String title) {
+        String slug = SlugUtils.generateSlug(title);
+        
+        while (videoDao.existingBySlug(slug)) {
+            slug = SlugUtils.generateSlug(title, String.valueOf(new Date().getTime()));
+        };
+        
+        return slug;
     }
     
     private String buildVideoPosterLink(String href) {

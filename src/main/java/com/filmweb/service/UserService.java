@@ -30,21 +30,19 @@ import com.filmweb.mapper.VideoMapper;
 import com.filmweb.utils.RandomUtils;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
-import jakarta.mail.MessagingException;
+import jakarta.inject.Named;
 import jakarta.mvc.Models;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import jakarta.transaction.Transactional;
-import java.io.UnsupportedEncodingException;
 import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
+import java.util.concurrent.Executor;
 import lombok.extern.jbosslog.JBossLog;
 
 @ApplicationScoped
@@ -53,8 +51,6 @@ public class UserService {
     
     public static final String IMAGE_PREFIX = "/views/user/assets/img/avt/avt-";
     public static final String IMAGE_SUFFIX = ".jpg";
-    
-    private final ExecutorService executor = Executors.newSingleThreadExecutor();
     
     @Inject
     private RandomUtils randomUtils;
@@ -94,7 +90,11 @@ public class UserService {
     
     @Inject
     private VideoMapper videoMapper;
-
+    
+    @Inject
+    @Named("sendEmailExecutor")
+    private Executor sendEmailExecutor;
+    
     public UserDto authenticate(String email, String password) {
         User user = userDao.findByEmail(email);
         return Optional.ofNullable(user)
@@ -420,12 +420,8 @@ public class UserService {
         user.setRemainingBalanceAmount(user.getRemainingBalanceAmount() - video.getPrice());
         userDao.update(user);
         
-        executor.submit(() -> {
-            try {
-                notificationService.sendVideoPurchaseSuccessMail(userMapper.toDto(user), videoMapper.toDto(video));
-            } catch (MessagingException | UnsupportedEncodingException e) {
-                log.errorf("FAILED to send video purchase success email for user with ID %s", userId);
-            }
+        sendEmailExecutor.execute(() -> {
+            notificationService.sendVideoPurchaseSuccessMail(userMapper.toDto(user), videoMapper.toDto(video));
         });
         
         buildDialogSuccessMessage(session, "Thông báo", "Mua phim thành công");

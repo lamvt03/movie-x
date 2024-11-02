@@ -18,6 +18,7 @@ public interface VideoDao {
 
     Video findByHref(String href);
     Video findBySlug(String slug);
+    boolean existingBySlug(String slug);
 
     List<Video> findTrending(int limit);
 
