@@ -17,7 +17,6 @@ import com.filmweb.utils.SlugUtils;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import java.security.SecureRandom;
-import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
@@ -88,34 +87,6 @@ public class VideoService {
                 .map(videoMapper::toDto)
                 .toList();
     }
-
-    //TODO : delete
-    public Video create(String title, String href, String poster, String director, String actor, String categorySlug, String description, String formattedPrice) {
-        long price = Long.parseLong(formattedPrice.replace(".", ""));
-        Category category = categoryDao.findBySlug(categorySlug);
-        
-        // TODO: generate slug
-        
-        // TODO: fix this
-        
-        SecureRandom random = new SecureRandom();
-        return videoDao.create(
-                Video.builder()
-                        .title(title)
-                        .href(href)
-                        .poster(poster)
-                        .director(director)
-                        .actor(actor)
-                        .category(category)
-                        .price(price)
-                        .paymentType(price > 0 ? PAID : FREE)
-                        .description(description)
-                        .isActive(Boolean.TRUE)
-                        .views(random.nextInt(15))
-                        .share(0)
-                        .build()
-        );
-    }
     
     public VideoDto createNewVideo(VideoCreationPayload payload) {
         var category = categoryDao.findById(payload.getCategoryId());
@@ -163,22 +134,6 @@ public class VideoService {
         video.setPaymentType(price > 0 ? PAID : FREE);
         video.setDescription(payload.getDescription());
         
-        return videoMapper.toDto(videoDao.update(video));
-    }
-
-    // TODO: delete
-    public VideoDto update(String title, String href, String director, String actor, String categoryCode, String heading, String formattedPrice, String description) {
-        Video video = videoDao.findByHref(href);
-        Category category = categoryDao.findBySlug(categoryCode);
-        video.setTitle(title);
-        video.setDirector(director);
-        video.setActor(actor);
-        video.setCategory(category);
-        
-        long price = Long.parseLong(formattedPrice.replace(".", ""));
-        video.setPrice(price);
-        video.setPaymentType(price > 0 ? PAID : FREE);
-        video.setDescription(description);
         return videoMapper.toDto(videoDao.update(video));
     }
 
