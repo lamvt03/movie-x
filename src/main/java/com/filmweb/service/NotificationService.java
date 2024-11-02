@@ -1,64 +1,80 @@
 package com.filmweb.service;
 
+import com.filmweb.domain.email.EmailMessage;
 import com.filmweb.dto.UserDto;
 import com.filmweb.dto.VideoDto;
-import com.filmweb.utils.EmailTemplateUtils;
+import com.filmweb.exception.SendEmailException;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
-import jakarta.mail.MessagingException;
 import lombok.extern.jbosslog.JBossLog;
 import org.eclipse.microprofile.config.inject.ConfigProperty;
-
-import java.io.UnsupportedEncodingException;
 
 @ApplicationScoped
 @JBossLog
 public class NotificationService {
+  
+  @Inject
+  private MailSenderService mailSenderService;
+  
+  @Inject
+  @ConfigProperty(name = "host.url")
+  private String hostUrl;
+  
+  public void sendEmailVerification(UserDto recipient, String token) {
+    var messageBuilder = EmailMessage.builder()
+        .to(recipient.getEmail())
+        .subject("Kích hoạt tài khoản của bạn trên Movie X")
+        .templateId("email_verification");
     
-    @Inject
-    private MailSenderService mailSenderService;
+    messageBuilder.tag("full_name", recipient.getFullName());
+    messageBuilder.tag("verification_link", buildEmailVerificationLink(token));
     
-    @Inject
-    @ConfigProperty(name="host.url")
-    private String hostUrl;
-    
-    public void sendRegisterEmail(UserDto recipient, String token) {
-        String subject = "Kích hoạt tài khoản của bạn trên Movie X";
-        String content = EmailTemplateUtils.buildRegistrationMail(recipient.getFullName(), token, hostUrl);
-        String contentType = "text/html; charset=utf-8";
-        
-        try {
-            mailSenderService.sendEmail(recipient.getEmail(), subject, content, contentType);
-        } catch (MessagingException | UnsupportedEncodingException e) {
-            log.errorf("FAILED to send register email for user with ID %s", recipient.getId());
-        }
+    try {
+      mailSenderService.sendEmail(messageBuilder.build());
+    } catch (SendEmailException e) {
+      log.errorf("FAILED to send register email for user with ID %s", recipient.getId());
     }
+  }
+  
+  public void sendForgotPasswordEmail(UserDto recipient, String otp) {
+    var messageBuilder = EmailMessage.builder()
+        .to(recipient.getEmail())
+        .subject("Yêu cầu đổi mật khẩu tài khoản Movie X")
+        .templateId("password_reset");
     
-    public void sendForgotEmail(UserDto recipient, String otp) {
-        String subject = "Yêu cầu đổi mật khẩu tài khoản Movie X";
-        String content = EmailTemplateUtils.buildForgotMail(recipient.getFullName(), otp);
-        String contentType = "text/html; charset=utf-8";
-        
-        try {
-            mailSenderService.sendEmail(recipient.getEmail(), subject, content, contentType);
-        } catch (MessagingException | UnsupportedEncodingException e) {
-            log.errorf("FAILED to send forgot password email for user with ID %s", recipient.getId());
-        }
-    }
+    messageBuilder.tag("full_name", recipient.getFullName());
+    messageBuilder.tag("otp_code", otp);
     
-    public void sendVideoPurchaseSuccessMail(UserDto recipient, VideoDto video) {
-        String subject = "Bạn vừa mua một bộ phim trên Movie X";
-        String content = EmailTemplateUtils.buildVideoPurchaseSuccessMail(recipient.getFullName(), video.getTitle(), video.getPrice(), buildVideoWatchUrl(video.getSlug()));
-        String contentType = "text/html; charset=utf-8";
-        
-        try {
-            mailSenderService.sendEmail(recipient.getEmail(), subject, content, contentType);
-        } catch (MessagingException | UnsupportedEncodingException e) {
-            log.errorf("FAILED to send video purchase success email for user with ID %s", recipient.getId());
-        }
+    try {
+      mailSenderService.sendEmail(messageBuilder.build());
+    } catch (SendEmailException e) {
+      log.errorf("FAILED to send forgot password email for user with ID %s", recipient.getId());
     }
+  }
+  
+  public void sendVideoPurchasedEmail(UserDto recipient, VideoDto video) {
+    var messageBuilder = EmailMessage.builder()
+        .to(recipient.getEmail())
+        .subject("Bạn vừa mua một bộ phim trên Movie X")
+        .templateId("video_purchase");
     
-    private String buildVideoWatchUrl(String slug) {
-        return String.format("%s/movie-x/v/watch/%s", hostUrl, slug);
+    messageBuilder.tag("full_name", recipient.getFullName());
+    messageBuilder.tag("movie_name", video.getTitle());
+    messageBuilder.tag("price", video.getFormattedPrice());
+    messageBuilder.tag("movie_watch_url", buildVideoWatchUrl(video.getSlug()));
+    
+    try {
+      mailSenderService.sendEmail(messageBuilder.build());
+    } catch (SendEmailException e) {
+      log.errorf("FAILED to send video purchase success email for user with ID %s", recipient.getId());
     }
+  }
+  
+  private String buildEmailVerificationLink(String token) {
+    return String.format("%s/movie-x/verify?token=%s", hostUrl, token);
+  }
+  
+  private String buildVideoWatchUrl(String slug) {
+    return String.format("%s/movie-x/v/watch/%s", hostUrl, slug);
+  }
 }

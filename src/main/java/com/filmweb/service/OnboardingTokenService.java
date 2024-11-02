@@ -57,7 +57,7 @@ public class OnboardingTokenService {
     onboardingTokenDao.create(onboardingTokenCreated);
     
     sendEmailExecutor.execute(() -> {
-      notificationService.sendRegisterEmail(userMapper.toDto(user), token);
+      notificationService.sendEmailVerification(userMapper.toDto(user), token);
     });
   }
 }

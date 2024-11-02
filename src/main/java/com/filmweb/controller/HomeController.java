@@ -1,16 +1,13 @@
 package com.filmweb.controller;
 
 import com.filmweb.constant.AppConstant;
-import com.filmweb.dao.UserDao;
 import com.filmweb.dao.VideoDao;
 import com.filmweb.dto.CommentDto;
 import com.filmweb.dto.TopUserDto;
 import com.filmweb.dto.VideoDto;
 import com.filmweb.service.CommentService;
-import com.filmweb.service.PasswordEncodeService;
 import com.filmweb.service.UserService;
 import com.filmweb.service.VideoService;
-import jakarta.annotation.PostConstruct;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.mvc.Controller;
@@ -19,7 +16,6 @@ import jakarta.ws.rs.GET;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.PathParam;
 import jakarta.ws.rs.QueryParam;
-
 import java.util.List;
 import java.util.Optional;
 
@@ -137,8 +133,7 @@ public class HomeController {
     
     @GET
     @Path("/about")
-    public String getAbout(){
-        videoDao.existingBySlug("cuong-doat");
+    public String getAbout() {
         return "user/about.jsp";
     }
     
