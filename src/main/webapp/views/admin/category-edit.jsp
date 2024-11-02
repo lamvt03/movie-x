@@ -1,4 +1,4 @@
-<jsp:useBean id="category" scope="request" type="com.filmweb.entity.Category"/>
+<jsp:useBean id="category" scope="request" type="com.moviex.entity.Category"/>
 <%--
   Created by IntelliJ IDEA.
   User: Asus

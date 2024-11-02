@@ -5,19 +5,19 @@
              version="3.0">
     <persistence-unit name="movie-x-persistence" transaction-type="RESOURCE_LOCAL">
         <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
-        <class>com.filmweb.entity.Comment</class>
-        <class>com.filmweb.entity.History</class>
-        <class>com.filmweb.entity.Order</class>
-        <class>com.filmweb.entity.Rating</class>
-        <class>com.filmweb.entity.Share</class>
-        <class>com.filmweb.entity.User</class>
-        <class>com.filmweb.entity.Video</class>
-        <class>com.filmweb.entity.Category</class>
-        <class>com.filmweb.entity.Otp</class>
-        <class>com.filmweb.entity.OnboardingToken</class>
-        <class>com.filmweb.entity.UserBalanceTransaction</class>
-        <class>com.filmweb.entity.UserVideoPurchase</class>
-        <class>com.filmweb.entity.PaymentTransaction</class>
+        <class>com.moviex.entity.Comment</class>
+        <class>com.moviex.entity.History</class>
+        <class>com.moviex.entity.Order</class>
+        <class>com.moviex.entity.Rating</class>
+        <class>com.moviex.entity.Share</class>
+        <class>com.moviex.entity.User</class>
+        <class>com.moviex.entity.Video</class>
+        <class>com.moviex.entity.Category</class>
+        <class>com.moviex.entity.Otp</class>
+        <class>com.moviex.entity.OnboardingToken</class>
+        <class>com.moviex.entity.UserBalanceTransaction</class>
+        <class>com.moviex.entity.UserVideoPurchase</class>
+        <class>com.moviex.entity.PaymentTransaction</class>
         <exclude-unlisted-classes>true</exclude-unlisted-classes>
         <properties>
 

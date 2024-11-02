@@ -8,7 +8,7 @@
 <%@ page contentType="text/html; charset=UTF-8" language="java" %>
 <%@ include file="/views/common/taglib.jsp" %>
 
-<jsp:useBean id="user" scope="request" type="com.filmweb.dto.UserDto"/>
+<jsp:useBean id="user" scope="request" type="com.moviex.dto.UserDto"/>
 
 <html>
 <head>

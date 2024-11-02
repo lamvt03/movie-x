@@ -5,7 +5,7 @@
   Time: 5:19 PM
   To change this template use File | Settings | File Templates.
 --%>
-<jsp:useBean id="video" scope="request" type="com.filmweb.dto.VideoDto"/>
+<jsp:useBean id="video" scope="request" type="com.moviex.dto.VideoDto"/>
 <jsp:useBean id="comments" scope="request" type="java.util.List"/>
 
 <%@ page contentType="text/html; charset=UTF-8" language="java" %>
