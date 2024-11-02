@@ -6,7 +6,6 @@ import com.moviex.dto.UserDto;
 import com.moviex.dto.VideoDto;
 import com.moviex.entity.History;
 import com.moviex.service.HistoryService;
-import com.moviex.service.OrderService;
 import com.moviex.service.PaymentTransactionService;
 import com.moviex.service.UserService;
 import jakarta.enterprise.context.ApplicationScoped;
@@ -31,9 +30,6 @@ public class UserController {
 
     @Inject
     private UserService userService;
-
-    @Inject
-    private OrderService orderService;
 
     @Inject
     private HistoryService historyService;
@@ -115,7 +111,7 @@ public class UserController {
     @GET
     @Path("/favorite")
     public String getFavorite(
-    ){
+    ) {
         UserDto userDto = (UserDto) session.getAttribute(SessionConstant.CURRENT_USER);
 
         if (userDto != null) {
@@ -124,7 +120,6 @@ public class UserController {
         }
         return "user/favorite.jsp";
     }
-
 }
 
 

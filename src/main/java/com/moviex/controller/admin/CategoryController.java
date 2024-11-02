@@ -72,10 +72,7 @@ public class CategoryController {
     @Path("/category/edit/{id}")
     public String postEditCategory(
             @PathParam("id") UUID id,
-            @FormParam("name") String name,
-            
-            // TODO: delete
-            @FormParam("code") String code
+            @FormParam("name") String name
     ){
         categoryService.update(id, name);
         session.setAttribute("updateCategorySuccess", true);

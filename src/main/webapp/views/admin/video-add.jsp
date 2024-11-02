@@ -107,16 +107,5 @@
 </div>
 
 <%@ include file="/views/admin/common/footer.jsp" %>
-
-<script type="text/javascript">
-
-    // TODO: delete, generate poster by Java code
-    function fillHrefOnPoster() {
-        var href = document.getElementById("link-phim").value;
-        var poster = document.getElementById("poster");
-        poster.value = "https://img.youtube.com/vi/" + href
-            + "/maxresdefault.jpg";
-    }
-</script>
 </body>
 </html>

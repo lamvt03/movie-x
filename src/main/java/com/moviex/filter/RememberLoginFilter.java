@@ -31,13 +31,14 @@ public class RememberLoginFilter implements Filter {
         // If the user is already logged in, do nothing
         if(req.getSession().getAttribute(SessionConstant.CURRENT_USER) != null
                 || req.getCookies() == null
-        ){
+        ) {
             filterChain.doFilter(servletRequest, servletResponse);
             return;
         }
 
         Arrays.stream(req.getCookies())
                 .filter(cookie -> cookie.getName().equals(CookieConstant.REMEMBER_TOKEN))
+                .filter(cookie -> cookie.getMaxAge() > 0)
                 .findFirst()
                 .map(Cookie::getValue)
                 .filter(token -> !jwtService.isTokenExpired(token))

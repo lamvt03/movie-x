@@ -12,7 +12,6 @@ import com.moviex.entity.PaymentTransaction;
 import com.moviex.utils.PriceFormatUtils;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
-import jakarta.transaction.Transactional;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
@@ -26,7 +25,6 @@ public class PaymentTransactionService {
   @Inject
   private UserDao userDao;
   
-  @Transactional
   public void createNewPaymentTransaction(UUID id, UUID userId, Long amount, PaymentProvider provider) {
     var user = userDao.findById(userId);
     paymentTransactionDao.create(
@@ -40,7 +38,6 @@ public class PaymentTransactionService {
     );
   }
   
-  @Transactional
   public PaymentTransactionDto updatePaymentTransaction(UUID id, String transactionInfo, String bankCode, String referenceTransactionNumber, String statusCode, PaymentCardType cardType) {
     var paymentTransaction = paymentTransactionDao.findById(id);
     
@@ -60,7 +57,6 @@ public class PaymentTransactionService {
     return toDto(paymentTransactionDao.findById(id));
   }
   
-  @Transactional
   public List<PaymentTransactionDto> findLatestPaymentTransaction(int page, int limit) {
     return paymentTransactionDao.findAllOrderByCreatedAtDesc(page, limit)
                .stream()
@@ -68,7 +64,6 @@ public class PaymentTransactionService {
                .toList();
   }
   
-  @Transactional
   public List<PaymentTransactionDto> findByStatus(PaymentStatus status) {
     return paymentTransactionDao.findByStatus(status)
                .stream()
@@ -76,7 +71,6 @@ public class PaymentTransactionService {
                .toList();
   }
   
-  @Transactional
   public List<PaymentTransactionDto> findByUserId(UUID userId) {
     return paymentTransactionDao.findByUserIdOrderByCreatedAtDesc(userId)
                .stream()

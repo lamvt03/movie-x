@@ -36,7 +36,6 @@ import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
-import jakarta.transaction.Transactional;
 import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
@@ -126,8 +125,7 @@ public class UserService {
         return userMapper.toDto(user);
 
     }
-
-    @Transactional
+    
     public UserDto register(String email, String password, String phone, String fullName) {
         Integer avtId = randomUtils.randomAvtId(AppConstant.AVATAR_TOTAL);
         User user= User.builder()
@@ -136,7 +134,8 @@ public class UserService {
                 .phone(phone)
                 .fullName(fullName)
                 .isAdmin(FALSE)
-                .isActive(FALSE)
+                // TODO: delete
+                // .isActive(FALSE)
                 .registrationType(INTERNAL)
                 .image(buildUserImageLink(avtId))
                 .totalBalanceAmount(0L)
@@ -155,7 +154,8 @@ public class UserService {
                 .email(user.getEmail())
                 .fullName(user.getName())
                 .isAdmin(FALSE)
-                .isActive(TRUE)
+                // TODO: delete
+                // .isActive(TRUE)
                 .registrationType(GOOGLE)
                 .emailVerifiedAt(LocalDateTime.now())
                 .image(user.getPicture())
@@ -224,7 +224,6 @@ public class UserService {
             .toList();
     }
     
-    @Transactional
     public String handleChangePassword(
         HttpSession session,
         HttpServletRequest request,
@@ -257,7 +256,6 @@ public class UserService {
         return null;
     }
     
-    @Transactional
     public String handleDeleteMyAccount(
         HttpSession session,
         HttpServletRequest request,
@@ -265,7 +263,6 @@ public class UserService {
         UserDto user) {
         var u = userDao.findById(user.getId());
         u.setDeletedAt(LocalDateTime.now());
-        u.setIsActive(FALSE);
         
         userDao.update(u);
         logoutUser(session, request, response);
@@ -274,7 +271,6 @@ public class UserService {
         return "redirect:login";
     }
     
-    @Transactional
     public String handleVerifyOnboardingToken(String token, HttpSession session) {
         var onboardingToken = onboardingTokenDao.findByToken(token);
         
@@ -298,7 +294,6 @@ public class UserService {
         return "redirect:verify/error";
     }
     
-    @Transactional
     public String handleLogin(HttpSession session, HttpServletResponse response, String email, String password) {
         var userDto = authenticate(email, password);
         
@@ -329,7 +324,6 @@ public class UserService {
         return null;
     }
     
-    @Transactional
     public String handleForgotPassword(String email, HttpSession session) {
         UserDto userDto = findByEmail(email);
         
@@ -350,7 +344,6 @@ public class UserService {
         return "redirect:password/forgot";
     }
     
-    @Transactional
     public String handleResendVerificationEmail(HttpSession session) {
         String verifiedEmail = session.getAttribute(SessionConstant.VERIFIED_EMAIL).toString();
         
@@ -371,6 +364,7 @@ public class UserService {
         
         Arrays.stream(request.getCookies())
             .filter(cookie -> cookie.getName().equals(CookieConstant.REMEMBER_TOKEN))
+            .filter(cookie -> cookie.getMaxAge() > 0)
             .findFirst()
             .ifPresent(cookie -> {
                 cookie.setMaxAge(0);
@@ -378,7 +372,6 @@ public class UserService {
             });
     }
     
-    @Transactional
     public void topUpUserBalance(UUID id, Long amount) {
         var user = userDao.findById(id);
         
@@ -388,7 +381,6 @@ public class UserService {
         userDao.update(user);
     }
     
-    @Transactional
     public void createNewUserBalanceTransaction(UUID userId, Long amount, UserTransactionType transactionType) {
         var user = userDao.findById(userId);
         

@@ -39,9 +39,6 @@ public class User {
 
     @Column(name = "is_admin", nullable = false) @JdbcType(BooleanJdbcType.class)
     private Boolean isAdmin = Boolean.FALSE;
-
-    @Column(name = "is_active", nullable = false) @JdbcType(BooleanJdbcType.class)
-    private Boolean isActive = Boolean.FALSE;
     
     @JdbcType(VarcharJdbcType.class)
     private String image;

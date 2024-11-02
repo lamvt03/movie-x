@@ -49,14 +49,6 @@
                                         value="${category.name}"
                                         placeholder="Nhập tên phim">
                                 </div>
-                                <div class="mb-3">
-<%--                                    TODO: delete because slug generate by Java code --%>
-                                    <label for="code" class="form-label">Code phim</label> <input
-                                        type="text" class="form-control bg-dark-light text-white" name="code" id="code"
-                                        value="${category.slug}"
-                                        placeholder="Code thể loại" readonly>
-                                </div>
-
 
                                 <button type="submit" class="btn btn-success">Xác nhận</button>
                                 <a class="btn btn-danger float-end" href="${initParam.mvcPath}/admin/categories"

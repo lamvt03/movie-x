@@ -8,6 +8,7 @@ import com.moviex.utils.SlugUtils;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 
+import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
@@ -46,8 +47,8 @@ public class CategoryService {
     public Category update(UUID id, String name) {
         Category category = findById(id);
         
-        // TODO: make sure slug unique
-        var slug = SlugUtils.generateSlug(name);
+        var slug = generateUniqueSlug(name);
+        
         category.setSlug(slug);
         category.setName(name);
         return categoryDao.update(category);
@@ -56,5 +57,15 @@ public class CategoryService {
     public void delete(String slug) {
         Category category = findBySlug(slug);
         categoryDao.delete(category);
+    }
+    
+    private String generateUniqueSlug(String name) {
+        String slug = SlugUtils.generateSlug(name);
+        
+        while (categoryDao.existingBySlug(slug)) {
+            slug = SlugUtils.generateSlug(name, String.valueOf(new Date().getTime()));
+        }
+        
+        return slug;
     }
 }

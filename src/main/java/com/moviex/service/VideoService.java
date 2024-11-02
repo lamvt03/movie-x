@@ -125,6 +125,8 @@ public class VideoService {
         
         var slug = generateUniqueSlug(payload.getTitle());
         
+        video.setHref(payload.getHref());
+        video.setPoster(buildVideoPosterLink(video.getHref()));
         video.setTitle(payload.getTitle());
         video.setDirector(payload.getDirector());
         video.setActor(payload.getActor());
@@ -137,13 +139,15 @@ public class VideoService {
         return videoMapper.toDto(videoDao.update(video));
     }
 
+    // TODO: Use ID
     public VideoDto restore(String href) {
         Video video = videoDao.findByHref(href);
         // TODO: use deleted_at instead
         video.setIsActive(Boolean.TRUE);
         return videoMapper.toDto(videoDao.update(video));
     }
-
+    
+    // TODO: Use ID
     public VideoDto delete(String href) {
         Video video = videoDao.findByHref(href);
         video.setIsActive(Boolean.FALSE);

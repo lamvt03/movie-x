@@ -140,7 +140,6 @@ public class VideoController {
     public String postVideoEdit(
             @PathParam("id") UUID id,
             @FormParam("title") String title,
-            // TODO: can update href because now use id
             @FormParam("href") String href,
             @FormParam("director") String director,
             @FormParam("actor") String actor,
@@ -154,6 +153,7 @@ public class VideoController {
                 .title(title)
                 .director(director)
                 .actor(actor)
+                .href(href)
                 .categorySlug(categorySlug)
                 .formattedPrice(formattedPrice)
                 .description(description)
