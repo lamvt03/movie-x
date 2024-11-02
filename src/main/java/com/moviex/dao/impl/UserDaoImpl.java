@@ -25,15 +25,21 @@ public class UserDaoImpl extends AbstractDao<User> implements UserDao {
     }
     
     @Override
-    public User findByEmailAndRegistrationType(String email, UserRegistrationType registrationType) {
-        String jpql = "SELECT o FROM User o WHERE o.deletedAt IS NULL AND o.email = ?1 AND o.registrationType = ?2";
-        return super.findOne(User.class, jpql, email, registrationType);
+    public boolean existingByEmail(String email) {
+        String jpql = "SELECT COUNT(u) > 0 FROM User u WHERE u.deletedAt IS NULL AND u.email = ?1";
+        return super.existingBy(jpql, email);
     }
     
     @Override
-    public User findByPhone(String phone) {
-        String jpql = "SELECT o FROM User o WHERE o.deletedAt IS NULL AND o.phone = ?1";
-        return super.findOne(User.class, jpql, phone);
+    public boolean existingByPhone(String phone) {
+        String jpql = "SELECT COUNT(u) > 0 FROM User u WHERE u.deletedAt IS NULL AND u.phone = ?1";
+        return super.existingBy(jpql, phone);
+    }
+    
+    @Override
+    public User findByEmailAndRegistrationType(String email, UserRegistrationType registrationType) {
+        String jpql = "SELECT o FROM User o WHERE o.deletedAt IS NULL AND o.email = ?1 AND o.registrationType = ?2";
+        return super.findOne(User.class, jpql, email, registrationType);
     }
 
     @Override

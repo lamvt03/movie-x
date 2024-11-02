@@ -113,15 +113,5 @@
         return true;
     }
 </script>
-
-<c:if test="${not empty sessionScope.errorOTP}">
-    <c:if test="${sessionScope.errorOTP}">
-        <script>
-            showTopEndAlert('error', 'Mã OTP không chính xác hoặc đã hết hạn');
-        </script>
-    </c:if>
-    <c:remove var="errorOTP" scope="session"/>
-</c:if>
-
 </body>
 </html>

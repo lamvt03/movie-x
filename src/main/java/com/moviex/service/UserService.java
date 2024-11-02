@@ -18,6 +18,7 @@ import com.moviex.dao.OnboardingTokenDao;
 import com.moviex.dao.UserBalanceTransactionDao;
 import com.moviex.dao.UserDao;
 import com.moviex.dao.VideoDao;
+import com.moviex.domain.user.InternalRegistrationPayload;
 import com.moviex.domain.user.UserRegistrationType;
 import com.moviex.domain.user.UserTransactionType;
 import com.moviex.dto.GoogleUser;
@@ -102,16 +103,6 @@ public class UserService {
                 .orElse(null);
     }
 
-    public boolean existsByPhone(String phone) {
-        User user = userDao.findByPhone(phone);
-        return Optional.ofNullable(user).isPresent();
-    }
-
-    public boolean existByEmail(String email) {
-        User user = userDao.findByEmail(email);
-        return Optional.ofNullable(user).isPresent();
-    }
-
     public UserDto findByEmail(String email) {
         return userMapper.toDto(userDao.findByEmail(email));
     }
@@ -126,16 +117,30 @@ public class UserService {
 
     }
     
-    public UserDto register(String email, String password, String phone, String fullName) {
+    public String handleInternalRegistration(HttpSession session, InternalRegistrationPayload payload) {
+        if (userDao.existingByEmail(payload.getEmail())) {
+            buildDialogErrorMessage(session, "Đăng ký thất bại", "Địa chỉ email này đã được đăng ký bởi một tài khoản khác");
+            return "redirect:register";
+        }
+        
+        if (userDao.existingByPhone(payload.getPhone())) {
+            buildDialogErrorMessage(session, "Đăng ký thất bại", "Số điện thoại này đã được đăng ký bởi một tài khoản khác");
+            return "redirect:register";
+        }
+        
+        register(payload);
+        buildDialogSuccessMessage(session, "Thành công", "Thông báo xác minh đã được gửi đến địa chỉ email của bạn.");
+        return "redirect:login";
+    }
+    
+    private UserDto register(InternalRegistrationPayload payload) {
         Integer avtId = randomUtils.randomAvtId(AppConstant.AVATAR_TOTAL);
         User user= User.builder()
-                .email(email)
-                .password(passwordEncodeService.encode(password))
-                .phone(phone)
-                .fullName(fullName)
+                .email(payload.getEmail())
+                .password(passwordEncodeService.encode(payload.getPassword()))
+                .phone(payload.getPhone())
+                .fullName(payload.getFullName())
                 .isAdmin(FALSE)
-                // TODO: delete
-                // .isActive(FALSE)
                 .registrationType(INTERNAL)
                 .image(buildUserImageLink(avtId))
                 .totalBalanceAmount(0L)
@@ -154,8 +159,6 @@ public class UserService {
                 .email(user.getEmail())
                 .fullName(user.getName())
                 .isAdmin(FALSE)
-                // TODO: delete
-                // .isActive(TRUE)
                 .registrationType(GOOGLE)
                 .emailVerifiedAt(LocalDateTime.now())
                 .image(user.getPicture())
@@ -340,7 +343,6 @@ public class UserService {
         
         // Account not active
         buildDialogErrorMessage(session, "Thất bại", "Tài khoản với email này chưa được kích hoạt");
-        session.setAttribute("userFalse", true);
         return "redirect:password/forgot";
     }
     

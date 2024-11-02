@@ -43,7 +43,10 @@ public class PrevPageRedirectFilter implements Filter {
 
         HttpSession session = httpRequest.getSession(true);
         
-        session.setAttribute(CATEGORY_LIST, categoryService.findAll());
+        // TODO: improve cache
+        if (session.getAttribute(CATEGORY_LIST) == null) {
+            session.setAttribute(CATEGORY_LIST, categoryService.findAll());
+        }
 
         //store request path info to paginate
         String pathInFo = httpRequest.getPathInfo();

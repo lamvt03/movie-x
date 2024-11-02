@@ -11,9 +11,11 @@ public interface UserDao {
 
     User findByEmail(String email);
     
+    boolean existingByEmail(String email);
+    
+    boolean existingByPhone(String phone);
+    
     User findByEmailAndRegistrationType(String email, UserRegistrationType registrationType);
-
-    User findByPhone(String phone);
 
     List<User> findAll();
 

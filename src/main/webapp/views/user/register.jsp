@@ -99,24 +99,5 @@
 <!-- Signup Section End -->
 
 <%@ include file="/views/user/common/footer.jsp" %>
-
-<c:if test="${not empty sessionScope.existEmail}">
-    <c:if test="${sessionScope.existEmail}">
-        <script>
-            showCenterAlert('error', 'Thất bại', 'Địa chỉ Email đã tồn tại trong cơ sở dữ liệu');
-        </script>
-    </c:if>
-    <c:remove var="existEmail" scope="session"/>
-</c:if>
-
-<c:if test="${not empty sessionScope.existPhone}">
-    <c:if test="${sessionScope.existPhone}">
-        <script>
-            showCenterAlert('error', 'Thất bại', 'Số điện thoại đã tồn tại trong cơ sở dữ liệu');
-        </script>
-    </c:if>
-    <c:remove var="existPhone" scope="session"/>
-</c:if>
-
 </body>
 </html>

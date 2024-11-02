@@ -89,19 +89,6 @@
 
 <%@ include file="/views/user/common/footer.jsp" %>
 
-<%-- Remove the "otp" attribute --%>
-<c:remove var="otp" scope="session"/>
-
-<c:if test="${not empty sessionScope.registerSuccess}">
-    <c:if test="${sessionScope.registerSuccess}">
-        <script>
-            showCenterAlert('success', 'Thành công', 'Email xác minh đã được gửi đến địa chỉ email của bạn.');
-        </script>
-    </c:if>
-
-    <c:remove var="registerSuccess" scope="session" />
-</c:if>
-
 <c:if test="${not empty sessionScope.alreadyVerified}">
     <c:if test="${sessionScope.alreadyVerified}">
         <script>

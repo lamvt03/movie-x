@@ -2,8 +2,10 @@ package com.moviex.controller;
 
 import static com.moviex.constant.SessionConstant.CURRENT_USER;
 import static com.moviex.utils.AlertUtils.buildDialogSuccessMessage;
+import static com.moviex.utils.AlertUtils.buildToastErrorMessage;
 
 import com.moviex.constant.SessionConstant;
+import com.moviex.domain.user.InternalRegistrationPayload;
 import com.moviex.dto.UserDto;
 import com.moviex.service.OtpService;
 import com.moviex.service.UserService;
@@ -82,20 +84,13 @@ public class AuthenticationController {
       @FormParam("password") String password,
       @FormParam("fullName") String fullName
   ) {
-    boolean existedEmail = userService.existByEmail(email);
-    boolean existedPhone = userService.existsByPhone(phone);
-
-    if (!existedEmail && !existedPhone) {
-      UserDto auth = userService.register(email, password, phone, fullName);
-      if (auth != null) {
-        session.setAttribute("registerSuccess", true);
-        return "redirect:login";
-      }
-    } else {
-      session.setAttribute("existPhone", existedPhone);
-      session.setAttribute("existEmail", existedEmail);
-    }
-    return "redirect:register";
+    return userService.handleInternalRegistration(
+        session, InternalRegistrationPayload.builder()
+                .email(email)
+                .phone(phone)
+                .password(password)
+                .fullName(fullName)
+                .build());
   }
 
   @GET
@@ -141,7 +136,7 @@ public class AuthenticationController {
       return "redirect:password/new";
     }
     
-    session.setAttribute("errorOTP", true);
+    buildToastErrorMessage(session, "Mã OTP không chính xác hoặc đã hết hạn");
     return "redirect:otp/enter";
   }
 
@@ -155,7 +150,7 @@ public class AuthenticationController {
   @Path("/password/new")
   public String postNewPassword(
       @FormParam("password") String password
-  ){
+  ) {
     String email = session.getAttribute("email").toString();
     if(email != null && password != null){
       UserDto userDto = userService.changePassword(email, password.trim());
