@@ -5,16 +5,13 @@ import com.filmweb.dao.UserDao;
 import com.filmweb.dto.UserDto;
 import com.filmweb.entity.Otp;
 import com.filmweb.entity.User;
-import com.filmweb.utils.RandomUtils;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
-import jakarta.mail.MessagingException;
-import jakarta.transaction.Transactional;
-import java.io.UnsupportedEncodingException;
+import jakarta.inject.Named;
 import java.time.LocalDateTime;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
+import java.util.concurrent.Executor;
 import lombok.extern.jbosslog.JBossLog;
+import org.apache.commons.lang3.RandomStringUtils;
 
 @ApplicationScoped
 @JBossLog
@@ -23,11 +20,6 @@ public class OtpService {
   private static final int OTP_CODE_LENGTH = 6;
   
   private static final int OTP_EXPIRATION_IN_MINUTES = 5;
-  
-  private final ExecutorService executor = Executors.newSingleThreadExecutor();
-  
-  @Inject
-  private RandomUtils randomUtils;
   
   @Inject
   private OtpDao otpDao;
@@ -38,14 +30,17 @@ public class OtpService {
   @Inject
   private NotificationService notificationService;
   
-  @Transactional
+  @Inject
+  @Named("sendEmailExecutor")
+  private Executor sendEmailExecutor;
+  
   public void generateAndSendOtpCode(UserDto userDto) {
     Otp otp = otpDao.findByUserEmail(userDto.getEmail());
     if (otp != null) {
       otpDao.delete(otp);
     }
     
-    String otpCode = randomUtils.randomOtpValue(OTP_CODE_LENGTH);
+    String otpCode = RandomStringUtils.random(OTP_CODE_LENGTH, false, true);
     LocalDateTime now = LocalDateTime.now();
     User user = userDao.findById(userDto.getId());
     Otp createdOtp = Otp.builder()
@@ -56,16 +51,11 @@ public class OtpService {
         .build();
     otpDao.create(createdOtp);
     
-    executor.submit(() -> {
-      try {
-        notificationService.sendForgotEmail(userDto, otpCode);
-      } catch (MessagingException | UnsupportedEncodingException e) {
-        log.errorf("FAILED to send forgot password email for user with ID %s", userDto.getId());
-      }
+    sendEmailExecutor.execute(() -> {
+      notificationService.sendForgotEmail(userDto, otpCode);
     });
   }
   
-  @Transactional
   public boolean validateOtpCode(String otpCode) {
     Otp otp =  otpDao.findByOtpCode(otpCode);
     return otp != null &&

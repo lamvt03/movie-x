@@ -5,16 +5,14 @@ import com.filmweb.dao.UserDao;
 import com.filmweb.entity.OnboardingToken;
 import com.filmweb.entity.User;
 import com.filmweb.mapper.UserMapper;
-import com.filmweb.utils.RandomUtils;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
-import jakarta.mail.MessagingException;
-import java.io.UnsupportedEncodingException;
+import jakarta.inject.Named;
 import java.time.LocalDateTime;
 import java.util.UUID;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
+import java.util.concurrent.Executor;
 import lombok.extern.jbosslog.JBossLog;
+import org.apache.commons.lang3.RandomStringUtils;
 
 @ApplicationScoped
 @JBossLog
@@ -22,8 +20,6 @@ public class OnboardingTokenService {
   
   private static final int ONBOARDING_TOKEN_IN_MINUTES = 60;
   private static final int ONBOARDING_TOKEN_LENGTH = 12;
-  
-  private final ExecutorService executor = Executors.newSingleThreadExecutor();
 
   @Inject
   private OnboardingTokenDao onboardingTokenDao;
@@ -32,13 +28,14 @@ public class OnboardingTokenService {
   private UserDao userDao;
   
   @Inject
-  private RandomUtils randomUtils;
-  
-  @Inject
   private NotificationService notificationService;
   
   @Inject
   private UserMapper userMapper;
+  
+  @Inject
+  @Named("sendEmailExecutor")
+  private Executor sendEmailExecutor;
   
   public void generateAndSendOnboardingToken(UUID userId) {
     OnboardingToken onboardingToken = onboardingTokenDao.findByUserId(userId);
@@ -49,7 +46,7 @@ public class OnboardingTokenService {
     User user = userDao.findById(userId);
     
     LocalDateTime now = LocalDateTime.now();
-    String token = randomUtils.randomToken(ONBOARDING_TOKEN_LENGTH);
+    String token = RandomStringUtils.random(ONBOARDING_TOKEN_LENGTH, true, true);
     OnboardingToken onboardingTokenCreated = OnboardingToken.builder()
               .token(token)
               .user(user)
@@ -59,12 +56,8 @@ public class OnboardingTokenService {
     
     onboardingTokenDao.create(onboardingTokenCreated);
     
-    executor.submit(() -> {
-      try {
-        notificationService.sendRegisterEmail(userMapper.toDto(user), token);
-      } catch (MessagingException | UnsupportedEncodingException e) {
-        log.errorf("FAILED to send register email for user with ID %s", userId);
-      }
+    sendEmailExecutor.execute(() -> {
+      notificationService.sendRegisterEmail(userMapper.toDto(user), token);
     });
   }
 }

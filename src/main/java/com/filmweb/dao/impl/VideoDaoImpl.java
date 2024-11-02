@@ -50,7 +50,13 @@ public class VideoDaoImpl extends AbstractDao<Video> implements VideoDao {
         String jpql = "SELECT o FROM Video o WHERE o.slug = ?1";
         return super.findOne(Video.class, jpql, slug);
     }
-
+    
+    @Override
+    public boolean existingBySlug(String slug) {
+        String jpql = "SELECT COUNT(v) > 0 FROM Video v WHERE v.deletedAt IS NULL AND v.slug = ?1";
+        return super.existingBy(jpql, slug);
+    }
+    
     @Override
     public List<Video> findTrending(int limit) {
         String jpql = "SELECT o FROM Video o WHERE o.isActive = 1 ORDER BY o.views DESC";

@@ -211,6 +211,19 @@ public class AbstractDao<T> {
             entityManager.close();
         }
     }
+    
+    protected boolean existingBy(String jpql, Object... params) {
+        EntityManager entityManager = jpaHelper.getEntityManager();
+        try {
+            Query query = entityManager.createQuery(jpql);
+            for (int i = 0; i < params.length; i++) {
+                query.setParameter(i + 1, params[i]);
+            }
+            return (boolean) query.getSingleResult();
+        } finally {
+            entityManager.close();
+        }
+    }
 
     // find many by custom query
     public List<T> findMany(Class<T> clazz, String jpql, Object... params) {
