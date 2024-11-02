@@ -421,7 +421,7 @@ public class UserService {
         userDao.update(user);
         
         sendEmailExecutor.execute(() -> {
-            notificationService.sendVideoPurchaseSuccessMail(userMapper.toDto(user), videoMapper.toDto(video));
+            notificationService.sendVideoPurchasedEmail(userMapper.toDto(user), videoMapper.toDto(video));
         });
         
         buildDialogSuccessMessage(session, "Thông báo", "Mua phim thành công");

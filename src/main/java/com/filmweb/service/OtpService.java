@@ -52,7 +52,7 @@ public class OtpService {
     otpDao.create(createdOtp);
     
     sendEmailExecutor.execute(() -> {
-      notificationService.sendForgotEmail(userDto, otpCode);
+      notificationService.sendForgotPasswordEmail(userDto, otpCode);
     });
   }
   
