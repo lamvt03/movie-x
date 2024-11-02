@@ -1,9 +1,7 @@
 package com.moviex.controller;
 
 import com.moviex.constant.AppConstant;
-import com.moviex.dao.VideoDao;
 import com.moviex.dto.CommentDto;
-import com.moviex.dto.TopUserDto;
 import com.moviex.dto.VideoDto;
 import com.moviex.service.CommentService;
 import com.moviex.service.UserService;
@@ -108,8 +106,8 @@ public class HomeController {
 
         List<VideoDto> topVideos = videoService.findTopYear(2024, 1, 4);
         models.put("topVideos", topVideos);
-
-        List<TopUserDto> topUsers = userService.findTopUsers(1, 3);
+        
+        var topUsers = userService.findTopPaymentUsers(1, 3);
         models.put("topUsers", topUsers);
 
         List<CommentDto> newestComments = commentService.findNewestComments(3);
@@ -127,9 +125,6 @@ public class HomeController {
         models.put("videos", videos);
         return "user/search.jsp";
     }
-
-    @Inject
-    private VideoDao videoDao;
     
     @GET
     @Path("/about")

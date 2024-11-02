@@ -52,7 +52,7 @@
                                     <div class="mb-3">
                                         <label class="form-label">Href phim</label> <input
                                             type="text" class="form-control" value="${video.href}"
-                                            name="href" readonly>
+                                            name="href" />
                                     </div>
                                 </fieldset>
                                 <div class="mb-3">

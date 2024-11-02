@@ -53,7 +53,7 @@ public class VideoDaoImpl extends AbstractDao<Video> implements VideoDao {
     
     @Override
     public boolean existingBySlug(String slug) {
-        String jpql = "SELECT COUNT(v) > 0 FROM Video v WHERE v.deletedAt IS NULL AND v.slug = ?1";
+        String jpql = "SELECT COUNT(v) > 0 FROM Video v WHERE v.slug = ?1";
         return super.existingBy(jpql, slug);
     }
     

@@ -9,6 +9,8 @@ public interface CategoryDao {
     List<Category> findAll();
 
     Category findBySlug(String slug);
+    
+    boolean existingBySlug(String slug);
 
     Category create(Category entity);
 

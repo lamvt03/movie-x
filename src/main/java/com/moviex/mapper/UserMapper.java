@@ -22,7 +22,7 @@ public class UserMapper {
             .phone(entity.getPhone() != null ? entity.getPhone() : PHONE_NOT_UPDATE_MESSAGE)
             .registrationType(entity.getRegistrationType())
             .fullName(entity.getFullName())
-            .isActive(entity.getIsActive())
+            .isActive(checkUserIsActive(entity))
             .isAdmin(entity.getIsAdmin())
             .image(entity.getImage())
             .totalBalanceAmount(PriceFormatUtils.toFomattedString(entity.getTotalBalanceAmount()))
@@ -42,10 +42,22 @@ public class UserMapper {
                 entity.getEmail(),
                 entity.getPhone() != null ? entity.getPhone() : PHONE_NOT_UPDATE_MESSAGE,
                 entity.getFullName(),
-                entity.getIsActive(),
+                checkUserIsActive(entity),
                 entity.getIsAdmin(),
                 entity.getImage(),
                 0L
         );
+    }
+    
+    private boolean checkUserIsActive(User entity) {
+        if (entity.getDeletedAt() != null) {
+            return false;
+        }
+        
+        if (entity.getEmailVerifiedAt() == null) {
+            return false;
+        }
+        
+        return true;
     }
 }

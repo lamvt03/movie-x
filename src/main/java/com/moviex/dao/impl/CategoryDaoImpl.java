@@ -20,6 +20,12 @@ public class CategoryDaoImpl extends AbstractDao<Category> implements CategoryDa
         String jpql = "SELECT c from Category c WHERE c.slug = ?1";
         return super.findOne(Category.class, jpql, slug);
     }
+    
+    @Override
+    public boolean existingBySlug(String slug) {
+        String jpql = "SELECT COUNT(c) > 0 FROM Category c WHERE c.slug = ?1";
+        return super.existingBy(jpql, slug);
+    }
 
     @Override
     public long count() {

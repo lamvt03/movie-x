@@ -144,31 +144,6 @@
 
 <%@ include file="/views/user/common/footer.jsp" %>
 
-<%--TODO: delete--%>
-<c:if test="${not empty sessionScope.buyBeforeWatch}">
-    <script type="text/javascript">
-        Swal.fire({
-            title: 'Thông báo',
-            text: "Bạn phải mua phim trước khi xem",
-            icon: 'warning',
-            confirmButtonColor: '#3085d6',
-            confirmButtonText: 'Đồng ý'
-        }).then((result) => {
-            if (result.isConfirmed) {
-                redirectToDetail();
-            }
-        });
-
-        const redirectToDetail = () => {
-            const detailBtn = document.getElementById("detail-btn");
-            if (detailBtn) {
-                detailBtn.click();
-            }
-        }
-    </script>
-    <c:remove var="buyBeforeWatch" scope="session"/>
-</c:if>
-
 <c:if test="${empty sessionScope.currentUser}">
     <script type="text/javascript">
         const guestBtn = document.querySelector('#guestBtn');

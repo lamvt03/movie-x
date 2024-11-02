@@ -47,13 +47,6 @@
                                         type="text" class="form-control" name="name" id="name"
                                         placeholder="Nhập tên thể loại">
                                 </div>
-                                <div class="mb-3">
-<%--                                    TODO: delete--%>
-                                    <label for="code" class="form-label">Code phim</label> <input
-                                        type="text" class="form-control bg-dark-light text-white" name="code" id="code"
-                                        placeholder="Code thể loại" readonly>
-                                </div>
-
 
                                 <button type="submit" class="btn btn-success">Xác nhận</button>
                                 <button type="reset" class="btn btn-primary">Làm mới</button>
