@@ -13,7 +13,9 @@
     <packaging>war</packaging>
 
     <properties>
+        <krazo.jersey.version>2.0.0</krazo.jersey.version>
         <jwt.version>0.12.5</jwt.version>
+        <hibernate.version>6.1.7.Final</hibernate.version>
     </properties>
 
     <dependencies>
@@ -27,7 +29,7 @@
         <dependency>
             <groupId>org.eclipse.krazo</groupId>
             <artifactId>krazo-jersey</artifactId>
-            <version>2.0.0</version>
+            <version>${krazo.jersey.version}</version>
         </dependency>
         <!--        mvc: end -->
 
@@ -76,13 +78,13 @@
         <dependency>
             <groupId>org.hibernate.orm</groupId>
             <artifactId>hibernate-core</artifactId>
-            <version>6.1.7.Final</version>
+            <version>${hibernate.version}</version>
         </dependency>
 
         <dependency>
             <groupId>org.hibernate.orm</groupId>
             <artifactId>hibernate-hikaricp</artifactId>
-            <version>6.1.7.Final</version>
+            <version>${hibernate.version}</version>
             <type>pom</type>
         </dependency>
 
@@ -117,12 +119,10 @@
         <dependency>
             <groupId>org.eclipse.microprofile.config</groupId>
             <artifactId>microprofile-config-api</artifactId>
-            <version>3.0.1</version>
         </dependency>
         <dependency>
             <groupId>io.smallrye.config</groupId>
             <artifactId>smallrye-config</artifactId>
-            <version>3.0.0</version>
         </dependency>
 
 
@@ -148,6 +148,12 @@
         <dependency>
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-lang3</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.moviex</groupId>
+            <artifactId>email-sender</artifactId>
+            <version>1.0</version>
         </dependency>
 
         <!--        testing -->
