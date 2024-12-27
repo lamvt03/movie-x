@@ -1,4 +1,4 @@
-package com.moviex.domain.email;
+package com.moviex.email.model;
 
 import java.util.Map;
 import lombok.Builder;
@@ -7,8 +7,9 @@ import lombok.Value;
 
 @Value
 @Builder
-public class EmailMessage {
+public class DefaultEmailMessage implements EmailMessage {
   
+  String from;
   String to;
   String subject;
   String templateId;

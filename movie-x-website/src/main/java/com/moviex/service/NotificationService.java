@@ -1,27 +1,35 @@
 package com.moviex.service;
 
-import com.moviex.domain.email.EmailMessage;
+import com.moviex.config.ApplicationConfigurationProperties;
+import com.moviex.config.email.GoogleEmailConfigurationProperties;
 import com.moviex.dto.UserDto;
 import com.moviex.dto.VideoDto;
+import com.moviex.email.model.DefaultEmailMessage;
+import com.moviex.email.service.EmailSenderService;
 import com.moviex.exception.SendEmailException;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import lombok.extern.jbosslog.JBossLog;
-import org.eclipse.microprofile.config.inject.ConfigProperty;
+import org.eclipse.microprofile.config.inject.ConfigProperties;
 
 @ApplicationScoped
 @JBossLog
 public class NotificationService {
   
   @Inject
-  private MailSenderService mailSenderService;
+  private EmailSenderService<DefaultEmailMessage> mailSenderService;
   
   @Inject
-  @ConfigProperty(name = "host.url")
-  private String hostUrl;
+  @ConfigProperties
+  private GoogleEmailConfigurationProperties emailConfigurationProperties;
+  
+  @Inject
+  @ConfigProperties
+  private ApplicationConfigurationProperties applicationConfigurationProperties;
   
   public void sendEmailVerification(UserDto recipient, String token) {
-    var messageBuilder = EmailMessage.builder()
+    var messageBuilder = DefaultEmailMessage.builder()
+        .from(emailConfigurationProperties.getDefaultFromEmail())
         .to(recipient.getEmail())
         .subject("Kích hoạt tài khoản của bạn trên Movie X")
         .templateId("email_verification");
@@ -37,7 +45,8 @@ public class NotificationService {
   }
   
   public void sendForgotPasswordEmail(UserDto recipient, String otp) {
-    var messageBuilder = EmailMessage.builder()
+    var messageBuilder = DefaultEmailMessage.builder()
+        .from(emailConfigurationProperties.getDefaultFromEmail())
         .to(recipient.getEmail())
         .subject("Yêu cầu đổi mật khẩu tài khoản Movie X")
         .templateId("password_reset");
@@ -53,7 +62,8 @@ public class NotificationService {
   }
   
   public void sendVideoPurchasedEmail(UserDto recipient, VideoDto video) {
-    var messageBuilder = EmailMessage.builder()
+    var messageBuilder = DefaultEmailMessage.builder()
+        .from(emailConfigurationProperties.getDefaultFromEmail())
         .to(recipient.getEmail())
         .subject("Bạn vừa mua một bộ phim trên Movie X")
         .templateId("video_purchase");
@@ -71,10 +81,10 @@ public class NotificationService {
   }
   
   private String buildEmailVerificationLink(String token) {
-    return String.format("%s/movie-x/verify?token=%s", hostUrl, token);
+    return String.format("%s/movie-x/verify?token=%s", applicationConfigurationProperties.getHostUrl(), token);
   }
   
   private String buildVideoWatchUrl(String slug) {
-    return String.format("%s/movie-x/v/watch/%s", hostUrl, slug);
+    return String.format("%s/movie-x/v/watch/%s", applicationConfigurationProperties.getHostUrl(), slug);
   }
 }
