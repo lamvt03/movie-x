@@ -24,11 +24,6 @@ import jakarta.ws.rs.core.Context;
 import jakarta.ws.rs.core.HttpHeaders;
 import jakarta.ws.rs.core.Response;
 
-import java.io.IOException;
-import java.security.KeyManagementException;
-import java.security.KeyStoreException;
-import java.security.NoSuchAlgorithmException;
-
 @ApplicationScoped
 @Controller
 @Path("/oauth2")
@@ -61,9 +56,8 @@ public class OAuth2Controller {
     public String handleLoginGoogle(
             @QueryParam("code") String code,
             @Context HttpServletResponse response
-            ) throws IOException, NoSuchAlgorithmException, KeyStoreException, KeyManagementException {
-        String token = googleOauthHelper.getToken(code);
-        GoogleUser googleUser = googleOauthHelper.getUserInfo(token);
+            ) {
+        GoogleUser googleUser = googleOauthHelper.getUserInfo(code);
 
         UserDto userDto = userService.findByEmailAndRegistrationType(googleUser.getEmail(), UserRegistrationType.INTERNAL);
         
