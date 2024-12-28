@@ -7,9 +7,7 @@ import com.moviex.entity.Otp;
 import com.moviex.entity.User;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
-import jakarta.inject.Named;
 import java.time.LocalDateTime;
-import java.util.concurrent.Executor;
 import lombok.extern.jbosslog.JBossLog;
 import org.apache.commons.lang3.RandomStringUtils;
 
@@ -30,10 +28,6 @@ public class OtpService {
   @Inject
   private NotificationService notificationService;
   
-  @Inject
-  @Named("sendEmailExecutor")
-  private Executor sendEmailExecutor;
-  
   public void generateAndSendOtpCode(UserDto userDto) {
     Otp otp = otpDao.findByUserEmail(userDto.getEmail());
     if (otp != null) {
@@ -51,9 +45,7 @@ public class OtpService {
         .build();
     otpDao.create(createdOtp);
     
-    sendEmailExecutor.execute(() -> {
-      notificationService.sendForgotPasswordEmail(userDto, otpCode);
-    });
+    notificationService.sendForgotPasswordEmail(userDto, otpCode);
   }
   
   public boolean validateOtpCode(String otpCode) {

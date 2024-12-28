@@ -3,6 +3,8 @@ package com.moviex.email.service;
 import com.moviex.email.config.EmailConfigurationProperties;
 import com.moviex.email.exception.SendEmailException;
 import com.moviex.email.model.DefaultEmailMessage;
+import com.moviex.template.exception.TemplateProcessException;
+import com.moviex.template.service.TemplateService;
 import jakarta.mail.Authenticator;
 import jakarta.mail.Message;
 import jakarta.mail.MessagingException;
@@ -11,30 +13,22 @@ import jakarta.mail.Session;
 import jakarta.mail.Transport;
 import jakarta.mail.internet.InternetAddress;
 import jakarta.mail.internet.MimeMessage;
-import java.io.IOException;
-import java.net.URISyntaxException;
 import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.util.Base64;
 import java.util.Date;
-import java.util.Map;
-import java.util.Objects;
-import java.util.Optional;
 import java.util.Properties;
 
 public class GoogleEmailSenderService implements EmailSenderService <DefaultEmailMessage> {
-  
-  private static final String EMAIL_TEMPLATE_URL_PATTERN = "templates/email/%s.html";
-  private static final String EMAIL_TAG_PATTERN = "{{%s}}";
-  
   private static final String HTML_CONTENT_TYPE = "text/html; charset=utf-8";
   
   private final Properties properties;
   private final Authenticator authenticator;
+  private final TemplateService templateService;
   
-  // @PostConstruct
-  public GoogleEmailSenderService(EmailConfigurationProperties emailConfigurationProperties) {
+  public GoogleEmailSenderService(
+      EmailConfigurationProperties emailConfigurationProperties,
+      TemplateService templateService
+  ) {
     // sets SMTP server properties
     properties = new Properties();
     properties.put("mail.smtp.host", emailConfigurationProperties.getHost());
@@ -52,6 +46,8 @@ public class GoogleEmailSenderService implements EmailSenderService <DefaultEmai
         );
       }
     };
+    
+    this.templateService = templateService;
   }
   
   @Override
@@ -70,29 +66,12 @@ public class GoogleEmailSenderService implements EmailSenderService <DefaultEmai
       InternetAddress[] toAddresses = {new InternetAddress(message.getTo())};
       msg.setRecipients(Message.RecipientType.TO, toAddresses);
       msg.setSentDate(new Date());
-      msg.setContent(buildEmailContent(message.getTemplateId(), message.getTags()), HTML_CONTENT_TYPE);
+      msg.setContent(templateService.processTemplate(message.getTemplateId(), message.getTags()), HTML_CONTENT_TYPE);
       
       // sends the e-mail
       Transport.send(msg);
-    } catch (MessagingException | URISyntaxException | IOException e) {
+    } catch (MessagingException | TemplateProcessException e) {
       throw new SendEmailException(e);
     }
-  }
-  
-  private String buildEmailContent(String templateId, Map<String, Object> tags) throws URISyntaxException, IOException {
-    String resourcePath = String.format(EMAIL_TEMPLATE_URL_PATTERN, templateId);
-    var path = Paths.get(Objects.requireNonNull(
-        Thread.currentThread().getContextClassLoader().getResource(resourcePath)
-    ).toURI());
-    final String[] content = {Files.readString(path)};
-    
-    Optional.ofNullable(tags)
-        .ifPresent(t -> {
-          t.forEach((key, value) -> {
-            content[0] = content[0].replace(String.format(EMAIL_TAG_PATTERN, key), value.toString());
-          });
-        });
-    
-    return content[0];
   }
 }

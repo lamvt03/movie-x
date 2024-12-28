@@ -14,5 +14,6 @@
 
     <modules>
         <module>email-sender</module>
+        <module>template-processor</module>
     </modules>
 </project>
