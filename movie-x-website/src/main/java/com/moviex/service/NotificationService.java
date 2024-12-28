@@ -81,7 +81,7 @@ public class NotificationService {
       
       messageBuilder.tag("full_name", recipient.getFullName());
       messageBuilder.tag("movie_name", video.getTitle());
-      messageBuilder.tag("price", video.getFormattedPrice());
+      messageBuilder.tag("price", video.getPrice());
       messageBuilder.tag("movie_watch_url", buildVideoWatchUrl(video.getSlug()));
       
       try {
