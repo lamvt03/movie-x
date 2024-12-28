@@ -15,6 +15,4 @@ public class GoogleOauth2ConfigurationProperties {
   String responseType;
   String approvalPrompt;
   String grantType;
-  String tokenUrl;
-  String userInfoUrl;
 }
