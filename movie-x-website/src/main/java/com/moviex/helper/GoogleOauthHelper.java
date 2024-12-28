@@ -31,7 +31,7 @@ import java.util.List;
 public class GoogleOauthHelper {
     
     @Inject
-    @ConfigProperties(prefix = "google.oauth2")
+    @ConfigProperties
     private GoogleOauth2ConfigurationProperties googleOauth2ConfigurationProperties;
 
     public String createLoginUrl() {

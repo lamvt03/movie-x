@@ -21,7 +21,7 @@ import java.util.function.Function;
 public class JwtService {
     
     @Inject
-    @ConfigProperties(prefix = "jwt")
+    @ConfigProperties
     private JwtConfigurationProperties jwtConfigurationProperties;
     
     private SecretKey getSigningKey(){

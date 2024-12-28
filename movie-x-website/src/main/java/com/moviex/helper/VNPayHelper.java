@@ -18,7 +18,7 @@ public class VNPayHelper {
     private static final String PAYMENT_TRANSACTION_INFO_PATTERN = "Thanh toan giao dich nap tien %s";
     
     @Inject
-    @ConfigProperties(prefix = "vnp")
+    @ConfigProperties
     private VNPayConfigurationProperties vnPayConfigurationProperties;
 
     private String hmacSHA512(final String key, final String data) {
