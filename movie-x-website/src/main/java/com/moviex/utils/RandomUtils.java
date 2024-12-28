@@ -1,22 +1,20 @@
 package com.moviex.utils;
 
 import jakarta.enterprise.context.ApplicationScoped;
-import jakarta.inject.Inject;
 
 import java.security.SecureRandom;
 
 @ApplicationScoped
 public class RandomUtils {
-
-    @Inject
-    private SecureRandom random;
+    
+    private final SecureRandom RANDOM = new SecureRandom();
 
     public Integer randomAvtId(int avtTotal){
-        return 1 + random.nextInt(avtTotal);
+        return 1 + RANDOM.nextInt(avtTotal);
     }
 
     public long randomInRangeExcept(long range, long except){
-        long randomValue = Math.abs(random.nextLong() % range) + 1;
+        long randomValue = Math.abs(RANDOM.nextLong() % range) + 1;
         if(randomValue == except){
             return randomInRangeExcept(range, except);
         }

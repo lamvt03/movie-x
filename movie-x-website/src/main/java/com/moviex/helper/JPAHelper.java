@@ -15,7 +15,7 @@ import org.hibernate.cfg.Environment;
 public class JPAHelper {
 
     @Inject
-    @ConfigProperties(prefix = "hibernate")
+    @ConfigProperties
     private HibernateConfigurationProperties hibernateConfigurationProperties;
 
     private EntityManagerFactory factory;
