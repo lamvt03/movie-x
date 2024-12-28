@@ -7,10 +7,8 @@ import com.moviex.entity.User;
 import com.moviex.mapper.UserMapper;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
-import jakarta.inject.Named;
 import java.time.LocalDateTime;
 import java.util.UUID;
-import java.util.concurrent.Executor;
 import lombok.extern.jbosslog.JBossLog;
 import org.apache.commons.lang3.RandomStringUtils;
 
@@ -33,10 +31,6 @@ public class OnboardingTokenService {
   @Inject
   private UserMapper userMapper;
   
-  @Inject
-  @Named("sendEmailExecutor")
-  private Executor sendEmailExecutor;
-  
   public void generateAndSendOnboardingToken(UUID userId) {
     OnboardingToken onboardingToken = onboardingTokenDao.findByUserId(userId);
     if (onboardingToken != null) {
@@ -56,8 +50,6 @@ public class OnboardingTokenService {
     
     onboardingTokenDao.create(onboardingTokenCreated);
     
-    sendEmailExecutor.execute(() -> {
-      notificationService.sendEmailVerification(userMapper.toDto(user), token);
-    });
+    notificationService.sendEmailVerification(userMapper.toDto(user), token);
   }
 }

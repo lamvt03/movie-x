@@ -9,7 +9,6 @@ import static com.moviex.utils.AlertUtils.buildToastErrorMessage;
 import static com.moviex.utils.AlertUtils.buildToastSuccessMessage;
 import static com.moviex.utils.AlertUtils.buildToastWarningMessage;
 import static java.lang.Boolean.FALSE;
-import static java.lang.Boolean.TRUE;
 
 import com.moviex.constant.AppConstant;
 import com.moviex.constant.CookieConstant;
@@ -31,7 +30,6 @@ import com.moviex.mapper.VideoMapper;
 import com.moviex.utils.RandomUtils;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
-import jakarta.inject.Named;
 import jakarta.mvc.Models;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
@@ -42,7 +40,6 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
-import java.util.concurrent.Executor;
 import lombok.extern.jbosslog.JBossLog;
 
 @ApplicationScoped
@@ -90,10 +87,6 @@ public class UserService {
     
     @Inject
     private VideoMapper videoMapper;
-    
-    @Inject
-    @Named("sendEmailExecutor")
-    private Executor sendEmailExecutor;
     
     public UserDto authenticate(String email, String password) {
         User user = userDao.findByEmail(email);
@@ -414,9 +407,7 @@ public class UserService {
         user.setRemainingBalanceAmount(user.getRemainingBalanceAmount() - video.getPrice());
         userDao.update(user);
         
-        sendEmailExecutor.execute(() -> {
-            notificationService.sendVideoPurchasedEmail(userMapper.toDto(user), videoMapper.toDto(video));
-        });
+        notificationService.sendVideoPurchasedEmail(userMapper.toDto(user), videoMapper.toDto(video));
         
         buildDialogSuccessMessage(session, "Thông báo", "Mua phim thành công");
         return "redirect:v/detail/" + videoSlug;

@@ -3,22 +3,16 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
-
     <parent>
         <groupId>com.moviex</groupId>
-        <artifactId>libraries</artifactId>
+        <artifactId>movie-x-platform</artifactId>
         <version>1.0</version>
     </parent>
 
-    <artifactId>email-sender</artifactId>
+    <artifactId>template-processor</artifactId>
     <packaging>jar</packaging>
 
     <dependencies>
-        <dependency>
-            <groupId>com.sun.mail</groupId>
-            <artifactId>jakarta.mail</artifactId>
-        </dependency>
-
         <dependency>
             <groupId>jakarta.enterprise</groupId>
             <artifactId>jakarta.enterprise.cdi-api</artifactId>
@@ -31,9 +25,9 @@
         </dependency>
 
         <dependency>
-            <groupId>com.moviex</groupId>
-            <artifactId>template-processor</artifactId>
-            <version>1.0</version>
+            <groupId>org.freemarker</groupId>
+            <artifactId>freemarker</artifactId>
+            <version>2.3.34</version>
         </dependency>
     </dependencies>
 </project>
