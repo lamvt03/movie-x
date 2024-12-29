@@ -1,7 +1,7 @@
 package com.moviex.service;
 
 import com.moviex.config.ApplicationConfigurationProperties;
-import com.moviex.config.email.GoogleEmailConfigurationProperties;
+import com.moviex.config.email.EmailConfigurationProperties;
 import com.moviex.dto.UserDto;
 import com.moviex.dto.VideoDto;
 import com.moviex.email.exception.SendEmailException;
@@ -27,7 +27,7 @@ public class NotificationService {
   
   @Inject
   @ConfigProperties
-  private GoogleEmailConfigurationProperties emailConfigurationProperties;
+  private EmailConfigurationProperties emailConfigurationProperties;
   
   @Inject
   @ConfigProperties

@@ -1,6 +1,6 @@
 package com.moviex.email.config;
 
-public interface EmailConfigurationProperties {
+public interface EmailProperties {
   
   String getHost();
   String getPort();

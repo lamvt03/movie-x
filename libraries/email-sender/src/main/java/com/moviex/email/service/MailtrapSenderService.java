@@ -1,6 +1,6 @@
 package com.moviex.email.service;
 
-import com.moviex.email.config.EmailConfigurationProperties;
+import com.moviex.email.config.EmailProperties;
 import com.moviex.email.exception.SendEmailException;
 import com.moviex.email.model.DefaultEmailMessage;
 import com.moviex.template.exception.TemplateProcessException;
@@ -18,31 +18,31 @@ import java.util.Base64;
 import java.util.Date;
 import java.util.Properties;
 
-public class GoogleEmailSenderService implements EmailSenderService <DefaultEmailMessage> {
+public class MailtrapSenderService implements EmailSenderService <DefaultEmailMessage> {
   private static final String HTML_CONTENT_TYPE = "text/html; charset=utf-8";
   
   private final Properties properties;
   private final Authenticator authenticator;
   private final TemplateService templateService;
   
-  public GoogleEmailSenderService(
-      EmailConfigurationProperties emailConfigurationProperties,
+  public MailtrapSenderService(
+      EmailProperties emailProperties,
       TemplateService templateService
   ) {
     // sets SMTP server properties
     properties = new Properties();
-    properties.put("mail.smtp.host", emailConfigurationProperties.getHost());
-    properties.put("mail.smtp.port", emailConfigurationProperties.getPort());
+    properties.put("mail.smtp.host", emailProperties.getHost());
+    properties.put("mail.smtp.port", emailProperties.getPort());
     properties.put("mail.smtp.auth", "true");
     properties.put("mail.smtp.starttls.enable", "true");
-    properties.put("mail.smtp.ssl.trust", emailConfigurationProperties.getHost());
+    properties.put("mail.smtp.ssl.trust", emailProperties.getHost());
     
     // creates a new session with an authenticator
     authenticator = new Authenticator() {
       public PasswordAuthentication getPasswordAuthentication() {
         return new PasswordAuthentication(
-            emailConfigurationProperties.getUsername(),
-            emailConfigurationProperties.getPassword()
+            emailProperties.getUsername(),
+            emailProperties.getPassword()
         );
       }
     };
