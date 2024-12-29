@@ -101,6 +101,7 @@ public class PaymentTransactionService {
   }
   
   private PaymentStatus getPaymentStatusByCode(String statusCode) {
+    // Only for VNPay
     if (statusCode.equals("00")) {
       return PaymentStatus.SUCCESS;
     }
