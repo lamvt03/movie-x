@@ -53,7 +53,7 @@
                     </div>
                 </div>
 
-                <h5 class="mt-4 fw-bold">Số dư tài khoản: <span class="text-danger">${user.remainingBalanceAmount}</span></h5>
+                <h5 class="mt-4 fw-bold">Số dư tài khoản: <span class="text-danger">${user.formattedRemainingBalanceAmount}</span></h5>
                 <div class="link-profile mt-4">
                     <button id="deposit-btn" type="button" class="btn btn-success">Nạp tiền <i class="fa-solid fa-money-bill-transfer"></i></button>
                     <br/>

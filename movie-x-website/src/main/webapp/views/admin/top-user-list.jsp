@@ -61,13 +61,7 @@
                                             <td>${topUser.email}</td>
                                             <td>${topUser.fullName}</td>
                                             <td>${topUser.phone}</td>
-
-                                            <fmt:setLocale value="vi_VN"/>
-                                            <c:set var="formattedTotal" value="${topUser.total}"/>
-                                            <fmt:formatNumber var="formattedTotal"
-                                                              value="${formattedTotal}" type="currency"
-                                                              currencyCode="VND"/>
-                                            <td>${formattedTotal}</td>
+                                            <td>${topUser.formattedTotalBalanceAmount}</td>
                                         </tr>
 
                                     </c:forEach>

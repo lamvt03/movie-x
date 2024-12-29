@@ -8,9 +8,10 @@ import java.security.SecureRandom;
 @ApplicationScoped
 public class PasswordEncodeService {
 
+    private static final SecureRandom SECURE_RANDOM = new SecureRandom();
+    
     public String encode(String password) {
-        SecureRandom secureRandom = new SecureRandom();
-        return new String(BCrypt.with(secureRandom).hash(4, password.toCharArray()));
+        return new String(BCrypt.with(SECURE_RANDOM).hash(4, password.toCharArray()));
     }
     
     public boolean verify(String password, String hashPassword){

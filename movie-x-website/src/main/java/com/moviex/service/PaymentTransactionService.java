@@ -9,6 +9,7 @@ import com.moviex.domain.payment.PaymentProvider;
 import com.moviex.domain.payment.PaymentStatus;
 import com.moviex.dto.PaymentTransactionDto;
 import com.moviex.entity.PaymentTransaction;
+import com.moviex.exception.MovieXException;
 import com.moviex.utils.PriceFormatUtils;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
@@ -42,7 +43,7 @@ public class PaymentTransactionService {
     var paymentTransaction = paymentTransactionDao.findById(id);
     
     if (paymentTransaction == null) {
-      throw new RuntimeException("This payment id not issued by Movie X");
+      throw new MovieXException("This payment id not issued by Movie X");
     }
     
     paymentTransaction.setTransactionInfo(transactionInfo);
@@ -100,10 +101,11 @@ public class PaymentTransactionService {
   }
   
   private PaymentStatus getPaymentStatusByCode(String statusCode) {
-    return switch (statusCode) {
-      case "00" -> PaymentStatus.SUCCESS;
-      default -> PaymentStatus.FAILED;
-    };
+    // Only for VNPay
+    if (statusCode.equals("00")) {
+      return PaymentStatus.SUCCESS;
+    }
+    return PaymentStatus.FAILED;
   }
   
   private String getStatusCode(PaymentStatus status) {

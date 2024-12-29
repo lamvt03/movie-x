@@ -1,5 +1,7 @@
 package com.moviex.mapper;
 
+import static com.moviex.utils.PriceFormatUtils.toFomattedString;
+
 import com.moviex.dto.TopUserDto;
 import com.moviex.dto.UserDto;
 import com.moviex.entity.User;
@@ -25,8 +27,10 @@ public class UserMapper {
             .isActive(checkUserIsActive(entity))
             .isAdmin(entity.getIsAdmin())
             .image(entity.getImage())
-            .totalBalanceAmount(PriceFormatUtils.toFomattedString(entity.getTotalBalanceAmount()))
-            .remainingBalanceAmount(PriceFormatUtils.toFomattedString(entity.getRemainingBalanceAmount()))
+            .totalBalanceAmount(entity.getTotalBalanceAmount())
+            .remainingBalanceAmount(entity.getRemainingBalanceAmount())
+            .formattedTotalBalanceAmount(toFomattedString(entity.getTotalBalanceAmount()))
+            .formattedRemainingBalanceAmount(toFomattedString(entity.getRemainingBalanceAmount()))
             .emailVerifiedAt(entity.getEmailVerifiedAt())
             .build();
     }

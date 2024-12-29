@@ -15,4 +15,24 @@ public class PriceFormatUtilsTest {
     
     assertEquals(actual, expected);
   }
+  
+  @Test
+  public void should_get_price_number_case_00001_correctly() {
+    var price = "15.000₫";
+    
+    var actual = PriceFormatUtils.toNumber(price);
+    long expected = 15000;
+    
+    assertEquals(actual, expected);
+  }
+  
+  @Test
+  public void should_get_price_number_case_00002_correctly() {
+    var price = "15.000";
+    
+    var actual = PriceFormatUtils.toNumber(price);
+    long expected = 15000;
+    
+    assertEquals(actual, expected);
+  }
 }

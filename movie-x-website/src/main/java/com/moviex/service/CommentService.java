@@ -30,12 +30,12 @@ public class CommentService {
 
     @Inject
     private VideoDao videoDao;
-
     
     public List<CommentDto> findByVideoId(UUID videoId, int page, int limit) {
         List<Comment> comments = commentDao.findByVideoId(videoId, page, limit);
-        return comments.stream().map(commentMapper::toDto)
-                .toList();
+        return comments.stream()
+            .map(commentMapper::toDto)
+            .toList();
     }
     
     public Comment findByUserIdAndVideoId(Long userId, Long videoId) {

@@ -3,10 +3,8 @@ package com.moviex.controller.admin;
 import com.moviex.constant.AppConstant;
 import com.moviex.domain.payment.PaymentStatus;
 import com.moviex.dto.PaymentTransactionDto;
-import com.moviex.dto.TopUserDto;
 import com.moviex.dto.UserDto;
 import com.moviex.dto.VideoDto;
-import com.moviex.service.OrderService;
 import com.moviex.service.PaymentTransactionService;
 import com.moviex.service.UserService;
 import com.moviex.service.VideoService;
@@ -27,9 +25,6 @@ public class HomeController {
 
     @Inject
     private Models models;
-
-    @Inject
-    private OrderService orderService;
 
     @Inject
     private UserService userService;
@@ -97,7 +92,7 @@ public class HomeController {
     @GET
     @Path("/topUsers")
     public String getTopUsers(){
-        List<TopUserDto> topUsers = userService.findTopUsers(1, 10);
+        var topUsers = userService.findTopPaymentUsers(1, 10);
         models.put("topUsers", topUsers);
         return "admin/top-user-list.jsp";
     }
