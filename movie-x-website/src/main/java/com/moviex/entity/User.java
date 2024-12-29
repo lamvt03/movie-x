@@ -54,9 +54,6 @@ public class User {
 
     @OneToMany(mappedBy = "user")
     private List<Share> shares;
-
-    @OneToMany(mappedBy = "user")
-    private List<Order> orders;
     
     /* Audit field */
     @Column(name = "created_at") @JdbcType(TimestampJdbcType.class)

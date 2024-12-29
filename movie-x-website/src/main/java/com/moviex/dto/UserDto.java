@@ -17,7 +17,9 @@ public class UserDto{
     private Boolean isActive;
     private Boolean isAdmin;
     private String image;
-    private String totalBalanceAmount;
-    private String remainingBalanceAmount;
+    private Long totalBalanceAmount;
+    private Long remainingBalanceAmount;
+    private String formattedTotalBalanceAmount;
+    private String formattedRemainingBalanceAmount;
     private LocalDateTime emailVerifiedAt;
 }

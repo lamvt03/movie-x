@@ -407,6 +407,14 @@ public class UserService {
         user.setRemainingBalanceAmount(user.getRemainingBalanceAmount() - video.getPrice());
         userDao.update(user);
         
+        userBalanceTransactionDao.create(
+            UserBalanceTransaction.builder()
+                .amount(-1 * video.getPrice())
+                .transactionType(UserTransactionType.MOVIE_PURCHASE)
+                .user(user)
+                .build()
+        );
+        
         notificationService.sendVideoPurchasedEmail(userMapper.toDto(user), videoMapper.toDto(video));
         
         buildDialogSuccessMessage(session, "Thông báo", "Mua phim thành công");

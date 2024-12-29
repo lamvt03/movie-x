@@ -22,6 +22,10 @@ public class PriceFormatUtils {
   }
   
   public static Long toNumber(String formattedPrice) {
-    return Long.parseLong(formattedPrice.replace(".", ""));
+    var numberString = formattedPrice
+        .replaceAll("[.]", "")
+        .replaceAll("₫", "");
+    
+    return Long.parseLong(numberString);
   }
 }

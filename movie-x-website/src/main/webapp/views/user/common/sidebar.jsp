@@ -51,7 +51,7 @@
                                 ${topUser.fullName}
                         </h5>
                         <p class="text-light opacity-75 mt-2">
-                                ${topUser.totalBalanceAmount}
+                                ${topUser.formattedTotalBalanceAmount}
                         </p>
                     </div>
                 </div>
