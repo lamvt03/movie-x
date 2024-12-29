@@ -13,7 +13,7 @@
     <packaging>war</packaging>
 
     <properties>
-        <krazo.jersey.version>2.0.0</krazo.jersey.version>
+        <krazo.jersey.version>3.0.1</krazo.jersey.version>
         <jwt.version>0.12.5</jwt.version>
         <hibernate.version>6.1.7.Final</hibernate.version>
     </properties>
@@ -30,6 +30,11 @@
             <groupId>org.eclipse.krazo</groupId>
             <artifactId>krazo-jersey</artifactId>
             <version>${krazo.jersey.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>jakarta.mvc</groupId>
+            <artifactId>jakarta.mvc-api</artifactId>
+            <version>2.1.0</version>
         </dependency>
         <!--        mvc: end -->
 
@@ -101,12 +106,13 @@
         <dependency>
             <groupId>org.eclipse.microprofile.config</groupId>
             <artifactId>microprofile-config-api</artifactId>
+            <version>3.1</version>
         </dependency>
         <dependency>
             <groupId>io.smallrye.config</groupId>
             <artifactId>smallrye-config</artifactId>
+            <version>3.10.2</version>
         </dependency>
-
 
         <!--		jwt -->
         <dependency>
