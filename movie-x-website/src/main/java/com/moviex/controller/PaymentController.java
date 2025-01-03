@@ -9,6 +9,7 @@ import com.moviex.constant.SessionConstant;
 import com.moviex.domain.payment.PaymentCardType;
 import com.moviex.dto.UserDto;
 import com.moviex.helper.VNPayHelper;
+import com.moviex.service.NotificationService;
 import com.moviex.service.PaymentTransactionService;
 import com.moviex.service.UserService;
 import jakarta.enterprise.context.ApplicationScoped;
@@ -40,6 +41,9 @@ public class PaymentController {
     
     @Inject
     private UserService userService;
+    
+    @Inject
+    private NotificationService notificationService;
 
     @GET
     @Path("/vnpay")
@@ -90,6 +94,9 @@ public class PaymentController {
         var paymentTransaction = paymentTransactionService.updatePaymentTransaction(paymentTractionId, paymentInfo, bankCode, referenceTransactionNumber, statusCode, cardType);
         userService.topUpUserBalance(paymentTransaction.getUserId(), paymentTransaction.getPaymentAmount());
         userService.createNewUserBalanceTransaction(paymentTransaction.getUserId(), paymentTransaction.getPaymentAmount(), DEPOSIT);
+        
+        var userDto = userService.findById(paymentTransaction.getUserId());
+        notificationService.sendAccountDepositEmail(userDto, paymentTransaction.getPaymentAmount());
         
         buildDialogSuccessMessage(session, "Thành công", "Vui lòng kiểm tra lại số dư tài khoản");
         return "redirect:profile";
