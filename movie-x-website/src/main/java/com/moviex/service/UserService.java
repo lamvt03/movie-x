@@ -273,6 +273,7 @@ public class UserService {
         var onboardingToken = onboardingTokenDao.findByToken(token);
         
         if (onboardingToken.getUser().getEmailVerifiedAt() != null) {
+            // TODO
             session.setAttribute("alreadyVerified", true);
             return "redirect:login";
         }
@@ -300,7 +301,7 @@ public class UserService {
             return "user/login.jsp";
         }
         
-        if (userDto.getEmailVerifiedAt() == null && !userDto.getIsFakeUser()) {
+        if (userDto.getEmailVerifiedAt() == null) {
             buildToastWarningMessage(session, "Vui lòng xác thực email trước khi đăng nhập");
             return "user/login.jsp";
         }

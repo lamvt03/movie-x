@@ -59,7 +59,7 @@ public class UserMapper {
             return false;
         }
         
-        if (entity.getEmailVerifiedAt() == null && !entity.getIsFakeUser()) {
+        if (entity.getEmailVerifiedAt() == null) {
             return false;
         }
         
