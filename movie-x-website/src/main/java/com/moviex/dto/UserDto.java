@@ -16,6 +16,7 @@ public class UserDto{
     private String fullName;
     private Boolean isActive;
     private Boolean isAdmin;
+    private Boolean isFakeUser;
     private String image;
     private Long totalBalanceAmount;
     private Long remainingBalanceAmount;

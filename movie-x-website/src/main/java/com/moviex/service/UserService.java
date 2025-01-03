@@ -134,6 +134,7 @@ public class UserService {
                 .phone(payload.getPhone())
                 .fullName(payload.getFullName())
                 .isAdmin(FALSE)
+                .isFakeUser(FALSE)
                 .registrationType(INTERNAL)
                 .image(buildUserImageLink(avtId))
                 .totalBalanceAmount(0L)
@@ -152,6 +153,7 @@ public class UserService {
                 .email(user.getEmail())
                 .fullName(user.getName())
                 .isAdmin(FALSE)
+                .isFakeUser(FALSE)
                 .registrationType(GOOGLE)
                 .emailVerifiedAt(LocalDateTime.now())
                 .image(user.getPicture())
@@ -298,7 +300,7 @@ public class UserService {
             return "user/login.jsp";
         }
         
-        if (userDto.getEmailVerifiedAt() == null) {
+        if (userDto.getEmailVerifiedAt() == null && !userDto.getIsFakeUser()) {
             buildToastWarningMessage(session, "Vui lòng xác thực email trước khi đăng nhập");
             return "user/login.jsp";
         }

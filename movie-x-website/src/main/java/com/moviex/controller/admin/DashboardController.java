@@ -21,7 +21,7 @@ import java.util.List;
 @ApplicationScoped
 @Controller
 @Path("/admin")
-public class HomeController {
+public class DashboardController {
 
     @Inject
     private Models models;

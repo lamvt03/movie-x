@@ -34,6 +34,11 @@ public class NotificationService {
   private ApplicationConfigurationProperties applicationConfigurationProperties;
   
   public void sendEmailVerification(UserDto recipient, String token) {
+    // Limit 3rd service
+    if (recipient.getIsFakeUser()) {
+      return;
+    }
+    
     sendEmailExecutor.execute(() -> {
       var messageBuilder = DefaultEmailMessage.builder()
       .from(emailConfigurationProperties.getDefaultFromEmail())
@@ -53,6 +58,11 @@ public class NotificationService {
   }
   
   public void sendForgotPasswordEmail(UserDto recipient, String otp) {
+    // Limit 3rd service
+    if (recipient.getIsFakeUser()) {
+      return;
+    }
+    
     sendEmailExecutor.execute(() -> {
       var messageBuilder = DefaultEmailMessage.builder()
       .from(emailConfigurationProperties.getDefaultFromEmail())
@@ -72,6 +82,11 @@ public class NotificationService {
   }
   
   public void sendVideoPurchasedEmail(UserDto recipient, VideoDto video) {
+    // Limit 3rd service
+    if (recipient.getIsFakeUser()) {
+      return;
+    }
+    
     sendEmailExecutor.execute(() -> {
       var messageBuilder = DefaultEmailMessage.builder()
       .from(emailConfigurationProperties.getDefaultFromEmail())
