@@ -12,7 +12,7 @@ import jakarta.ws.rs.*;
 @ApplicationScoped
 @Controller
 @Path("/admin")
-public class AdminController {
+public class AuthenticationController {
 
     @Inject
     private UserService userService;
@@ -51,6 +51,7 @@ public class AdminController {
             return "redirect:admin";
         }
     }
+    
     @GET
     @Path("/logout")
     public String getLogout(){

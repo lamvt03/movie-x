@@ -26,6 +26,7 @@ public class UserMapper {
             .fullName(entity.getFullName())
             .isActive(checkUserIsActive(entity))
             .isAdmin(entity.getIsAdmin())
+            .isFakeUser(entity.getIsFakeUser())
             .image(entity.getImage())
             .totalBalanceAmount(entity.getTotalBalanceAmount())
             .remainingBalanceAmount(entity.getRemainingBalanceAmount())

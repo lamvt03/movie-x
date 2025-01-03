@@ -40,6 +40,9 @@ public class User {
     @Column(name = "is_admin", nullable = false) @JdbcType(BooleanJdbcType.class)
     private Boolean isAdmin = Boolean.FALSE;
     
+    @Column(name = "is_fake_user") @JdbcType(BooleanJdbcType.class)
+    private Boolean isFakeUser = Boolean.FALSE;
+    
     @JdbcType(VarcharJdbcType.class)
     private String image;
     
