@@ -15,4 +15,9 @@ public class EmailConfigurationProperties implements EmailProperties {
   String username;
   String password;
   String defaultFromEmail;
+  
+  String emailVerificationTemplateId;
+  String passwordResetTemplateId;
+  String videoPurchaseTemplateId;
+  String accountDepositTemplateId;
 }
