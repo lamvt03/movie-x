@@ -97,6 +97,7 @@ public class PaymentTransactionService {
         .cardType(entity.getCardType())
         .createdAt(entity.getCreatedAt())
         .userId(entity.getUser().getId())
+        .paidAt(entity.getPaidAt())
         .build();
   }
   

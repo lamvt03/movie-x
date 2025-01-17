@@ -96,7 +96,7 @@ public class PaymentController {
         userService.createNewUserBalanceTransaction(paymentTransaction.getUserId(), paymentTransaction.getPaymentAmount(), DEPOSIT);
         
         var userDto = userService.findById(paymentTransaction.getUserId());
-        notificationService.sendAccountDepositEmail(userDto, paymentTransaction.getPaymentAmount());
+        notificationService.sendAccountDepositEmail(userDto, paymentTransaction.getPaymentAmount(), paymentTransaction.getPaidAt());
         
         buildDialogSuccessMessage(session, "Thành công", "Vui lòng kiểm tra lại số dư tài khoản");
         return "redirect:profile";
