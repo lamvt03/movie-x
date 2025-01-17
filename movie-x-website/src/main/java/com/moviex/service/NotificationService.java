@@ -1,5 +1,7 @@
 package com.moviex.service;
 
+import static com.moviex.utils.DateTimeUtils.toFormattedDateTime;
+
 import com.moviex.config.ApplicationConfigurationProperties;
 import com.moviex.config.email.EmailConfigurationProperties;
 import com.moviex.dto.UserDto;
@@ -11,7 +13,6 @@ import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.concurrent.Executor;
 import lombok.extern.jbosslog.JBossLog;
 import org.eclipse.microprofile.config.inject.ConfigProperties;
@@ -109,7 +110,7 @@ public class NotificationService {
     });
   }
   
-  public void sendAccountDepositEmail(UserDto recipient, Long paymentAmount) {
+  public void sendAccountDepositEmail(UserDto recipient, Long paymentAmount, LocalDateTime depositDate) {
     // Limit 3rd service
     if (recipient.getIsFakeUser()) {
       return;
@@ -125,7 +126,7 @@ public class NotificationService {
       messageBuilder.tag("full_name", recipient.getFullName());
       messageBuilder.tag("payment_amount", paymentAmount);
       messageBuilder.tag("balance_amount", recipient.getRemainingBalanceAmount());
-      messageBuilder.tag("transaction_date", LocalDateTime.now().format(DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss")));
+      messageBuilder.tag("transaction_date", toFormattedDateTime(depositDate));
       
       try {
         mailSenderService.sendEmail(messageBuilder.build());

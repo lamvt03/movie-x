@@ -24,4 +24,5 @@ public class PaymentTransactionDto {
   private LocalDateTime createdAt;
   private String referenceTransactionNumber;
   private UUID userId;
+  private LocalDateTime paidAt;
 }
