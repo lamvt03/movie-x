@@ -76,23 +76,4 @@
 <script type="text/javascript" src="${pageContext.request.contextPath}/views/user/assets/js/custom.js"></script>
 <script type="text/javascript" src="${pageContext.request.contextPath}/views/user/assets/js/validateUser.js"></script>
 
-<c:if test="${not empty sessionScope.toastMessage}">
-
-    <script>
-        showTopEndAlert('${sessionScope.toastIcon}', '${sessionScope.toastMessage}');
-    </script>
-
-    <c:remove var="toastIcon" scope="session"/>
-    <c:remove var="toastMessage" scope="session"/>
-</c:if>
-
-<c:if test="${not empty sessionScope.dialogMessage}">
-
-    <script>
-        showCenterAlert('${sessionScope.dialogIcon}', '${sessionScope.dialogTitle}' ,'${sessionScope.dialogMessage}');
-    </script>
-
-    <c:remove var="dialogIcon" scope="session"/>
-    <c:remove var="dialogTitle" scope="session"/>
-    <c:remove var="dialogMessage" scope="session"/>
-</c:if>
+<%@ include file="/views/common/session-notification.jsp" %>
