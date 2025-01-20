@@ -89,16 +89,6 @@
 
 <%@ include file="/views/user/common/footer.jsp" %>
 
-<c:if test="${not empty sessionScope.alreadyVerified}">
-    <c:if test="${sessionScope.alreadyVerified}">
-        <script>
-            showCenterAlert('info', 'Thông báo', 'Tài khoản này đã được xác minh rồi');
-        </script>
-    </c:if>
-
-    <c:remove var="alreadyVerified" scope="session" />
-</c:if>
-
 <script type="text/javascript">
     function validateLoginForm() {
         const emailRegex = /\b[\w.%-]+@[-.\w]+\.[A-Za-z]{2,4}\b/;

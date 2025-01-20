@@ -1,7 +1,7 @@
 package com.moviex.controller;
 
-import static com.moviex.utils.AlertUtils.buildToastErrorMessage;
-import static com.moviex.utils.AlertUtils.buildToastSuccessMessage;
+import static com.moviex.utils.AlertUtils.prepareToastErrorMessage;
+import static com.moviex.utils.AlertUtils.prepareToastSuccessMessage;
 
 import com.moviex.constant.CookieConstant;
 import com.moviex.constant.SessionConstant;
@@ -62,7 +62,7 @@ public class OAuth2Controller {
         UserDto userDto = userService.findByEmailAndRegistrationType(googleUser.getEmail(), UserRegistrationType.INTERNAL);
         
         if (userDto != null) {
-            buildToastErrorMessage(session, "Email này đã được đăng ký tài khoản trước đó");
+            prepareToastErrorMessage(session, "Email này đã được đăng ký tài khoản trước đó");
             return "redirect:login";
         }
         
@@ -75,7 +75,7 @@ public class OAuth2Controller {
         loginCookie.setMaxAge(CookieConstant.LOGIN_DURATION);
         response.addCookie(loginCookie);
       
-        buildToastSuccessMessage(session, "Đăng nhập thành công");
+        prepareToastSuccessMessage(session, "Đăng nhập thành công");
         String prevPageUrl = session.getAttribute(SessionConstant.PREV_PAGE_URL).toString();
         return "redirect:" + prevPageUrl;
     }

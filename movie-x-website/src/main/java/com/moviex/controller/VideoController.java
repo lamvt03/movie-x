@@ -1,6 +1,6 @@
 package com.moviex.controller;
 
-import static com.moviex.utils.AlertUtils.buildDialogWarningMessage;
+import static com.moviex.utils.AlertUtils.prepareDialogWarningMessage;
 
 import com.moviex.constant.SessionConstant;
 import com.moviex.dto.CommentDto;
@@ -60,7 +60,7 @@ public class VideoController {
         
         if(video.getPrice() > 0){
             if(userDto == null || !userVideoPurchaseService.checkUserVideoPurchase(userDto.getId(), video.getId())) {
-               buildDialogWarningMessage(session, "Cảnh báo", "Bạn chưa mua phim này!");
+               prepareDialogWarningMessage(session, "Cảnh báo", "Bạn chưa mua phim này!");
                return "redirect:v/detail/" + slug;
             }
         }

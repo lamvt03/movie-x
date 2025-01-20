@@ -2,8 +2,8 @@ package com.moviex.controller;
 
 import static com.moviex.domain.payment.PaymentProvider.VNPAY;
 import static com.moviex.domain.user.UserTransactionType.DEPOSIT;
-import static com.moviex.utils.AlertUtils.buildDialogSuccessMessage;
-import static com.moviex.utils.AlertUtils.buildToastErrorMessage;
+import static com.moviex.utils.AlertUtils.prepareDialogSuccessMessage;
+import static com.moviex.utils.AlertUtils.prepareToastErrorMessage;
 
 import com.moviex.constant.SessionConstant;
 import com.moviex.domain.payment.PaymentCardType;
@@ -56,14 +56,14 @@ public class PaymentController {
         try {
             paymentAmount = Long.valueOf(amount);
         } catch (Exception e) {
-            buildToastErrorMessage(session, "Số tiền cần nạp phải là một số nguyên dương");
+            prepareToastErrorMessage(session, "Số tiền cần nạp phải là một số nguyên dương");
             return Response.status(Response.Status.SEE_OTHER)
                 .header(HttpHeaders.LOCATION, "/movie-x/profile")
                 .build();
         }
         
         if (paymentAmount < 20000) {
-            buildToastErrorMessage(session, "Vui lòng nhập số tiền lớn hơn hoặc bằng 20,000 VND");
+            prepareToastErrorMessage(session, "Vui lòng nhập số tiền lớn hơn hoặc bằng 20,000 VND");
             return Response.status(Response.Status.SEE_OTHER)
                        .header(HttpHeaders.LOCATION, "/movie-x/profile")
                        .build();
@@ -98,7 +98,7 @@ public class PaymentController {
         var userDto = userService.findById(paymentTransaction.getUserId());
         notificationService.sendAccountDepositEmail(userDto, paymentTransaction.getPaymentAmount(), paymentTransaction.getPaidAt());
         
-        buildDialogSuccessMessage(session, "Thành công", "Vui lòng kiểm tra lại số dư tài khoản");
+        prepareDialogSuccessMessage(session, "Thành công", "Vui lòng kiểm tra lại số dư tài khoản");
         return "redirect:profile";
     }
 }

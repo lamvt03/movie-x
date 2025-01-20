@@ -3,11 +3,12 @@ package com.moviex.service;
 import static com.moviex.constant.SessionConstant.CURRENT_USER;
 import static com.moviex.domain.user.UserRegistrationType.GOOGLE;
 import static com.moviex.domain.user.UserRegistrationType.INTERNAL;
-import static com.moviex.utils.AlertUtils.buildDialogErrorMessage;
-import static com.moviex.utils.AlertUtils.buildDialogSuccessMessage;
-import static com.moviex.utils.AlertUtils.buildToastErrorMessage;
-import static com.moviex.utils.AlertUtils.buildToastSuccessMessage;
-import static com.moviex.utils.AlertUtils.buildToastWarningMessage;
+import static com.moviex.utils.AlertUtils.prepareDialogErrorMessage;
+import static com.moviex.utils.AlertUtils.prepareDialogInfoMessage;
+import static com.moviex.utils.AlertUtils.prepareDialogSuccessMessage;
+import static com.moviex.utils.AlertUtils.prepareToastErrorMessage;
+import static com.moviex.utils.AlertUtils.prepareToastSuccessMessage;
+import static com.moviex.utils.AlertUtils.prepareToastWarningMessage;
 import static java.lang.Boolean.FALSE;
 
 import com.moviex.constant.AppConstant;
@@ -112,17 +113,17 @@ public class UserService {
     
     public String handleInternalRegistration(HttpSession session, InternalRegistrationPayload payload) {
         if (userDao.existingByEmail(payload.getEmail())) {
-            buildDialogErrorMessage(session, "Đăng ký thất bại", "Địa chỉ email này đã được đăng ký bởi một tài khoản khác");
+            prepareDialogErrorMessage(session, "Đăng ký thất bại", "Địa chỉ email này đã được đăng ký bởi một tài khoản khác");
             return "redirect:register";
         }
         
         if (userDao.existingByPhone(payload.getPhone())) {
-            buildDialogErrorMessage(session, "Đăng ký thất bại", "Số điện thoại này đã được đăng ký bởi một tài khoản khác");
+            prepareDialogErrorMessage(session, "Đăng ký thất bại", "Số điện thoại này đã được đăng ký bởi một tài khoản khác");
             return "redirect:register";
         }
         
         register(payload);
-        buildDialogSuccessMessage(session, "Thành công", "Thông báo xác minh đã được gửi đến địa chỉ email của bạn.");
+        prepareDialogSuccessMessage(session, "Thành công", "Thông báo xác minh đã được gửi đến địa chỉ email của bạn.");
         return "redirect:login";
     }
     
@@ -236,7 +237,7 @@ public class UserService {
             models.put("phone", userDto.getPhone());
             models.put("fullName", userDto.getFullName());
             
-            buildToastErrorMessage(session, "Mật khẩu cũ không chính xác");
+            prepareToastErrorMessage(session, "Mật khẩu cũ không chính xác");
             return "user/change-password.jsp";
         }
         
@@ -247,7 +248,7 @@ public class UserService {
         if (userUpdated != null) {
             logoutUser(session, request, response);
             
-            buildDialogSuccessMessage(session, "Thành Công", "Thay đổi mật khẩu thành công");
+            prepareDialogSuccessMessage(session, "Thành Công", "Thay đổi mật khẩu thành công");
             return "redirect:login";
         }
         
@@ -265,7 +266,7 @@ public class UserService {
         userDao.update(u);
         logoutUser(session, request, response);
         
-        buildToastSuccessMessage(session, "Tài khoản của bạn đã bị xoá khỏi hệ thống");
+        prepareToastSuccessMessage(session, "Tài khoản của bạn đã bị xoá khỏi hệ thống");
         return "redirect:login";
     }
     
@@ -273,8 +274,7 @@ public class UserService {
         var onboardingToken = onboardingTokenDao.findByToken(token);
         
         if (onboardingToken.getUser().getEmailVerifiedAt() != null) {
-            // TODO
-            session.setAttribute("alreadyVerified", true);
+            prepareDialogInfoMessage(session, "Thông báo", "Tài khoản này đã được xác minh rồi");
             return "redirect:login";
         }
         
@@ -297,12 +297,12 @@ public class UserService {
         var userDto = authenticate(email, password);
         
         if (userDto == null) {
-            buildToastErrorMessage(session, "Tên đăng nhập hoặc mật khẩu không đúng");
+            prepareToastErrorMessage(session, "Tên đăng nhập hoặc mật khẩu không đúng");
             return "user/login.jsp";
         }
         
         if (userDto.getEmailVerifiedAt() == null) {
-            buildToastWarningMessage(session, "Vui lòng xác thực email trước khi đăng nhập");
+            prepareToastWarningMessage(session, "Vui lòng xác thực email trước khi đăng nhập");
             return "user/login.jsp";
         }
         
@@ -316,7 +316,7 @@ public class UserService {
             
             String prevUrl = session.getAttribute(SessionConstant.PREV_PAGE_URL).toString();
             
-            buildToastSuccessMessage(session, "Đăng nhập thành công");
+            prepareToastSuccessMessage(session, "Đăng nhập thành công");
             return "redirect:" + prevUrl;
         }
         
@@ -327,7 +327,7 @@ public class UserService {
         UserDto userDto = findByEmail(email);
         
         if (userDto == null) {
-            buildDialogErrorMessage(session, "Thất bại", "Email không tồn tại trong cơ sở dữ liệu");
+            prepareDialogErrorMessage(session, "Thất bại", "Email không tồn tại trong cơ sở dữ liệu");
             return "redirect:password/forgot";
         }
         
@@ -338,7 +338,7 @@ public class UserService {
         }
         
         // Account not active
-        buildDialogErrorMessage(session, "Thất bại", "Tài khoản với email này chưa được kích hoạt");
+        prepareDialogErrorMessage(session, "Thất bại", "Tài khoản với email này chưa được kích hoạt");
         return "redirect:password/forgot";
     }
     
@@ -396,12 +396,12 @@ public class UserService {
         var video = videoDao.findBySlug(videoSlug);
         
         if (userVideoPurchaseService.checkUserVideoPurchase(user.getId(), video.getId())) {
-            buildToastWarningMessage(session, "Bạn đã mua phim này rồi");
+            prepareToastWarningMessage(session, "Bạn đã mua phim này rồi");
             return "redirect:v/detail/" + videoSlug;
         }
         
         if (user.getRemainingBalanceAmount() < video.getPrice()) {
-            buildToastErrorMessage(session, "Số dư trong tài khoản không đủ, vui lòng nạp thêm");
+            prepareToastErrorMessage(session, "Số dư trong tài khoản không đủ, vui lòng nạp thêm");
             return "redirect:v/detail/" + videoSlug;
         }
         
@@ -420,7 +420,7 @@ public class UserService {
         
         notificationService.sendVideoPurchasedEmail(userMapper.toDto(user), videoMapper.toDto(video));
         
-        buildDialogSuccessMessage(session, "Thông báo", "Mua phim thành công");
+        prepareDialogSuccessMessage(session, "Thông báo", "Mua phim thành công");
         return "redirect:v/detail/" + videoSlug;
     }
     

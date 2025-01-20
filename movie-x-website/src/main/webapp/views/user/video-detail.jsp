@@ -356,20 +356,6 @@
     </c:otherwise>
 </c:choose>
 
-<%--<%--%>
-<%--    Boolean sendMailSuccess = (Boolean) session.getAttribute("sendMailSuccess");--%>
-<%--    if (sendMailSuccess != null) {--%>
-<%--        if (sendMailSuccess) {--%>
-<%--%>--%>
-<%--<script>--%>
-<%--    showTopEndAlert('success', 'Chia sẻ video thành công !');--%>
-<%--</script>--%>
-<%--<%--%>
-<%--        }--%>
-<%--        session.removeAttribute("sendMailSuccess");--%>
-<%--    }--%>
-<%--%>--%>
-
 <script type="text/javascript">
     /* validate form send email */
     function disabledButtonOnclickSendEmail() {
@@ -433,11 +419,6 @@
                     })
                 }
             })
-
-
-
-
-
     }
 
 </script>
