@@ -73,7 +73,7 @@
 <script type="text/javascript" src="${pageContext.request.contextPath}/views/user/assets/js/jquery.slicknav.js"></script>
 <script type="text/javascript" src="${pageContext.request.contextPath}/views/common/js/bootstrap.bundle.min.js"></script>
 <script type="text/javascript" src="${pageContext.request.contextPath}/views/user/assets/js/main.js"></script>
-<script type="text/javascript" src="${pageContext.request.contextPath}/views/user/assets/js/custom.js"></script>
+<script type="text/javascript" src="${pageContext.request.contextPath}/views/common/js/custom.js"></script>
 <script type="text/javascript" src="${pageContext.request.contextPath}/views/user/assets/js/validateUser.js"></script>
 
 <%@ include file="/views/common/session-notification.jsp" %>

@@ -1,8 +1,8 @@
 package com.moviex.controller;
 
 import static com.moviex.constant.SessionConstant.CURRENT_USER;
-import static com.moviex.utils.AlertUtils.buildDialogSuccessMessage;
-import static com.moviex.utils.AlertUtils.buildToastErrorMessage;
+import static com.moviex.utils.AlertUtils.prepareDialogSuccessMessage;
+import static com.moviex.utils.AlertUtils.prepareToastErrorMessage;
 
 import com.moviex.constant.SessionConstant;
 import com.moviex.domain.user.InternalRegistrationPayload;
@@ -136,7 +136,7 @@ public class AuthenticationController {
       return "redirect:password/new";
     }
     
-    buildToastErrorMessage(session, "Mã OTP không chính xác hoặc đã hết hạn");
+    prepareToastErrorMessage(session, "Mã OTP không chính xác hoặc đã hết hạn");
     return "redirect:otp/enter";
   }
 
@@ -156,7 +156,7 @@ public class AuthenticationController {
       UserDto userDto = userService.changePassword(email, password.trim());
 
       if (userDto != null) {
-        buildDialogSuccessMessage(session, "Thành công", "Lấy lại mật khẩu thành công");
+        prepareDialogSuccessMessage(session, "Thành công", "Lấy lại mật khẩu thành công");
         session.removeAttribute("email");
       }
     }

@@ -10,21 +10,7 @@
 <script type="text/javascript" src="${pageContext.request.contextPath}/views/admin/assets/js/apexcharts.min.js"></script>
 <script type="text/javascript" src="${pageContext.request.contextPath}/views/admin/assets/js/simplebar.min.js"></script>
 <script type="text/javascript" src="${pageContext.request.contextPath}/views/admin/assets/js/dashboard.js"></script>
+<script type="text/javascript" src="${pageContext.request.contextPath}/views/common/js/custom.js"></script>
 <script type="text/javascript" src="${pageContext.request.contextPath}/views/admin/assets/js/validateAdmin.js"></script>
 
-
-<c:if test="${not empty sessionScope.loginAdmin}">
-    <c:choose>
-        <c:when test="${sessionScope.loginAdmin}">
-            <script>
-                showSwalAlert('success', 'Đăng nhập thành công');
-            </script>
-        </c:when>
-        <c:otherwise>
-            <script>
-                showSwalAlert('error', 'Sai thông tin đăng nhập');
-            </script>
-        </c:otherwise>
-    </c:choose>
-    <c:remove var="loginAdmin" scope="session" />
-</c:if>
+<%@ include file="/views/common/session-notification.jsp" %>

@@ -125,14 +125,5 @@
 <!-- Forgotpass Section End -->
 <%@ include file="/views/user/common/footer.jsp" %>
 
-<c:if test="${not empty sessionScope.oldPasswordWrong}">
-    <c:if test="${sessionScope.oldPasswordWrong}">
-        <script>
-            showTopEndAlert('error', 'Mật khẩu cũ không chính xác');
-        </script>
-    </c:if>
-    <c:remove var="oldPasswordWrong" scope="session"/>
-</c:if>
-
 </body>
 </html>

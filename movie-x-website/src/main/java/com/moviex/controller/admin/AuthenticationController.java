@@ -1,5 +1,8 @@
 package com.moviex.controller.admin;
 
+import static com.moviex.utils.AlertUtils.prepareToastErrorMessage;
+import static com.moviex.utils.AlertUtils.prepareToastSuccessMessage;
+
 import com.moviex.constant.SessionConstant;
 import com.moviex.dto.UserDto;
 import com.moviex.service.UserService;
@@ -34,20 +37,12 @@ public class AuthenticationController {
     ){
         UserDto admin = userService.authenticate(username, password);
 
-        if (admin != null) {
-            Boolean isAdmin = admin.getIsAdmin();
-            Boolean isActive = admin.getIsActive();
-
-            if (isAdmin && isActive) {
-                session.setAttribute(SessionConstant.CURRENT_ADMIN, admin);
-                session.setAttribute("loginAdmin", true);
-                return "redirect:admin/dashboard";
-            } else {
-                session.setAttribute("loginAdminFail", true);
-                return "redirect:admin";
-            }
+        if (admin != null && admin.getIsAdmin() && admin.getIsActive()) {
+            session.setAttribute(SessionConstant.CURRENT_ADMIN, admin);
+            prepareToastSuccessMessage(session, "Đăng nhập thành công");
+            return "redirect:admin/dashboard";
         } else {
-            session.setAttribute("loginAdmin", false);
+            prepareToastErrorMessage(session, "Sai thông tin đăng nhập");
             return "redirect:admin";
         }
     }

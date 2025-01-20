@@ -58,6 +58,8 @@
 <!-- Blog Details Section End -->
 
 <%@ include file="/views/user/common/footer.jsp" %>
-<% session.removeAttribute("email"); %>
+
+<c:remove var="email" scope="session"/>
+
 </body>
 </html>
