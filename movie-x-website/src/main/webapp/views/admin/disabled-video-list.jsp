@@ -146,17 +146,7 @@
 
 <%@ include file="/views/admin/common/footer.jsp"%>
 
-<c:if test="${not empty sessionScope.restoreVideoSuccess}">
-    <c:if test="${sessionScope.restoreVideoSuccess}">
-        <script type="text/javascript">
-            showSwalAlert('success', 'Khôi phục video thành công');
-        </script>
-    </c:if>
-
-    <c:remove var="restoreVideoSuccess" scope="session"/>
-</c:if>
-
-//confirm restore video
+<%-- confirm restore video --%>
 <script type="text/javascript">
     const confirmVideoToViews = (href) => {
         Swal.fire({
@@ -173,7 +163,6 @@
                 document.querySelector('#restoreForm-' + href).submit();
             }
         });
-
         return false;
     }
 </script>

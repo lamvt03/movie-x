@@ -1,5 +1,9 @@
 package com.moviex.controller.admin;
 
+import static com.moviex.utils.AlertUtils.prepareDialogErrorMessage;
+import static com.moviex.utils.AlertUtils.prepareToastErrorMessage;
+import static com.moviex.utils.AlertUtils.prepareToastSuccessMessage;
+
 import com.moviex.constant.AppConstant;
 import com.moviex.constant.SessionConstant;
 import com.moviex.domain.video.payload.VideoCreationPayload;
@@ -108,11 +112,10 @@ public class VideoController {
                         .formattedPrice(formattedPrice)
                         .build());
             if(v != null){
-                // TODO: use function
-                session.setAttribute("addVideoSuccess", true);
+                prepareToastSuccessMessage(session, "Thêm phim thành công");
             }
         } else {
-            session.setAttribute("addVideoSuccess", false);
+            prepareDialogErrorMessage(session, "Thất Bại", "Video đã tồn tại trong cơ sở dữ liệu");
         }
         return "redirect:admin/videos";
     }
@@ -160,10 +163,10 @@ public class VideoController {
                 .build());
         
         if(videoDto != null){
-            session.setAttribute("updateVideoSuccess", true);
+            prepareToastSuccessMessage(session, "Chỉnh sửa phim thành công");
             return "redirect:admin/videos";
         }
-        session.setAttribute("updateVideoSuccess", false);
+        prepareToastErrorMessage(session, "Chỉnh sửa phim thất bại");
         return "redirect:admin/video/edit";
     }
     @POST
@@ -173,7 +176,7 @@ public class VideoController {
     ) {
         VideoDto videoDto = videoService.delete(href);
         if(videoDto != null){
-            session.setAttribute("deleteVideoSuccess", true);
+            prepareToastSuccessMessage(session, "Xoá video thành công");
         }
         String prevUrl = session.getAttribute(SessionConstant.PREV_PAGE_URL).toString();
         return "redirect:" + prevUrl;
@@ -187,7 +190,7 @@ public class VideoController {
 
         VideoDto videoDto = videoService.restore(href);
         if(videoDto != null){
-            session.setAttribute("restoreVideoSuccess", true);
+            prepareToastSuccessMessage(session, "Khôi phục video thành công");
         }
         String prevUrl = session.getAttribute(SessionConstant.PREV_PAGE_URL).toString();
         return "redirect:" + prevUrl;

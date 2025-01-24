@@ -106,20 +106,5 @@
 </div>
 
 <%@ include file="/views/admin/common/footer.jsp"%>
-
-<%
-    Boolean updateVideoSuccess = (Boolean) session.getAttribute("updateVideoSuccess");
-
-    if (updateVideoSuccess != null) {
-        if (!updateVideoSuccess) {
-%>
-<script>
-    showSwalAlert('success', 'Chỉnh sửa video thất bại');
-</script>
-<%
-        }
-        session.removeAttribute("updateVideoSuccess");
-    }
-%>
 </body>
 </html>

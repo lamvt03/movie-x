@@ -1,5 +1,9 @@
 package com.moviex.controller.admin;
 
+import static com.moviex.utils.AlertUtils.prepareDialogErrorMessage;
+import static com.moviex.utils.AlertUtils.prepareDialogSuccessMessage;
+import static com.moviex.utils.AlertUtils.prepareToastSuccessMessage;
+
 import com.moviex.dto.CategoryDto;
 import com.moviex.entity.Category;
 import com.moviex.service.CategoryService;
@@ -50,10 +54,9 @@ public class CategoryController {
         Category category = categoryService.findBySlug(code);
         if(category == null){
             categoryService.create(name, code);
-            session.setAttribute("addCategorySuccess", true);
-
+            prepareToastSuccessMessage(session, "Thêm thể loại thành công");
         }else{
-            session.setAttribute("addCategorySuccess", false);
+            prepareDialogErrorMessage(session, "Thất Bại", "Thể loại đã tồn tại trong cơ sở dữ liệu");
         }
         return "redirect:admin/categories";
     }
@@ -75,7 +78,7 @@ public class CategoryController {
             @FormParam("name") String name
     ){
         categoryService.update(id, name);
-        session.setAttribute("updateCategorySuccess", true);
+        prepareDialogSuccessMessage(session, "Thông báo", "Chỉnh sửa thể loại phim thành công");
         return "redirect:admin/categories";
     }
 
@@ -85,7 +88,7 @@ public class CategoryController {
             @FormParam("code") String code
     ){
         categoryService.delete(code);
-        session.setAttribute("deleteCategorySuccess", true);
+        prepareToastSuccessMessage(session, "Xoá thể loại phim thành công");
         return "redirect:admin/categories";
     }
 }

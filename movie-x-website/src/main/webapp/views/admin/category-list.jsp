@@ -90,8 +90,6 @@
 
                         </div>
                     </div>
-
-
                 </div>
             </div>
         </div>
@@ -99,45 +97,6 @@
 </div>
 
 <%@ include file="/views/admin/common/footer.jsp" %>
-
-<c:if test="${not empty sessionScope.addCategorySuccess}">
-    <c:choose>
-        <c:when test="${sessionScope.addCategorySuccess}">
-            <script>
-                showSwalAlert('success', 'Thêm thể loại thành công');
-            </script>
-        </c:when>
-        <c:otherwise>
-            <script>
-                showCenterAlert('error', 'Thất Bại', 'Thể loại đã tồn tại trong cơ sở dữ liệu');
-            </script>
-        </c:otherwise>
-    </c:choose>
-    <c:remove var="addCategorySuccess" scope="session"/>
-</c:if>
-
-
-<c:if test="${not empty sessionScope.updateCategorySuccess}">
-    <c:choose>
-        <c:when test="${sessionScope.updateCategorySuccess}">
-            <script>
-                showCenterAlert('success', 'Thông báo', 'Chỉnh sửa thể loại phim thành công');
-            </script>
-        </c:when>
-    </c:choose>
-    <c:remove var="updateCategorySuccess" scope="session"/>
-</c:if>
-
-<c:if test="${not empty sessionScope.deleteCategorySuccess}">
-    <c:choose>
-        <c:when test="${sessionScope.deleteCategorySuccess}">
-            <script>
-                showSwalAlert('success', 'Xoá video thành công');
-            </script>
-        </c:when>
-    </c:choose>
-    <c:remove var="deleteCategorySuccess" scope="session"/>
-</c:if>
 
 <script type="text/javascript">
     const deleteForm = document.querySelector("#delete-category-form");
@@ -157,8 +116,6 @@
         })
 
     };
-
-
 </script>
 </body>
 </html>
