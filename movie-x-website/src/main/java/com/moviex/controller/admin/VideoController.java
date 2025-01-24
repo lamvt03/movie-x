@@ -191,7 +191,6 @@ public class VideoController {
         VideoDto videoDto = videoService.restore(href);
         if(videoDto != null){
             prepareToastSuccessMessage(session, "Khôi phục video thành công");
-            session.setAttribute("restoreVideoSuccess", true);
         }
         String prevUrl = session.getAttribute(SessionConstant.PREV_PAGE_URL).toString();
         return "redirect:" + prevUrl;
