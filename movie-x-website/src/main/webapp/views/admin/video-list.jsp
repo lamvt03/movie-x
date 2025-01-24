@@ -154,43 +154,6 @@
 
 <%@ include file="/views/admin/common/footer.jsp" %>
 
-<c:if test="${not empty sessionScope.addVideoSuccess}">
-    <c:choose>
-        <c:when test="${sessionScope.addVideoSuccess}">
-            <script>
-                showSwalAlert('success', 'Thêm video thành công');
-            </script>
-        </c:when>
-        <c:otherwise>
-            <script>
-                showCenterAlert('error', 'Thất Bại', 'Video đã tồn tại trong cơ sở dữ liệu');
-            </script>
-        </c:otherwise>
-    </c:choose>
-
-    <c:remove var="addVideoSuccess" scope="session"/>
-</c:if>
-
-<c:if test="${not empty sessionScope.updateVideoSuccess}">
-    <c:if test="${sessionScope.updateVideoSuccess}">
-        <script type="text/javascript">
-            showCenterAlert('success', 'Thông báo', 'Chỉnh sửa phim thành công');
-        </script>
-    </c:if>
-
-    <c:remove var="updateVideoSuccess" scope="session"/>
-</c:if>
-
-<c:if test="${not empty sessionScope.deleteVideoSuccess}">
-    <c:if test="${sessionScope.deleteVideoSuccess}">
-        <script type="text/javascript">
-            showSwalAlert('success', 'Xoá video thành công');
-        </script>
-    </c:if>
-
-    <c:remove var="deleteVideoSuccess" scope="session"/>
-</c:if>
-
 <script type="text/javascript">
     const deleteVideo = (href) => {
         Swal.fire({
