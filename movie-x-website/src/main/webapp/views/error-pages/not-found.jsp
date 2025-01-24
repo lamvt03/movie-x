@@ -13,7 +13,7 @@
     <meta charset="UTF-8">
     <title>${initParam.websiteName} - Không tìm thấy trang</title>
     <link rel="icon" href="${pageContext.request.contextPath}/views/error-pages/error.png" type="image/x-icon">
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/views/common/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/webjars/bootstrap/5.3.3/css/bootstrap.min.css" />
 
     <style>
         .page_404 {
@@ -77,6 +77,6 @@
     </div>
 </section>
 
-<script type="text/javascript" src="${pageContext.request.contextPath}/views/common/js/bootstrap.bundle.min.js"></script>
+<script type="text/javascript" src="${pageContext.request.contextPath}/webjars/bootstrap/5.3.3/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
