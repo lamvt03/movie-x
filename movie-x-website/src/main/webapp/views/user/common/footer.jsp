@@ -64,14 +64,14 @@
 <!-- Search model end -->
 
 <!-- Js Plugins -->
-<script type="text/javascript" src="${pageContext.request.contextPath}/views/common/js/jquery-3.3.1.min.js"></script>
+<script type="text/javascript" src="${pageContext.request.contextPath}/webjars/jquery/3.3.1/jquery.min.js"></script>
 <script type="text/javascript" src="${pageContext.request.contextPath}/views/common/js/sweetalert2.js"></script>
 <script type="text/javascript" src="${pageContext.request.contextPath}/views/user/assets/js/plyr.js"></script>
 <script type="text/javascript" src="${pageContext.request.contextPath}/views/user/assets/js/owl.carousel.min.js"></script>
 <script type="text/javascript" src="${pageContext.request.contextPath}/views/user/assets/js/jquery.nice-select.min.js"></script>
 <script type="text/javascript" src="${pageContext.request.contextPath}/views/user/assets/js/mixitup.min.js"></script>
 <script type="text/javascript" src="${pageContext.request.contextPath}/views/user/assets/js/jquery.slicknav.js"></script>
-<script type="text/javascript" src="${pageContext.request.contextPath}/views/common/js/bootstrap.bundle.min.js"></script>
+<script type="text/javascript" src="${pageContext.request.contextPath}/webjars/bootstrap/5.3.3/js/bootstrap.bundle.min.js"></script>
 <script type="text/javascript" src="${pageContext.request.contextPath}/views/user/assets/js/main.js"></script>
 <script type="text/javascript" src="${pageContext.request.contextPath}/views/common/js/custom.js"></script>
 <script type="text/javascript" src="${pageContext.request.contextPath}/views/user/assets/js/validateUser.js"></script>

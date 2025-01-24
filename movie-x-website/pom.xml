@@ -16,6 +16,9 @@
         <krazo.jersey.version>3.0.1</krazo.jersey.version>
         <jwt.version>0.12.5</jwt.version>
         <hibernate.version>6.1.7.Final</hibernate.version>
+        <bootstrap.version>5.3.3</bootstrap.version>
+        <fontawesome.version>6.4.2</fontawesome.version>
+        <jquery.version>3.3.1</jquery.version>
     </properties>
 
     <dependencies>
@@ -154,6 +157,24 @@
             <groupId>com.google.apis</groupId>
             <artifactId>google-api-services-oauth2</artifactId>
             <version>v2-rev20200213-2.0.0</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.webjars</groupId>
+            <artifactId>bootstrap</artifactId>
+            <version>${bootstrap.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.webjars</groupId>
+            <artifactId>font-awesome</artifactId>
+            <version>${fontawesome.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.webjars</groupId>
+            <artifactId>jquery</artifactId>
+            <version>${jquery.version}</version>
         </dependency>
 
         <dependency>

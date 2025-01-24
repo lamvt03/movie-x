@@ -1,7 +1,6 @@
 <link rel="icon" href="${pageContext.request.contextPath}/views/admin/assets/images/favicon.png" type="image/x-icon">
 
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous"/>
-<%--<link rel="stylesheet" href="${pageContext.request.contextPath}/views/common/css/fontawesome.all.min.css" type="text/css">--%>
+<link rel="stylesheet" href="${pageContext.request.contextPath}/webjars/font-awesome/6.4.2/css/all.min.css" type="text/css">
 <link rel="stylesheet" href="${pageContext.request.contextPath}/views/admin/assets/css/styles.min.css"/>
 <style>
     body::-webkit-scrollbar {
