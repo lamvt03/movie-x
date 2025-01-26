@@ -37,7 +37,7 @@ public class DashboardController {
 
     @GET
     @Path("/dashboard")
-    public String getDashboard(){
+    public String getDashboard() {
         var paymentTransactions = paymentTransactionService.findLatestPaymentTransaction(1, 10);
         var successfulPaymentTransactions = paymentTransactionService.findByStatus(PaymentStatus.SUCCESS);
 

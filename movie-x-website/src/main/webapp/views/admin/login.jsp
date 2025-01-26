@@ -28,7 +28,7 @@
 
             <div class="row justify-content-center w-100">
 
-                <div class="col-md-8 col-lg-6 col-xxl-3">
+                <div class="col-md-8 col-lg-4">
 
                     <div class="card mb-0">
 
@@ -58,13 +58,7 @@
                                 </div>
 
                                 <div
-                                        class="d-flex align-items-center justify-content-between mb-4">
-                                    <div class="form-check">
-                                        <input class="form-check-input primary" type="checkbox"
-                                               value="" id="flexCheckChecked"> <label
-                                            class="form-check-label text-dark" for="flexCheckChecked">
-                                        Ghi nhớ đăng nhập</label>
-                                    </div>
+                                        class="d-flex align-items-center justify-content-end mb-4">
                                     <a class="text-dark fw-bold text-decoration-none"
                                        href="${initParam.mvcPath}/home"> <i class="fa-solid fa-arrow-left"></i> Quay
                                         về Trang chủ Movie X
