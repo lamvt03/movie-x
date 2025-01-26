@@ -22,6 +22,7 @@ public class PaymentTransactionDto {
   private PaymentProvider provider;
   private PaymentCardType cardType;
   private LocalDateTime createdAt;
+  private String formattedCreatedAt;
   private String referenceTransactionNumber;
   private UUID userId;
   private LocalDateTime paidAt;

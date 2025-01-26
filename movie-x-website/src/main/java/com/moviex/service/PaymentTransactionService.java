@@ -1,6 +1,7 @@
 package com.moviex.service;
 
 import static com.moviex.domain.payment.PaymentStatus.PENDING;
+import static com.moviex.utils.DateTimeUtils.toFormattedDateTime;
 
 import com.moviex.dao.PaymentTransactionDao;
 import com.moviex.dao.UserDao;
@@ -10,6 +11,7 @@ import com.moviex.domain.payment.PaymentStatus;
 import com.moviex.dto.PaymentTransactionDto;
 import com.moviex.entity.PaymentTransaction;
 import com.moviex.exception.MovieXException;
+import com.moviex.utils.DateTimeUtils;
 import com.moviex.utils.PriceFormatUtils;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
@@ -96,6 +98,7 @@ public class PaymentTransactionService {
         .provider(entity.getProvider())
         .cardType(entity.getCardType())
         .createdAt(entity.getCreatedAt())
+        .formattedCreatedAt(toFormattedDateTime(entity.getCreatedAt()))
         .userId(entity.getUser().getId())
         .paidAt(entity.getPaidAt())
         .build();

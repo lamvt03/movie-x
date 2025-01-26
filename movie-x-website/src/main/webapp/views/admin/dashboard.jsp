@@ -156,9 +156,6 @@
                                     <thead class="text-dark fs-4">
                                     <tr>
                                         <th class="border-bottom-0">
-                                            <h6 class="fw-semibold mb-0">#</h6>
-                                        </th>
-                                        <th class="border-bottom-0">
                                             <h6 class="fw-semibold mb-0">Mã giao dịch</h6>
                                         </th>
                                         <th class="border-bottom-0">
@@ -184,9 +181,6 @@
                                     <tbody>
                                     <c:forEach items="${paymentTransactions}" var="paymentTransaction" varStatus="loop">
                                         <tr>
-                                            <td class="border-bottom-0">
-                                                <h6 class="fw-semibold mb-0">${loop.index + 1}</h6>
-                                            </td>
                                             <td class="border-bottom-0">
                                                 <h6 class="fw-semibold mb-1">${paymentTransaction.referenceTransactionNumber}</h6>
                                             </td>
@@ -215,7 +209,7 @@
                                             </td>
                                             <td>
                                                 <span>
-                                                    ${paymentTransaction.createdAt}
+                                                    ${paymentTransaction.formattedCreatedAt}
                                                 </span>
                                             </td>
                                         </tr>
