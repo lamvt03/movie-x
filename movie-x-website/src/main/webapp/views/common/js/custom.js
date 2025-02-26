@@ -26,3 +26,5 @@ const showCenterAlert = (icon, title, message) =>{
         icon
     );
 };
+
+const showSomethingWrongMessage = () => showTopEndAlert('error', 'Đã có lỗi xảy ra, vui lòng liên hệ với quản trị viên');

@@ -10,9 +10,9 @@
 
 <html>
 <head>
-<%--    <meta charset="UTF-8">--%>
-<%--    <meta name="viewport" content="width=device-width, initial-scale=1.0">--%>
-<%--    <meta http-equiv="X-UA-Compatible" content="ie=edge">--%>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>${initParam.websiteName} - Trang chủ</title>
     <%@ include file="/views/user/common/head.jsp" %>
 </head>
@@ -121,6 +121,63 @@
 <!-- Product Section End -->
 
 <%@ include file="/views/user/common/footer.jsp" %>
-<script type="text/javascript" src="${pageContext.request.contextPath}/views/user/assets/js/loadMoreVideo.js"></script>
+
+<%--Load more video --%>
+<script type="text/javascript">
+    let page = 1;
+    const loadMoreBtn = $('.load-more-video-btn');
+    const loadingContainer = $('.loading-container');
+
+    loadMoreBtn.on('click', function () {
+        page++;
+        loadingContainer.removeClass('invisible');
+
+        $.ajax(`/movie-x/api/video/list?page=\${page}`, {
+            method: 'GET',
+            dataType: 'json'
+        }).done(function (data) {
+            if (page >= data.maxPage) {
+                loadMoreBtn.addClass('d-none');
+            }
+
+            const html = data.videos.map(video => `
+                <div class="col-lg-4 col-md-6 col-sm-12">
+                    <div class="product__item overflow-hidden">
+                        <a href="/movie-x/v/detail/\${video.slug}">
+                            <div style="background-image: url('\${video.poster}')" class="product__item__pic set-bg"
+                                 data-setbg="\${video.poster}">
+                                 <div class="ep">1 / 1</div>
+                                <div class="comment">
+                                    <i class="fa-solid fa-heart"></i> \${video.likeQuantity}
+                                </div>
+                                <div class="view" style="margin-right: 50px">
+                                    <i class="fa-solid fa-comment"></i> \${video.commentQuantity}
+                                </div>
+                                <div class="view">
+                                    <i class="fa fa-eye"></i> \${video.views}
+                                </div>
+                            </div>
+                        </a>
+                        <div class="product__item__text">
+                            <ul class="d-flex align-items-center justify-content-between">
+                                <li>\${video.category}</li>
+                                <p class="time-ago mb-0">\${video.timeAgo}</p>
+                            </ul>
+                            <h5>
+                                <a href="#">\${video.title}</a>
+                            </h5>
+                        </div>
+                    </div>
+                </div>
+            `).join("\n");
+
+            $('.video-wrapper').append(html);
+            loadingContainer.addClass('invisible');
+        }).fail(function (error) {
+            loadingContainer.addClass('invisible');
+            showSomethingWrongMessage();
+        });
+    });
+</script>
 </body>
 </html>
