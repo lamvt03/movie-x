@@ -10,7 +10,6 @@
 
 
 <%@ page contentType="text/html; charset=UTF-8" language="java" %>
-<%@ page import="java.net.URLEncoder" %>
 <%@ include file="/views/common/taglib.jsp" %>
 
 <html lang="en">
@@ -294,9 +293,9 @@
 
 <c:choose>
     <c:when test="${empty sessionScope.currentUser}">
+<%--        Login before payment--%>
         <script type="text/javascript">
-            const clickPayment = document.getElementById('clickBeforeLogin');
-            clickPayment.onclick = () => {
+            $('#clickBeforeLogin').on('click', function () {
                 Swal.fire({
                     title: 'Thanh toán',
                     text: "Bạn phải đăng nhập trước khi thanh toán",
@@ -309,12 +308,11 @@
                     if (result.isConfirmed) {
                         window.location.href = "/movie-x/login";
                     }
-                })
-            }
+                });
+            });
         </script>
         <script type="text/javascript">
-            const likeButton = document.querySelector('#likeButton');
-            likeButton.onclick = () => {
+            $('#likeButton').on('click', function () {
                 Swal.fire({
                     title: 'Thông báo',
                     text: "Vui lòng đăng nhập trước khi thực hiện thao tác này",
@@ -327,31 +325,29 @@
                     confirmButtonColor: '#27ae60',
                     confirmButtonText: '<a style="color: white;" href="${initParam.mvcPath}/login">Đăng Nhập</a>'
                 })
-            }
+            })
         </script>
     </c:when>
     <c:otherwise>
+<%--        Like video --%>
         <script type="text/javascript">
-            const likeButton = document.querySelector('#likeButton');
-            likeButton.onclick = () => {
-                loadingContainer.classList.remove("invisible");
-                const href = document.querySelector('.href').value;
-                fetch('/movie-x/api/video/like?v=' + href, {
-                    method: "GET",
-                    headers: {
-                        "Content-Type": "application/json",
-                    },
-                })
-                    .then((response) => response.json())
-                    .then((data) => {
-                        loadingContainer.classList.add("invisible");
-                        if (data.isLiked) {
-                            likeButton.innerText = 'Bỏ thích';
-                        } else {
-                            likeButton.innerText = 'Thích';
-                        }
-                    })
-            }
+            $('#likeButton').on('click', function () {
+                $('.loading-container').removeClass('invisible');
+                const href = $('.href').val();
+
+                $.ajax(`/movie-x/api/video/like?v=\${href}`, {
+                    method: 'GET',
+                    dataType: 'json'
+                }).done(function (data) {
+                    $('.loading-container').addClass('invisible');
+                    $('#likeButton').text(data.isLiked ? 'Bỏ thích' : 'Thích');
+                }).fail(function (error) {
+                    $('.loading-container').addClass('invisible');
+                    showSomethingWrongMessage();
+                    // TODO: use id instead
+                    console.error("Failed to like video with href:", error);
+                });
+            });
         </script>
     </c:otherwise>
 </c:choose>
@@ -374,51 +370,47 @@
         document.getElementById("submit").disabled = true;
     }
 
-    /* hỏi khi thanh toán */
+    // Click to payment
     function clickConfirmPayment() {
-        const config = {
+        $.ajax('/movie-x/api/user/check-balance', {
             method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
+            contentType: 'application/json',
+            data: JSON.stringify({
                 videoId: '${video.id}'
-            })
-        }
-        fetch('/movie-x/api/user/check-balance', config)
-            .then(resp => resp.json())
-            .then((data) => {
-                if (!data.success) return;
-                if (data.canPurchase) {
-                    Swal.fire({
-                        title: 'Xác nhận',
-                        text: "Bạn có chắc chắn muốn mua phim với giá ${video.formattedPrice} không ?",
-                        icon: 'warning',
-                        showCancelButton: true,
-                        confirmButtonColor: '#3085d6',
-                        cancelButtonColor: '#d33',
-                        confirmButtonText: 'Đồng ý'
-                    }).then((result) => {
-                        if (result.isConfirmed) {
-                            window.location.href = "/movie-x/v/purchase/${video.slug}";
-                        }
-                    })
-                } else {
-                    console.log('khong du');
-                    Swal.fire({
-                        title: 'Thông báo',
-                        text: "Số dư trong tài khoản không đủ",
-                        icon: 'warning',
-                        showCloseButton: true,
-                        showCancelButton: true,
-                        focusCancel: false,
-                        cancelButtonColor: '#e74c3c',
-                        cancelButtonText: 'Huỷ',
-                        confirmButtonColor: '#27ae60',
-                        confirmButtonText: '<a style="color: white;" href="${initParam.mvcPath}/profile">Nạp tiền ngay</a>'
-                    })
-                }
-            })
+            }),
+            dataType: 'json'
+        }).done(function (data) {
+            if (data.canPurchase) {
+                Swal.fire({
+                    title: 'Xác nhận',
+                    text: "Bạn có chắc chắn muốn mua phim với giá ${video.formattedPrice} không ?",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Đồng ý'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        window.location.href = "/movie-x/v/purchase/${video.slug}";
+                    }
+                })
+            } else {
+                Swal.fire({
+                    title: 'Thông báo',
+                    text: "Số dư trong tài khoản không đủ",
+                    icon: 'warning',
+                    showCloseButton: true,
+                    showCancelButton: true,
+                    focusCancel: false,
+                    cancelButtonColor: '#e74c3c',
+                    cancelButtonText: 'Huỷ',
+                    confirmButtonColor: '#27ae60',
+                    confirmButtonText: '<a style="color: white;" href="${initParam.mvcPath}/profile">Nạp tiền ngay</a>'
+                })
+            }
+        }).fail(function(error) {
+            showSomethingWrongMessage();
+        })
     }
 
 </script>
