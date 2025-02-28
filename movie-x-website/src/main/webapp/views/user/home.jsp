@@ -126,11 +126,10 @@
 <script type="text/javascript">
     let page = 1;
     const loadMoreBtn = $('.load-more-video-btn');
-    const loadingContainer = $('.loading-container');
 
     loadMoreBtn.on('click', function () {
         page++;
-        loadingContainer.removeClass('invisible');
+        performLoading()
 
         $.ajax(`/movie-x/api/video/list?page=\${page}`, {
             method: 'GET',
@@ -172,9 +171,9 @@
             `).join("\n");
 
             $('.video-wrapper').append(html);
-            loadingContainer.addClass('invisible');
+            unPerformLoading()
         }).fail(function (error) {
-            loadingContainer.addClass('invisible');
+            unPerformLoading()
             showSomethingWrongMessage();
         });
     });

@@ -83,7 +83,8 @@ public class VideoController {
         List<CommentDto> comments = commentService.findByVideoId(video.getId(), 1, 3);
         models.put("comments", comments);
         
-        int lastPage = commentService.getLastPageByVideoHref(slug, 3);
+        // TODO: use id instead
+        int lastPage = commentService.getLastPageByVideoHref(video.getHref(), 3);
         models.put("lastPage", lastPage);
 
         UserDto  userDto = (UserDto) session.getAttribute(SessionConstant.CURRENT_USER);
