@@ -332,20 +332,18 @@
 <%--        Like video --%>
         <script type="text/javascript">
             $('#likeButton').on('click', function () {
-                $('.loading-container').removeClass('invisible');
+                performLoading();
                 const href = $('.href').val();
 
                 $.ajax(`/movie-x/api/video/like?v=\${href}`, {
                     method: 'GET',
                     dataType: 'json'
                 }).done(function (data) {
-                    $('.loading-container').addClass('invisible');
                     $('#likeButton').text(data.isLiked ? 'Bỏ thích' : 'Thích');
-                }).fail(function (error) {
-                    $('.loading-container').addClass('invisible');
+                    unPerformLoading();
+                }).fail(function () {
+                    unPerformLoading();
                     showSomethingWrongMessage();
-                    // TODO: use id instead
-                    console.error("Failed to like video with href:", error);
                 });
             });
         </script>

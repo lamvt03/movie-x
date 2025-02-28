@@ -1,21 +1,19 @@
-const loadingContainer = document.querySelector(".loading-container");
-const showMoreBtn = document.querySelector(".showMoreBtn");
+const $showMoreBtn = $(".showMoreBtn");
 let page = 1;
-showMoreBtn.onclick = () => {
+
+$showMoreBtn.on("click", function () {
     page++;
-    loadingContainer.classList.remove("invisible");
-    const href = document.querySelector(".href").value;
-    fetch(`/movie-x/api/video/commentList?v=${href}&page=${page}`, {
+    const href = $(".href").val();
+    performLoading()
+    $.ajax(`/movie-x/api/video/commentList?v=${href}&page=${page}`,{
         method: "GET",
-        headers: {
-            "Content-Type": "application/json",
-        },
+        contentType: "application/json",
     })
-        .then((response) => response.json())
-        .then((data) => {
+        .done(function (data) {
             if (page >= data.lastPage) {
-                showMoreBtn.classList.add("d-none");
+                $showMoreBtn.addClass("d-none");
             }
+
             const html = data.comments
                 .map(
                     (item) => `
@@ -25,9 +23,7 @@ showMoreBtn.onclick = () => {
                     </div>
                     <div class="anime__review__item__text">
                         <h6>
-                            ${item.createdBy} - <span>${
-                        item.timeAgo
-                    }</span>
+                            ${item.createdBy} - <span>${item.timeAgo}</span>
                         </h6>
                         <p>${item.content}</p>
                     </div>
@@ -35,11 +31,11 @@ showMoreBtn.onclick = () => {
             `
                 )
                 .join("\n");
-            const container = document.querySelector(".review-container");
-            container.innerHTML += html;
-            loadingContainer.classList.add("invisible");
+            $(".review-container").append(html);
+            unPerformLoading();
         })
-        .catch((error) => {
-            console.error("Error:", error);
+        .fail(function (error) {
+            unPerformLoading();
+            showSomethingWrongMessage()
         });
-};
+});
