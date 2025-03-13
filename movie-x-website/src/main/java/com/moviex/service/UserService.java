@@ -47,8 +47,9 @@ import lombok.extern.jbosslog.JBossLog;
 @JBossLog
 public class UserService {
     
-    public static final String IMAGE_PREFIX = "/views/user/assets/img/avt/avt-";
-    public static final String IMAGE_SUFFIX = ".jpg";
+    private static final String IMAGE_PREFIX = "/views/user/assets/img/avt/avt-";
+    private static final String IMAGE_SUFFIX = ".jpg";
+    private static final String MARKED_DELETED_TEMPLATE = "marked-deleted-%s";
     
     @Inject
     private RandomUtils randomUtils;
@@ -259,15 +260,19 @@ public class UserService {
         HttpSession session,
         HttpServletRequest request,
         HttpServletResponse response,
-        UserDto user) {
-        var u = userDao.findById(user.getId());
-        u.setDeletedAt(LocalDateTime.now());
-        
-        userDao.update(u);
+        UUID userId) {
+        deleteAccount(userId);
         logoutUser(session, request, response);
-        
         prepareToastSuccessMessage(session, "Tài khoản của bạn đã bị xoá khỏi hệ thống");
         return "redirect:login";
+    }
+    
+    private void deleteAccount(UUID userId) {
+        var u = userDao.findById(userId);
+        u.setDeletedAt(LocalDateTime.now());
+        u.setEmail(String.format(MARKED_DELETED_TEMPLATE, userId));
+        u.setPhone(String.format(MARKED_DELETED_TEMPLATE, userId));
+        userDao.update(u);
     }
     
     public String handleVerifyOnboardingToken(String token, HttpSession session) {

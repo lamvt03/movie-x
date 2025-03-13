@@ -24,10 +24,10 @@ public class User {
     @Column(length = 80) @JdbcType(VarcharJdbcType.class)
     private String password;
 
-    @Column(length = 30) @JdbcType(VarcharJdbcType.class)
+    @Column(unique = true) @JdbcType(VarcharJdbcType.class)
     private String email;
 
-    @Column(length = 20) @JdbcType(VarcharJdbcType.class)
+    @Column @JdbcType(VarcharJdbcType.class)
     private String phone;
     
     @Column(name = "registration_type", length = 10) @JdbcType(VarcharJdbcType.class)
