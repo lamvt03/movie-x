@@ -1,5 +1,7 @@
 package com.moviex.controller;
 
+import static com.moviex.constant.SessionConstant.CURRENT_USER;
+
 import com.moviex.constant.AppConstant;
 import com.moviex.constant.SessionConstant;
 import com.moviex.dto.UserDto;
@@ -12,9 +14,12 @@ import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.mvc.Controller;
 import jakarta.mvc.Models;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import jakarta.ws.rs.*;
 
+import jakarta.ws.rs.core.Context;
 import java.util.List;
 
 @ApplicationScoped
@@ -119,6 +124,16 @@ public class UserController {
             models.put("videos", videos);
         }
         return "user/favorite.jsp";
+    }
+    
+    @GET
+    @Path("/account/delete")
+    public String deleteMyAccount(
+        @Context HttpServletRequest request,
+        @Context HttpServletResponse response
+    ){
+        UserDto userDto = (UserDto) session.getAttribute(CURRENT_USER);
+        return userService.handleDeleteMyAccount(session, request, response, userDto.getId());
     }
 }
 
