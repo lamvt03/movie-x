@@ -109,7 +109,6 @@ public class UserService {
     public UserDto findById(UUID id) {
         User user = userDao.findById(id);
         return userMapper.toDto(user);
-
     }
     
     public String handleInternalRegistration(HttpSession session, InternalRegistrationPayload payload) {
@@ -205,16 +204,6 @@ public class UserService {
         return users.stream()
                 .map(userMapper::toDto)
                 .toList();
-    }
-
-    public List<TopUserDto> findTopUsers(int page, int limit) {
-        return userDao.findTopUsersAndTotal(page, limit).stream()
-            .map(item -> {
-                TopUserDto topUserDto = userMapper.toTopUserDto((User) item[0]);
-                topUserDto.setTotal((Long) item[1]);
-                return topUserDto;
-                })
-            .toList();
     }
     
     public List<UserDto> findTopPaymentUsers(int page, int limit) {

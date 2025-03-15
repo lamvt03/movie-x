@@ -15,5 +15,6 @@
     <modules>
         <module>email-sender</module>
         <module>template-processor</module>
+        <module>cloud-storage-client</module>
     </modules>
 </project>
