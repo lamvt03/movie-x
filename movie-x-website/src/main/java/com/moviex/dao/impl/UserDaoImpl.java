@@ -54,21 +54,7 @@ public class UserDaoImpl extends AbstractDao<User> implements UserDao {
     
     @Override
     public List<User> findAllOrderByTotalBalanceAmountDesc(int page, int limit) {
-        String jpql = "SELECT o FROM User o ORDER BY o.totalBalanceAmount DESC";
+        String jpql = "SELECT o FROM User o WHERE o.deletedAt IS NULL ORDER BY o.totalBalanceAmount DESC";
         return super.findMany(User.class, page, limit, jpql);
     }
-
-    @Override
-    public List<Object[]> findTopUsersAndTotal(int page, int limit) {
-        String hql = "SELECT u, sum(o.vnp_Amount) as total FROM User u "
-                +   "JOIN u.orders o "
-                +   "GROUP BY u "
-                +   "ORDER BY total DESC";
-        EntityManager entityManager = super.jpaHelper.getEntityManager();
-        Query query = entityManager.createQuery(hql);
-        query.setFirstResult((page - 1) * limit);
-        query.setMaxResults(limit);
-        return query.getResultList();
-    }
-
 }
